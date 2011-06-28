@@ -56,7 +56,7 @@ app.post '/send/sms', (req, res) ->
   if not to or not body
     throw new errors.Client "'to' and 'body' params are required."
   
-  sms.send('4155992671', to, body, ->
+  sms.send('2482425222', to, body, ->
     res.send('ok': true)
   )
 
