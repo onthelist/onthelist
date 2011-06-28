@@ -1,0 +1,12 @@
+{
+    "name": "Notifier"
+  , "version": "0.0.1"
+  , "private": true
+  , "dependencies": {
+    "express": "",
+    "twilio": ""
+  }
+  , "devDependencies": {
+    "nodeunit": ""
+  }
+}

@@ -1,0 +1,15 @@
+{
+    "name": "auth"
+  , "version": "0.0.1"
+  , "private": true
+  , "dependencies": {
+      "mongoose": ">= 1.4.0"
+    , "hashlib": ">= 1.0.0"
+    , "uuid": ">= 0.0.2"
+  }
+  , "devDependencies": {
+      "nodeunit": ">= 0.5.1"
+    , "jade": "*"
+    , "coffee-script": "*"
+  }
+}
