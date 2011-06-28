@@ -14,9 +14,11 @@ html(lang="en")
 				a( href= "#reservation_manager") Reservation Manager
 				a( href= "#help_area") Help Area
 	.content
-		.wrapper
-			div( style= "margin: 0 auto; padding: 10px; display:table-cell; vertical-align: middle; border-radius:5px;")
-				| Text message subject:
-				input.text_field( type="text", name="text_subject", maxlength="80", value="Your Table Is Ready!", style="width:400px;")
+		div( style= "margin: 0 auto; padding: 0 35px; display:table-cell; vertical-align: middle;")
+			| Text message subject:
+			input.text_field( type="text", name="text_subject", maxlength="80", value="Your Table Is Ready!", style="")
+		div( style= "margin: 0 auto; padding: 10px; display:table-cell; vertical-align: middle;")
+			| Default message:
+			input.text_field( type="text", name="text_subject", maxlength="80", value="Please return to the host stand.", style="")
 		footer
 			| Copyright 2011

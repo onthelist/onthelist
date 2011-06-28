@@ -19,13 +19,15 @@ html{
 	color: $white; /* White */
 	@include background(linear-gradient($dark_gray, $light_gray));
 	background-attachment: fixed;
+	@include box-sizing(border-box);
 	height:100%;
 }
 
 body{
-		height: 100%;
-		margin: 0;
-		border: 0;
+	@include box-sizing(border-box);
+	height: 100%;
+	margin: 0;
+	border: 0;
 }
 
 header{
@@ -84,6 +86,7 @@ h5{
 }
 
 .content{
+	@include box-sizing(border-box);
 	font-size: 1.1em;
 	width: 100%;
 	min-height: 100%;
@@ -92,8 +95,15 @@ h5{
 	color: $gray;
 }
 
+.wrapper{
+	@include box-sizing(border-box);
+	background:pink;
+	width: 100%;
+	display:block;
+}
+
 .text_field{
-	font-size: .8em;
+	-font-size: .8em;
 	display: table-cell;
 	color: -o-linear-gradient(top,  #faa51a,  #f47a20);
 	@include border-radius(20px, 20px);
@@ -102,3 +112,5 @@ h5{
 	color: $black;
 	background: $white;
 }
+
+
