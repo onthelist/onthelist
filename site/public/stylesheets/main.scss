@@ -1,0 +1,104 @@
+
+@import "compass";
+$black: #000;
+$white: #FFF;
+$gray: #ccc;
+$light_gray: #282828;
+$dark_gray: #141414;
+$light_lime: #FBFFBF;
+$lime: #CDFF7D;
+$light_orange: #FEB953;
+$dark_orange: #CF6A08;
+$deep_red: #670600;
+$dark_red: #380000;
+
+
+html{
+	font-family: "Segoe UI", "Trebuchet MS", "FreeSans", sans-serif;
+	font-size: 16px;
+	color: $white; /* White */
+	@include background(linear-gradient($dark_gray, $light_gray));
+	background-attachment: fixed;
+	height:100%;
+}
+
+body{
+		height: 100%;
+		margin: 0;
+		border: 0;
+}
+
+header{
+	
+	margin: 30px 0 9px 35px;
+}
+
+nav{
+	font-size:1.3em;
+	font-weight:600;
+}
+
+nav.tabs a{
+	@include border-radius(2px, 2px);
+	text-decoration: none;
+	@include background(linear-gradient($light_gray, $dark_gray));
+	padding: 10px 25px;
+	margin: 0 5px;
+}
+nav.tabs a:link {
+	color: $white;
+}
+nav.tabs a:visited {
+	color: $white;
+}
+nav.tabs a:hover {
+	color: $white;
+}
+nav.tabs a:active {
+	color: $white;
+}
+
+h1{
+	font-size: 2.8em;
+	font-weight: 600;
+	margin: 20px 0;
+}
+h2{
+	font-size: 1.6em;
+	font-weight: 600;
+}
+h3{
+	font-size: 1.1em;
+	padding: 0 0 0 0;
+	margin: 2px 0 2px 0;
+	font-weight: 600;
+}
+h4{
+	font-size: 1.1em;
+	font-weight: 500;
+}
+h5{
+	font-size: 1.1em;
+	font-weight: 500;
+	display: inline;
+}
+
+.content{
+	font-size: 1.1em;
+	width: 100%;
+	min-height: 100%;
+	background: $black; /* Black*/
+	padding: 20px 35px;
+	color: $gray;
+}
+
+.text_field{
+	font-size: .8em;
+	display: table-cell;
+	color: -o-linear-gradient(top,  #faa51a,  #f47a20);
+	@include border-radius(20px, 20px);
+	border: 2px solid $white;
+	padding: 4px 6px;
+	color: $black;
+	background: $white;
+}

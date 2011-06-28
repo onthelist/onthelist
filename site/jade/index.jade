@@ -1,0 +1,22 @@
+!!! 5
+html(lang="en")
+	head
+		link(href= "../public/stylesheets/reset.css", rel= "stylesheet", type= "text/css")
+		link(href= "../public/stylesheets/main.css", rel= "stylesheet", type= "text/css")
+		title= "OnTheList - an online restaurant management system"
+	body
+		header
+			h1
+				span( style= "color:green;")&#8984;
+				| The Steakhouse
+			nav.tabs
+				a( href= "#check_in") Check-In Queue
+				a( href= "#reservation_manager") Reservation Manager
+				a( href= "#help_area") Help Area
+	.content
+		.wrapper
+			div( style= "margin: 0 auto; padding: 10px; display:table-cell; vertical-align: middle; border-radius:5px;")
+				| Text message subject:
+				input.text_field( type="text", name="text_subject", maxlength="80", value="Your Table Is Ready!", style="width:400px;")
+		footer
+			| Copyright 2011
