@@ -33,7 +33,7 @@ wrap_resp = (resp) ->
 class TwilioConversation extends EventEmitter
   constructor: (@name, @call) ->
     @call.on 'answered', (params, resp) ->
-      this.emit ('answered', params, wrap_resp(resp))
+      this.emit('answered', params, wrap_resp(resp))
 
 class TwilioPhone extends notifiers.Phone
   constructor: (@name) ->
