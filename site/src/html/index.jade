@@ -21,22 +21,15 @@ html(lang="en")
     link(rel="stylesheet", media="screen, projection", href="../styles/layout.css")
     link(rel="stylesheet", media="print", href="../../stylesheets/print.css")
 
-<<<<<<< HEAD
     script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js")
     script(src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js")
     script(src="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.js")
-  
-=======
-  script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js")
-  script(src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js")
-  script(src="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.js")
 
-  script
-    $(document).bind("mobileinit", function(){
-      window.scrollTo(0, 1);
-    });
+    script
+      $(document).bind("mobileinit", function(){
+        window.scrollTo(0, 1);
+      });
 
->>>>>>> 9524b941d1124674769cf351e5215953d60e0684
   body
     #queue(data-role="page")
       header(data-role="header", data-position="fixed")
@@ -107,7 +100,7 @@ html(lang="en")
           input#party_size(type="range", name="party_size", value="1", min="1", max="30")
           
         div(data-role="fieldcontain")
-          fieldset(data-role="controlgroup", data-type="horizontal")
+          fieldset(data-role="controlgroup", data-type="vertical")
             legend Seating preference:
             input#first_available(type="radio", name="seating_preference", value="first_available", checked="checked")
             label(for="first_available") First available
