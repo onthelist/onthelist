@@ -26,13 +26,13 @@ head
   
   body
     #queue-page(data-role="page")
-      header(data-role="header")
+      header(data-role="header", data-position="fixed")
         nav.tabs(data-role="header", data-position="inline", data-iconpos="top")
-          a(href="#add_party",data-role="button", data-icon="plus") Add Party
+          a(href="#add_party",data-role="button") Add Party
           h1 The Steakhouse
-          a(href="#check_in",data-role="button", data-icon="check") Check-In
+          a(href="#check_in",data-role="button") Check-In
       .content(data-role="content")
-        ul(data-role="listview", data-filter="true", data-filter-placeholder="Search...")
+        ul(data-role="listview", data-filter="true", data-filter-placeholder="Search guests")
           li(data-role="list-divider", data-theme="a") 0-10 mins
           li 
             span.time 5 min
@@ -70,13 +70,13 @@ head
             | Bob Brewster
             span.ui-li-count 4
 
-      footer(data-position="fixed", data-role="footer")
+      footer(data-position="fixed", data-role="footer", data-position="fixed")
         nav.menu(data-role="navbar", data-iconpos="top")
           ul
             li
               a(href="#queue",data-role="button", data-icon="home") Queue
             li
-              a(href="#reservation_manager", data-role="button", data-icon="gear") Reservation Manager
+              a(href="#reservation_manager", data-role="button", data-icon="gear") Reservations
             li
               a(href="#table_seated",data-role="button", data-icon="grid") Table Chart
       
