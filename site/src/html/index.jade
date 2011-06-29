@@ -1,36 +1,37 @@
 !!! 5
-head
-  meta(charset="utf-8")
-  meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
 
-  title OnTheList Demo
+    title OnTheList Mobile
 
-  meta(name="description", content="")
-  meta(name="author", content="")
-  meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(name="description", content="")
+    meta(name="author", content="")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
 
-  link(rel="shortcut icon", href="../../images/favicon.ico")
-  link(rel="apple-touch-icon", href="../../images/rope_icon.png")
-  
-  link(rel="stylesheet", href="../styles/reset.css")
-  link(rel="stylesheet", media="handheld, screen, projection", href="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.css")
-  
+    link(rel="shortcut icon", href="../../images/favicon.ico")
+    link(rel="apple-touch-icon", href="../../images/rope_icon.png")
+    
+    link(rel="stylesheet", href="../styles/reset.css")
+    link(rel="stylesheet", media="handheld, screen, projection", href="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.css")
+    
 
-  // link(rel="stylesheet", media="screen, projection", href="../styles/screen.css")
-  link(rel="stylesheet", media="screen, projection", href="../styles/layout.css")
-  link(rel="stylesheet", media="print", href="../../stylesheets/print.css")
+    // link(rel="stylesheet", media="screen, projection", href="../styles/screen.css")
+    link(rel="stylesheet", media="screen, projection", href="../styles/layout.css")
+    link(rel="stylesheet", media="print", href="../../stylesheets/print.css")
 
-  script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js")
-  script(src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js")
-  script(src="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.js")
+    script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js")
+    script(src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js")
+    script(src="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.js")
   
   body
-    #queue-page(data-role="page")
+    #queue(data-role="page")
       header(data-role="header", data-position="fixed")
         nav.tabs(data-role="header", data-position="inline", data-iconpos="top")
-          a(href="#add_party",data-role="button") Add Party
+          a(href="#add_party", data-rel="dialog", data-role="button", data-transition="pop") Add Party
           h1 The Steakhouse
-          a(href="#check_in",data-role="button") Check-In
+          a(href="#check_in", data-rel="dialog", data-role="button", data-transition="pop") Check-In
       .content(data-role="content")
         ul(data-role="listview", data-filter="true", data-filter-placeholder="Search guests")
           li(data-role="list-divider", data-theme="a") 0-10 mins
@@ -70,14 +71,47 @@ head
             | Bob Brewster
             span.ui-li-count 4
 
-      footer(data-position="fixed", data-role="footer", data-position="fixed")
+
+      footer(data-position="fixed", data-role="footer")
         nav.menu(data-role="navbar", data-iconpos="top")
           ul
             li
-              a(href="#queue",data-role="button", data-icon="home") Queue
+              a(href="#queue",data-role="button", data-icon="home", data-theme="b") Queue
             li
               a(href="#reservation_manager", data-role="button", data-icon="gear") Reservations
             li
               a(href="#table_seated",data-role="button", data-icon="grid") Table Chart
-      
+
+    #add_party(data-role="page")
+      header(data-role="header")
+        h1 Add a party
+      .content(data-role="content")
+        div(data-role="fieldcontain")
+          label(for="name") Name:
+          input#name(type="text", name="name", value="")
           
+        div(data-role="fieldcontain")
+          label(for="party_size") Party size:
+          input#party_size(type="range", name="party_size", value="1", min="1", max="30")
+          
+        div(data-role="fieldcontain")
+          fieldset(data-role="controlgroup", data-type="horizontal")
+            legend Seating preference:
+            input#first_available(type="radio", name="seating_preference", value="first_available", checked="checked")
+            label(for="first_available") First available
+            input#non_smoking(type="radio", name="seating_preference", value="non_smoking")
+            label(for="non_smoking") Non-Smoking
+            input#smoking(type="radio", name="seating_preference", value="smoking")
+            label(for="smoking") Smoking
+            
+        div(data-role="fieldcontain")
+          label(for="notes") Notes:
+          input#notes(type="text", name="notes", value="")
+        a(href="#add",data-role="button") Add
+        
+    #check_in(data-role="page")
+      header(data-role="header")
+        h1 Check in
+      .content(data-role="content")
+        
+      
