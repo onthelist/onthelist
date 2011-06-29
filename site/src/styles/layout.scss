@@ -11,3 +11,9 @@
   width: 23px;
 }
 
+@media all and (max-width: 450px){
+  .ui-field-contain { 
+    padding: .5em 0;
+  }
+}
+
