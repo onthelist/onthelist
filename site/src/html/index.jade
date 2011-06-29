@@ -27,6 +27,8 @@ html(lang="en")
     script(src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js")
     script(src="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.js")
 
+    script(src="../scripts/forms.js")
+
     script
       $(document).bind("mobileinit", function(){
         window.scrollTo(0, 1);
@@ -40,8 +42,8 @@ html(lang="en")
           h1 The Steakhouse
           a(href="#check_in", data-rel="dialog", data-role="button", data-transition="pop") Check-In
       .content(data-role="content")
-        ul(data-role="listview", data-filter="true", data-filter-placeholder="Search Guests")
-          li(data-role="list-divider", data-theme="a") 0-10 mins
+        ul#queue-list(data-role="listview", data-filter="true", data-filter-placeholder="Search Guests")
+          li#divider-010(data-role="list-divider", data-theme="a") 0-10 mins
           li
             a
               span.time 5 min
@@ -99,7 +101,7 @@ html(lang="en")
     #add_party(data-role="page", data-rel="dialog", data-transition="slidedown")
       header(data-role="header")
         h1 Add a Party
-      .content(data-role="content")
+      form.content(data-role="content")
         div(data-role="fieldcontain")
           label(for="name") Name:
           input#name(type="text", name="name", value="")
@@ -121,7 +123,7 @@ html(lang="en")
         div(data-role="fieldcontain")
           label(for="notes") Notes:
           input#notes(type="text", name="notes", value="")
-        a(href="#add",data-role="button") Add
+        a#add-button(data-role="button") Add
         
     #check_in(data-role="page")
       header(data-role="header")
