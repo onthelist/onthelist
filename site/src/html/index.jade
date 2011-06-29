@@ -1,24 +1,83 @@
 !!! 5
-html(lang="en")
-	head
-		link(href= "../public/stylesheets/reset.css", rel= "stylesheet", type= "text/css")
-		link(href= "../public/stylesheets/main.css", rel= "stylesheet", type= "text/css")
-		title= "OnTheList - an online restaurant management system"
-	body
-		header
-			h1
-				span( style= "color:green;")&#8984;
-				| The Steakhouse
-			nav.tabs
-				a( href= "#check_in") Check-In Queue
-				a( href= "#reservation_manager") Reservation Manager
-				a( href= "#help_area") Help Area
-	.content
-		div( style= "margin: 0 auto; padding: 0 35px; display:table-cell; vertical-align: middle;")
-			| Text message subject:
-			input.text_field( type="text", name="text_subject", maxlength="80", value="Your Table Is Ready!", style="")
-		div( style= "margin: 0 auto; padding: 10px; display:table-cell; vertical-align: middle;")
-			| Default message:
-			input.text_field( type="text", name="text_subject", maxlength="80", value="Please return to the host stand.", style="")
-		footer
-			| Copyright 2011
+head
+  meta(charset="utf-8")
+  meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
+
+  title OnTheList Demo
+
+  meta(name="description", content="")
+  meta(name="author", content="")
+  meta(name="viewport", content="width=device-width, initial-scale=1.0")
+
+  link(rel="shortcut icon", href="../../images/favicon.ico")
+  link(rel="apple-touch-icon", href="../../images/rope_icon.png")
+  
+  link(rel="stylesheet", href="../styles/reset.css")
+  link(rel="stylesheet", media="handheld, screen, projection", href="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.css")
+  
+
+  // link(rel="stylesheet", media="screen, projection", href="../styles/screen.css")
+  link(rel="stylesheet", media="screen, projection", href="../styles/layout.css")
+  link(rel="stylesheet", media="print", href="../../stylesheets/print.css")
+
+  script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js")
+  script(src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js")
+  script(src="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.js")
+  
+  body
+    #queue-page(data-role="page")
+      header(data-role="header")
+        nav.tabs(data-role="header", data-position="inline", data-iconpos="top")
+          a(href="#add_party",data-role="button", data-icon="plus") Add Party
+          h1 The Steakhouse
+          a(href="#check_in",data-role="button", data-icon="check") Check-In
+      .content(data-role="content")
+        ul(data-role="listview", data-filter="true", data-filter-placeholder="Search...")
+          li(data-role="list-divider", data-theme="a") 0-10 mins
+          li 
+            span.time 5 min
+            | John Smith
+            span.ui-li-count 5
+          li 
+            span.time 10 min
+            | Jane Smith
+            span.ui-li-count 5
+            
+          li(data-role="list-divider", data-theme="a") 11-30 mins
+          li 
+            span.time 15 min
+            | Zack Bloom
+            span.ui-li-count 2
+          li
+            span.time 15 min
+            | Eric Wright
+            span.ui-li-count 2
+            
+          li(data-role="list-divider", data-theme="a") 31-60 mins
+          li
+            span.time 32 min
+            | Dick Lombardi
+            span.ui-li-count 3
+          li(data-role="list-divider", data-theme="a") More Than 60 mins
+          li 
+            span.time 1h 7m
+            | Harry Thomas
+            span.ui-li-count 1
+          
+          li(data-role="list-divider", data-theme="a") Upcoming Reservations
+          li 
+            span.time 12:45 PM
+            | Bob Brewster
+            span.ui-li-count 4
+
+      footer(data-position="fixed", data-role="footer")
+        nav.menu(data-role="navbar", data-iconpos="top")
+          ul
+            li
+              a(href="#queue",data-role="button", data-icon="home") Queue
+            li
+              a(href="#reservation_manager", data-role="button", data-icon="gear") Reservation Manager
+            li
+              a(href="#table_seated",data-role="button", data-icon="grid") Table Chart
+      
+          
