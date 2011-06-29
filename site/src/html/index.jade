@@ -9,6 +9,8 @@ html(lang="en")
     meta(name="description", content="")
     meta(name="author", content="")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(name="apple-mobile-web-app-capable", content="yes")
+    meta(name="apple-mobile-web-app-status-bar-style", content="black-translucent")
 
     link(rel="shortcut icon", href="../../images/favicon.ico")
     link(rel="apple-touch-icon", href="../../images/rope_icon.png")
@@ -38,7 +40,7 @@ html(lang="en")
           h1 The Steakhouse
           a(href="#check_in", data-rel="dialog", data-role="button", data-transition="pop") Check-In
       .content(data-role="content")
-        ul(data-role="listview", data-filter="true", data-filter-placeholder="Search guests")
+        ul(data-role="listview", data-filter="true", data-filter-placeholder="Search Guests")
           li(data-role="list-divider", data-theme="a") 0-10 mins
           li 
             span.time 5 min
@@ -87,9 +89,9 @@ html(lang="en")
             li
               a(href="#table_seated",data-role="button", data-icon="grid") Table Chart
 
-    #add_party(data-role="page")
+    #add_party(data-role="page", data-rel="dialog", data-transition="slidedown")
       header(data-role="header")
-        h1 Add a party
+        h1 Add a Party
       .content(data-role="content")
         div(data-role="fieldcontain")
           label(for="name") Name:
