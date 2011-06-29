@@ -45,7 +45,7 @@ app.error (err, req, res, next) ->
 auth_routes.add_admin(app)
 auth_routes.add_auth(app)
   
-sms = messaging.SMS()
+sms = new messaging.SMS()
 
 app.post '/send/sms', (req, res) ->
   req.auth.require 'send-sms'
