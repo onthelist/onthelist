@@ -105,21 +105,24 @@ html(lang="en")
         div(data-role="fieldcontain")
           label(for="name") Name:
           input#name(type="text", name="name", value="")
+        
+          label(for="phone_number") Phone:
+          input#phone_number(type="tel", name="phone_number", value="")
           
         div(data-role="fieldcontain")
           label(for="party_size") Party size:
           input#party_size(type="range", name="party_size", value="1", min="1", max="10")
-          
-        div(data-role="fieldcontain")
-          fieldset(data-role="controlgroup", data-type="vertical")
-            legend Seating preference:
-            input#first_available(type="radio", name="seating_preference", value="first_available", checked="checked")
-            label(for="first_available") First available
-            input#non_smoking(type="radio", name="seating_preference", value="non_smoking")
-            label(for="non_smoking") Non-Smoking
-            input#smoking(type="radio", name="seating_preference", value="smoking")
-            label(for="smoking") Smoking
             
+        div(data-role="fieldcontain")
+          label.select(for="select-choice-1") Seating preference
+          select#select-choice-1(name="select-choice-1", data-native-menu="false")
+            option(value="first_available") First available
+            option(value="booth") Booth
+            option(value="outside") Outside
+
+        input#smoking.custom(type="checkbox", name="smoking")
+        label(for="smoking") Smoking
+
         div(data-role="fieldcontain")
           label(for="notes") Notes:
           input#notes(type="text", name="notes", value="")
