@@ -38,11 +38,11 @@ html(lang="en")
     #queue(data-role="page")
       header(data-role="header", data-position="fixed")
         nav.tabs(data-role="header", data-position="inline", data-iconpos="top")
-          a(href="#add_party", data-role="button", data-transition="none") Add Party
+          a(href="#add-party", data-role="button", data-transition="none") Add Party
           h1 The Steakhouse
-          a(href="#check_in",  data-role="button", data-transition="pop") Check-In
+          a(href="#check-in",  data-role="button", data-transition="pop") Check-In
       .content(data-role="content")
-        ul#queue-list(data-role="listview", data-filter="true", data-filter-placeholder="Search Guests")
+        ul#queue-list(data-role="listview", data-filter="true", data-filter-placeholder="Search Guests", style="margin-top:15px !important;")
           li#divider-010(data-role="list-divider", data-theme="a") 0-10 mins
           li
             a
@@ -55,7 +55,7 @@ html(lang="en")
               | Jane Smith
               span.ui-li-count 5
             
-          li(data-role="list-divider", data-theme="a") 11-30 mins
+          li#divider-1130(data-role="list-divider", data-theme="a") 11-30 mins
           li
             a
               span.time 15 min
@@ -67,20 +67,20 @@ html(lang="en")
               | Eric Wright
               span.ui-li-count 2
             
-          li(data-role="list-divider", data-theme="a") 31-60 mins
+          li#divider-3160(data-role="list-divider", data-theme="a") 31-60 mins
           li
             a
               span.time 32 min
               | Dick Lombardi
               span.ui-li-count 3
-          li(data-role="list-divider", data-theme="a") More Than 60 mins
+          li#divider-60plus(data-role="list-divider", data-theme="a") More Than 60 mins
           li 
             a
               span.time 1h 7m
               | Harry Thomas
               span.ui-li-count 1
           
-          li(data-role="list-divider", data-theme="a") Upcoming Reservations
+          li#divider-reservations(data-role="list-divider", data-theme="a") Upcoming Reservations
           li 
             a
               span.time 12:45 PM
@@ -94,22 +94,24 @@ html(lang="en")
             li
               a(href="#queue",data-role="button", data-icon="home", data-theme="b") Queue
             li
-              a(href="#reservation_manager", data-role="button", data-icon="gear") Reservations
+              a(href="#reservation-manager", data-role="button", data-icon="gear") Reservations
             li
-              a(href="#table_seated",data-role="button", data-icon="grid") Table Chart
+              a(href="#table-seated",data-role="button", data-icon="grid") Table Chart
+    #add-party(data-role="dialog")
 
-    #add_party(data-role="dialog")
       header(data-role="header")
         h1 Add a Party
       form.content(data-role="content")
         div(data-role="fieldcontain")
           input#name(type="text", name="name", value="", placeholder="Name", autofocus="autofocus")
-
+        
+        div(data-role="fieldcontain")
           input#phone_number(type="tel", name="phone_number", value="", placeholder="Phone number")
           
         div(data-role="fieldcontain")
-          label(for="party_size") Party size:
-          input#party_size(type="range", name="party_size", value="1", min="1", max="10")
+          label(for="party-size") 
+            strong Party Size:
+          input#party-size(type="range", name="party_size", value="1", min="1", max="10")
             
         div(data-role="fieldcontain")
           select#select-choice-1(name="select-choice-1", data-native-menu="false")
@@ -117,11 +119,6 @@ html(lang="en")
             option(value="booth") Booth
             option(value="outside") Outside
 
-<<<<<<< HEAD
-        input#smoking.custom(type="checkbox", name="smoking")
-        label(for="smoking") Smoking
-=======
->>>>>>> c553034056ab0f15e73b5106914d80d512c648d6
         div(data-role="fieldcontain")
           input#notes(type="text", name="notes", value="", placeholder="Notes")
         a(href='#add', data-role="button") Add
