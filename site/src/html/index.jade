@@ -103,11 +103,9 @@ html(lang="en")
         h1 Add a Party
       form.content(data-role="content")
         div(data-role="fieldcontain")
-          label(for="name") Name:
-          input#name(type="text", name="name", value="")
-        
-          label(for="phone_number") Phone:
-          input#phone_number(type="tel", name="phone_number", value="")
+          input#name(type="text", name="name", value="", placeholder="Name", autofocus="autofocus")
+
+          input#phone_number(type="tel", name="phone_number", value="", placeholder="Phone number")
           
         div(data-role="fieldcontain")
           label(for="party_size") Party size:
@@ -121,8 +119,7 @@ html(lang="en")
             option(value="outside") Outside
 
         div(data-role="fieldcontain")
-          label(for="notes") Notes:
-          input#notes(type="text", name="notes", value="")
+          input#notes(type="text", name="notes", value="", placeholder="Notes")
         a(href='#add', data-role="button") Add
         
     #check_in(data-role="page")
