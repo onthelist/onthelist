@@ -11,6 +11,12 @@
   width: 23px;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 @media all and (max-width: 450px){
   .ui-field-contain { 
     padding: .5em 0;

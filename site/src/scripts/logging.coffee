@@ -1,4 +1,4 @@
-REMOTE_LOGGING = false
+REMOTE_LOGGING = true
 
 $.log = (args...) ->
   if window and window.console and window.console.log
