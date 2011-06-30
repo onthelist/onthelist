@@ -15,17 +15,18 @@ html(lang="en")
     link(rel="shortcut icon", href="../../images/favicon.ico")
     link(rel="apple-touch-icon", href="../../images/rope_icon.png")
     
-    link(rel="stylesheet", media="handheld, screen, projection", href="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.css")
+    link(rel="stylesheet", media="handheld, screen, projection", href="http://code.jquery.com/mobile/latest/jquery.mobile.css")
     
 
     // link(rel="stylesheet", media="screen, projection", href="../styles/screen.css")
     link(rel="stylesheet", media="screen, projection", href="../styles/layout.css")
-    link(rel="stylesheet", media="print", href="../../stylesheets/print.css")
+    // link(rel="stylesheet", media="print", href="../../stylesheets/print.css")
 
-    script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js")
+    script(src="http://code.jquery.com/jquery-1.6.2.js")
     script(src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js")
-    script(src="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.js")
+    script(src="http://code.jquery.com/mobile/latest/jquery.mobile.js")
 
+    script(src="../scripts/logging.js")
     script(src="../scripts/forms.js")
 
     script
@@ -37,9 +38,9 @@ html(lang="en")
     #queue(data-role="page")
       header(data-role="header", data-position="fixed")
         nav.tabs(data-role="header", data-position="inline", data-iconpos="top")
-          a(href="#add_party", data-rel="dialog", data-role="button", data-transition="pop") Add Party
+          a(href="#add_party", data-role="button", data-transition="none") Add Party
           h1 The Steakhouse
-          a(href="#check_in", data-rel="dialog", data-role="button", data-transition="pop") Check-In
+          a(href="#check_in",  data-role="button", data-transition="pop") Check-In
       .content(data-role="content")
         ul#queue-list(data-role="listview", data-filter="true", data-filter-placeholder="Search Guests")
           li#divider-010(data-role="list-divider", data-theme="a") 0-10 mins
@@ -97,7 +98,7 @@ html(lang="en")
             li
               a(href="#table_seated",data-role="button", data-icon="grid") Table Chart
 
-    #add_party(data-role="page", data-rel="dialog", data-transition="slidedown")
+    #add_party(data-role="dialog")
       header(data-role="header")
         h1 Add a Party
       form.content(data-role="content")
@@ -122,7 +123,7 @@ html(lang="en")
         div(data-role="fieldcontain")
           label(for="notes") Notes:
           input#notes(type="text", name="notes", value="")
-        a#add-button(data-role="button") Add
+        a(href='#add', data-role="button") Add
         
     #check_in(data-role="page")
       header(data-role="header")

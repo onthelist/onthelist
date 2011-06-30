@@ -1,5 +1,7 @@
 $ ->
-  $('#add-button').click ->
+  $('a[href=#add]').click (e) ->
+    e.preventDefault()
+
     el = $ '<li></li>'
     link = $ '<a></a>'
     el.append link
@@ -17,8 +19,10 @@ $ ->
     link.append e_size
 
     $('#divider-010').after el
-    
+
     if $('#queue-list').jqmData 'listview'
       $('#queue-list').listview 'refresh'
 
     $('#add_party').dialog 'close'
+
+    false
