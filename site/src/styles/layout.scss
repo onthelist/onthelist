@@ -6,3 +6,14 @@
   display:inline-block;
 }
 
+[data-role=dialog] .ui-slider-input {
+  font-weight: bold;
+  width: 23px;
+}
+
+@media all and (max-width: 450px){
+  .ui-field-contain { 
+    padding: .5em 0;
+  }
+}
+
