@@ -2,14 +2,10 @@
   text-align:right;
   color:#A5A5A5;
   width:65px;
-  margin-right:10px;
+  margin-right:12px;
   display:inline-block;
 }
 
-[data-role=dialog] .ui-slider-input {
-  font-weight: bold;
-  width: 23px;
-}
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -22,4 +18,3 @@ input::-webkit-inner-spin-button {
     padding: .5em 0;
   }
 }
-
