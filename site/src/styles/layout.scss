@@ -1,11 +1,45 @@
-.time{
-  text-align:right;
-  color:#A5A5A5;
-  width:65px;
-  margin-right:12px;
-  display:inline-block;
+.time {
+  text-align: right;
+  color: #A5A5A5;
+  width: 65px;
+  margin-right: 12px;
+  display: inline-block;
 }
 
+.ui-li.ui-btn a.list-action {
+  margin-right: -60px;
+  text-align: center;
+}
+
+[data-role=dialog] {
+  .ui-slider-input {
+    width: 23px;
+    font-weight: bold;
+  }
+
+  .ui-content {
+    padding-top: 0;
+  }
+
+  .ui-input-text {
+    font-weight: bold;
+    font-size: 90%;
+    color: #444;
+  }
+  ::-webkit-input-placeholder {
+    font-style: italic;
+    color: #777;
+  }
+  :-moz-placeholder {
+    font-style: italic;
+    color: #777;
+  }
+
+  label {
+    font-size: 90%;
+    font-weight: bold;
+  }
+}
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -13,8 +47,40 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+
 @media all and (max-width: 450px){
   .ui-field-contain { 
     padding: .5em 0;
   }
+
+  form {
+    label {
+      text-align: center;
+
+      &.ui-input-text {
+        display: none;
+      }
+      &.ui-slider {
+        display: block;
+        margin-bottom: -8px;
+      }
+    }
+  }
 }
+
+@media all and (min-width: 451px){
+  form {
+    label {
+      text-align: right;
+      display: block;
+    }
+
+    ::-webkit-input-placeholder {
+      text-indent: -9999px;
+    }
+    :-moz-placeholder {
+      text-indent: -9999px;
+    }
+  }
+}
+

@@ -42,7 +42,7 @@ html(lang="en")
           h1 The Steakhouse
           a(href="#check-in",  data-role="button", data-transition="pop") Check-In
       .content(data-role="content")
-        ul#queue-list(data-role="listview", data-filter="true", data-filter-placeholder="Search Guests", style="margin-top:15px !important;")
+        ul#queue-list(data-role="listview", data-filter="true", data-filter-placeholder="Search Guests")
           li#divider-010(data-role="list-divider", data-theme="a") 0-10 mins
           li
             a
@@ -87,7 +87,6 @@ html(lang="en")
               | Bob Brewster
               span.ui-li-count 4
 
-
       footer(data-position="fixed", data-role="footer")
         nav.menu(data-role="navbar", data-iconpos="top")
           ul
@@ -97,35 +96,33 @@ html(lang="en")
               a(href="#reservation-manager", data-role="button", data-icon="gear") Reservations
             li
               a(href="#table-seated",data-role="button", data-icon="grid") Table Chart
-    #add-party(data-role="dialog")
 
+    #add-party(data-role="dialog")
       header(data-role="header")
         h1 Add a Party
       form.content(data-role="content")
         div(data-role="fieldcontain")
+          label(for='name') Name
           input#name(type="text", name="name", value="", placeholder="Name", autofocus="autofocus")
         
         div(data-role="fieldcontain")
-          input#phone_number(type="tel", name="phone_number", value="", placeholder="Phone number")
+          label(for='phone_number') Phone Number
+          input#phone_number(type="tel", name="phone_number", value="", placeholder="Phone Number")
           
         div(data-role="fieldcontain")
-          div
-            label(for="party-size", style="font-weight:600;text-align:center;") Party Size
+          label(for="party-size") Party Size
           input#party-size(type="range", name="party_size", value="1", min="1", max="10")
             
         div(data-role="fieldcontain")
+          label(for='select-choice-1') Seating Preference
           select#select-choice-1(name="select-choice-1", data-native-menu="false")
             option(value="first_available") First available
             option(value="booth") Booth
             option(value="outside") Outside
 
         div(data-role="fieldcontain")
+          label(for='notes') Notes
           input#notes(type="text", name="notes", value="", placeholder="Notes")
         a(href='#add', data-role="button") Add
-        
-    #check_in(data-role="page")
-      header(data-role="header")
-        h1 Check in
-      .content(data-role="content")
         
       
