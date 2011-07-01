@@ -52,10 +52,14 @@
   fieldset {
     margin: 10px auto;
     text-align: center;
-    width:90%;
   }
 }
-
+[data-role=controlgroup] {
+  .ui-btn-inner{
+    padding-left: 10px;
+    padding-right: 14px;
+  }
+}
 
 @media all and (max-width: 450px){
   .ui-field-contain { 

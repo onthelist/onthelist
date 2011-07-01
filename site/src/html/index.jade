@@ -17,15 +17,20 @@ html(lang="en")
     link(rel="apple-touch-icon", href="../../images/rope_icon.png")
     
     link(rel="stylesheet", media="handheld, screen, projection", href="http://code.jquery.com/mobile/latest/jquery.mobile.css")
+    link(rel="stylesheet", media="handheld, screen, projection", href="http://dev.jtsage.com/cdn/datebox/latest/jquery.mobile.datebox.css")
+    link(rel="stylesheet", media="screen, projection", href="../styles/layout.css")
+
     
 
     // link(rel="stylesheet", media="screen, projection", href="../styles/screen.css")
-    link(rel="stylesheet", media="screen, projection", href="../styles/layout.css")
     // link(rel="stylesheet", media="print", href="../../stylesheets/print.css")
 
     script(src="http://code.jquery.com/jquery-1.6.2.js")
     script(src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js")
     script(src="http://code.jquery.com/mobile/latest/jquery.mobile.js")
+    
+    script(src="http://dev.jtsage.com/cdn/datebox/latest/jquery.mobile.datebox.js")
+    
 
     script(src="../scripts/logging.js")
     script(src="../scripts/forms.js")
@@ -34,12 +39,15 @@ html(lang="en")
       $(document).bind("mobileinit", function(){
         window.scrollTo(0, 1);
       });
+      $( document ).bind( "mobileinit", function(){
+        $.mobile.page.prototype.options.degradeInputs.date = 'text'; 
+      });
 
   body
     #queue(data-role="page", data-theme="a")
       header(data-role="header", data-position="fixed")
         nav.tabs(data-role="header", data-position="inline", data-iconpos="top")
-          a(href="#add-party", data-role="button", data-transition="none") Add Party
+          a(href="#add-party", data-role="button", data-transition="none") Add
           h1 The Steakhouse
           a(href="#check-in",  data-role="button", data-transition="pop") Check-In
       .content(data-role="content")
@@ -102,7 +110,7 @@ html(lang="en")
     #reservation-manager(data-role="page", data-theme="a")
       header(data-role="header", data-position="fixed")
         nav.tabs(data-role="header", data-position="inline", data-iconpos="top")
-          a(href="#add-party", data-role="button", data-transition="none") Add Reservation
+          a(href="#add-reservation", data-role="button", data-transition="none") Add
           h1 The Steakhouse
           a(href="#check-in",  data-role="button", data-transition="pop") Check-In
       .content(data-role="content")
@@ -141,8 +149,8 @@ html(lang="en")
           li#divider-day4(data-role="list-divider", data-theme="a") 7-17-11
           li 
             a
-              span.time 1h 7m
-              | Harry Thomas
+              span.time 4:45 PM
+              | Joe Shmoe
               span.ui-li-count 1
           
           li#divider-day5(data-role="list-divider", data-theme="a") 7-18-11
@@ -190,12 +198,6 @@ html(lang="en")
             div Estimated 12 min
           
           input#wait-time(type="range", name="wait_time", value="1", min="1", max="10")
-          
-          
-
-        div(data-role="fieldcontain")
-          label(for='notes') Notes
-          input#notes(type="text", name="notes", value="", placeholder="Notes")
 
         div(data-role="fieldcontain")
           fieldset(data-role="controlgroup", data-type="horizontal")
@@ -208,13 +210,77 @@ html(lang="en")
             input(type="radio", name="alert_method", id="wait", value="wait")
             label(for="wait") Wait
           
-          div.pager-number Pager #52
+          // To be added to a pager API
+          // div.pager-number Pager #52
+          
+          div(data-role="fieldcontain")
+          label(for='notes') Notes
+          input#notes(type="text", name="notes", value="", placeholder="Notes")
+        
+        a(href='#add', data-role="button") Add
+            
+  #check-in-without-queue(data-role="dialog")
+    header(data-role="header")
+      h1 Add a Party
+    form.content(data-role="content")
+     
+      a(href='#add', data-role="button") Add
+   
+  #add-reservation(data-role="dialog")
+      header(data-role="header")
+        h1 Reservation
+      form.content(data-role="content")
+        div(data-role="fieldcontain")
+          label(for='name') Name
+          input#name(type="text", name="name", value="", placeholder="Name", autofocus="autofocus")
+        
+        div(data-role="fieldcontain")
+          label(for='phone_number') Phone Number
+          input#phone_number(type="tel", name="phone_number", value="", placeholder="Phone Number")
+          
+        div(data-role="fieldcontain")
+          label(for="party-size") Party Size
+          input#party-size(type="range", name="party_size", value="1", min="1", max="10")
+            
+        div(data-role="fieldcontain")
+          label(for='seating-preference') Seating Preference
+          select#seating-preference(name="seating-preference", data-native-menu="false")
+            option(value="first_available") First available
+            option(value="booth") Booth
+            option(value="outside") Outside
+            
+        // A word of warning, the date and time input variables seem to be touchy when reordering them.
+        div(data-role="fieldcontain")
+          label(for="reservation-date") Date
+          input(name="reservation_date", id="reservation-date", type="date", data-role="datebox", data-options='{"mode": "calbox"}', placeholder="Date")
+        div(data-role="fieldcontain")
+          label(for="reservation-time") Time
+          input(name="reservation_time", id="reservation-time", type="date", data-role="datebox", data-options='{"mode": "timebox", "timeFormat": 12}', placeholder="Time")
+          
+
+        div(data-role="fieldcontain")
+          fieldset(data-role="controlgroup", data-type="horizontal")
+            input(type="radio", name="alert_method", id="text-message", value="text-message", checked="checked")
+            label(for="text-message") Text
+            input(type="radio", name="alert_method", id="call", value="call")
+            label(for="call") Call
+            input(type="radio", name="alert_method", id="page", value="page")
+            label(for="page") Page
+            input(type="radio", name="alert_method", id="wait", value="wait")
+            label(for="wait") Wait
+          
+          // Added later to a pager API
+          // div.pager-number #52
+          
+        div(data-role="fieldcontain")
+          label(for='notes') Notes
+          input#notes(type="text", name="notes", value="", placeholder="Notes")
         
         a(href='#add', data-role="button") Add
             
     #quick-add-party(data-role="dialog")
       header(data-role="header")
-        h1 Add a Party
+        h1 Party
       form.content(data-role="content")
        
         a(href='#add', data-role="button") Add
