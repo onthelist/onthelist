@@ -5,6 +5,13 @@
   margin-right: 12px;
   display: inline-block;
 }
+.pager-number {
+  display: block;
+  text-align: center;
+  margin: 10px auto;
+  font-size: 2em;
+  width: 50%;
+}
 
 .ui-li.ui-btn a.list-action {
   margin-right: -60px;
@@ -41,10 +48,12 @@
   }
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+[data-role=fieldcontain] {
+  fieldset {
+    margin: 10px auto;
+    text-align: center;
+    width:90%;
+  }
 }
 
 
@@ -83,4 +92,5 @@ input::-webkit-inner-spin-button {
     }
   }
 }
+
 
