@@ -91,10 +91,13 @@ form {
 }
 
 @media all and (max-width: 450px) {
-  .ui-btn {
-    // Correct textless boxes being offset by small page padding
-    top: -5px;
+  .date-time{
+    .ui-btn {
+      // Correct textless boxes being offset by small page padding
+      top: -4px;
+    }
   }
+  
   .ui-field-contain { 
     // Reduce the vert padding on mobile-view forms
     padding: .5em 0;
@@ -124,11 +127,6 @@ form {
         margin-bottom: -8px;
       }
     }
-  }
-  
-  .ui-listview-filter {
-    // Fix search bar spacing
-    margin-bottom: 20px;
   }
 }
 
