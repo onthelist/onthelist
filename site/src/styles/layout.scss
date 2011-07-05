@@ -1,3 +1,7 @@
+article {
+  margin: 10px 0;
+}
+
 .time {
   text-align: right;
   color: #A5A5A5;
@@ -13,12 +17,17 @@
   display: inline-block;
 }
 
-.pager-number {
-  display: block;
-  text-align: center;
-  margin: 10px auto;
-  font-size: 2em;
-  width: 50%;
+.centered-number {
+  display: block !important;
+  text-align: center !important;
+  margin: 10px auto !important;
+  font-size: 1.2em !important;
+  width: 40px !important;
+}
+
+.info {
+  display: inline-block;
+  width: 60%;
 }
 
 .ui-li.ui-btn a.list-action {
@@ -91,9 +100,9 @@ form {
 }
 
 @media all and (max-width: 450px) {
-  .date-time{
+  .date-time {
     .ui-btn {
-      // Correct textless boxes being offset by small page padding
+      // Corrects date and time buttons from being too low for their input box.
       top: -4px;
     }
   }
