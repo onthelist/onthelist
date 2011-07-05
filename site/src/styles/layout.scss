@@ -5,6 +5,14 @@
   margin-right: 12px;
   display: inline-block;
 }
+
+.date {
+  text-align: right;
+  float:right;
+  color: #E8F3FF;
+  display: inline-block;
+}
+
 .pager-number {
   display: block;
   text-align: center;
@@ -17,52 +25,78 @@
   margin-right: -60px;
   text-align: center;
 }
-
-.ui-content {
-  padding-top: 0;
+.ui-slider-input {
+  width: 26px;
+  font-weight: bold;
 }
 
-.ui-listview-filter {
-  // Fix search bar spacing
-  margin-top: 0px;
-  margin-bottom: 15px;
+.ui-input-text {
+  font-weight: bold;
+  font-size: 90%;
+  color: #444;
 }
 
 ::-webkit-input-placeholder {
   font-style: italic;
+  font-weight: normal;
   color: #777;
 }
 :-moz-placeholder {
   font-style: italic;
+  font-weight: normal;
   color: #777;
 }
 
-form.content {
-  .ui-input-text {
-    font-weight: bold;
-    font-size: 90%;
-    color: #444;
+label {
+  font-size: 90%;
+  font-weight: bold;
+}
+
+[data-role=fieldcontain] {
+  fieldset {
+    margin: 2px auto;
+    text-align: center;
   }
-  .ui-slider-input {
-    // The std JQM pushes sliders to two lines on narrow displays
-    width: 26px;
-    font-weight: bold;
+  
+  form.content {
+    .ui-input-text {
+      font-weight: bold;
+      font-size: 90%;
+      color: #444;
+    }
   }
   
   label {
     font-size: 90%;
     font-weight: bold;
   }
-
-  [data-role=fieldcontain] {
-    fieldset {
-      margin: 2px auto;
-      text-align: center;
-    }
+}
+  
+[data-role=controlgroup] {
+  // Shorten radio group padding
+  .ui-btn-inner {
+    padding-left: 10px;
+    padding-right: 14px;
+  }
+  .ui-btn {
+  // Properly hide radio buttons behind jQuery Mobile labels
+  top:3px;
   }
 }
 
-@media all and (max-width: 450px){
+[data-role=dialog] {
+  .ui-content {
+    padding-top: 0;
+  }
+}
+
+form {
+  .ui-field-contain { 
+    padding: 0.5em 0;
+  }
+}
+
+@media all and (max-width: 450px) {
   .ui-btn {
     // Correct textless boxes being offset by small page padding
     top: -5px;
@@ -112,7 +146,6 @@ form.content {
       text-align: right;
       display: inline-block;
     }
-
     // Hide placeholder text on screens large enough for labels
     ::-webkit-input-placeholder {
       text-indent: -9999px;
@@ -121,5 +154,9 @@ form.content {
       text-indent: -9999px;
     }
   }
+  [data-role=fieldcontain] {
+    fieldset {
+      margin: -15px auto 2px auto;
+    }
+  }
 }
-
