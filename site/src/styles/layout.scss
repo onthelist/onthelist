@@ -18,53 +18,59 @@
   text-align: center;
 }
 
-[data-role=dialog] {
-  .ui-slider-input {
-    width: 23px;
-    font-weight: bold;
-  }
+.ui-content {
+  padding-top: 0;
+}
 
-  .ui-content {
-    padding-top: 0;
-  }
+.ui-listview-filter {
+  // Fix search bar spacing
+  margin-top: 0px;
+  margin-bottom: 15px;
+}
 
+::-webkit-input-placeholder {
+  font-style: italic;
+  color: #777;
+}
+:-moz-placeholder {
+  font-style: italic;
+  color: #777;
+}
+
+form.content {
   .ui-input-text {
     font-weight: bold;
     font-size: 90%;
     color: #444;
   }
-  ::-webkit-input-placeholder {
-    font-style: italic;
-    color: #777;
-  }
-  :-moz-placeholder {
-    font-style: italic;
-    color: #777;
+  .ui-slider-input {
+    width: 23px;
+    font-weight: bold;
   }
 
+  
   label {
     font-size: 90%;
     font-weight: bold;
   }
-}
 
-[data-role=fieldcontain] {
-  fieldset {
-    margin: 2px auto;
-    text-align: center;
+  [data-role=fieldcontain] {
+    fieldset {
+      margin: 2px auto;
+      text-align: center;
+    }
   }
-}
 
-[data-role=controlgroup] {
-  .ui-btn-inner {
-    // Narrow radio group buttons
-    padding-left: 10px;
-    padding-right: 14px;
-  }
-  
-  .ui-btn {
-    // Hide radio buttons behind jQuery Mobile labels
-    top: 3px;
+  [data-role=controlgroup] {
+    .ui-btn-inner {
+      // Narrow radio group buttons
+      padding-left: 10px;
+      padding-right: 14px;
+    }
+    .ui-btn {
+      // Hide radio buttons behind jQuery Mobile labels
+      top: 3px;
+    }
   }
 }
 
@@ -78,7 +84,13 @@
     padding: .5em 0;
   }
 
-  form {
+  .ui-listview-filter {
+    // Fix search bar spacing
+    margin-top: 0px;
+    margin-bottom: 20px;
+  }
+
+  form.content {
     // Hide form labels on small screens
     label {
       text-align: center;
@@ -94,11 +106,13 @@
   }
 }
 
+
+
 @media all and (min-width: 451px){
-  form {
+  form.content {
     label {
       text-align: right;
-      display: block;
+      display: inline-block;
     }
 
     // Hide placeholder text on screens large enough for labels
