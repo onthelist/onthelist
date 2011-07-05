@@ -1,7 +1,3 @@
-article {
-  margin: 10px 0;
-}
-
 .time {
   text-align: right;
   color: #A5A5A5;
@@ -17,6 +13,7 @@ article {
   display: inline-block;
 }
 
+// Used for the pager number, needs correction later
 .centered-number {
   display: block !important;
   text-align: center !important;
