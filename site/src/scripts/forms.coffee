@@ -83,7 +83,7 @@ $ ->
     false
   
 
-  $('#add-party').live 'pagecreate', ->
+  $('[data-role=dialog], [data-role=page]').live 'pagecreate', ->
     mousedown = false
     timeout = false
 
@@ -91,13 +91,51 @@ $ ->
     def_speed = 400
     speed_scale = 7.0
 
-    $('input[data-type=range]', this).change ->
+    ranges = $('input[data-type=range]', this)
+
+    ranges.each (i, elem) ->
+      if elem.getAttribute('data-default-label')
+        elem = $(elem)
+
+        lbl = elem.attr('data-default-label')
+        lbl += "<br />↓"
+
+        val = parseInt(elem.val())
+        max = parseInt(elem.attr('max'))
+
+        contain = elem.parent()
+        slider = $('div.ui-slider', contain)
+        handle = $('.ui-slider-handle', slider)
+
+        box = $('<div></div>')
+        box.html(lbl)
+        box.addClass('ui-slider-default-label')
+
+        pos = handle.position()
+        left = pos.left + handle.width() / 2
+        top = pos.top - 43
+
+        box.css('position', 'absolute')
+        box.css('top', top + 'px')
+        box.css('left', 100 * val / max + '%')
+
+        slider.append(box)
+
+    ranges.change ->
+      if this.getAttribute('step')
+        val = parseInt this.value
+        step = parseInt this.getAttribute 'step'
+
+        this.value = val - (val % step)
+
+    ranges.change ->
       if mousedown and not timeout and this.value == this.getAttribute('max')
         # To keep normal sliding smooth, we check if the val == the max
         # before we bother building the jQuery obj
 
         self = $(this)
         speed = def_speed
+        step = parseInt(self.attr('step') || '1')
         
         set_timeout = (s=speed) ->
           timeout = setTimeout(up, s)
@@ -110,7 +148,7 @@ $ ->
             speed = Math.max(speed, 10)
             do set_timeout
             
-            self.attr('max', parseInt(self.attr('max')) + 1)
+            self.attr('max', parseInt(self.attr('max')) + step)
             self.val(self.attr('max'))
             self.slider('refresh')
           else
@@ -123,6 +161,7 @@ $ ->
     .bind 'mouseup vmouseup', ->
       # vmouseup doesn't fire on the body
       mousedown = false
+      return true
 
     $(document).bind 'mouseup vmouseup', ->
       mousedown = false

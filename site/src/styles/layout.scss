@@ -44,8 +44,16 @@ form.content {
     color: #444;
   }
   .ui-slider-input {
-    width: 23px;
+    // The std JQM pushes sliders to two lines on narrow displays
+    width: 26px;
     font-weight: bold;
+  }
+  .ui-slider-default-label {
+    text-align: center;
+    font-variant: small-caps;
+    font-size: 80%;
+    line-height: 70%;
+    margin-left: -27px;
   }
 
   
@@ -105,8 +113,6 @@ form.content {
     }
   }
 }
-
-
 
 @media all and (min-width: 451px){
   form.content {
