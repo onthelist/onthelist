@@ -68,7 +68,6 @@ label {
   }
   
   label {
-    font-size: 90%;
     font-weight: bold;
   }
 }
@@ -107,6 +106,7 @@ form {
     fieldset {
       margin: 2px auto;
       text-align: center;
+      
     }
   }
 
@@ -119,6 +119,20 @@ form {
     .ui-btn {
       // Hide radio buttons behind jQuery Mobile labels
       top: 3px;
+    }
+  }
+  form.content {
+    // Hide form labels on small screens
+    label {
+      text-align: center;
+
+      &.ui-input-text {
+        display: none;
+      }
+      &.ui-slider {
+        display: block;
+        margin-bottom: -8px;
+      }
     }
   }
 }
