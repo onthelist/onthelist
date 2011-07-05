@@ -60,18 +60,6 @@ form.content {
       text-align: center;
     }
   }
-
-  [data-role=controlgroup] {
-    .ui-btn-inner {
-      // Narrow radio group buttons
-      padding-left: 10px;
-      padding-right: 14px;
-    }
-    .ui-btn {
-      // Hide radio buttons behind jQuery Mobile labels
-      top: 3px;
-    }
-  }
 }
 
 @media all and (max-width: 450px){
@@ -88,6 +76,18 @@ form.content {
     // Fix search bar spacing
     margin-top: 0px;
     margin-bottom: 20px;
+  }
+
+  [data-role=controlgroup] {
+    .ui-btn-inner {
+      // Narrow radio group buttons
+      padding-left: 10px;
+      padding-right: 14px;
+    }
+    .ui-btn {
+      // Hide radio buttons behind jQuery Mobile labels
+      top: 3px;
+    }
   }
 
   form.content {
