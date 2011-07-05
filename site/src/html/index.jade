@@ -44,9 +44,9 @@ html(lang="en")
     #queue(data-role="page", data-theme="a")
       header(data-role="header", data-position="fixed")
         nav.tabs(data-role="header", data-position="inline", data-iconpos="top")
-          a(href="#add-party", data-role="button", data-transition="none") Add
+          a(href="#add-party", data-role="button", data-transition="none", data-rel="dialog") Add
           h1 The Steakhouse
-          a(href="#check-in",  data-role="button", data-transition="pop") Check-In
+          a(href="#check-in",  data-role="button", data-transition="none") Check-In
       .content(data-role="content")
         ul#queue-list(data-role="listview", data-filter="true", data-filter-placeholder="Search Guests")
           li#divider-010(data-role="list-divider", data-theme="a") 0-10 mins
