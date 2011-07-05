@@ -93,34 +93,6 @@ $ ->
 
     ranges = $('input[data-type=range]', this)
 
-    ranges.each (i, elem) ->
-      if elem.getAttribute('data-default-label')
-        elem = $(elem)
-
-        lbl = elem.attr('data-default-label')
-        lbl += "<br />↓"
-
-        val = parseInt(elem.val())
-        max = parseInt(elem.attr('max'))
-
-        contain = elem.parent()
-        slider = $('div.ui-slider', contain)
-        handle = $('.ui-slider-handle', slider)
-
-        box = $('<div></div>')
-        box.html(lbl)
-        box.addClass('ui-slider-default-label')
-
-        pos = handle.position()
-        left = pos.left + handle.width() / 2
-        top = pos.top - 43
-
-        box.css('position', 'absolute')
-        box.css('top', top + 'px')
-        box.css('left', 100 * val / max + '%')
-
-        slider.append(box)
-
     ranges.change ->
       if this.getAttribute('step')
         val = parseInt this.value
