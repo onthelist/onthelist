@@ -27,8 +27,8 @@
 }
 
 .ui-slider-input {
-    width: 23px;
-    font-weight: bold;
+  width: 23px;
+  font-weight: bold;
 }
 
 .ui-input-text {
@@ -58,15 +58,28 @@ label {
     margin: 2px auto;
     text-align: center;
   }
+  
+  form.content {
+    .ui-input-text {
+      font-weight: bold;
+      font-size: 90%;
+      color: #444;
+    }
+  }
+  
+  label {
+    font-size: 90%;
+    font-weight: bold;
+  }
 }
-
+  
 [data-role=controlgroup] {
   // Shorten radio group padding
-  .ui-btn-inner{
+  .ui-btn-inner {
     padding-left: 10px;
     padding-right: 14px;
   }
-  .ui-btn{
+  .ui-btn {
   // Properly hide radio buttons behind jQuery Mobile labels
   top:3px;
   }
@@ -78,40 +91,45 @@ label {
   }
 }
 
-form{
+form {
   .ui-field-contain { 
     padding: 0.5em 0;
   }
 }
 
 @media all and (max-width: 450px){
-  .ui-btn{
+  .ui-btn {
     // Correct textless boxes being offset by small page padding
     top:-5px;
   }
 
-  // Hides form labels on small screens
-    form {
-    label {
+  [data-role=fieldcontain] {
+    fieldset {
+      margin: 2px auto;
       text-align: center;
+    }
+  }
 
-      &.ui-input-text {
-        display: none;
-      }
-      &.ui-slider {
-        display: block;
-        margin-bottom: -8px;
-      }
+  [data-role=controlgroup] {
+    .ui-btn-inner {
+      // Narrow radio group buttons
+      padding-left: 10px;
+      padding-right: 14px;
+    }
+    .ui-btn {
+      // Hide radio buttons behind jQuery Mobile labels
+      top: 3px;
     }
   }
 }
 
 @media all and (min-width: 451px){
-  form {
+  form.content {
     label {
       text-align: right;
-      display: block;
+      display: inline-block;
     }
+    // Hide placeholder text on screens large enough for labels
     ::-webkit-input-placeholder {
       text-indent: -9999px;
     }

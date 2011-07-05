@@ -179,15 +179,14 @@ html(lang="en")
           a(href="#", data-role="button", data-transition="none", data-rel="back") Back
           h1 The Steakhouse
           
-      .content(data-role="content")
-        form
-          div(data-role="fieldcontain")
-            label(for='name') Name
-            input#name(type="text", name="name", value="John Smith", placeholder="Name", autofocus="autofocus")
-          
-          div(data-role="fieldcontain")
-            label(for='phone_number') Phone Number
-            input#phone_number(type="tel", name="phone_number", value="2483524997", placeholder="Phone Number")
+      form.content(data-role="content")
+        div(data-role="fieldcontain")
+          label(for='name') Name
+          input#name(type="text", name="name", value="John Smith", placeholder="Name", autofocus="autofocus")
+        
+        div(data-role="fieldcontain")
+          label(for='phone_number') Phone Number
+          input#phone_number(type="tel", name="phone_number", value="2483524997", placeholder="Phone Number")
             
           div(data-role="fieldcontain")
             label(for="party-size") Party Size
@@ -268,6 +267,8 @@ html(lang="en")
             label(for="call") Call
             input(type="radio", name="alert_method", id="page", value="page")
             label(for="page") Page
+            input(type="radio", name="alert_method", id="qr-code", value="qr_code")
+            label(for="qr-code") Code
             input(type="radio", name="alert_method", id="wait", value="wait")
             label(for="wait") Wait
           
