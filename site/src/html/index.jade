@@ -19,12 +19,9 @@ html(lang="en")
     link(rel="stylesheet", media="handheld, screen, projection", href="http://code.jquery.com/mobile/latest/jquery.mobile.css")
     link(rel="stylesheet", media="handheld, screen, projection", href="http://dev.jtsage.com/cdn/datebox/latest/jquery.mobile.datebox.css")
     link(rel="stylesheet", media="screen, projection", href="../styles/layout.css")
-
-    
-
     // link(rel="stylesheet", media="screen, projection", href="../styles/screen.css")
     // link(rel="stylesheet", media="print", href="../../stylesheets/print.css")
-
+    
     script(src="http://code.jquery.com/jquery-1.6.2.js")
     script(src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js")
     script(src="http://code.jquery.com/mobile/latest/jquery.mobile.js")
@@ -54,45 +51,45 @@ html(lang="en")
         ul#queue-list(data-role="listview", data-filter="true", data-filter-placeholder="Search Guests")
           li#divider-010(data-role="list-divider", data-theme="a") 0-10 mins
           li
-            a
+            a(href="#modify-party")
               span.time 5 min
               | John Smith
               span.ui-li-count 5
             
           li
-            a
+            a(href="#modify-party")
               span.time 10 min
               | Jane Smith
               span.ui-li-count 5
             
           li#divider-1130(data-role="list-divider", data-theme="a") 11-30 mins
           li
-            a
+            a(href="#modify-party")
               span.time 15 min
               | Zack Bloom
               span.ui-li-count 2
           li
-            a
+            a(href="#modify-party")
               span.time 15 min
               | Eric Wright
               span.ui-li-count 2
             
           li#divider-3160(data-role="list-divider", data-theme="a") 31-60 mins
           li
-            a
+            a(href="#modify-party")
               span.time 32 min
               | Dick Lombardi
               span.ui-li-count 3
           li#divider-60plus(data-role="list-divider", data-theme="a") More Than 60 mins
           li 
-            a
+            a(href="#modify-party")
               span.time 1h 7m
               | Harry Thomas
               span.ui-li-count 1
           
           li#divider-reservations(data-role="list-divider", data-theme="a") Upcoming Reservations
           li 
-            a
+            a(href="#modify-party")
               span.time 12:45 PM
               | Bob Brewster
               span.ui-li-count 4
@@ -106,13 +103,12 @@ html(lang="en")
               a(href="#reservation-manager", data-role="button", data-icon="gear") Reservations
             li
               a(href="#table-seated",data-role="button", data-icon="grid") Table Chart
-    
+              
     #reservation-manager(data-role="page", data-theme="a")
       header(data-role="header", data-position="fixed")
         nav.tabs(data-role="header", data-position="inline", data-iconpos="top")
           a(href="#add-reservation", data-role="button", data-transition="none") Add
           h1 The Steakhouse
-          a(href="#check-in",  data-role="button", data-transition="pop") Check-In
       .content(data-role="content")
         ul#queue-list(data-role="listview", data-filter="true", data-filter-placeholder="Search Reservations")
           li#divider-today(data-role="list-divider", data-theme="a") Today
@@ -170,6 +166,69 @@ html(lang="en")
             li
               a(href="#table-seated",data-role="button", data-icon="grid") Table Chart
               
+              
+              
+    #modify-party(data-role="page")
+      header(data-role="header", data-position="fixed")
+        nav.tabs(data-role="header", data-position="inline", data-iconpos="top")
+          a(href="#", data-role="button", data-transition="none", data-rel="back") Back
+          h1 The Steakhouse
+          
+      .content(data-role="content")
+        div(data-role="fieldcontain")
+          label(for='name') Name
+          input#name(type="text", name="name", value="John Smith", placeholder="Name", autofocus="autofocus")
+        
+        div(data-role="fieldcontain")
+          label(for='phone_number') Phone Number
+          input#phone_number(type="tel", name="phone_number", value="2483524997", placeholder="Phone Number")
+          
+        div(data-role="fieldcontain")
+          label(for="party-size") Party Size
+          input#party-size(type="range", name="party_size", value="5", min="1", max="10")
+            
+        div(data-role="fieldcontain")
+          label(for='seating-preference') Seating Preference
+          select#seating-preference(name="seating-preference", data-native-menu="false")
+            option(value="first_available") First available
+            option(value="booth") Booth
+            option(value="outside") Outside
+        div(data-role="fieldcontain")
+          label(for="wait-time")
+            | Wait Time
+            div Estimated 12 min
+          
+          input#wait-time(type="range", name="wait_time", value="10", min="1", max="10")
+
+        div(data-role="fieldcontain")
+          fieldset(data-role="controlgroup", data-type="horizontal")
+            input(type="radio", name="alert_method", id="text-message", value="text-message", checked="checked")
+            label(for="text-message") Text
+            input(type="radio", name="alert_method", id="call", value="call")
+            label(for="call") Call
+            input(type="radio", name="alert_method", id="page", value="page")
+            label(for="page") Page
+            input(type="radio", name="alert_method", id="wait", value="wait")
+            label(for="wait") Wait
+          
+          // To be added to a pager API
+          // div.large-number Pager #52
+          
+          div(data-role="fieldcontain")
+            label(for='notes') Notes
+            input#notes(type="text", name="notes", value="", placeholder="Notes")
+          a(href='#add', data-role="button") Add
+          
+      footer(data-position="fixed", data-role="footer")
+        nav.menu(data-role="navbar", data-iconpos="top")
+          ul
+            li
+              a(href="#queue",data-role="button", data-icon="home", data-theme="b") Queue
+            li
+              a(href="#reservation-manager", data-role="button", data-icon="gear") Reservations
+            li
+              a(href="#table-seated",data-role="button", data-icon="grid") Table Chart
+      
     #add-party(data-role="dialog")
       header(data-role="header")
         h1 Add a Party
@@ -211,13 +270,13 @@ html(lang="en")
             label(for="wait") Wait
           
           // To be added to a pager API
-          // div.pager-number Pager #52
+          // div.large-number Pager #52
           
           div(data-role="fieldcontain")
-          label(for='notes') Notes
-          input#notes(type="text", name="notes", value="", placeholder="Notes")
+            label(for='notes') Notes
+            input#notes(type="text", name="notes", value="", placeholder="Notes")
         
-        a(href='#add', data-role="button") Add
+          a(href='#add', data-role="button") Add
             
   #check-in-without-queue(data-role="dialog")
     header(data-role="header")
@@ -252,10 +311,10 @@ html(lang="en")
         // A word of warning, the date and time input variables seem to be touchy when reordering them.
         div(data-role="fieldcontain")
           label(for="reservation-date") Date
-          input(name="reservation_date", id="reservation-date", type="date", data-role="datebox", data-options='{"mode": "calbox"}', placeholder="Date", data-theme="d")
+          input(name="reservation_date", id="reservation-date", type="date", data-role="datebox", data-options='{"mode": "calbox"}', placeholder="Date")
         div(data-role="fieldcontain")
           label(for="reservation-time") Time
-          input(name="reservation_time", id="reservation-time", type="date", data-role="datebox", data-options='{"mode": "timebox", "timeFormat": 12}', placeholder="Time", data-theme="c")
+          input(name="reservation_time", id="reservation-time", type="date", data-role="datebox", data-options='{"mode": "timebox", "timeFormat": 12}', placeholder="Time")
           
 
         div(data-role="fieldcontain")
@@ -270,7 +329,7 @@ html(lang="en")
             label(for="wait") Wait
           
           // Added later to a pager API
-          // div.pager-number #52
+          // div.large-number #52
           
         div(data-role="fieldcontain")
           label(for='notes') Notes

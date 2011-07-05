@@ -17,36 +17,49 @@
   margin-right: -60px;
   text-align: center;
 }
-// Dialog modifications
-[data-role=dialog] {
-  .ui-slider-input {
+
+.ui-slider-input {
     width: 23px;
     font-weight: bold;
   }
 
-  .ui-content {
-    padding-top: 0;
-  }
-
-  .ui-input-text {
-    font-weight: bold;
-    font-size: 90%;
-    color: #444;
-  }
-  ::-webkit-input-placeholder {
-    font-style: italic;
-    color: #777;
-  }
-  :-moz-placeholder {
-    font-style: italic;
-    color: #777;
-  }
-
-  label {
-    font-size: 90%;
-    font-weight: bold;
-  }
+.ui-content {
+// Remove content top whitespace
+  padding-top: 0;
 }
+
+
+.ui-listview-filter {
+// Fix search bar spacing
+  margin-top: 0px;
+  margin-bottom: 15px;
+}
+
+.ui-input-text {
+  font-weight: bold;
+  font-size: 90%;
+  color: #444;
+}
+
+.ui-btn{
+// Correct Add button spacing
+-margin-top: 0.8em;
+}
+
+::-webkit-input-placeholder {
+  font-style: italic;
+  color: #777;
+}
+:-moz-placeholder {
+  font-style: italic;
+  color: #777;
+}
+
+label {
+  font-size: 90%;
+  font-weight: bold;
+}
+
 
 // Centers containers
 [data-role=fieldcontain] {
@@ -62,49 +75,56 @@
     padding-left: 10px;
     padding-right: 14px;
   }
-// Properly hides radio buttons behind jQuery Mobile labels
+
   .ui-btn{
+  // Properly hide radio buttons behind jQuery Mobile labels
   top:3px;
   }
 }
 
-// Mobile view corrections
 @media all and (max-width: 450px){
-// Corrects textless boxes being offset by small page padding
-    .ui-btn{
-    top:-5px;
-  }
-  .ui-field-contain { 
-    padding: .5em 0;
-  }
+
+.ui-btn{
+  // Correct textless boxes being offset by small page padding
+  top:-5px;
+}
+.ui-field-contain { 
+  padding: .5em 0;
+}
+
+.ui-listview-filter {
+// Fix search bar spacing
+  margin-top: 0px;
+  margin-bottom: 20px;
+}
+
+
 
 // Hides form labels on small screens
-  form {
-    label {
-      text-align: center;
 
-      &.ui-input-text {
-        display: none;
-      }
-      &.ui-slider {
-        display: block;
-        margin-bottom: -8px;
-      }
+  label {
+    text-align: center;
+
+    &.ui-input-text {
+      display: none;
+    }
+    &.ui-slider {
+      display: block;
+      margin-bottom: -8px;
     }
   }
 }
 
-// Large screen adjustments
 @media all and (min-width: 451px){
 
-// Displays labels to the right
   form {
+    // Displays labels to the right
     label {
       text-align: right;
       display: block;
     }
-// Hides placeholder text
-    ::-webkit-input-placeholder {
+      // Hides placeholder text
+              ::-webkit-input-placeholder {
       text-indent: -9999px;
     }
     :-moz-placeholder {
