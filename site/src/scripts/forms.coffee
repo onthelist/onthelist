@@ -2,28 +2,14 @@ $ ->
   $('a[href=#add]').click (e) ->
     do e.preventDefault
 
-    el = $ '<li></li>'
-    link = $ '<a></a>'
-    el.append link
+    dia = $ '#add-party'
 
-    e_time = $ '<span class="time">0 min</span>'
-    link.append e_time
+    name = $('#name', dia).val()
+    size = $('#party-size', dia).val()
 
-    name = $('#name').val()
-    link.append name
+    $('#queue-list').data('$$').queue.add(name, size)
 
-    size = $('#party-size').val()
-
-    e_size = $ '<span class="ui-li-count"></span>'
-    e_size.text size
-    link.append e_size
-
-    $('#divider-010').after el
-
-    if $('#queue-list').jqmData 'listview'
-      $('#queue-list').listview 'refresh'
-
-    $('#add-party').dialog 'close'
+    dia.dialog 'close'
 
     false
 
@@ -62,7 +48,7 @@ $ ->
     do $(self).hide
 
     last_title = $('.ui-title:visible').text()
-    $('.ui-title:visible').text 'Check-In'
+    $('.ui-title:visible').text 'Choose a Party'
 
   hide_fake_page = (self) ->
     do $('a[href=#add-party]').show
