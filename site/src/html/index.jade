@@ -255,9 +255,10 @@ html(lang="en")
             option(value="first_available") First available
             option(value="booth") Booth
             option(value="outside") Outside
+
         div(data-role="fieldcontain")
           label(for="wait-time") Wait Time
-          input#wait-time(type="range", name="wait_time", value="1", min="1", max="10")
+          input#wait-time(type="range", name="wait_time", min="0", max="120", step="5", value="20")
 
         div(data-role="fieldcontain")
           fieldset(data-role="controlgroup", data-type="horizontal")

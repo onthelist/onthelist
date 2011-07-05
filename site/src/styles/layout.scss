@@ -25,9 +25,8 @@
   margin-right: -60px;
   text-align: center;
 }
-
 .ui-slider-input {
-  width: 23px;
+  width: 26px;
   font-weight: bold;
 }
 
@@ -96,18 +95,14 @@ form {
   }
 }
 
-@media all and (max-width: 450px){
+@media all and (max-width: 450px) {
   .ui-btn {
     // Correct textless boxes being offset by small page padding
-    top:-5px;
+    top: -5px;
   }
-
-  [data-role=fieldcontain] {
-    fieldset {
-      margin: 2px auto;
-      text-align: center;
-      
-    }
+  .ui-field-contain { 
+    // Reduce the vert padding on mobile-view forms
+    padding: .5em 0;
   }
 
   [data-role=controlgroup] {
@@ -134,6 +129,11 @@ form {
         margin-bottom: -8px;
       }
     }
+  }
+  
+  .ui-listview-filter {
+    // Fix search bar spacing
+    margin-bottom: 20px;
   }
 }
 
