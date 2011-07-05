@@ -107,12 +107,16 @@ $ ->
 
     queue_ds.all (rows) ->
       if rows.length < 12
-        queue.add('John Smith', 4, (new Date).add(-5).minutes())
-        queue.add('Jane Smith', 2, (new Date).add(-10).minutes())
-        queue.add('Zack Bloom', 9, (new Date).add(-12).minutes())
-        queue.add('Eric Wright', 1, (new Date).add(-20).minutes())
-        queue.add('Marshall Miller', 4, (new Date).add(-32).minutes())
-        queue.add('Dick Lombardi', 2, (new Date).add(-67).minutes())
+        fnames = ['John', 'Jane', 'Zack', 'Marshall', 'Dick']
+        lnames = ['Smith', 'Bloom', 'Wright', 'Miller', 'Lombardi']
+
+        name = fnames[Math.floor(Math.random() * 5)] + ' ' +
+          lnames[Math.floor(Math.random() * 5)]
+
+        size = Math.ceil(Math.random() * 12)
+        time = Math.floor(Math.random() * 90)
+
+        queue.add(name, size, (new Date).add(-time).minutes())
         
 
 
