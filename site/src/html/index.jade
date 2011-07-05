@@ -28,12 +28,12 @@ html(lang="en")
     script(src="http://code.jquery.com/jquery-1.6.2.js")
     script(src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js")
     script(src="http://code.jquery.com/mobile/latest/jquery.mobile.js")
-    
     script(src="http://dev.jtsage.com/cdn/datebox/latest/jquery.mobile.datebox.js")
-    
+    script(src="../scripts/libs/iscroll.js")
 
     script(src="../scripts/logging.js")
     script(src="../scripts/forms.js")
+    script(src="../scripts/scroll.js")
 
     script
       $(document).bind("mobileinit", function(){
@@ -45,59 +45,60 @@ html(lang="en")
 
   body
     #queue(data-role="page", data-theme="a")
-      header(data-role="header", data-position="fixed")
+      header(data-role="header")
         nav.tabs(data-role="header", data-position="inline", data-iconpos="top")
           a(href="#add-party", data-role="button", data-transition="none") Add
           h1 The Steakhouse
           a(href="#check-in",  data-role="button", data-transition="pop") Check-In
       .content(data-role="content")
-        ul#queue-list(data-role="listview", data-filter="true", data-filter-placeholder="Search Guests")
-          li#divider-010(data-role="list-divider", data-theme="a") 0-10 mins
-          li
-            a
-              span.time 5 min
-              | John Smith
-              span.ui-li-count 5
+        .scroller
+          ul#queue-list(data-role="listview", data-filter="true", data-filter-placeholder="Search Guests")
+            li#divider-010(data-role="list-divider", data-theme="a") 0-10 mins
+            li
+              a
+                span.time 5 min
+                | John Smith
+                span.ui-li-count 5
+              
+            li
+              a
+                span.time 10 min
+                | Jane Smith
+                span.ui-li-count 5
+              
+            li#divider-1130(data-role="list-divider", data-theme="a") 11-30 mins
+            li
+              a
+                span.time 15 min
+                | Zack Bloom
+                span.ui-li-count 2
+            li
+              a
+                span.time 15 min
+                | Eric Wright
+                span.ui-li-count 2
+              
+            li#divider-3160(data-role="list-divider", data-theme="a") 31-60 mins
+            li
+              a
+                span.time 32 min
+                | Dick Lombardi
+                span.ui-li-count 3
+            li#divider-60plus(data-role="list-divider", data-theme="a") More Than 60 mins
+            li 
+              a
+                span.time 1h 7m
+                | Harry Thomas
+                span.ui-li-count 1
             
-          li
-            a
-              span.time 10 min
-              | Jane Smith
-              span.ui-li-count 5
-            
-          li#divider-1130(data-role="list-divider", data-theme="a") 11-30 mins
-          li
-            a
-              span.time 15 min
-              | Zack Bloom
-              span.ui-li-count 2
-          li
-            a
-              span.time 15 min
-              | Eric Wright
-              span.ui-li-count 2
-            
-          li#divider-3160(data-role="list-divider", data-theme="a") 31-60 mins
-          li
-            a
-              span.time 32 min
-              | Dick Lombardi
-              span.ui-li-count 3
-          li#divider-60plus(data-role="list-divider", data-theme="a") More Than 60 mins
-          li 
-            a
-              span.time 1h 7m
-              | Harry Thomas
-              span.ui-li-count 1
-          
-          li#divider-reservations(data-role="list-divider", data-theme="a") Upcoming Reservations
-          li 
-            a
-              span.time 12:45 PM
-              | Bob Brewster
-              span.ui-li-count 4
+            li#divider-reservations(data-role="list-divider", data-theme="a") Upcoming Reservations
+            li 
+              a
+                span.time 12:45 PM
+                | Bob Brewster
+                span.ui-li-count 4
 
-      footer(data-position="fixed", data-role="footer")
+      footer(data-role="footer")
         nav.menu(data-role="navbar", data-iconpos="top")
           ul
             li
@@ -108,7 +109,7 @@ html(lang="en")
               a(href="#table-seated",data-role="button", data-icon="grid") Table Chart
     
     #reservation-manager(data-role="page", data-theme="a")
-      header(data-role="header", data-position="fixed")
+      header(data-role="header")
         nav.tabs(data-role="header", data-position="inline", data-iconpos="top")
           a(href="#add-reservation", data-role="button", data-transition="none") Add
           h1 The Steakhouse
@@ -160,7 +161,7 @@ html(lang="en")
               | Bob Brewster
               span.ui-li-count 4
 
-      footer(data-position="fixed", data-role="footer")
+      footer(data-role="footer")
         nav.menu(data-role="navbar", data-iconpos="top")
           ul
             li
