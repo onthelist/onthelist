@@ -17,7 +17,7 @@
   margin-right: -60px;
   text-align: center;
 }
-
+// Dialog modifications
 [data-role=dialog] {
   .ui-slider-input {
     width: 23px;
@@ -48,6 +48,7 @@
   }
 }
 
+// Centers containers
 [data-role=fieldcontain] {
   fieldset {
     margin: 2px auto;
@@ -55,31 +56,30 @@
   }
 }
 
+// Shortens radio group padding
 [data-role=controlgroup] {
-  .ui-btn-inner {
-    // Narrow radio group buttons
+  .ui-btn-inner{
     padding-left: 10px;
     padding-right: 14px;
   }
-  
-  .ui-btn {
-    // Hide radio buttons behind jQuery Mobile labels
-    top: 3px;
+// Properly hides radio buttons behind jQuery Mobile labels
+  .ui-btn{
+  top:3px;
   }
 }
 
+// Mobile view corrections
 @media all and (max-width: 450px){
-  .ui-btn {
-    // Correct textless boxes being offset by small page padding
-    top: -5px;
+// Corrects textless boxes being offset by small page padding
+    .ui-btn{
+    top:-5px;
   }
   .ui-field-contain { 
-    // Reduce the vert padding on mobile-view forms
     padding: .5em 0;
   }
 
+// Hides form labels on small screens
   form {
-    // Hide form labels on small screens
     label {
       text-align: center;
 
@@ -94,14 +94,16 @@
   }
 }
 
+// Large screen adjustments
 @media all and (min-width: 451px){
+
+// Displays labels to the right
   form {
     label {
       text-align: right;
       display: block;
     }
-
-    // Hide placeholder text on screens large enough for labels
+// Hides placeholder text
     ::-webkit-input-placeholder {
       text-indent: -9999px;
     }
