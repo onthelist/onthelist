@@ -5,6 +5,14 @@
   margin-right: 12px;
   display: inline-block;
 }
+
+.date {
+  text-align: right;
+  float:right;
+  color: #E8F3FF;
+  display: inline-block;
+}
+
 .pager-number {
   display: block;
   text-align: center;
@@ -21,18 +29,6 @@
 .ui-slider-input {
     width: 23px;
     font-weight: bold;
-  }
-
-.ui-content {
-// Remove content top whitespace
-  padding-top: 0;
-}
-
-
-.ui-listview-filter {
-// Fix search bar spacing
-  margin-top: 0px;
-  margin-bottom: 15px;
 }
 
 .ui-input-text {
@@ -41,17 +37,14 @@
   color: #444;
 }
 
-.ui-btn{
-// Correct Add button spacing
--margin-top: 0.8em;
-}
-
 ::-webkit-input-placeholder {
   font-style: italic;
+  font-weight: normal;
   color: #777;
 }
 :-moz-placeholder {
   font-style: italic;
+  font-weight: normal;
   color: #777;
 }
 
@@ -60,8 +53,6 @@ label {
   font-weight: bold;
 }
 
-
-// Centers containers
 [data-role=fieldcontain] {
   fieldset {
     margin: 2px auto;
@@ -69,67 +60,68 @@ label {
   }
 }
 
-// Shortens radio group padding
 [data-role=controlgroup] {
+  // Shorten radio group padding
   .ui-btn-inner{
     padding-left: 10px;
     padding-right: 14px;
   }
-
   .ui-btn{
   // Properly hide radio buttons behind jQuery Mobile labels
   top:3px;
   }
 }
 
+[data-role=dialog] {
+  .ui-content {
+    padding-top: 0;
+  }
+}
+
+form{
+  .ui-field-contain { 
+    padding: 0.5em 0;
+  }
+}
+
 @media all and (max-width: 450px){
+  .ui-btn{
+    // Correct textless boxes being offset by small page padding
+    top:-5px;
+  }
 
-.ui-btn{
-  // Correct textless boxes being offset by small page padding
-  top:-5px;
-}
-.ui-field-contain { 
-  padding: .5em 0;
-}
+  // Hides form labels on small screens
+    form {
+    label {
+      text-align: center;
 
-.ui-listview-filter {
-// Fix search bar spacing
-  margin-top: 0px;
-  margin-bottom: 20px;
-}
-
-
-
-// Hides form labels on small screens
-
-  label {
-    text-align: center;
-
-    &.ui-input-text {
-      display: none;
-    }
-    &.ui-slider {
-      display: block;
-      margin-bottom: -8px;
+      &.ui-input-text {
+        display: none;
+      }
+      &.ui-slider {
+        display: block;
+        margin-bottom: -8px;
+      }
     }
   }
 }
 
 @media all and (min-width: 451px){
-
   form {
-    // Displays labels to the right
     label {
       text-align: right;
       display: block;
     }
-      // Hides placeholder text
-              ::-webkit-input-placeholder {
+    ::-webkit-input-placeholder {
       text-indent: -9999px;
     }
     :-moz-placeholder {
       text-indent: -9999px;
     }
   }
+  [data-role=fieldcontain] {
+    fieldset {
+      margin: -15px auto 2px auto;
+    }
+  }
 }
-

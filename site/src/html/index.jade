@@ -111,7 +111,8 @@ html(lang="en")
           h1 The Steakhouse
       .content(data-role="content")
         ul#queue-list(data-role="listview", data-filter="true", data-filter-placeholder="Search Reservations")
-          li#divider-today(data-role="list-divider", data-theme="a") Today
+          li(data-role="list-divider", data-theme="a") Today
+            span.date 7/4/2011
           li
             a
               span.time 11:40 AM
@@ -124,7 +125,8 @@ html(lang="en")
               | Bob Johnson
               span.ui-li-count 1
             
-          li#divider-Tomorrow(data-role="list-divider", data-theme="a") Tomorrow
+          li(data-role="list-divider", data-theme="a") Tomorrow
+            span.date 7/5/2011
           li
             a
               span.time 2:00 PM
@@ -136,20 +138,23 @@ html(lang="en")
               | Twig Richer
               span.ui-li-count 2
             
-          li#divider-day3(data-role="list-divider", data-theme="a") 7-16-11
+          li(data-role="list-divider", data-theme="a") Wednesday
+            span.date 7/6/2011
           li
             a
               span.time 32 min
               | Dick Lombardi
               span.ui-li-count 3
-          li#divider-day4(data-role="list-divider", data-theme="a") 7-17-11
+          li(data-role="list-divider", data-theme="a") Thursday
+            span.date 7/7/2011
           li 
             a
               span.time 4:45 PM
               | Joe Shmoe
               span.ui-li-count 1
           
-          li#divider-day5(data-role="list-divider", data-theme="a") 7-18-11
+          li#divider-day5(data-role="list-divider", data-theme="a") Friday
+            span.date 7/8/2011
           li 
             a
               span.time 12:45 PM
@@ -175,49 +180,49 @@ html(lang="en")
           h1 The Steakhouse
           
       .content(data-role="content")
-        div(data-role="fieldcontain")
-          label(for='name') Name
-          input#name(type="text", name="name", value="John Smith", placeholder="Name", autofocus="autofocus")
-        
-        div(data-role="fieldcontain")
-          label(for='phone_number') Phone Number
-          input#phone_number(type="tel", name="phone_number", value="2483524997", placeholder="Phone Number")
-          
-        div(data-role="fieldcontain")
-          label(for="party-size") Party Size
-          input#party-size(type="range", name="party_size", value="5", min="1", max="10")
-            
-        div(data-role="fieldcontain")
-          label(for='seating-preference') Seating Preference
-          select#seating-preference(name="seating-preference", data-native-menu="false")
-            option(value="first_available") First available
-            option(value="booth") Booth
-            option(value="outside") Outside
-        div(data-role="fieldcontain")
-          label(for="wait-time")
-            | Wait Time
-            div Estimated 12 min
-          
-          input#wait-time(type="range", name="wait_time", value="10", min="1", max="10")
-
-        div(data-role="fieldcontain")
-          fieldset(data-role="controlgroup", data-type="horizontal")
-            input(type="radio", name="alert_method", id="text-message", value="text-message", checked="checked")
-            label(for="text-message") Text
-            input(type="radio", name="alert_method", id="call", value="call")
-            label(for="call") Call
-            input(type="radio", name="alert_method", id="page", value="page")
-            label(for="page") Page
-            input(type="radio", name="alert_method", id="wait", value="wait")
-            label(for="wait") Wait
-          
-          // To be added to a pager API
-          // div.large-number Pager #52
+        form
+          div(data-role="fieldcontain")
+            label(for='name') Name
+            input#name(type="text", name="name", value="John Smith", placeholder="Name", autofocus="autofocus")
           
           div(data-role="fieldcontain")
-            label(for='notes') Notes
-            input#notes(type="text", name="notes", value="", placeholder="Notes")
-          a(href='#add', data-role="button") Add
+            label(for='phone_number') Phone Number
+            input#phone_number(type="tel", name="phone_number", value="2483524997", placeholder="Phone Number")
+            
+          div(data-role="fieldcontain")
+            label(for="party-size") Party Size
+            input#party-size(type="range", name="party_size", value="5", min="1", max="10")
+              
+          div(data-role="fieldcontain")
+            label(for='seating-preference') Seating Preference
+            select#seating-preference(name="seating-preference", data-native-menu="false")
+              option(value="first_available") First available
+              option(value="booth") Booth
+              option(value="outside") Outside
+          div(data-role="fieldcontain")
+            label(for="wait-time") Wait Time   
+            input#wait-time(type="range", name="wait_time", value="10", min="1", max="10")
+
+          div(data-role="fieldcontain")
+            fieldset(data-role="controlgroup", data-type="horizontal")
+              input(type="radio", name="alert_method", id="text-message", value="text-message", checked="checked")
+              label(for="text-message") Text
+              input(type="radio", name="alert_method", id="call", value="call")
+              label(for="call") Call
+              input(type="radio", name="alert_method", id="page", value="page")
+              label(for="page") Page
+              input(type="radio", name="alert_method", id="qr-code", value="qr_code")
+              label(for="qr-code") Code
+              input(type="radio", name="alert_method", id="wait", value="wait")
+              label(for="wait") Wait
+            
+            // To be added to a pager API
+            // div.large-number Pager #52
+            
+            div(data-role="fieldcontain")
+              label(for='notes') Notes
+              input#notes(type="text", name="notes", value="", placeholder="Notes")
+            a(href='#add', data-role="button") Add
           
       footer(data-position="fixed", data-role="footer")
         nav.menu(data-role="navbar", data-iconpos="top")
@@ -252,10 +257,7 @@ html(lang="en")
             option(value="booth") Booth
             option(value="outside") Outside
         div(data-role="fieldcontain")
-          label(for="wait-time")
-            | Wait Time
-            div Estimated 12 min
-          
+          label(for="wait-time") Wait Time
           input#wait-time(type="range", name="wait_time", value="1", min="1", max="10")
 
         div(data-role="fieldcontain")
@@ -325,6 +327,8 @@ html(lang="en")
             label(for="call") Call
             input(type="radio", name="alert_method", id="page", value="page")
             label(for="page") Page
+            input(type="radio", name="alert_method", id="qr-code", value="qr_code")
+            label(for="qr-code") Code
             input(type="radio", name="alert_method", id="wait", value="wait")
             label(for="wait") Wait
           
