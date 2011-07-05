@@ -86,9 +86,11 @@ label {
 
 
 @media all and (max-width: 450px) {
-  .ui-btn {
-    // Correct textless boxes being offset by small page padding
-    top: -5px;
+  .date-time{
+    .ui-btn {
+      // Correct textless boxes being offset by small page padding
+      top: -4px;
+    }
   }
 
   [data-role=controlgroup] {
@@ -120,11 +122,6 @@ label {
         margin-bottom: -8px;
       }
     }
-  }
-  
-  .ui-listview-filter {
-    // Fix search bar spacing
-    margin-bottom: 20px;
   }
 }
 

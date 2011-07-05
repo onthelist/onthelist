@@ -35,9 +35,8 @@ html(lang="en")
     script
       $(document).bind("mobileinit", function(){
         window.scrollTo(0, 1);
-      });
-      $( document ).bind( "mobileinit", function(){
-        $.mobile.page.prototype.options.degradeInputs.date = 'text'; 
+        
+        $.mobile.page.prototype.options.degradeInputs.date = 'text';
       });
 
   body
@@ -313,29 +312,12 @@ html(lang="en")
             option(value="outside") Outside
             
         // A word of warning, the date and time input variables seem to be touchy when reordering them.
-        div(data-role="fieldcontain")
+        div.date-time(data-role="fieldcontain")
           label(for="reservation-date") Date
-          input(name="reservation_date", id="reservation-date", type="date", data-role="datebox", data-options='{"mode": "calbox"}', placeholder="Date")
-        div(data-role="fieldcontain")
+          input(name="reservation_date", id="reservation-date", type="date", data-role="datebox", data-options='{"mode": "calbox", "pickPageTheme": "b"}', placeholder="Date")
+        div.date-time(data-role="fieldcontain")
           label(for="reservation-time") Time
-          input(name="reservation_time", id="reservation-time", type="date", data-role="datebox", data-options='{"mode": "timebox", "timeFormat": 12}', placeholder="Time")
-          
-
-        div(data-role="fieldcontain")
-          fieldset(data-role="controlgroup", data-type="horizontal")
-            input(type="radio", name="alert_method", id="text-message", value="text-message", checked="checked")
-            label(for="text-message") Text
-            input(type="radio", name="alert_method", id="call", value="call")
-            label(for="call") Call
-            input(type="radio", name="alert_method", id="page", value="page")
-            label(for="page") Page
-            input(type="radio", name="alert_method", id="qr-code", value="qr_code")
-            label(for="qr-code") Code
-            input(type="radio", name="alert_method", id="wait", value="wait")
-            label(for="wait") Wait
-          
-          // Added later to a pager API
-          // div.large-number #52
+          input(name="reservation_time", id="reservation-time", type="date", data-role="datebox", data-options='{"mode": "timebox", "timeFormat": 12, "pickPageTheme": "b"}', placeholder="Time")
           
         div(data-role="fieldcontain")
           label(for='notes') Notes
