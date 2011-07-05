@@ -25,11 +25,16 @@ html(lang="en")
     script(src="http://code.jquery.com/jquery-1.6.2.js")
     script(src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js")
     script(src="http://code.jquery.com/mobile/latest/jquery.mobile.js")
-    
+
     script(src="http://dev.jtsage.com/cdn/datebox/latest/jquery.mobile.datebox.js")
     
-
+    script(src="https://raw.github.com/brianleroux/lawnchair/master/src/Lawnchair.js")
+    script(src="https://raw.github.com/brianleroux/lawnchair/master/src/adapters/dom.js")
+      
+    script(src="http://datejs.googlecode.com/svn/trunk/build/date-en-US.js")
+      
     script(src="../scripts/logging.js")
+    script(src="../scripts/data.js")
     script(src="../scripts/forms.js")
 
     script
@@ -44,56 +49,16 @@ html(lang="en")
     #queue(data-role="page", data-theme="a")
       header(data-role="header", data-position="fixed")
         nav.tabs(data-role="header", data-position="inline", data-iconpos="top")
-          a(href="#add-party", data-role="button", data-transition="none") Add
+          a(href="#add-party", data-role="button", data-transition="none", data-rel="dialog") Add
           h1 The Steakhouse
           a(href="#check-in",  data-role="button", data-transition="none") Check-In
       .content(data-role="content")
         ul#queue-list(data-role="listview", data-filter="true", data-filter-placeholder="Search Guests")
-          li#divider-010(data-role="list-divider", data-theme="a") 0-10 mins
-          li
-            a(href="#view-party")
-              span.time 5 min
-              | John Smith
-              span.ui-li-count 5
-            
-          li
-            a(href="#view-party")
-              span.time 10 min
-              | Jane Smith
-              span.ui-li-count 5
-            
-          li#divider-1130(data-role="list-divider", data-theme="a") 11-30 mins
-          li
-            a(href="#view-party")
-              span.time 15 min
-              | Zack Bloom
-              span.ui-li-count 2
-          li
-            a(href="#view-party")
-              span.time 15 min
-              | Eric Wright
-              span.ui-li-count 2
-            
-          li#divider-3160(data-role="list-divider", data-theme="a") 31-60 mins
-          li
-            a(href="#view-party")
-              span.time 32 min
-              | Dick Lombardi
-              span.ui-li-count 3
-          li#divider-60plus(data-role="list-divider", data-theme="a") More Than 60 mins
-          li 
-            a(href="#view-party")
-              span.time 1h 7m
-              | Harry Thomas
-              span.ui-li-count 1
-          
-          li#divider-reservations(data-role="list-divider", data-theme="a") Upcoming Reservations
-          li 
-            a(href="#view-party")
-              span.time 12:45 PM
-              | Bob Brewster
-              span.ui-li-count 4
-
+          li#divider-010(data-role="list-divider", data-theme="a", data-end=10) 0-10 mins
+          li#divider-1130(data-role="list-divider", data-theme="a", data-start=11, data-end=30) 11-30 mins
+          li#divider-3160(data-role="list-divider", data-theme="a", data-start=31, data-end=60) 31-60 mins
+          li#divider-60plus(data-role="list-divider", data-theme="a", data-start=61) More Than 60 mins
+          li#divider-reservations(data-role="list-divider", data-theme="a", data-place='false') Upcoming Reservations
       footer(data-position="fixed", data-role="footer")
         nav.menu(data-role="navbar", data-iconpos="top")
           ul

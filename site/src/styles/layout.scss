@@ -79,8 +79,8 @@ label {
   
 [data-role=controlgroup] {
   .ui-btn {
-  // Properly hide radio buttons behind jQuery Mobile labels
-  top:3px;
+    // Properly hide radio buttons behind jQuery Mobile labels
+    top: 3px;
   }
 }
 
@@ -90,11 +90,6 @@ label {
   }
 }
 
-form {
-  .ui-field-contain { 
-    padding: 0.5em 0;
-  }
-}
 
 @media all and (max-width: 450px) {
   .date-time {
@@ -102,11 +97,6 @@ form {
       // Corrects date and time buttons from being too low for their input box.
       top: -4px;
     }
-  }
-  
-  .ui-field-contain { 
-    // Reduce the vert padding on mobile-view forms
-    padding: .5em 0;
   }
 
   [data-role=controlgroup] {
@@ -121,11 +111,16 @@ form {
     }
   }
   form.content {
-    // Hide form labels on small screens
+    .ui-field-contain { 
+      // Reduce the vert padding on mobile-view forms
+      padding: 0.5em 0;
+    }
+    
     label {
       text-align: center;
 
       &.ui-input-text {
+        // Hide form labels on small screens
         display: none;
       }
       &.ui-slider {
@@ -142,6 +137,7 @@ form {
       text-align: right;
       display: inline-block;
     }
+  
     // Hide placeholder text on screens large enough for labels
     ::-webkit-input-placeholder {
       text-indent: -9999px;
