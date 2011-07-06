@@ -8,7 +8,7 @@ html(lang="en")
 
     meta(name="description", content="")
     meta(name="author", content="")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0, user-scalable=no")
     meta(name="apple-mobile-web-app-capable", content="yes")
     meta(name="apple-mobile-web-app-status-bar-style", content="black")
 
@@ -32,9 +32,13 @@ html(lang="en")
     script(src="https://raw.github.com/brianleroux/lawnchair/master/src/adapters/dom.js")
       
     script(src="http://datejs.googlecode.com/svn/trunk/build/date-en-US.js")
+
+    script(src="../scripts/utils/date.js")
+    script(src="../scripts/utils/elements.js")
       
     script(src="../scripts/logging.js")
-    script(src="../scripts/data.js")
+    script(src="../scripts/time_list.js")
+    script(src="../scripts/queue.js")
     script(src="../scripts/forms.js")
 
     script
@@ -54,11 +58,6 @@ html(lang="en")
           a(href="#check-in",  data-role="button", data-transition="none") Check-In
       .content(data-role="content")
         ul#queue-list(data-role="listview", data-filter="true", data-filter-placeholder="Search Guests")
-          li#divider-010(data-role="list-divider", data-theme="a", data-end=10) 0-10 mins
-          li#divider-1130(data-role="list-divider", data-theme="a", data-start=11, data-end=30) 11-30 mins
-          li#divider-3160(data-role="list-divider", data-theme="a", data-start=31, data-end=60) 31-60 mins
-          li#divider-60plus(data-role="list-divider", data-theme="a", data-start=61) More Than 60 mins
-          li#divider-reservations(data-role="list-divider", data-theme="a", data-place='false') Upcoming Reservations
       footer(data-position="fixed", data-role="footer")
         nav.menu(data-role="navbar", data-iconpos="top")
           ul
@@ -272,7 +271,7 @@ html(lang="en")
       form.content(data-role="content")
         div(data-role="fieldcontain")
           label(for='name') Name
-          input#name(type="text", name="name", value="", placeholder="Name", autofocus="autofocus")
+          input#name(type="text", name="name", value="", placeholder="Name", autofocus="autofocus", autocapitalize="on")
         
         div(data-role="fieldcontain")
           label(for='phone_number') Phone Number

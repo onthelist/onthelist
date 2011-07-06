@@ -8,5 +8,6 @@ params =
   'Message.Subject.Data': 'a'
   'Message.Body.Text.Data': 'Test'
 
+
 client.call("SendEmail", params, (resp) ->
   console.log resp)
