@@ -6,6 +6,36 @@ $$ = (node) ->
 
   return data
 
+Date.prototype.setISO8601 = (string) ->
+  regexp = "([0-9]{4})(-([0-9]{2})(-([0-9]{2})" +
+      "(T([0-9]{2}):([0-9]{2})(:([0-9]{2})(\.([0-9]+))?)?" +
+      "(Z|(([-+])([0-9]{2}):([0-9]{2})))?)?)?)?"
+  d = string.match(new RegExp(regexp))
+
+  offset = 0
+  date = new Date(d[1], 0, 1)
+
+  if d[3]
+    date.setMonth(d[3] - 1)
+  if d[5]
+    date.setDate(d[5])
+  if d[7]
+    date.setHours(d[7])
+  if d[8]
+    date.setMinutes(d[8])
+  if d[10]
+    date.setSeconds(d[10])
+  if d[12]
+    date.setMilliseconds(Number("0." + d[12]) * 1000)
+  if d[14]
+    offset = (Number(d[16]) * 60) + Number(d[17])
+    offset *= ((d[15] == '-') ? 1 : -1)
+
+  offset -= date.getTimezoneOffset()
+  time = (Number(date) + (offset * 60 * 1000))
+
+  this.setTime(Number(time))
+
 class Queue
   constructor: (@elem, @ds) ->
     self = $$(@elem).queue = this
@@ -30,7 +60,7 @@ class Queue
 
 get_elapsed = (date) ->
   if typeof date == 'string'
-    date = Date._parse date
+    date = (new Date).setISO8601(date)
   else
     date = date.getTime()
 
@@ -90,7 +120,6 @@ $ ->
           # If it's a divider, we also won't place beyond it:
           return (elem.getAttribute('data-role') != 'list-divider')
 
-        end = null
         if elem.getAttribute('data-role') == 'list-divider'
           start = parseInt(elem.getAttribute('data-start')) || 0
         else
@@ -105,14 +134,20 @@ $ ->
 
     queue = new Queue(q_elem, queue_ds)
 
+    queue_ds.each (row) ->
+      # DOM adaptor doesn't seem to support find
+      if get_elapsed(row.add_time) > 60 * 4
+        queue_ds.remove row
+
     queue_ds.all (rows) ->
       if rows.length < 12
-        queue.add('John Smith', 4, (new Date).add(-5).minutes())
-        queue.add('Jane Smith', 2, (new Date).add(-10).minutes())
-        queue.add('Zack Bloom', 9, (new Date).add(-12).minutes())
-        queue.add('Eric Wright', 1, (new Date).add(-20).minutes())
-        queue.add('Marshall Miller', 4, (new Date).add(-32).minutes())
-        queue.add('Dick Lombardi', 2, (new Date).add(-67).minutes())
-        
+        fnames = ['John', 'Jane', 'Zack', 'Marshall', 'Dick']
+        lnames = ['Smith', 'Bloom', 'Wright', 'Miller', 'Lombardi']
 
+        name = fnames[Math.floor(Math.random() * 5)] + ' ' +
+          lnames[Math.floor(Math.random() * 5)]
 
+        size = Math.ceil(Math.random() * 12)
+        time = Math.floor(Math.random() * 90)
+
+        queue.add(name, size, (new Date).add(-time).minutes())
