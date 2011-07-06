@@ -108,7 +108,7 @@ html(lang="en")
           a(href="#modify-party", data-role="button", data-transition="none") Edit
           
       form(data-role="content")
-        // div.centered-wrapper
+        div.centered-wrapper
           div(data-role="fieldcontain")
             label.ui-input-text Name
             #party-name-details.info John Smith
@@ -142,15 +142,21 @@ html(lang="en")
             label.ui-input-text Estimated Wait Time Remaining
             #estimated-wait-time-remaining-details.info 3 Minutes
 
+        a(href="#alert-party",data-role="button", data-theme="e") Alert
+        
+        a(href="#check-in-party",data-role="button", data-theme="a") Check-In
+         
+        a(href="#check-in-party",data-role="button", data-theme="d") Delete 
+            
       footer(data-position="fixed", data-role="footer")
         nav.menu(data-role="navbar", data-iconpos="top")
           ul
             li
-              a(href="#alert-party",data-role="button", data-theme="e") Alert
+              a(href="#queue",data-role="button", data-icon="home", data-theme="b") Queue
             li
-              a(href="#check-in-party",data-role="button", data-theme="a") Check-In
+              a(href="#reservations", data-role="button", data-icon="gear") Reservations
             li
-              a(href="#check-in-party",data-role="button", data-theme="b") Delete 
+              a(href="#tablechart",data-role="button", data-icon="grid") Table Chart
 
      // ---------------------------------------------
     // #reservations -> reservation name -> #view-reservation              
@@ -162,43 +168,50 @@ html(lang="en")
           a(href="#modify-party", data-role="button", data-transition="none") Edit
           
       form(data-role="content")
-        div(data-role="fieldcontain")
-          label.ui-input-text Name
-          #party-name-details.info John Smith
+        div.centered-wrapper
+          div(data-role="fieldcontain")
+            label.ui-input-text Name
+            #party-name-details.info John Smith
+            
+          div(data-role="fieldcontain")
+            label.ui-input-text Phone
+            #phone-number-details.info 555-345-2942
+            
+          div(data-role="fieldcontain")
+            label.ui-input-text Party Size
+            #party-size-details.info 5
           
-        div(data-role="fieldcontain")
-          label.ui-input-text Phone
-          #phone-number-details.info 555-345-2942
+          div(data-role="fieldcontain")
+            label.ui-input-text Seating Preference
+            #seating-preference-details.info First available
+            
+          div(data-role="fieldcontain")
+            label.ui-input-text Date
+            #date-details.info  7/5/2011
           
-        div(data-role="fieldcontain")
-          label.ui-input-text Party Size
-          #party-size-details.info 5
-        
-        div(data-role="fieldcontain")
-          label.ui-input-text Seating Preference
-          #seating-preference-details.info First available
+          div(data-role="fieldcontain")
+            label.ui-input-text Time
+            #time-details.info  5:10 PM
           
-        div(data-role="fieldcontain")
-          label.ui-input-text Date
-          #date-details.info  7/5/2011
-        
-        div(data-role="fieldcontain")
-          label.ui-input-text Time
-          #time-details.info  5:10 PM
-        
-        div(data-role="fieldcontain")
-          label.ui-input-text Notes
-          #note-details.info Prefers a Window seat
-
-      footer(data-position="fixed", data-role="footer")
-        nav.menu(data-role="navbar", data-iconpos="top")
-          ul
-            li
-              a(href="#alert-party",data-role="button", data-theme="e") Alert
-            li
-              a(href="#check-in-party",data-role="button", data-theme="a") Check-In
-            li
-              a(href="#check-in-party",data-role="button", data-theme="c") Delete 
+          div(data-role="fieldcontain")
+            label.ui-input-text Notes
+            #note-details.info Prefers a Window seat
+          
+      a(href="#alert-party",data-role="button", data-theme="e") Alert
+      
+      a(href="#check-in-party",data-role="button", data-theme="a") Check-In
+       
+      a(href="#check-in-party",data-role="button", data-theme="d") Delete 
+          
+    footer(data-position="fixed", data-role="footer")
+      nav.menu(data-role="navbar", data-iconpos="top")
+        ul
+          li
+            a(href="#queue",data-role="button", data-icon="home") Queue
+          li
+            a(href="#reservations", data-role="button", data-icon="gear", data-theme="b") Reservations
+          li
+            a(href="#tablechart",data-role="button", data-icon="grid") Table Chart
 
     
      // ---------------------------------------------
@@ -279,6 +292,11 @@ html(lang="en")
         div(data-role="fieldcontain")
           label(for="wait-time") Wait Time
           input#wait-time(type="range", name="wait_time", min="0", max="120", step="5", value="20")
+        
+        div(data-role="fieldcontain")
+          fieldset(data-role="controlgroup", data-type="horizontal")
+            input(type="checkbox", name="called_ahead", id="called-ahead", value="called-ahead")
+            label(for="called-ahead") Called Ahead
 
         div(data-role="fieldcontain")
           fieldset(data-role="controlgroup", data-type="horizontal")

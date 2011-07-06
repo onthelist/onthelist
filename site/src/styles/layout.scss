@@ -90,6 +90,48 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+// Converts the D theme buttons to have a red color scheme. Used for the delete button
+.ui-btn-up-d {
+  border: 1px solid #222;
+  background: #F73939;
+  font-weight: bold;
+  color: #FFF;
+  text-shadow: 0 -1px 1px #000;
+  background-image: -moz-linear-gradient(top, #F73939, #C12E2E);
+  background-image: -webkit-gradient(linear,left top,left bottom, color-stop(0, #F73939), color-stop(1, #C12E2E));
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#F73939', EndColorStr='#EF4A4A')";
+}
+.ui-btn-up-d a.ui-link-inherit {
+  color: #FFF;
+}
+.ui-btn-hover-d {
+  border: 1px solid #000;
+  background: #EF4A4A;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 -1px 1px #000;
+  background-image: -moz-linear-gradient(top, #EF4A4A, #C12E2E);
+  background-image: -webkit-gradient(linear,left top,left bottom, color-stop(0, #EF4A4A), color-stop(1, #C12E2E));
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#EF4A4A', EndColorStr='#C12E2E')";
+}
+.ui-btn-hover-d a.ui-link-inherit {
+  color: #fff;
+}
+.ui-btn-down-d {
+  border: 1px solid #000;
+  background: #C12E2E;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 -1px 1px #000;
+  background-image: -moz-linear-gradient(top, #C12E2E, #F73939);
+  background-image: -webkit-gradient(linear,left top,left bottom, color-stop(0, #C12E2E), color-stop(1, #F73939));
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#C12E2E', EndColorStr='#F73939')";
+}
+.ui-btn-down-d a.ui-link-inherit {
+  color: #fff;
+}
+// End of D theme conversion
+
 [data-role=controlgroup] {
   .ui-btn {
     // Properly hide radio buttons behind jQuery Mobile labels
@@ -103,7 +145,6 @@ input::-webkit-inner-spin-button {
   }
 }
 
-
 @media all and (max-width: 450px) {
   .date-time {
     .ui-btn {
@@ -111,16 +152,11 @@ input::-webkit-inner-spin-button {
       top: -4px;
     }
   }
-
   [data-role=controlgroup] {
     .ui-btn-inner {
       // Narrow radio group buttons
       padding-left: 8px;
       padding-right: 12px;
-    }
-    .ui-btn {
-      // Hide radio buttons behind jQuery Mobile labels
-      top: 3px;
     }
   }
   form.content {
