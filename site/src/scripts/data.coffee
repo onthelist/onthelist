@@ -55,7 +55,7 @@ add_list_row = (elem, row) ->
 
   el = $ '<li></li>'
   link = $ '<a></a>'
-  link.attr('href', '#modify-party')
+  link.attr('href', '#view-party')
   el.append link
 
   elapsed = get_elapsed row.add_time
