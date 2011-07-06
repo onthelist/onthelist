@@ -203,17 +203,17 @@ html(lang="en")
        
       a(href="#check-in-party",data-role="button", data-theme="d") Delete 
           
-    footer(data-position="fixed", data-role="footer")
-      nav.menu(data-role="navbar", data-iconpos="top")
-        ul
-          li
-            a(href="#queue",data-role="button", data-icon="home") Queue
-          li
-            a(href="#reservations", data-role="button", data-icon="gear", data-theme="b") Reservations
-          li
-            a(href="#tablechart",data-role="button", data-icon="grid") Table Chart
+      footer(data-position="fixed", data-role="footer")
+        nav.menu(data-role="navbar", data-iconpos="top")
+          ul
+            li
+              a(href="#queue",data-role="button", data-icon="home") Queue
+            li
+              a(href="#reservations", data-role="button", data-icon="gear", data-theme="b") Reservations
+            li
+              a(href="#tablechart",data-role="button", data-icon="grid") Table Chart
 
-    
+              
      // ---------------------------------------------
     // #queue -> #view-party -> #modify-party          
     #modify-party(data-role="dialog")
@@ -291,28 +291,35 @@ html(lang="en")
 
         div(data-role="fieldcontain")
           label(for="wait-time") Wait Time
-          input#wait-time(type="range", name="wait_time", min="0", max="120", step="5", value="20")
+          input#wait-time(type="range", name="wait_time", min="0", max="120", step="5", value="0")
         
         div(data-role="fieldcontain")
-          fieldset(data-role="controlgroup", data-type="horizontal")
-            input(type="checkbox", name="called_ahead", id="called-ahead", value="called-ahead")
-            label(for="called-ahead") Called Ahead
+          fieldset(data-role="controlgroup")
+          label(for="called-ahead") Called Ahead
+          div.center-wrapper
+            select(name="called_ahead", id="called-ahead", data-role="slider")
+              option(value="on") No
+              option(value="off") Yes
+              
 
         div(data-role="fieldcontain")
-          fieldset(data-role="controlgroup", data-type="horizontal")
-            input(type="radio", name="alert_method", id="text-message", value="text-message", checked="checked")
-            label(for="text-message") Text
-            input(type="radio", name="alert_method", id="call", value="call")
-            label(for="call") Call
-            input(type="radio", name="alert_method", id="page", value="page")
-            label(for="page") Page
-            input(type="radio", name="alert_method", id="qr-code", value="qr_code")
-            label(for="qr-code") Code
-            input(type="radio", name="alert_method", id="wait", value="wait")
-            label(for="wait") Wait
+          fieldset.form-radio(data-role="controlgroup", data-type="horizontal")
+            
+            legend Alert Method
+            div.center-wrapper
+              input#text-message(type="radio", name="alert_method", value="text-message", checked="checked")
+              label(for="text-message") Text
+              input#call(type="radio", name="alert_method", value="call")
+              label(for="call") Call
+              input#page(type="radio", name="alert_method", value="page")
+              label(for="page") Page
+              input#qr-code(type="radio", name="alert_method", value="qr_code")
+              label(for="qr-code") Code
+              input#wait(type="radio", name="alert_method", value="wait")
+              label(for="wait") Wait
           
           label(for="pager-number") Pager Number
-          input.centered-number(type="text", name="pager_number", id="pager-number", value="", maxlength="3", placeholder="###")
+          input#pager-number.centered-number(type="text", name="pager_number", value="", maxlength="3", placeholder="###")
           
         div(data-role="fieldcontain")
             label(for='notes') Notes
@@ -382,6 +389,16 @@ html(lang="en")
         h1 The Steakhouse
       form.content(data-role="content") Tablechart
         canvas#table-chart-canvas(width="100", height="100")
+      
+      footer(data-position="fixed", data-role="footer")
+        nav.menu(data-role="navbar", data-iconpos="top")
+          ul
+            li
+              a(href="#queue",data-role="button", data-icon="home") Queue
+            li
+              a(href="#reservations", data-role="button", data-icon="gear") Reservations
+            li
+              a(href="#tablechart",data-role="button", data-icon="grid", data-theme="b") Table Chart
         
         
         

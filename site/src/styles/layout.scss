@@ -17,15 +17,19 @@
 .centered-number {
   display: block !important;
   text-align: center !important;
-  margin: 10px auto !important;
+  margin: 5px auto !important;
   font-size: 1.2em !important;
   width: 40px !important;
 }
 
+// Used to center form elements
 .center-wrapper {
-  display: block;
-  margin: 2px auto !important;
-  width: 60% !important;
+  display: block !important;
+  border:1px dashed #333;
+  padding: 10px 0;
+  margin: 5px auto !important;
+  text-align:center !important;
+  
 }
 
 .info {
@@ -42,12 +46,6 @@ input.ui-slider-input {
   font-weight: bold;
 }
 
-.ui-input-text {
-  font-weight: bold;
-  font-size: 90%;
-  color: #444;
-}
-
 ::-webkit-input-placeholder {
   font-style: italic;
   font-weight: normal;
@@ -59,21 +57,21 @@ input.ui-slider-input {
   color: #777;
 }
 
-label {
-  font-size: 90%;
-  font-weight: bold;
+label, .ui-controlgroup-label {
+  font-size: 90% !important;
+  font-weight: bold !important;
 }
 
-[data-role=fieldcontain] {
+[data-role=fieldcontains] {
   fieldset {
     margin: 2px auto;
-    text-align: center;
   }
   
   form.content {
+    // Changes input text in forms such as dialogs
     .ui-input-text {
       font-weight: bold;
-      font-size: 90%;
+      font-size: 90% !important;
       color: #444;
     }
   }
@@ -132,10 +130,10 @@ input::-webkit-inner-spin-button {
 }
 // End of D theme conversion
 
-[data-role=controlgroup] {
+.form-radio {
   .ui-btn {
-    // Properly hide radio buttons behind jQuery Mobile labels
-    top: 3px;
+    // Properly hide radio buttons behind jQuery Mobile labels. Cause: shortened dialog boxes
+    top: 2px;
   }
 }
 
@@ -148,10 +146,11 @@ input::-webkit-inner-spin-button {
 @media all and (max-width: 450px) {
   .date-time {
     .ui-btn {
-      // Corrects date and time buttons from being too low for their input box.
+      // Corrects date and time buttons from being too low for their input box. Cause: shortened dialog boxes
       top: -4px;
     }
   }
+  
   [data-role=controlgroup] {
     .ui-btn-inner {
       // Narrow radio group buttons
@@ -162,19 +161,21 @@ input::-webkit-inner-spin-button {
   form.content {
     .ui-field-contain { 
       // Reduce the vert padding on mobile-view forms
-      padding: 0.5em 0;
+      padding: 5px 0;
     }
     
     label {
       text-align: center;
 
       &.ui-input-text {
-        // Hide form labels on small screens
+        // Hide form labels on small screens except sliders
         display: none;
       }
+      
+      // Remove excessive slider padding
       &.ui-slider {
         display: block;
-        margin-bottom: -8px;
+        margin-bottom: -12px;
       }
     }
   }
@@ -182,7 +183,8 @@ input::-webkit-inner-spin-button {
 
 @media all and (min-width: 451px){
   form.content {
-    label {
+    // Aligns labels and control group elements such as toggle switches
+    label,.ui-controlgroup-label {
       text-align: right;
       display: inline-block;
     }
@@ -193,11 +195,6 @@ input::-webkit-inner-spin-button {
     }
     :-moz-placeholder {
       text-indent: -9999px;
-    }
-  }
-  [data-role=fieldcontain] {
-    fieldset {
-      margin: -15px auto 2px auto;
     }
   }
 }
