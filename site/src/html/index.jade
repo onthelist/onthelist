@@ -58,11 +58,11 @@ html(lang="en")
           a(href="#check-in",  data-role="button", data-transition="none") Check-In
       .content(data-role="content")
         ul#queue-list(data-role="listview", data-filter="true", data-filter-placeholder="Search Guests")
-      footer(data-position="fixed", data-role="footer")
+      footer(data-position="fixed", data-role="footer", data-id="navigation-footer")
         nav.menu(data-role="navbar", data-iconpos="top")
           ul
             li
-              a(href="#queue",data-role="button", data-icon="home", data-theme="b") Queue
+              a.ui-btn-active.ui-state-persist(href="#queue",data-role="button", data-icon="home") Queue
             li
               a(href="#reservations", data-role="button", data-icon="gear") Reservations
             li
@@ -79,6 +79,8 @@ html(lang="en")
         ul#queue-list(data-role="listview", data-filter="true", data-filter-placeholder="Search Reservations")
           li(data-role="list-divider", data-theme="a") Today
             span.date 7/4/2011
+          li
+            a(href="#view-reservation") John Smith
           li(data-role="list-divider", data-theme="a") Tomorrow
             span.date 7/5/2011
           li(data-role="list-divider", data-theme="a") Wednesday
@@ -87,13 +89,13 @@ html(lang="en")
             span.date 7/6/2011
           li(data-role="list-divider", data-theme="a") Friday
             span.date 7/8/2011
-      footer(data-position="fixed", data-role="footer")
+      footer(data-position="fixed", data-role="footer", data-id="navigation-footer")
         nav.menu(data-role="navbar", data-iconpos="top")
           ul
             li
               a(href="#queue",data-role="button", data-icon="home") Queue
             li
-              a(href="#reservations", data-role="button", data-icon="gear", data-theme="b") Reservations
+              a.ui-btn-active.ui-state-persist(href="#reservations", data-role="button", data-icon="gear") Reservations
             li
               a(href="#tablechart",data-role="button", data-icon="grid") Table Chart
               
@@ -164,11 +166,11 @@ html(lang="en")
          
         a(href="#check-in-party",data-role="button", data-theme="f") Delete 
             
-      footer(data-position="fixed", data-role="footer")
+      footer(data-position="fixed", data-role="footer", data-id="navigation-footer")
         nav.menu(data-role="navbar", data-iconpos="top")
           ul
             li
-              a(href="#queue",data-role="button", data-icon="home", data-theme="b") Queue
+              a.ui-btn-active.ui-state-persist(href="#queue",data-role="button", data-icon="home") Queue
             li
               a(href="#reservations", data-role="button", data-icon="gear") Reservations
             li
@@ -219,13 +221,13 @@ html(lang="en")
        
       a(href="#check-in-party",data-role="button", data-theme="d") Delete 
           
-      footer(data-position="fixed", data-role="footer")
+      footer(data-position="fixed", data-role="footer", data-id="navigation-footer")
         nav.menu(data-role="navbar", data-iconpos="top")
           ul
             li
               a(href="#queue",data-role="button", data-icon="home") Queue
             li
-              a(href="#reservations", data-role="button", data-icon="gear", data-theme="b") Reservations
+              a.ui-btn-active(href="#reservations", data-role="button", data-icon="gear") Reservations
             li
               a(href="#tablechart",data-role="button", data-icon="grid") Table Chart
 
@@ -414,7 +416,7 @@ html(lang="en")
       form.content(data-role="content") Tablechart
         canvas#table-chart-canvas(width="100", height="100")
       
-      footer(data-position="fixed", data-role="footer")
+      footer(data-position="fixed", data-role="footer", data-id="navigation-footer")
         nav.menu(data-role="navbar", data-iconpos="top")
           ul
             li
@@ -422,7 +424,7 @@ html(lang="en")
             li
               a(href="#reservations", data-role="button", data-icon="gear") Reservations
             li
-              a(href="#tablechart",data-role="button", data-icon="grid", data-theme="b") Table Chart
+              a.ui-btn-active.ui-state-persist(href="#tablechart",data-role="button", data-icon="grid") Table Chart
         
         
         
