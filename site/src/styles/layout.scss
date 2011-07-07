@@ -14,10 +14,8 @@ time {
 }
 
 // Used for the pager number, needs correction later
-.centered-number {
-  display: block !important;
+.large-number {
   text-align: center !important;
-  margin: 5px auto !important;
   font-size: 1.2em !important;
   width: 40px !important;
 }
@@ -29,7 +27,6 @@ time {
   padding: 10px 0;
   margin: 5px auto !important;
   text-align:center !important;
-  
 }
 
 .info {
@@ -137,6 +134,11 @@ input::-webkit-inner-spin-button {
   }
 }
 
+div.ui-slider-switch {
+  margin-left: 17%;
+  margin-right: 17%;
+}
+
 [data-role=dialog] {
   .ui-content {
     padding-top: 0;
@@ -164,9 +166,11 @@ input::-webkit-inner-spin-button {
       padding: 5px 0;
     }
     
-    label {
+    label, .ui-controlgroup-label {
       text-align: center;
-
+    }
+      
+    label {
       &.ui-input-text {
         // Hide form labels on small screens except sliders
         display: none;
@@ -175,7 +179,7 @@ input::-webkit-inner-spin-button {
       // Remove excessive slider padding
       &.ui-slider {
         display: block;
-        margin-bottom: -12px;
+        margin-bottom: -3px;
       }
     }
   }

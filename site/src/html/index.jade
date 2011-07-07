@@ -255,7 +255,7 @@ html(lang="en")
               label(for="wait") Wait
             
             label(for="pager-number") Pager Number
-            input.centered-number(type="text", name="pager_number", id="pager-number", value="", maxlength="3", placeholder="###")
+            input.large-number(type="text", name="pager_number", id="pager-number", value="", maxlength="3", placeholder="###")
             
             div(data-role="fieldcontain")
               label(for='notes') Notes
@@ -293,17 +293,13 @@ html(lang="en")
           input#wait-time(type="range", name="wait_time", min="0", max="120", step="5", value="0")
         
         div(data-role="fieldcontain")
-          fieldset(data-role="controlgroup")
           label(for="called-ahead") Called Ahead
-          div.center-wrapper
-            select(name="called_ahead", id="called-ahead", data-role="slider")
-              option(value="on") No
-              option(value="off") Yes
+          select(name="called_ahead", id="called-ahead", data-role="slider")
+            option(value="on") No
+            option(value="off") Yes
               
-
         div(data-role="fieldcontain")
           fieldset.form-radio(data-role="controlgroup", data-type="horizontal")
-            
             legend Alert Method
             div.center-wrapper
               input#text-message(type="radio", name="alert_method", value="text-message", checked="checked")
@@ -316,12 +312,13 @@ html(lang="en")
               label(for="qr-code") Code
               input#wait(type="radio", name="alert_method", value="wait")
               label(for="wait") Wait
-          
-          label(for="pager-number") Pager Number
-          input#pager-number.centered-number(type="text", name="pager_number", value="", maxlength="3", placeholder="###")
+            
+        div(data-role="fieldcontain")
+          label(for="pager-number") Pager
+          input#pager-number.large-number(type="text", name="pager_number", value="", placeholder="Pager")
           
         div(data-role="fieldcontain")
-            label(for='notes') Notes
+            label(for="notes") Notes
             input#notes(type="text", name="notes", value="", placeholder="Notes")
         
           a(href='#add', data-role="button") Add
