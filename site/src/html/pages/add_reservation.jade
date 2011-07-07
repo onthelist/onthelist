@@ -3,20 +3,20 @@
     h1 Reservation
   form.content(data-role="content")
     div(data-role="fieldcontain")
-      label(for='name') Name
-      input#name(type="text", name="name", value="", placeholder="Name", autofocus="autofocus")
+      label(for="reservation-name") Name
+      input#reservation-name(type="text", name="name", value="", placeholder="Name", autofocus="autofocus")
     
     div(data-role="fieldcontain")
-      label(for='phone_number') Phone Number
-      input#phone_number(type="tel", name="phone_number", value="", placeholder="Phone Number")
+      label(for="reservation-phone-number") Phone Number
+      input#reservation-phone-number(type="tel", name="phone_number", value="", placeholder="Phone Number")
       
     div(data-role="fieldcontain")
-      label(for="party-size") Party Size
-      input#party-size(type="range", name="party_size", value="1", min="1", max="10")
+      label(for="reservation-party-size") Party Size
+      input#reservation-party-size(type="range", name="party_size", value="1", min="1", max="10")
         
     div(data-role="fieldcontain")
-      label(for='seating-preference') Seating Preference
-      select#seating-preference(name="seating-preference", data-native-menu="false")
+      label(for="reservation-seating-preference") Seating Preference
+      select#reservation-seating-preference(name="seating_preference", data-native-menu="false")
         option(value="first_available") First available
         option(value="booth") Booth
         option(value="outside") Outside
@@ -24,13 +24,13 @@
     // A word of warning, the date and time input variables seem to be touchy when reordering them.
     div.date-time(data-role="fieldcontain")
       label(for="reservation-date") Date
-      input(name="reservation_date", id="reservation-date", type="date", data-role="datebox", data-options='{"mode": "calbox", "pickPageTheme": "b"}', placeholder="Date")
+      input#reservation-date(name="reservation_date", type="date", data-role="datebox", data-options='{"mode": "calbox", "pickPageTheme": "b"}', placeholder="Date")
     div.date-time(data-role="fieldcontain")
       label(for="reservation-time") Time
-      input(name="reservation_time", id="reservation-time", type="date", data-role="datebox", data-options='{"mode": "timebox", "timeFormat": 12, "pickPageTheme": "b"}', placeholder="Time")
+      input#reservation-time(name="reservation_time", type="date", data-role="datebox", data-options='{"mode": "timebox", "timeFormat": 12, "pickPageTheme": "b"}', placeholder="Time")
       
     div(data-role="fieldcontain")
-      label(for='notes') Notes
-      input#notes(type="text", name="notes", value="", placeholder="Notes")
+      label(for="reservation-notes") Notes
+      input#reservation-notes(type="text", name="notes", value="", placeholder="Notes")
     
-    a(href='#add', data-role="button") Add
+    a(href="#add-reservation", data-role="button") Add
