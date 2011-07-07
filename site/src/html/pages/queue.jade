@@ -6,12 +6,6 @@
       a(href="#check-in",  data-role="button", data-transition="none") Check-In
   .content(data-role="content")
     ul#queue-list(data-role="listview", data-filter="true", data-filter-placeholder="Search Guests")
-  footer(data-position="fixed", data-role="footer", data-id="navigation-footer")
-    nav.menu(data-role="navbar", data-iconpos="top")
-      ul
-        li
-          a.ui-btn-active.ui-state-persist(href="#queue",data-role="button", data-icon="home") Queue
-        li
-          a(href="#reservations", data-role="button", data-icon="gear") Reservations
-        li
-          a(href="#tablechart",data-role="button", data-icon="grid") Table Chart
+
+  include_file(path="html/partials/nav_footer.jade"):
+    != contents

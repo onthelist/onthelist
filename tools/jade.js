@@ -121,56 +121,82 @@ if (watchers && !files.length) {
 /**
  * Filters
  */
+var strip_quotes = function(s){
+  return s.substring(1, s.length - 1);
+};
 
 jade.filters.include_files = function(block, compiler, opts){
+  var Visitor = function(node, opts) {
+    this.node = node;
+    this.path = strip_quotes(opts.path);
+    this.first = opts.first ? strip_quotes(opts.first) : null;
+  }
+
+  Visitor.prototype.__proto__ = Compiler.prototype;
+
+  Visitor.prototype.compile = function(){
+    var self = this;
+
+    this.buf = ['var interp;'];
+
+    var files = fs.readdirSync(self.path);
+    
+    this.buf.push('var files=[];');
+    for (var i=0; i < files.length; i++){
+      var filename = files[i];
+
+      if (filename.match(/\.jade$/)){
+        // Jade is annoyingly synchronous, yet it uses an async call to
+        // read the file, so it's impossible to render one template and use its
+        // output in another using the readFile func.
+        var str = fs.readFileSync(path.join(self.path, filename));
+        var html = jade.render(str, options);
+    
+        var obj = {
+          'filename': filename,
+          'contents': html
+        };
+
+        if (!self.first || self.first != filename)
+          self.buf.push('files.push(' + JSON.stringify(obj) + ');');
+        else
+          self.buf.push('files.splice(0, 0, ' + JSON.stringify(obj) + ');');
+      }
+    }
+
+    this.visit(this.node);
+    return this.buf.join('\n');
+  };
+
   return new Visitor(block, opts).compile();
 };
 
-function Visitor(node, opts) {
-  var strip_quotes = function(s){
-    return s.substring(1, s.length - 1);
-  };
-
-  this.node = node;
-  this.path = strip_quotes(opts.path);
-  this.first = opts.first ? strip_quotes(opts.first) : null;
-}
-
-Visitor.prototype.__proto__ = Compiler.prototype;
-
-Visitor.prototype.compile = function(){
-  self = this;
-
-  this.buf = ['var interp;'];
-
-  var files = fs.readdirSync(self.path);
-  
-  this.buf.push('var files=[];');
-  for (var i=0; i < files.length; i++){
-    var filename = files[i];
-
-    if (filename.match(/\.jade$/)){
-      // Jade is annoyingly synchronous, yet it uses an async call to
-      // read the file, so it's impossible to render one template and use its
-      // output in another using the readFile func.
-      str = fs.readFileSync(path.join(self.path, filename));
-      html = jade.render(str, options);
-  
-      obj = {
-        'filename': filename,
-        'contents': html
-      };
-
-      if (!self.first || self.first != filename)
-        self.buf.push('files.push(' + JSON.stringify(obj) + ');');
-      else
-        self.buf.push('files.splice(0, 0, ' + JSON.stringify(obj) + ');');
-    }
+jade.filters.include_file = function(block, compiler, opts){
+  var Visitor = function(node, opts) {
+    this.node = node;
+    this.path = strip_quotes(opts.path);
   }
 
-  this.visit(this.node);
-  return this.buf.join('\n');
+  Visitor.prototype.__proto__ = Compiler.prototype;
+
+  Visitor.prototype.compile = function(){
+    var self = this;
+
+    this.buf = ['var interp;'];
+
+    var str = fs.readFileSync(self.path);
+    var html = jade.render(str, options);
+    
+    self.buf.push('var contents = ' + JSON.stringify(html) + ';');
+
+    this.visit(this.node);
+    return this.buf.join('\n');
+  };
+
+  return new Visitor(block, opts).compile();
 };
+
+
 
 /**
  * Process the given path, compiling the jade files found.
