@@ -106,44 +106,61 @@ html(lang="en")
           h1 The Steakhouse
           a(href="#modify-party", data-role="button", data-transition="none") Edit
           
-      form(data-role="content")
-        div.centered-wrapper
-          div(data-role="fieldcontain")
-            label.ui-input-text Name
-            #party-name-details.info John Smith
-            
-          div(data-role="fieldcontain")
-            label.ui-input-text Phone
-            #phone-number-details.info 555-345-2942
-            
-          div(data-role="fieldcontain")
-            label.ui-input-text Party Size
-            #party-size-details.info 5
+      form.content(data-role="content")
+        fieldset.ui-grid-a
+          div.ui-block-a 
+            h4 Name
+          div.ui-block-b
+            h4#party-name-details John Smith
           
-          div(data-role="fieldcontain")
-            label.ui-input-text Seating Preference
-            #seating-preference-details.info First available
-          
-          
-          div(data-role="fieldcontain")
-            label.ui-input-text Alert Method
-            #alert-method-details.info Text
-          
-          div(data-role="fieldcontain")
-            label.ui-input-text Notes
-            #note-details.info Prefers a Window seat
+          div.ui-block-a
+            h4 Phone
+          div.ui-block-b
+            h4#party-phone-details 586-212-4392
+              
+          div.ui-block-a
+            h4 Party Size
+          div.ui-block-b 
+            h4#party-size-details 5
             
-          div(data-role="fieldcontain")
-            label.ui-input-text Stated Wait Time
-            #stated-wait-time-details.info 10 Minutes
+          div.ui-block-a
+            h4 Called Ahead
+          div.ui-block-b
+            h4#called-ahead-details No
+
+          div.ui-block-a
+            h4 Seating Preference
+          div.ui-block-b
+            h4#seating-preference-details First Available
+           
+          div.ui-block-a
+            h4 Alert Method
+          div.ui-block-b
+            h4#alert-method-details Text
             
-          div(data-role="fieldcontain")
-            label.ui-input-text Estimated Wait Time Remaining
-            #estimated-wait-time-remaining-details.info 3 Minutes
+          div.ui-block-a
+            h4 Notes
+          div.ui-block-b
+            h4#party-notes-details Prefers a window seat
+            
+          div.ui-block-a
+            h4 Stated Wait Time
+          div.ui-block-b
+            h4 10 Minutes
+            
+          div.ui-block-a
+            h4 Estimated Wait Time Remaining
+          div.ui-block-b
+            h4 3
+
+          div.ui-block-a
+            h4 Status
+          div.ui-block-b
+            h4 Waiting | Seated at table # | No show
 
         a(href="#alert-party",data-role="button", data-theme="e") Alert
         
-        a(href="#check-in-party",data-role="button", data-theme="a") Check-In
+        a(href="#check-in-party",data-role="button", data-theme="b") Check-In
          
         a(href="#check-in-party",data-role="button", data-theme="d") Delete 
             
@@ -169,31 +186,31 @@ html(lang="en")
       form(data-role="content")
         div.centered-wrapper
           div(data-role="fieldcontain")
-            label.ui-input-text Name
+            label Name
             #party-name-details.info John Smith
             
           div(data-role="fieldcontain")
-            label.ui-input-text Phone
+            label Phone
             #phone-number-details.info 555-345-2942
             
           div(data-role="fieldcontain")
-            label.ui-input-text Party Size
+            label Party Size
             #party-size-details.info 5
           
           div(data-role="fieldcontain")
-            label.ui-input-text Seating Preference
+            label Seating Preference
             #seating-preference-details.info First available
             
           div(data-role="fieldcontain")
-            label.ui-input-text Date
+            label Date
             #date-details.info  7/5/2011
           
           div(data-role="fieldcontain")
-            label.ui-input-text Time
+            label Time
             #time-details.info  5:10 PM
           
           div(data-role="fieldcontain")
-            label.ui-input-text Notes
+            label Notes
             #note-details.info Prefers a Window seat
           
       a(href="#alert-party",data-role="button", data-theme="e") Alert
@@ -217,50 +234,61 @@ html(lang="en")
     // #queue -> #view-party -> #modify-party          
     #modify-party(data-role="dialog")
       header(data-role="header")
-        h1 Add a Party
+        h1 Modify a Party
       form.content(data-role="content")
         div(data-role="fieldcontain")
           label(for='name') Name
-          input#name(type="text", name="name", value="John Smith", placeholder="Name", autofocus="autofocus")
+          input#name(type="text", name="name", value="", placeholder="Name", autofocus="autofocus", autocapitalize="on")
         
         div(data-role="fieldcontain")
           label(for='phone_number') Phone Number
-          input#phone_number(type="tel", name="phone_number", value="2483524997", placeholder="Phone Number")
+          input#phone_number(type="tel", name="phone_number", value="", placeholder="Phone Number")
+          
+        div(data-role="fieldcontain")
+          label(for="party-size") Party Size
+          input#party-size(type="range", name="party_size", value="1", min="1", max="10")
             
-          div(data-role="fieldcontain")
-            label(for="party-size") Party Size
-            input#party-size(type="range", name="party_size", value="5", min="1", max="10")
-              
-          div(data-role="fieldcontain")
-            label(for='seating-preference') Seating Preference
-            select#seating-preference(name="seating-preference", data-native-menu="false")
-              option(value="first_available") First available
-              option(value="booth") Booth
-              option(value="outside") Outside
-          div(data-role="fieldcontain")
-            label(for="wait-time") Wait Time   
-            input#wait-time(type="range", name="wait_time", value="10", min="1", max="10")
+        div(data-role="fieldcontain")
+          label(for='seating-preference') Seating Preference
+          select#seating-preference(name="seating-preference", data-native-menu="false")
+            option(value="first_available") First available
+            option(value="booth") Booth
+            option(value="outside") Outside
 
-          div(data-role="fieldcontain")
-            fieldset(data-role="controlgroup", data-type="horizontal")
-              input(type="radio", name="alert_method", id="text-message", value="text-message", checked="checked")
+        div(data-role="fieldcontain")
+          label(for="wait-time") Wait Time
+          input#wait-time(type="range", name="wait_time", min="0", max="120", step="5", value="0")
+        
+        div(data-role="fieldcontain")
+          label(for="called-ahead") Called Ahead
+          select(name="called_ahead", id="called-ahead", data-role="slider")
+            option(value="on") No
+            option(value="off") Yes
+              
+        div(data-role="fieldcontain")
+          fieldset.form-radio(data-role="controlgroup", data-type="horizontal")
+            legend Alert Method
+            div.center-wrapper
+              input#text-message(type="radio", name="alert_method", value="text-message", checked="checked")
               label(for="text-message") Text
-              input(type="radio", name="alert_method", id="call", value="call")
+              input#call(type="radio", name="alert_method", value="call")
               label(for="call") Call
-              input(type="radio", name="alert_method", id="page", value="page")
+              input#page(type="radio", name="alert_method", value="page")
               label(for="page") Page
-              input(type="radio", name="alert_method", id="qr-code", value="qr_code")
+              input#qr-code(type="radio", name="alert_method", value="qr_code")
               label(for="qr-code") Code
-              input(type="radio", name="alert_method", id="wait", value="wait")
+              input#wait(type="radio", name="alert_method", value="wait")
               label(for="wait") Wait
             
-            label(for="pager-number") Pager Number
-            input.large-number(type="text", name="pager_number", id="pager-number", value="", maxlength="3", placeholder="###")
-            
-            div(data-role="fieldcontain")
-              label(for='notes') Notes
-              input#notes(type="text", name="notes", value="", placeholder="Notes")
-            a(href='#save', data-role="button") Save
+        div(data-role="fieldcontain")
+          label(for="pager-number") Pager
+          input#pager-number.large-number(type="text", name="pager_number", value="", placeholder="Pager")
+          
+        div(data-role="fieldcontain")
+            label(for="notes") Notes
+            input#notes(type="text", name="notes", value="", placeholder="Notes")
+    
+            a(href='#save', data-role="button", data-theme="b") Save
           
  
      // ---------------------------------------------                         

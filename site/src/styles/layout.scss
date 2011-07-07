@@ -1,4 +1,9 @@
-time {
+h4 {
+  margin-top: 3px;
+  margin-bottom: 5px;
+}
+
+.time {
   text-align: right;
   color: #A5A5A5;
   width: 70px;
@@ -26,12 +31,16 @@ time {
   border:1px dashed #333;
   padding: 10px 0;
   margin: 5px auto !important;
-  text-align:center !important;
+  text-align:center;
+}
+
+.view {
+  text-align:right;
+  margin-right: 140px;
 }
 
 .info {
-  display: inline-block;
-  width: 60%;
+  text-align: left;
 }
 
 .ui-li.ui-btn a.list-action {
@@ -135,8 +144,9 @@ input::-webkit-inner-spin-button {
 }
 
 div.ui-slider-switch {
-  margin-left: 17%;
-  margin-right: 17%;
+  // Corects slider centering
+  margin-left: 7.5%;
+  margin-right: 7.5%;
 }
 
 [data-role=dialog] {
@@ -153,6 +163,11 @@ div.ui-slider-switch {
     }
   }
   
+  div.ui-slider-switch {
+  // Corrects slider centering on small screens
+  margin-left: 17%;
+  margin-right: 17%;
+  }
   [data-role=controlgroup] {
     .ui-btn-inner {
       // Narrow radio group buttons
