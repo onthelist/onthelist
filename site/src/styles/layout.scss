@@ -1,3 +1,5 @@
+// Elements marked with !important are overwritten with jQuery Mobile's framework. Any changes on input, text or alignment sizes usually require !important.
+
 h4 {
   margin-top: 3px;
   margin-bottom: 5px;
@@ -18,8 +20,8 @@ time {
   display: inline-block;
 }
 
-// Used for the pager number, needs correction later
-.large-number {
+.short-code {
+// Used for the pager number, needs implementation.
   text-align: center !important;
   font-size: 1.2em !important;
   width: 40px !important;
@@ -132,7 +134,7 @@ input::-webkit-inner-spin-button {
   color: #fff;
   text-decoration: none;
 }
-// End of D theme conversion
+// End of F Theme
 
 .form-radio {
   .ui-btn {
@@ -189,7 +191,6 @@ div.ui-slider-switch {
         display: none;
       }
       
-      // Remove excessive slider padding
       &.ui-slider {
         display: block;
         margin-bottom: -3px;
