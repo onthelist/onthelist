@@ -7,6 +7,8 @@
     ul#queue-list(data-role="listview", data-filter="true", data-filter-placeholder="Search Reservations")
       li(data-role="list-divider", data-theme="a") Today
         span.date 7/4/2011
+      li
+        a(href="#view-reservation") John Smith
       li(data-role="list-divider", data-theme="a") Tomorrow
         span.date 7/5/2011
       li(data-role="list-divider", data-theme="a") Wednesday
@@ -15,13 +17,12 @@
         span.date 7/6/2011
       li(data-role="list-divider", data-theme="a") Friday
         span.date 7/8/2011
-  footer(data-position="fixed", data-role="footer")
+  footer(data-position="fixed", data-role="footer", data-id="navigation-footer")
     nav.menu(data-role="navbar", data-iconpos="top")
       ul
         li
           a(href="#queue",data-role="button", data-icon="home") Queue
         li
-          a(href="#reservations", data-role="button", data-icon="gear", data-theme="b") Reservations
+          a.ui-btn-active.ui-state-persist(href="#reservations", data-role="button", data-icon="gear") Reservations
         li
           a(href="#tablechart",data-role="button", data-icon="grid") Table Chart
-

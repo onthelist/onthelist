@@ -3,52 +3,72 @@
     nav.tabs(data-role="header", data-position="inline", data-iconpos="top")
       a(href="#", data-role="button", data-transition="none", data-rel="back") Back
       h1 The Steakhouse
-      a(href="#modify-party", data-role="button", data-transition="none") Edit
-      
-  form(data-role="content")
-    div.centered-wrapper
-      div(data-role="fieldcontain")
-        label Name
-        #party-name-details.info John Smith
-        
-      div(data-role="fieldcontain")
-        label Phone
-        #phone-number-details.info 555-345-2942
-        
-      div(data-role="fieldcontain")
-        label Party Size
-        #party-size-details.info 5
-      
-      div(data-role="fieldcontain")
-        label Seating Preference
-        #seating-preference-details.info First available
-        
-      div(data-role="fieldcontain")
-        label Date
-        #date-details.info  7/5/2011
-      
-      div(data-role="fieldcontain")
-        label Time
-        #time-details.info  5:10 PM
-      
-      div(data-role="fieldcontain")
-        label Notes
-        #note-details.info Prefers a Window seat
-      
-  a(href="#alert-party",data-role="button", data-theme="e") Alert
+      a(href="#modify-reservation", data-role="button", data-transition="none") Edit
   
-  a(href="#check-in-party",data-role="button", data-theme="a") Check-In
-    
-  a(href="#check-in-party",data-role="button", data-theme="d") Delete 
+   form.content(data-role="content")
+    fieldset.ui-grid-a
+      div.ui-block-a 
+        h4 Name
+      div.ui-block-b
+        h4#party-name-details John Smith
       
-  footer(data-position="fixed", data-role="footer")
+      div.ui-block-a
+        h4 Phone
+      div.ui-block-b
+        h4#party-phone-details 586-212-4392
+          
+      div.ui-block-a
+        h4 Party Size
+      div.ui-block-b 
+        h4#party-size-details 5
+        
+      div.ui-block-a
+        h4 Called Ahead
+      div.ui-block-b
+        h4#called-ahead-details No
+
+      div.ui-block-a
+        h4 Seating Preference
+      div.ui-block-b
+        h4#seating-preference-details First Available
+       
+      div.ui-block-a
+        h4 Alert Method
+      div.ui-block-b
+        h4#alert-method-details Text
+        
+      div.ui-block-a
+        h4 Notes
+      div.ui-block-b
+        h4#party-notes-details Prefers a window seat
+        
+      div.ui-block-a
+        h4 Date
+      div.ui-block-b
+        h4#date-details 7/16/2011
+        
+      div.ui-block-a
+        h4 Time
+      div.ui-block-b
+        h4#time-details 5:10 PM
+
+      div.ui-block-a
+        h4 Status
+      div.ui-block-b
+        h4 Waiting | Seated at table # | No show
+
+    a(href="#alert-reservation",data-role="button", data-theme="e") Alert
+    
+    a(href="#check-in-reservation",data-role="button", data-theme="b") Check-In
+     
+    a(href="#delete-reservation",data-role="button", data-theme="f") Delete
+      
+  footer(data-position="fixed", data-role="footer", data-id="navigation-footer")
     nav.menu(data-role="navbar", data-iconpos="top")
       ul
         li
           a(href="#queue",data-role="button", data-icon="home") Queue
         li
-          a(href="#reservations", data-role="button", data-icon="gear", data-theme="b") Reservations
+          a.ui-btn-active(href="#reservations", data-role="button", data-icon="gear") Reservations
         li
           a(href="#tablechart",data-role="button", data-icon="grid") Table Chart
-
-

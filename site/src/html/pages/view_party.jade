@@ -31,7 +31,7 @@
         h4 Seating Preference
       div.ui-block-b
         h4#seating-preference-details First Available
-        
+       
       div.ui-block-a
         h4 Alert Method
       div.ui-block-b
@@ -60,17 +60,15 @@
     a(href="#alert-party",data-role="button", data-theme="e") Alert
     
     a(href="#check-in-party",data-role="button", data-theme="b") Check-In
-      
-    a(href="#check-in-party",data-role="button", data-theme="d") Delete 
+     
+    a(href="#delete-party",data-role="button", data-theme="f") Delete 
         
-  footer(data-position="fixed", data-role="footer")
+  footer(data-position="fixed", data-role="footer", data-id="navigation-footer")
     nav.menu(data-role="navbar", data-iconpos="top")
       ul
         li
-          a(href="#queue",data-role="button", data-icon="home", data-theme="b") Queue
+          a.ui-btn-active.ui-state-persist(href="#queue",data-role="button", data-icon="home") Queue
         li
           a(href="#reservations", data-role="button", data-icon="gear") Reservations
         li
           a(href="#tablechart",data-role="button", data-icon="grid") Table Chart
-
-

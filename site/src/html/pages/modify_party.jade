@@ -9,14 +9,14 @@
     div(data-role="fieldcontain")
       label(for='phone_number') Phone Number
       input#phone_number(type="tel", name="phone_number", value="", placeholder="Phone Number")
-      
+     
     div(data-role="fieldcontain")
       label(for="party-size") Party Size
       input#party-size(type="range", name="party_size", value="1", min="1", max="10")
         
     div(data-role="fieldcontain")
       label(for='seating-preference') Seating Preference
-      select#seating-preference(name="seating-preference", data-native-menu="false")
+      select#seatinsg-preference(name="seating-preference", data-native-menu="false")
         option(value="first_available") First available
         option(value="booth") Booth
         option(value="outside") Outside
@@ -41,18 +41,15 @@
           label(for="call") Call
           input#page(type="radio", name="alert_method", value="page")
           label(for="page") Page
-          input#qr-code(type="radio", name="alert_method", value="qr_code")
-          label(for="qr-code") Code
           input#wait(type="radio", name="alert_method", value="wait")
           label(for="wait") Wait
         
     div(data-role="fieldcontain")
       label(for="pager-number") Pager
-      input#pager-number.large-number(type="text", name="pager_number", value="", placeholder="Pager")
+      input#pager-number.short-code(type="text", name="pager_number", value="", placeholder="Pager")
       
     div(data-role="fieldcontain")
         label(for="notes") Notes
         input#notes(type="text", name="notes", value="", placeholder="Notes")
 
         a(href='#save', data-role="button", data-theme="b") Save
-
