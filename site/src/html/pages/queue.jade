@@ -1,0 +1,18 @@
+#queue(data-role="page", data-theme="a")
+  header(data-role="header", data-position="fixed")
+    nav.tabs(data-role="header", data-position="inline", data-iconpos="top")
+      a(href="#add-party", data-role="button", data-transition="none", data-rel="dialog") Add
+      h1 The Steakhouse
+      a(href="#check-in",  data-role="button", data-transition="none") Check-In
+  .content(data-role="content")
+    ul#queue-list(data-role="listview", data-filter="true", data-filter-placeholder="Search Guests")
+  footer(data-position="fixed", data-role="footer")
+    nav.menu(data-role="navbar", data-iconpos="top")
+      ul
+        li
+          a(href="#queue",data-role="button", data-icon="home", data-theme="b") Queue
+        li
+          a(href="#reservations", data-role="button", data-icon="gear") Reservations
+        li
+          a(href="#tablechart",data-role="button", data-icon="grid") Table Chart
+

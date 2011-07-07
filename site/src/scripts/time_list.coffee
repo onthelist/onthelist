@@ -21,7 +21,7 @@ class ElapsedTimeList extends TimeList
     , 60000)
 
   add_sections: ->
-    @time_blocks = [1, 2, 5, '+']
+    @time_blocks = [10, 30, 60, '+']
     @sections = {}
 
     for i, block of @time_blocks

@@ -1,0 +1,76 @@
+#view-party(data-role="page")
+  header(data-role="header", data-position="fixed")
+    nav.tabs(data-role="header", data-position="inline", data-iconpos="top")
+      a(href="#", data-role="button", data-transition="none", data-rel="back") Back
+      h1 The Steakhouse
+      a(href="#modify-party", data-role="button", data-transition="none") Edit
+      
+  form.content(data-role="content")
+    fieldset.ui-grid-a
+      div.ui-block-a 
+        h4 Name
+      div.ui-block-b
+        h4#party-name-details John Smith
+      
+      div.ui-block-a
+        h4 Phone
+      div.ui-block-b
+        h4#party-phone-details 586-212-4392
+          
+      div.ui-block-a
+        h4 Party Size
+      div.ui-block-b 
+        h4#party-size-details 5
+        
+      div.ui-block-a
+        h4 Called Ahead
+      div.ui-block-b
+        h4#called-ahead-details No
+
+      div.ui-block-a
+        h4 Seating Preference
+      div.ui-block-b
+        h4#seating-preference-details First Available
+        
+      div.ui-block-a
+        h4 Alert Method
+      div.ui-block-b
+        h4#alert-method-details Text
+        
+      div.ui-block-a
+        h4 Notes
+      div.ui-block-b
+        h4#party-notes-details Prefers a window seat
+        
+      div.ui-block-a
+        h4 Stated Wait Time
+      div.ui-block-b
+        h4 10 Minutes
+        
+      div.ui-block-a
+        h4 Estimated Wait Time Remaining
+      div.ui-block-b
+        h4 3
+
+      div.ui-block-a
+        h4 Status
+      div.ui-block-b
+        h4 Waiting | Seated at table # | No show
+
+    a(href="#alert-party",data-role="button", data-theme="e") Alert
+    
+    a(href="#check-in-party",data-role="button", data-theme="b") Check-In
+      
+    a(href="#check-in-party",data-role="button", data-theme="d") Delete 
+        
+  footer(data-position="fixed", data-role="footer")
+    nav.menu(data-role="navbar", data-iconpos="top")
+      ul
+        li
+          a(href="#queue",data-role="button", data-icon="home", data-theme="b") Queue
+        li
+          a(href="#reservations", data-role="button", data-icon="gear") Reservations
+        li
+          a(href="#tablechart",data-role="button", data-icon="grid") Table Chart
+
+

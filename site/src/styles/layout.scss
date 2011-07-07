@@ -3,7 +3,7 @@ h4 {
   margin-bottom: 5px;
 }
 
-.time {
+time {
   text-align: right;
   color: #A5A5A5;
   width: 70px;
@@ -89,7 +89,6 @@ label, .ui-controlgroup-label {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  /* display: none; <- Crashes Chrome on hover */
   -webkit-appearance: none;
   margin: 0;
 }
@@ -203,7 +202,7 @@ div.ui-slider-switch {
 @media all and (min-width: 451px){
   form.content {
     // Aligns labels and control group elements such as toggle switches
-    label,.ui-controlgroup-label {
+    label, .ui-controlgroup-label {
       text-align: right;
       display: inline-block;
     }

@@ -59,7 +59,7 @@ $ ->
   
     queue_ds.each (row) ->
       # DOM adaptor doesn't seem to support find
-      if Date.get_elapsed(row.add_time) > 60 * 4
+      if Date.get_elapsed(row.add_time) > 60 * 2
         queue_ds.remove row
 
     queue = new Queue(q_elem, queue_ds)

@@ -1,0 +1,54 @@
+#view-reservation(data-role="page")
+  header(data-role="header", data-position="fixed")
+    nav.tabs(data-role="header", data-position="inline", data-iconpos="top")
+      a(href="#", data-role="button", data-transition="none", data-rel="back") Back
+      h1 The Steakhouse
+      a(href="#modify-party", data-role="button", data-transition="none") Edit
+      
+  form(data-role="content")
+    div.centered-wrapper
+      div(data-role="fieldcontain")
+        label Name
+        #party-name-details.info John Smith
+        
+      div(data-role="fieldcontain")
+        label Phone
+        #phone-number-details.info 555-345-2942
+        
+      div(data-role="fieldcontain")
+        label Party Size
+        #party-size-details.info 5
+      
+      div(data-role="fieldcontain")
+        label Seating Preference
+        #seating-preference-details.info First available
+        
+      div(data-role="fieldcontain")
+        label Date
+        #date-details.info  7/5/2011
+      
+      div(data-role="fieldcontain")
+        label Time
+        #time-details.info  5:10 PM
+      
+      div(data-role="fieldcontain")
+        label Notes
+        #note-details.info Prefers a Window seat
+      
+  a(href="#alert-party",data-role="button", data-theme="e") Alert
+  
+  a(href="#check-in-party",data-role="button", data-theme="a") Check-In
+    
+  a(href="#check-in-party",data-role="button", data-theme="d") Delete 
+      
+  footer(data-position="fixed", data-role="footer")
+    nav.menu(data-role="navbar", data-iconpos="top")
+      ul
+        li
+          a(href="#queue",data-role="button", data-icon="home") Queue
+        li
+          a(href="#reservations", data-role="button", data-icon="gear", data-theme="b") Reservations
+        li
+          a(href="#tablechart",data-role="button", data-icon="grid") Table Chart
+
+

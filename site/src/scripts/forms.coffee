@@ -26,7 +26,7 @@ $ ->
     link.addClass "list-action"
     link.text "Check-In Without Queue"
   
-    $('#divider-010').before add_el
+    $('#queue-list').prepend add_el
     $('#queue-list').listview 'refresh'
 
     # Hide Add Button

@@ -1,0 +1,58 @@
+#modify-party(data-role="dialog")
+  header(data-role="header")
+    h1 Modify a Party
+  form.content(data-role="content")
+    div(data-role="fieldcontain")
+      label(for='name') Name
+      input#name(type="text", name="name", value="", placeholder="Name", autofocus="autofocus", autocapitalize="on")
+    
+    div(data-role="fieldcontain")
+      label(for='phone_number') Phone Number
+      input#phone_number(type="tel", name="phone_number", value="", placeholder="Phone Number")
+      
+    div(data-role="fieldcontain")
+      label(for="party-size") Party Size
+      input#party-size(type="range", name="party_size", value="1", min="1", max="10")
+        
+    div(data-role="fieldcontain")
+      label(for='seating-preference') Seating Preference
+      select#seating-preference(name="seating-preference", data-native-menu="false")
+        option(value="first_available") First available
+        option(value="booth") Booth
+        option(value="outside") Outside
+
+    div(data-role="fieldcontain")
+      label(for="wait-time") Wait Time
+      input#wait-time(type="range", name="wait_time", min="0", max="120", step="5", value="0")
+    
+    div(data-role="fieldcontain")
+      label(for="called-ahead") Called Ahead
+      select(name="called_ahead", id="called-ahead", data-role="slider")
+        option(value="on") No
+        option(value="off") Yes
+          
+    div(data-role="fieldcontain")
+      fieldset.form-radio(data-role="controlgroup", data-type="horizontal")
+        legend Alert Method
+        div.center-wrapper
+          input#text-message(type="radio", name="alert_method", value="text-message", checked="checked")
+          label(for="text-message") Text
+          input#call(type="radio", name="alert_method", value="call")
+          label(for="call") Call
+          input#page(type="radio", name="alert_method", value="page")
+          label(for="page") Page
+          input#qr-code(type="radio", name="alert_method", value="qr_code")
+          label(for="qr-code") Code
+          input#wait(type="radio", name="alert_method", value="wait")
+          label(for="wait") Wait
+        
+    div(data-role="fieldcontain")
+      label(for="pager-number") Pager
+      input#pager-number.large-number(type="text", name="pager_number", value="", placeholder="Pager")
+      
+    div(data-role="fieldcontain")
+        label(for="notes") Notes
+        input#notes(type="text", name="notes", value="", placeholder="Notes")
+
+        a(href='#save', data-role="button", data-theme="b") Save
+
