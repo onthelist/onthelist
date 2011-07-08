@@ -107,54 +107,6 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-// F Theme: red color scheme. Used for the delete button
-.ui-btn-up-f {
-  border: 1px solid #222;
-  background: #F73939;
-  font-weight: bold;
-  text-decoration: none;
-  color: #FFF;
-  text-shadow: 0 -1px 1px #000;
-  background-image: -moz-linear-gradient(top, #F73939, #C12E2E);
-  background-image: -webkit-gradient(linear,left top,left bottom, color-stop(0, #F73939), color-stop(1, #C12E2E));
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#F73939', EndColorStr='#EF4A4A')";
-}
-.ui-btn-up-f a.ui-link-inherit {
-  color: #FFF;
-  text-decoration: none;
-}
-.ui-btn-hover-f {
-  border: 1px solid #000;
-  background: #EF4A4A;
-  font-weight: bold;
-  text-decoration: none;
-  color: #fff;
-  text-shadow: 0 -1px 1px #000;
-  background-image: -moz-linear-gradient(top, #EF4A4A, #C12E2E);
-  background-image: -webkit-gradient(linear,left top,left bottom, color-stop(0, #EF4A4A), color-stop(1, #C12E2E));
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#EF4A4A', EndColorStr='#C12E2E')";
-}
-.ui-btn-hover-f a.ui-link-inherit {
-  color: #fff;
-  text-decoration: none;
-}
-.ui-btn-down-f {
-  border: 1px solid #000;
-  background: #C12E2E;
-  font-weight: bold;
-  text-decoration: none;
-  color: #fff;
-  text-shadow: 0 -1px 1px #000;
-  background-image: -moz-linear-gradient(top, #C12E2E, #F73939);
-  background-image: -webkit-gradient(linear,left top,left bottom, color-stop(0, #C12E2E), color-stop(1, #F73939));
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#C12E2E', EndColorStr='#F73939')";
-}
-.ui-btn-down-f a.ui-link-inherit {
-  color: #fff;
-  text-decoration: none;
-}
-// End of F Theme
-
 .form-radio {
   .ui-btn {
     // Properly hide radio buttons behind jQuery Mobile labels. Cause: shortened dialog boxes

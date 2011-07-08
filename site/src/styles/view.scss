@@ -1,9 +1,9 @@
 @import "compass/css3";
 
 .pill {
-  margin: -15px -15px 0 -15px;
+  margin: -15px -15px 12px -15px;
   position: relative;
-  height: 40px;
+  height: 76px;
   
   font-size: 1.5em;
 
@@ -26,21 +26,24 @@
     width: 100%;
     left: 0;
     color: #444;
-
     background-color: white;
     padding-left: 10px;
     font-weight: bold;
   }
+  
   .minor {
-    width: 3em;
+    font-size: 1.5em;
+    width: 85px;
+    height: 100%;
     right: 0;
-    
     color: white;
     text-align: center;
-
-    padding-right: 0;
-    padding-left: 0;
+    padding: 11px 0;
   }
+}
+
+.major-details {
+  display:block;
 }
 
 .clear {
