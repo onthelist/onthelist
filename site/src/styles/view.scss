@@ -1,0 +1,53 @@
+@import "compass/css3";
+
+.pill {
+  margin: -15px -15px 0 -15px;
+  position: relative;
+  height: 40px;
+  
+  font-size: 1.5em;
+
+  div {
+    padding: 5px;
+    float: left;
+    margin: 0;
+
+    position: absolute;
+    top: 0;
+    display: inline-block;
+  
+    @include box-shadow(#555 -1px 0 5px);
+
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+  }
+
+  .major {
+    width: 100%;
+    left: 0;
+    color: #444;
+
+    background-color: white;
+    padding-left: 10px;
+    font-weight: bold;
+  }
+  .minor {
+    width: 3em;
+    right: 0;
+    
+    color: white;
+    text-align: center;
+
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+.clear {
+  clear: both;
+  display: block;
+  height: 0;
+  font-size: 0;
+  width: 0;
+  visibility: hidden;
+}
