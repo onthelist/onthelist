@@ -60,11 +60,18 @@ add_list_row = (list, row) ->
 
   size = row.size
 
+  for i in [1..size]
+    e_slice = $ '<span class="ui-li-count slice">1</span>'
+    e_slice.css 'right', (38 + 2 * (size - i)) + 'px'
+    link.append e_slice
+
   e_size = $ '<span class="ui-li-count"></span>'
   e_size.text size
   link.append e_size
 
   list.insert el, elapsed
+
+  $.log e_size.position()
 
 $ ->
   new Lawnchair 'queue', (queue_ds) ->
