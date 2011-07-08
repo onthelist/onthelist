@@ -4,16 +4,14 @@
     a(href="#modify-party", data-role="button", data-transition="none") Edit
       
   div.content(data-role="content")
+    .pill
+      .major.ui-bar-e John Smith
+      .minor.ui-bar-b 5
+      span.clear
     fieldset.ui-grid-a
-      h3.center-wrapper John Smith
       h4.center-wrapper 586-212-4392
 
           
-      div.ui-block-a
-        h4 Party Size
-      div.ui-block-b 
-        h4#party-size-details.info 5
-        
       div.ui-block-a
         h4 Called Ahead
       div.ui-block-b
@@ -54,13 +52,3 @@
     a(href="#check-in-party",data-role="button") Check-In
      
     a(href="#delete-party",data-role="button", data-theme="f") Delete 
-        
-  footer(data-position="fixed", data-role="footer", data-id="navigation-footer")
-    nav.menu(data-role="navbar", data-iconpos="top")
-      ul
-        li
-          a.ui-btn-active.ui-state-persist(href="#queue",data-role="button", data-icon="home") Queue
-        li
-          a(href="#reservations", data-role="button", data-icon="gear") Reservations
-        li
-          a(href="#tablechart",data-role="button", data-icon="grid") Table Chart
