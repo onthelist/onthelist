@@ -5,10 +5,10 @@
       
   div.content(data-role="content")
     .pill
-      div.major.ui-bar-e John Smith 
+      div.major.ui-bar-e(data-key="name") John Smith 
         br
         span#party-status.major-status Seated at table 7
-      div.minor.ui-bar-b 5
+      div.minor.ui-bar-b(data-key="size") 5
       span.clear
     div.center-wrapper
       h3 Created at 5:30 PM
@@ -16,7 +16,13 @@
     div.center-wrapper
       h4 First Available Seat
     
-    div.ui-grid-a 
+    h3 Created at 5:30 PM
+    div.ui-grid-a  
+      div.ui-block-a
+        h4 Seating Preference
+      div.ui-block-b
+        h4#party-seating-preference-details First Available
+        
       div.ui-block-a
         h4 Notes
       div.ui-block-b
