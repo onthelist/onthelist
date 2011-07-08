@@ -4,13 +4,11 @@
   margin: -15px -15px 12px -15px;
   position: relative;
   height: 76px;
-  @include box-shadow(#555 -1px 0 5px);
   
   font-size: 1.5em;
 
   > div {
     padding: 5px;
-    height: 100%;
     float: left;
     margin: 0;
     z-index: 2;
@@ -18,6 +16,8 @@
     position: absolute;
     top: 0;
     display: inline-block;
+  
+    @include box-shadow(#555 -1px 0 5px);
 
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -28,6 +28,7 @@
     padding-right: 85px;
     left: 0;
     color: #444;
+    background-color: white;
     padding-left: 10px;
     font-weight: bold;
   }
