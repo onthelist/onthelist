@@ -1,31 +1,23 @@
-#view-party(data-role="page")
+#view-party(data-role="dialog")
   header(data-role="header", data-position="fixed")
-    nav.tabs(data-role="header", data-position="inline", data-iconpos="top")
-      a(href="#", data-role="button", data-transition="none", data-rel="back") Back
-      h1 The Steakhouse
-      a(href="#modify-party", data-role="button", data-transition="none") Edit
+    h1 The Steakhouse
+    a(href="#modify-party", data-role="button", data-transition="none") Edit
       
-  form.content(data-role="content")
+  div.content(data-role="content")
     fieldset.ui-grid-a
-      div.ui-block-a 
-        h4 Name
-      div.ui-block-b
-        h4#party-name-details John Smith
-      
-      div.ui-block-a
-        h4 Phone
-      div.ui-block-b
-        h4#party-phone-details 586-212-4392
+      h3.center-wrapper John Smith
+      h4.center-wrapper 586-212-4392
+
           
       div.ui-block-a
         h4 Party Size
       div.ui-block-b 
-        h4#party-size-details 5
+        h4#party-size-details.info 5
         
       div.ui-block-a
         h4 Called Ahead
       div.ui-block-b
-        h4#party-called-ahead-details No
+        h4#party-called-ahead-details.info No
 
       div.ui-block-a
         h4 Seating Preference
@@ -57,9 +49,9 @@
       div.ui-block-b
         h4#party-status-details Waiting | Seated at table # | No show
 
-    a(href="#alert-party",data-role="button", data-theme="e") Alert
+    a(href="#alert-party",data-role="button") Alert
     
-    a(href="#check-in-party",data-role="button", data-theme="b") Check-In
+    a(href="#check-in-party",data-role="button") Check-In
      
     a(href="#delete-party",data-role="button", data-theme="f") Delete 
         

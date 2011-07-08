@@ -1,8 +1,17 @@
 // Elements marked with !important are overwritten with jQuery Mobile's framework. Any changes on input, text or alignment sizes usually require !important.
 
+h3 {
+  margin-top: 2px;
+  margin-bottom: 3px;
+}
+
 h4 {
   margin-top: 3px;
   margin-bottom: 5px;
+}
+
+.info {
+  font-weight: normal;
 }
 
 time {
@@ -27,10 +36,9 @@ time {
   width: 40px !important;
 }
 
-// Used to center form elements
 .center-wrapper {
+// Used to center form elements
   display: block !important;
-  border:1px dashed #333;
   padding: 10px 0;
   margin: 5px auto !important;
   text-align:center;
@@ -149,7 +157,7 @@ div.ui-slider-switch {
 }
 
 [data-role=dialog] {
-  .ui-content {
+  form.ui-content {
     padding-top: 0;
   }
 }
