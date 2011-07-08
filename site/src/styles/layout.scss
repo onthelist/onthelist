@@ -25,9 +25,19 @@ time {
 }
 
 .date {
+  font-family: "Trebuchet MS", "Verdana", "FreeSans";
   text-align: right;
-  float:right;
+  font-weight: bold;
+  float: right;
   color: #E8F3FF;
+  display: inline-block;
+}
+
+.year {
+  text-align: right;
+  font-weight: normal;
+  float:right;
+  color: #EAEAEA;
   display: inline-block;
 }
 
