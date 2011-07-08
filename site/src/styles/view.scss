@@ -12,7 +12,6 @@
     z-index: 2;
     @include box-shadow(#555 -1px 0 5px);
     position: absolute;
-    top: 0;
     display: inline-block;
 
     box-sizing: border-box;
@@ -36,6 +35,7 @@
     font-size: 1.5em;
     width: 85px;
     height: 100%;
+    top: 0;
     right: 0;
     color: #FFF;
     text-align: center;
@@ -49,12 +49,13 @@
       top: 8px;
       text-align: center;
       width: 100%;
-      opacity: 0.9;
+      opacity: 0.5;
     }
   }
 
   .upper {
     height: 42px;
+    top: 0;
   }
 
   .lower {
@@ -62,10 +63,8 @@
     padding: 7px 0 0 8px;
     height: 34px;
     bottom: 0;
-    top: 42px;
     font-size: .6em;
     z-index: 1;
-    height: 32px;
 
     color: #FAFAFA;
     text-shadow: 0 1px 1px #888;
