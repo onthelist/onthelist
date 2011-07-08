@@ -1,14 +1,17 @@
 #view-party(data-role="dialog")
-  header(data-role="header", data-position="fixed")
-    h1 The Steakhouse
-    a(href="#modify-party", data-role="button", data-transition="none") Modify
+  header(data-role="header")
+    h1 View Party
+    a(href="#modify-party", data-role="button", data-transition="none") Edit
       
   div.content(data-role="content")
     .pill
-      div.major.ui-bar-e(data-key="name") John Smith 
-        br
-        span#party-status.major-status Seated at table 7
-      div.minor.ui-bar-b(data-key="size") 5
+      .major.upper.ui-bar-e(data-key="name") John Smith 
+      .major.lower.ui-bar-d(data-key="status")
+        | Waiting 23 minutes
+        img.icon(src="images/icons/78-stopwatch.png")
+      .minor.ui-bar-b
+        span(data-key="size") 5
+        .subtext Party Of
       span.clear
     div.center-wrapper
       h3 Created at 5:30 PM

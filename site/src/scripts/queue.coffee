@@ -71,8 +71,6 @@ add_list_row = (list, row) ->
 
   list.insert el, elapsed
 
-  $.log e_size.position()
-
 $ ->
   new Lawnchair 'queue', (queue_ds) ->
     q_elem = $('#queue-list')

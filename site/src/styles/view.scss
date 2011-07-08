@@ -7,10 +7,11 @@
   
   font-size: 1.5em;
 
-  div {
+  > div {
     padding: 5px;
     float: left;
     margin: 0;
+    z-index: 2;
 
     position: absolute;
     top: 0;
@@ -24,6 +25,7 @@
 
   .major {
     width: 100%;
+    padding-right: 85px;
     left: 0;
     color: #444;
     background-color: white;
@@ -39,6 +41,34 @@
     color: white;
     text-align: center;
     padding: 11px 0;
+
+    .subtext {
+      font-variant: small-caps;
+      font-size: 12px;
+      position: absolute;
+      bottom: 7px;
+      text-align: center;
+      width: 100%;
+      opacity: 0.5;
+    }
+  }
+
+  .lower {
+    bottom: 0;
+    top: auto;
+    font-size: .6em;
+    z-index: 1;
+
+    color: #FAFAFA;
+    text-shadow: 0 1px 1px #888;
+
+    .icon {
+      height: 1.2em;
+      float: right;
+      margin-right: 7px;
+      position: relative;
+      top: 3px;
+    }
   }
 }
 
