@@ -10,24 +10,26 @@
         img.icon(src="../images/icons/78-stopwatch.png")
       .minor.ui-bar-b
         .subtext Party Of
-        span(data-key="size") 5
+        span#party-size-details(data-key="size") 5
       span.clear
     div.center-wrapper
-      h3#party-time-remaining First Available Seat
+      h3#party-seating-preference First Available Seat
     hr
-    
-    h4 Created at 5:30 PM 
 
     h4#party-notes-details Prefers a window seat
         
     h4 Stated Wait Time: 
       span#party-stated-wait-time-details 15 Minutes
+      
+    h4 Added on&nbsp;
+      span#party-added-date 7/8/2011
+      | &nbsp;at&nbsp;
+      span#party-added-time 4:30 PM
     hr
     div.center-wrapper
-      h3#party-time-remaining-details 5 Minutes 
-          span Remaining
+      h3#party-time-remaining-details 5 Minutes
+          span &nbsp;Remaining
       
-
 
     a(href="#alert-party",data-role="button", data-theme="b") Send Text Message Alert
     
