@@ -79,13 +79,17 @@ class ElapsedTimeList extends TimeList
 
     do this.refresh
 
+  _update_time_display: (elem, elapsed) ->
+    elem.innerHTML = Date.format_elapsed elapsed
+
   update: ->
     self = this
 
     @elem.find('time').each (i, elem) ->
       elapsed = Date.get_elapsed elem.getAttribute('datetime')
-      elem.innerHTML = Date.format_elapsed elapsed
       elem.setAttribute 'data-minutes', elapsed
+
+      self._update_time_display elem, elapsed
 
     @elem.children('li[data-role=list-divider]').each (i, elem) ->
       elem = $ elem
@@ -110,8 +114,50 @@ class ElapsedTimeList extends TimeList
         $(last).before elem
 
     do this.refresh
+
+class TargetTimeList extends ElapsedTimeList
+  insert: (elem, args...) ->
+    super(elem, args...)
+
+    $(elem).find('time').click =>
+      do this.toggle_format
+
+      return false
+
+  toggle_format: ->
+    @format = if @format is 'elapsed' then 'time' else 'elapsed'
+
+    $('time', @elem).removeClass 'overtime'
+
+    do this.update
+
+  _update_time_display: (elem, elapsed) ->
+    if not @format? or @format == 'time'
+      elem.innerHTML = Date.format_elapsed elapsed
+      return
+
+    target = elem.getAttribute 'data-target'
+    if not target?
+      elem.innerHTML = ''
+      return
+
+    target = parseInt target
+
+    rem = target - elapsed
+  
+    str = ''
+    elem = $ elem
+    if rem < 0
+      elem.addClass 'overtime'
+    else
+      str += '+'
+      elem.removeClass 'overtime'
+
+    str += rem + ' min'
+
+    elem.text str
           
-class QueueList extends ElapsedTimeList
+class QueueList extends TargetTimeList
   add_sections: ->
     super
 

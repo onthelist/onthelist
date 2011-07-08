@@ -28,11 +28,14 @@ Date.prototype.setISO8601 = (string) ->
 
   this.setTime(Number(time))
 
-Date.get_elapsed = (date) ->
+Date.get_minutes = (date) ->
   if typeof date == 'string'
-    date = (new Date).setISO8601(date)
+    (new Date).setISO8601(date)
   else
-    date = date.getTime()
+    date.getTime()
+
+Date.get_elapsed = (date) ->
+  date = Date.get_minutes date
 
   return Math.floor(((new Date).getTime() - date) / 60000.0)
 

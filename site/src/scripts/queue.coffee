@@ -5,18 +5,17 @@ class Queue
     @ds.each (row) ->
       self.register_row row
 
-  add: (name, size, add_time=(new Date)) ->
+  add: (vals={}) ->
+    '''
+    Passed values: name, size, add_time
+    '''
     self = this
 
-    if typeof add_time != 'string'
-      add_time = add_time.toISOString()
+    vals.add_time ?= new Date
+    if typeof vals.add_time != 'string'
+      vals.add_time = vals.add_time.toISOString()
 
-    doc =
-      'name': name,
-      'size': size,
-      'add_time': add_time
-
-    @ds.save doc, (resp) ->
+    @ds.save vals, (resp) ->
       self.register_row resp
 
   remove: (row) ->
@@ -48,6 +47,12 @@ add_list_row = (list, row) ->
   e_time = $ '<time>' + Date.format_elapsed(elapsed) + '</time>'
   e_time.attr('data-minutes', elapsed)
   e_time.attr('datetime', row.add_time)
+
+  if row.quoted_wait
+    qw = parseInt row.quoted_wait
+
+    e_time.attr('data-target', qw)
+
   link.append e_time
 
   name = row.name
@@ -95,4 +100,11 @@ $ ->
         size = Math.ceil(Math.random() * 12)
         time = Math.floor(Math.random() * 90)
 
-        queue.add(name, size, (new Date).add(-time).minutes())
+        queue.add
+          name: name
+          size: size
+          add_time: (new Date).add(-time).minutes()
+          phone: '2482298031'
+          quoted_wait: 20
+          alert_method: 'sms'
+          notes: ''
