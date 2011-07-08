@@ -1,15 +1,14 @@
 #view-reservation(data-role="dialog")
   header(data-role="header", data-position="fixed")
     h1 The Steakhouse
-    a(href="#modify-reservation", data-role="button", data-transition="none") Edit
-  
-   form.content(data-role="content")
-    fieldset.ui-grid-a
-      div.ui-block-a 
-        h4 Name
-      div.ui-block-b
-        h4#reservation-name-details John Smith
+    a(href="#modify-party", data-role="button", data-transition="none") Edit
       
+  div.content(data-role="content")
+    .pill
+      .major.ui-bar-e John Smith
+      .minor.ui-bar-b 5
+      span.clear
+    fieldset.ui-grid-a
       div.ui-block-a
         h4 Phone
       div.ui-block-b
@@ -55,9 +54,8 @@
       div.ui-block-b
         h4 Waiting | Seated at table # | No show
 
-    a(href="#alert-reservation",data-role="button", data-theme="e") Alert
+    a(href="#alert-party",data-role="button", data-theme="b") Alert
     
-    a(href="#check-in-reservation",data-role="button", data-theme="b") Check-In
-     
-    a(href="#delete-reservation",data-role="button", data-theme="f") Delete
-      
+    a(href="#check-in-party",data-role="button", data-theme="b") Check-In
+
+    a(href="#delete-party",data-role="button", data-theme="f") Delete 

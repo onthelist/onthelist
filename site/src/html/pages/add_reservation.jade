@@ -28,7 +28,15 @@
     div.date-time(data-role="fieldcontain")
       label(for="reservation-time") Time
       input#reservation-time(name="reservation_time", type="date", data-role="datebox", data-options='{"mode": "timebox", "timeFormat": 12, "pickPageTheme": "b"}', placeholder="Time")
-      
+    
+    div.ui-grid-c
+      div.ui-block-a
+      div.ui-block-b
+        input#reservation-table-number(type="text", name="reservation_table_number")
+      div.ui-block-c
+        a(href="#table-reservation", data-role="button") Choose Table
+      div.ui-block-d
+    
     div(data-role="fieldcontain")
       label(for="reservation-notes") Notes
       input#reservation-notes(type="text", name="notes", value="", placeholder="Notes")
