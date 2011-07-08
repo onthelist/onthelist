@@ -23,10 +23,16 @@ class Queue
   register_row: (row) ->
     @elem.trigger('rowAdd', row)
 
+save_row_key = ->
+  $$('#queue-list').selected_key = this.getAttribute 'data-key'
+
 add_list_row = (list, row) ->
   el = $ '<li></li>'
   link = $ '<a></a>'
   link.attr('href', '#view-party')
+  link.attr('data-key', row.key)
+  link.click save_row_key
+
   el.append link
 
   elapsed = Date.get_elapsed row.add_time
