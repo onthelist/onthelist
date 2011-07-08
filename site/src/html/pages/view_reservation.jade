@@ -4,11 +4,11 @@
     a(href="#modify-reservation", data-role="button", data-transition="none") Edit
       
   div.content(data-role="content")
-    .pill
-      .major.upper.ui-bar-e(data-key="name") George Johnson
-      .major.lower.ui-bar-d(data-key="status") Pending
-        img.icon(src="../images/icons/78-stopwatch.png")
-      .minor.ui-bar-b
+    div.pill
+      div#reservation-name-details.major.upper.ui-bar-e(data-key="name") George Johnson
+      div#reservation-status-details.major.lower.ui-bar-d(data-key="status") Pending
+        time.icon
+      div.minor.ui-bar-b
         .subtext reservation Of
         span#reservation-size-details(data-key="size") 2
       span.clear

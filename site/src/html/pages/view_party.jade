@@ -4,13 +4,13 @@
     a(href="#modify-party", data-role="button", data-transition="none") Edit
       
   div.content(data-role="content")
-    .pill
-      .major.upper.ui-bar-e(data-key="name") John Smith 
-      .major.lower.ui-bar-d(data-key="status")
+    div.pill
+      div#party-name-details.major.upper.ui-bar-e(data-key="name") John Smith 
+      div#party-status-details.major.lower.ui-bar-d(data-key="status")
         | Waiting 23 minutes
         time.icon
-      .minor.ui-bar-b
-        .subtext Party Of
+      div.minor.ui-bar-b
+        div.subtext Party Of
         span#party-size-details(data-key="size") 5
       span.clear
     div.center-wrapper

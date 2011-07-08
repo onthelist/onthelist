@@ -4,7 +4,6 @@
   margin: -15px -15px 12px -15px;
   position: relative;
   height: 76px;
-  @include box-shadow(#555 -1px 0 5px);
   
   font-size: 1.5em;
 
@@ -12,10 +11,9 @@
     float: left;
     margin: 0;
     z-index: 2;
-
+    @include box-shadow(#555 -1px 0 5px);
     position: absolute;
     display: inline-block;
-
     box-sizing: border-box;
     -moz-box-sizing: border-box;
   }
@@ -37,6 +35,7 @@
     font-size: 1.5em;
     width: 85px;
     height: 100%;
+    top: 0;
     right: 0;
     color: #FFF;
     text-align: center;
@@ -50,7 +49,7 @@
       top: 8px;
       text-align: center;
       width: 100%;
-      opacity: 0.9;
+      opacity: 0.5;
     }
   }
 
@@ -77,7 +76,6 @@
     }
   }
 }
-
 
 .major-details {
   display:block;
