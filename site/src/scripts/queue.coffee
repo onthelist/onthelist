@@ -16,21 +16,30 @@ class Queue
       'size': size,
       'add_time': add_time
 
-    @ds.save(doc, (resp) ->
+    @ds.save doc, (resp) ->
       self.register_row resp
-    )
+
+  remove: (row) ->
+    self = this
+
+    @ds.remove row, ->
+      self.elem.trigger('rowRemove', row.key || row)
+
+  get: (args...) ->
+    return @ds.get(args...)
 
   register_row: (row) ->
     @elem.trigger('rowAdd', row)
 
+
 save_row_key = ->
-  $$('#queue-list').selected_key = this.getAttribute 'data-key'
+  $$('#queue-list').selected_key = this.getAttribute 'data-id'
 
 add_list_row = (list, row) ->
   el = $ '<li></li>'
   link = $ '<a></a>'
   link.attr('href', '#view-party')
-  link.attr('data-key', row.key)
+  link.attr('data-id', row.key)
   link.click save_row_key
 
   el.append link
@@ -62,6 +71,11 @@ $ ->
       elapsed = Date.get_elapsed row.add_time
 
       add_list_row(list, row)
+
+    q_elem.bind 'rowRemove', (e, key) ->
+      do $('a[data-id=' + key + ']', this).parents('li').first().remove
+
+      do list.refresh
   
     queue_ds.each (row) ->
       # DOM adaptor doesn't seem to support find
