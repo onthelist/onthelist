@@ -53,24 +53,28 @@
     }
   }
 
+  .upper {
+    height: 42px;
+  }
+
   .lower {
     bottom: 0;
     top: auto;
     font-size: .6em;
     z-index: 1;
+    height: 32px;
 
     color: #FAFAFA;
     text-shadow: 0 1px 1px #888;
 
     .icon {
-      height: 1.2em;
-      float: right;
-      margin-right: 7px;
-      position: relative;
-      top: 3px;
+      position: absolute;
+      right: 81px;
+      bottom: -1px;
     }
   }
 }
+
 
 .major-details {
   display:block;

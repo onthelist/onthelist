@@ -10,6 +10,12 @@ $('#view-party').live 'pageshow', ->
     $('[data-key=name]', self).text data.name
     $('[data-key=size]', self).text data.size
 
+    $('time.icon', self)
+      .attr('datetime', data.add_time)
+      .attr('data-target', data.quoted_wait)
+      .time
+        format: 'icon'
+
     $('a[href=#delete-party]', self).click (e) ->
       queue.remove data
 

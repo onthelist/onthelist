@@ -110,6 +110,6 @@ $ ->
           size: size
           add_time: (new Date).add(-time).minutes()
           phone: '2482298031'
-          quoted_wait: 20
+          quoted_wait: 60
           alert_method: 'sms'
           notes: ''
