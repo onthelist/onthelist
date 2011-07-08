@@ -1,42 +1,38 @@
 #view-reservation(data-role="dialog")
-  header(data-role="header", data-position="fixed")
-    h1 The Steakhouse
-    a(href="#modify-reservation", data-role="button", data-transition="none") Modify
+  header(data-role="header")
+    h1 View reservation
+    a(href="#modify-reservation", data-role="button", data-transition="none") Edit
       
   div.content(data-role="content")
     .pill
-      div.major.ui-bar-e George Johnson 
-        br
-        span#reservation-status.major-status Pending
-      div.minor.ui-bar-b 5
+      .major.upper.ui-bar-e(data-key="name") George Johnson
+      .major.lower.ui-bar-d(data-key="status") Pending
+        img.icon(src="../images/icons/78-stopwatch.png")
+      .minor.ui-bar-b
+        .subtext reservation Of
+        span#reservation-size-details(data-key="size") 2
       span.clear
     div.center-wrapper
-      h3 Created on 7/5/2011 at 5:30 PM
+      h3#reservation-seating-preference Booth
     hr
-    div.center-wrapper
-      h4 Booth
     
-    div.ui-grid-a 
-      div.ui-block-a
-        h4 Notes
-      div.ui-block-b
-        h4#reservation-notes-details Quite seating area
-        
-      div.ui-block-a
-        h4 Date
-      div.ui-block-b
-        h4#reservation-date-details 7/16/2011
-        
-      div.ui-block-a
-        h4 Time
-      div.ui-block-b
-        h4#reservation-time-details 6:45 PM
+    h4 Date: 
+      span#reservation-date-details 7/15/2011
+      
+    h4 Time: 
+      span#reservation-time-details 5:40 PM
+    
+    h4#reservation-notes-details Requests a quiet area
+    
+    h4 Added on&nbsp;
+      span#reservation-added-date 7/8/2011
+      | &nbsp;at&nbsp;
+      span#reservation-added-time 2:30 PM
     hr
     div.center-wrapper
-      h3#reservation-time-remaining-details 11 Days 
-          span Remaining      
-
-    // Reservation alerts would include delays, reschedule requests, reminders, etc
+      h3#reservation-date-remaining-details 5 Days
+          span &nbsp;Remaining
+      
     a(href="#alert-reservation",data-role="button", data-theme="b") Send Text Message Alert
     
     a(href="#check-in-reservation",data-role="button", data-theme="b") Check-In
