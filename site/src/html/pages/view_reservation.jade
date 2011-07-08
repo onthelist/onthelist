@@ -1,43 +1,26 @@
 #view-reservation(data-role="dialog")
   header(data-role="header", data-position="fixed")
     h1 The Steakhouse
-    a(href="#modify-party", data-role="button", data-transition="none") Edit
+    a(href="#modify-reservation", data-role="button", data-transition="none") Modify
       
   div.content(data-role="content")
     .pill
-      .major.ui-bar-e John Smith
-      .minor.ui-bar-b 5
+      div.major.ui-bar-e George Johnson 
+        br
+        span#reservation-status.major-status Pending
+      div.minor.ui-bar-b 5
       span.clear
-    fieldset.ui-grid-a
-      div.ui-block-a
-        h4 Phone
-      div.ui-block-b
-        h4#reservation-phone-details 586-212-4392
-          
-      div.ui-block-a
-        h4 Party Size
-      div.ui-block-b 
-        h4#reservation-size-details 5
-        
-      div.ui-block-a
-        h4 Called Ahead
-      div.ui-block-b
-        h4#reservation-called-ahead-details No
-
-      div.ui-block-a
-        h4 Seating Preference
-      div.ui-block-b
-        h4#reservation-seating-preference-details First Available
-       
-      div.ui-block-a
-        h4 Alert Method
-      div.ui-block-b
-        h4#reservation-alert-method-details Text
-        
+    div.center-wrapper
+      h3 Created on 7/5/2011 at 5:30 PM
+    hr
+    div.center-wrapper
+      h4 Booth
+    
+    div.ui-grid-a 
       div.ui-block-a
         h4 Notes
       div.ui-block-b
-        h4#reservation-notes-details Prefers a window seat
+        h4#reservation-notes-details Quite seating area
         
       div.ui-block-a
         h4 Date
@@ -47,15 +30,15 @@
       div.ui-block-a
         h4 Time
       div.ui-block-b
-        h4#reservation-time-details 5:10 PM
+        h4#reservation-time-details 6:45 PM
+    hr
+    div.center-wrapper
+      h3#reservation-time-remaining-details 11 Days 
+          span Remaining      
 
-      div.ui-block-a
-        h4 reservationStatus
-      div.ui-block-b
-        h4 Waiting | Seated at table # | No show
-
-    a(href="#alert-party",data-role="button", data-theme="b") Alert
+    // Reservation alerts would include delays, reschedule requests, reminders, etc
+    a(href="#alert-reservation",data-role="button", data-theme="b") Send Text Message Alert
     
-    a(href="#check-in-party",data-role="button", data-theme="b") Check-In
+    a(href="#check-in-reservation",data-role="button", data-theme="b") Check-In
 
-    a(href="#delete-party",data-role="button", data-theme="f") Delete 
+    a(href="#delete-reservation",data-role="button", data-theme="f") Delete 
