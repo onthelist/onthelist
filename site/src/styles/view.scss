@@ -4,15 +4,13 @@
   margin: -15px -15px 12px -15px;
   position: relative;
   height: 76px;
-  @include box-shadow(#555 -1px 0 5px);
-  
   font-size: 1.5em;
 
   > div {
     float: left;
     margin: 0;
     z-index: 2;
-
+    @include box-shadow(#555 -1px 0 5px);
     position: absolute;
     display: inline-block;
 
