@@ -121,6 +121,14 @@ if (watchers && !files.length) {
 /**
  * Filters
  */
+
+var dependencies = [];
+
+var add_dep = function(file){
+  if (dependencies.indexOf(file) == -1)
+    dependencies.push(file);
+};
+
 var strip_quotes = function(s){
   return s.substring(1, s.length - 1);
 };
@@ -149,7 +157,12 @@ jade.filters.include_files = function(block, compiler, opts){
         // Jade is annoyingly synchronous, yet it uses an async call to
         // read the file, so it's impossible to render one template and use its
         // output in another using the readFile func.
-        var str = fs.readFileSync(path.join(self.path, filename));
+         
+        var p = path.join(self.path, filename);
+
+        add_dep(p);
+
+        var str = fs.readFileSync(p);
         var html = jade.render(str, options);
     
         var obj = {
@@ -183,6 +196,8 @@ jade.filters.include_file = function(block, compiler, opts){
     var self = this;
 
     this.buf = ['var interp;'];
+
+    add_dep(self.path);
 
     var str = fs.readFileSync(self.path);
     var html = jade.render(str, options);
@@ -226,12 +241,15 @@ function processFile(path) {
  */
 
 function renderJade(jadefile) {
+  // Updated by filters
+  dependencies = [];
+
   jade.renderFile(jadefile, options, function(err, html) {
     if (err){
       console.error('Error with file ' + jadefile);
       console.error(err);
     } else {
-      writeFile(jadefile, html);
+      writeFile(jadefile, html, dependencies);
     }
   });
 }
@@ -262,7 +280,7 @@ function mkdirs(path, fn) {
  * Write the html output to a file.
  */
 
-function writeFile(src, html) {
+function writeFile(src, html, deps) {
   var path = src.replace('.jade', '.html');
   if (dest) path = dest + '/' + path;
   mkdirs(path, function(err){
@@ -271,6 +289,13 @@ function writeFile(src, html) {
       if (err) throw err;
       console.log('  \033[90mcompiled\033[0m %s', path);
       watch(src, renderJade);
+
+      console.log(deps);
+      if (deps){
+        for (var i=0; i < deps.length; i++){
+          watch(deps[i], renderJade, src);
+        }
+      }
     });
   });
 }
@@ -279,7 +304,8 @@ function writeFile(src, html) {
  * Watch the given `file` and invoke `fn` when modified.
  */
 
-function watch(file, fn) {
+function watch(file, fn, out_file) {
+  out_file = out_file || file;
   // not watching
   if (!watchers) return;
 
@@ -290,6 +316,6 @@ function watch(file, fn) {
   watchers[file] = true;
   console.log('  \033[90mwatching\033[0m %s', file);
   fs.watchFile(file, { interval: 50 }, function(curr, prev){
-    if (curr.mtime > prev.mtime) fn(file);
+    if (curr.mtime > prev.mtime) fn(out_file);
   });
 }
