@@ -81,6 +81,14 @@ $.fn.time = (opts, args...) ->
       st_ang = -Math.PI * .5
       end_ang = st_ang + per * Math.PI * 2
 
+     
+      # Outline
+      cxt.arc rad, rad, rad - .5, 0, Math.PI * 2, false
+      cxt.strokeStyle = '#BBB'
+      cxt.lineWidth = 1
+      do cxt.stroke
+
+      # Wedge
       do cxt.beginPath
       cxt.moveTo rad, rad
       cxt.lineTo rad, 0
