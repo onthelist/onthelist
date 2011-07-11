@@ -105,6 +105,7 @@ $ ->
         time = Math.floor(Math.random() * 90)
 
         queue.add
+          key: queue_ds.uuid()
           name: name
           size: size
           add_time: (new Date).add(-time).minutes()
