@@ -39,7 +39,7 @@ Date.get_elapsed = (date) ->
 
   return Math.floor(((new Date).getTime() - date) / 60000.0)
 
-Date.format_elapsed = (min) ->
+Date.format_elapsed = (min, long=false) ->
   out = ''
   if min > 59
     out += (Math.floor min / 60) + 'h '
@@ -49,7 +49,7 @@ Date.format_elapsed = (min) ->
       out += min + 'm'
 
   else
-    out = min + ' min'
+    out = min + ' ' + if long then 'minutes' else 'min'
 
   return out
 

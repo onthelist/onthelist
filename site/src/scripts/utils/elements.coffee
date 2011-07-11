@@ -1,8 +1,8 @@
 window.$$ = (node) ->
-  data = $(node).data("$$")
+  data = $(node).jqmData("$$")
   if not data
     data = {}
-    $(node).data("$$", data)
+    $(node).jqmData("$$", data)
 
   return data
 

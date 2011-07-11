@@ -30,7 +30,6 @@ class Queue
   register_row: (row) ->
     @elem.trigger('rowAdd', row)
 
-
 save_row_key = ->
   $$('#queue-list').selected_key = this.getAttribute 'data-id'
 
@@ -39,7 +38,7 @@ add_list_row = (list, row) ->
   link = $ '<a></a>'
   link.attr('href', '#view-party')
   link.attr('data-id', row.key)
-  link.click save_row_key
+  link.bind 'vclick', save_row_key
 
   el.append link
 
@@ -112,4 +111,5 @@ $ ->
           phone: '2482298031'
           quoted_wait: 60
           alert_method: 'sms'
+          status: 'waiting'
           notes: ''
