@@ -32,8 +32,13 @@
           span &nbsp;Remaining
       
 
-    a(href="#alert-party",data-role="button", data-theme="b") Send Text Message Alert
-    
+    div.action-select(data-role="controlgroup", data-type="horizontal")
+      a(href="#alert-party",data-role="button", data-theme="b") Send Text Alert
+      div(data-role="fieldcontain")
+        select(name="c", data-theme="b", data-native-menu="false")
+          option(value="call") Call Party
+          option(value="view") View Number
+
     a(href="#check-in-party",data-role="button", data-theme="b") Check-In
 
     a(href="#delete-party",data-role="button", data-theme="f") Delete 
