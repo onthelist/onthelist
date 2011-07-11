@@ -7,6 +7,10 @@ $('#view-party').live 'pageshow', ->
   queue = $$('#queue-list').queue
 
   queue.get key, (data) ->
+    if not data
+      alert 'Record not found'
+      return
+
     $('[data-key=name]', self).text data.name
     $('[data-key=size]', self).text data.size
 
