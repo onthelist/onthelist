@@ -1,8 +1,10 @@
-#tablechart(data-role="page")
+#tablechart(data-role="page", data-expand-height="false")
   header(data-role="header")
     h1 The Steakhouse
-  form.content(data-role="content") Tablechart
-    canvas#table-chart-canvas(width="100", height="100")
+  .content(data-role="content")
+    .tablechart
+      .tablechart-inner
+        div#item
   
   include_file(path="html/partials/nav_footer.jade"):
     != contents
