@@ -1,5 +1,5 @@
 $ ->
-  $('a[href=#add]').click (e) ->
+  $('#add-party a[href=#add]').click (e) ->
     do e.preventDefault
 
     dia = $ '#add-party'
