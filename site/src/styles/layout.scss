@@ -13,15 +13,6 @@
   color: #D44; /* Red */
 }
 
-h3 {
-  margin-top: 2px;
-  margin-bottom: 2px;
-}
-
-h4 {
-  margin-top: 3px;
-  margin-bottom: 5px;
-}
 
 .info {
   font-weight: normal;
@@ -62,9 +53,9 @@ time {
 .center-wrapper {
 // Used to center form elements
   display: block !important;
-  padding: 10px 0;
+  -padding: 10px 0;
   -border: 1px dotted;
-  margin: 5px auto !important;
+  margin: 2px auto !important;
   text-align:center;
 }
 
@@ -135,6 +126,10 @@ div.ui-slider-switch {
 [data-role=dialog] {
   form.ui-content {
     padding-top: 0;
+  }
+  // Corrects button overlapping on list items
+    .ui-listview {
+    margin: -15px -15px 15px -15px;
   }
 }
 
