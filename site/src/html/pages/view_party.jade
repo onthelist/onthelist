@@ -35,9 +35,9 @@
     div.action-select(data-role="controlgroup", data-type="horizontal")
       a(href="#alert-party",data-role="button", data-theme="b") Send Text Alert
       div(data-role="fieldcontain")
-        select(name="c", data-theme="b", data-native-menu="false")
-          option(value="call") Call Party
-          option(value="view") View Number
+        select#text-actions(data-theme="b", data-native-menu="false")
+          option(value="custom_sms") Compose Custom Text
+          option(value="call") Call Guest at (248) 229-8031
 
     a(href="#check-in-party",data-role="button", data-theme="b") Check-In
 

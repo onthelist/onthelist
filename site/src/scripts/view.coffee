@@ -24,6 +24,20 @@ $('#view-party').live 'pageshow', ->
       .time
         format: 'icon'
 
+    $('#text-actions', self)
+      .change ->
+        $.log $(this).val()
+
+    fmt_phone = Format.phone data.phone
+    $('#text-actions-menu li[tabindex=-1] a')
+      .text("Call Guest at #{fmt_phone}")
+      .attr("href", "tel:#{data.phone}")
+      .bind 'vclick', ->
+        # Rather than the select action, we want to actually
+        # follow the URL
+        document.location = $(this).attr('href')
+        return false
+
     do_delete = ->
       queue.remove data
 
