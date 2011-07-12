@@ -78,7 +78,42 @@
 }
 
 .major-details {
-  display:block;
+  display: block;
+}
+
+.action-select {
+  margin: 0.5em 5px;
+  position: relative;
+
+  .ui-corner-left {
+    width: 98%;
+    border-radius: 1em;
+  }
+  .ui-corner-right {
+    min-width: 17px;
+    border-radius: 0 1em 1em 0;
+  }
+
+  .ui-body {
+    display: inline-block;
+    clear: none;
+  }
+  .ui-select .ui-btn-icon-right .ui-btn-inner {
+    padding-right: 20px;
+    text-indent: -9999px;
+  }
+  .ui-field-contain {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+
+    .ui-btn-up-b {
+    }
+  }
+
 }
 
 .clear {
