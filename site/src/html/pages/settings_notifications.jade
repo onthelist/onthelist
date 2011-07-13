@@ -1,0 +1,106 @@
+#settings-notifications(data-role="page")
+  header(data-role="header", data-position="fixed")
+    a(href="#settings", data-role="back") Back
+    h1 Notifications
+    a(href="#save") Save
+  form.content(data-role="content")
+    ul(data-role="listview")
+      li(data-role="list-divider")
+        h2 Parties
+      div(data-role="fieldcontain")  
+        label(for="party-is-late")
+          h3 Is Late
+        select#party-is-late(name="party_is_late", data-native-menu="false")
+          option(value="first_available") Never
+          option(value="5_minutes_after") 5 Minutes After
+          option(value="10_minutes_after") 10 Minutes After
+          option(value="15_minutes_after") 15 Minutes After 
+          
+        label(for="party-checks-in")
+          h3 Checks In
+        select#party-checks-in(name="party_checks_in", data-role="slider")
+          option(value="on") No
+          option(value="off") Yes
+        
+        label(for="party-estimate-verses-actual")
+          h3 Estimated Verse/Actual Wait Time
+        select#party-estimate-verses-actual(name="party_estimate_verses_actual", data-native-menu="false")
+          option(value="first_available") Never
+          option(value="5_minutes_before") 5 Minutes Before
+          option(value="10_minutes_before") 10 Minutes Before
+          option(value="15_minutes_before") 15 Minutes Before
+          option(value="5_minutes_after") 5 Minutes After
+          option(value="10_minutes_after") 10 Minutes After
+          option(value="15_minutes_after") 15 Minutes After
+        
+        label(for="party-is-alerted")
+          h3 Alerted
+        select#party-is-alerted(name="party_is_alerted", data-role="slider")
+          option(value="on") No
+          option(value="off") Yes
+        
+        label(for="party-seated")
+          h3 Seated
+        select#party-seated(name="party_seated", data-role="slider")
+          option(value="on") No
+          option(value="off") Yes
+          
+        label(for="party-leaves")
+          h3 Leaves
+        select#party-leaves(name="party_leaves", data-role="slider")
+          option(value="on") No
+          option(value="off") Yes
+      
+    
+      li(data-role="list-divider")
+        h2 Reservations
+      
+      div(data-role="fieldcontain")
+        label(for="reservation-is-late")
+          h3 Is Late
+        select#reservation-is-late(name="reservation_is_late", data-native-menu="false")
+          option(value="first_available") Never
+          option(value="5_minutes_after") 5 Minutes After
+          option(value="10_minutes_after") 10 Minutes After
+          option(value="15_minutes_after") 15 Minutes After
+        
+        label(for="reservation-checks-in")
+          h3 Checks In
+        select#reservation-checks-in(name="reservation_checks_in", data-role="slider")
+          option(value="on") No
+          option(value="off") Yes
+        
+        label(for="reservation-estimate-verses-actual")
+          h3 Estimated Verse/Actual Wait Time
+        select#reservation-estimate-verses-actual(name="reservation_estimate_verses_actual", data-native-menu="false")
+          option(value="first_available") Never
+          option(value="5_minutes_before") 5 Minutes Before
+          option(value="10_minutes_before") 10 Minutes Before
+          option(value="15_minutes_before") 15 Minutes Before
+          option(value="5_minutes_after") 5 Minutes After
+          option(value="10_minutes_after") 10 Minutes After
+          option(value="15_minutes_after") 15 Minutes After
+        
+        label(for="reservation-is-alerted")
+          h3 Alerted
+        select#reservation-is-alerted(name="reservation_is_alerted", data-role="slider")
+          option(value="on") No
+          option(value="off") Yes
+        
+        label(for="reservation-seated")
+          h3 Seated
+        select#reservation-seated(name="reservation_seated", data-role="slider")
+          option(value="on") No
+          option(value="off") Yes
+          
+        label(for="reservation-leaves")
+          h3 Leaves
+        select#reservation-leaves(name="reservation_leaves", data-role="slider")
+          option(value="on") No
+          option(value="off") Yes
+                 
+          
+          
+  // Disabling footer on setting child page for future review 
+    include_file(path="html/partials/nav_footer.jade"):
+      != contents
