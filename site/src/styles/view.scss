@@ -13,6 +13,11 @@
     @include box-shadow(#555 -1px 0 5px);
     position: absolute;
     display: inline-block;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
