@@ -1,7 +1,10 @@
 #settings(data-role="page")
   header(data-role="header")
     h1 Settings
-  form.content(data-role="content") options go here
+  form.content(data-role="content")
+    ui(data-role="listview", data-inset="true", data-theme="c")
+      li
+        a(href="#settings-notifications") Notifications
   
   include_file(path="html/partials/nav_footer.jade"):
     != contents
