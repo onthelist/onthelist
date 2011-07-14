@@ -3,13 +3,13 @@
     h1 Add a Party
   form.content(data-role="content")
     div(data-role="fieldcontain")
-      label(for="party-name") Name
-      input#party-name(type="text", name="name", value="", placeholder="Name", autofocus="autofocus", autocapitalize="on")
-    
-    div(data-role="fieldcontain")
       label(for="party-phone-number") Phone Number
       input#party-phone-number(type="tel", name="phone_number", value="", placeholder="Phone Number")
       
+    div(data-role="fieldcontain")
+      label(for="party-name") Name
+      input#party-name(type="text", name="name", value="", placeholder="Name", autofocus="autofocus", autocapitalize="on")
+        
     div(data-role="fieldcontain")
       label(for="party-size") Party Size
       input#party-size(type="range", name="party_size", value="1", min="1", max="10")
@@ -23,7 +23,7 @@
 
     div(data-role="fieldcontain")
       label(for="party-wait-time") Quoted Wait Time
-      input#party-wait-time(type="range", name="wait_time", min="0", max="120", step="5", value="0")
+      input#party-wait-time(type="range", name="wait_time", min="0", max="120", step="5", value="20")
     
     div(data-role="fieldcontain")
       label(for="party-called-ahead") Called Ahead
