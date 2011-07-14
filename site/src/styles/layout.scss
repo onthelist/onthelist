@@ -117,7 +117,7 @@ label, .ui-controlgroup-label {
   font-weight: bold !important;
 }
 
-[data-role=fieldcontains] {
+[data-role=fieldcontain] {
   fieldset {
     margin: 2px auto;
   }
@@ -158,11 +158,17 @@ div.ui-slider-switch {
 .wide-slider{
   // Widens slider handles. Unused at the moment
   a.ui-slider-handle {
-  height: 31px;
-  top: 40%;
-  width: 45px;
+    height: 31px;
+    top: 40%;
+    width: 45px;
   }
 }
+
+.ui-controlgroup-controls {
+  margin: 2px auto;
+  text-align:center;
+}
+
 
 [data-role=dialog] {
   form.ui-content {
@@ -185,7 +191,7 @@ div.ui-slider-switch {
   }
   [data-role=controlgroup] {
     .ui-btn-inner {
-      // Narrow radio group buttons
+    // Narrow radio group buttons
       padding: 0.7em 14px;
     }
   }
@@ -201,7 +207,6 @@ div.ui-slider-switch {
       
     label {
       &.ui-input-text {
-        // Hide form labels on small screens except sliders
         display: none;
       }
       
@@ -212,9 +217,27 @@ div.ui-slider-switch {
   }
 }
 
+@media all and (max-width: 600px) {
+  [data-role=controlgroup] {
+    .ui-btn-inner {
+    // Narrow radio group buttons
+      padding: 0.7em 13px;
+    }
+  }
+  .ui-controlgroup-horizontal .ui-checkbox .ui-btn, 
+    .ui-controlgroup-horizontal .ui-radio .ui-btn, 
+    .ui-controlgroup-horizontal .ui-checkbox:last-child, 
+    .ui-controlgroup-horizontal .ui-radio:last-child {
+
+    // Correct visible overflow when buttons are disabled.
+
+    margin-right: 4px;
+  }
+}
+
+
 @media all and (min-width: 451px){
   form.content {
-    // Aligns labels and control group elements such as toggle switches
     label, .ui-controlgroup-label {
       text-align: right;
       display: inline-block;
@@ -227,16 +250,5 @@ div.ui-slider-switch {
     :-moz-placeholder {
       text-indent: -9999px;
     }
-  }
-  .ui-btn-inner {
-    // Narrow radio group buttons. Corrects large to medium devices
-    padding: 0.7em 14px;  
-  }
-  .ui-controlgroup-horizontal .ui-checkbox .ui-btn, 
-    .ui-controlgroup-horizontal .ui-radio .ui-btn, 
-    .ui-controlgroup-horizontal .ui-checkbox:last-child, 
-    .ui-controlgroup-horizontal .ui-radio:last-child {
-
-    margin-right: 4px;
   }
 }
