@@ -136,10 +136,6 @@ div.ui-slider-switch {
   form.ui-content {
     padding-top: 0;
   }
-  // Corrects button overlapping on list items
-    .ui-listview {
-    margin: -15px -15px 15px -15px;
-  }
 }
 
 @media all and (max-width: 450px) {
