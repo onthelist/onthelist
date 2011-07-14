@@ -59,6 +59,24 @@ time {
   text-align:center;
 }
 
+.table-wrapper {
+  display:inline;
+  vertical-align: middle;
+}
+  
+.small-input {
+// Used for the table chart input
+  display: table-cell;
+  text-align: center !important;
+  font-size: 1.1em !important;
+  width: 35px !important;
+  vertical-align: middle;
+}
+.small-button {
+// Used for the table chart input
+  display: table-cell;
+  vertical-align: middle;
+}
 
 .ui-li.ui-btn a.list-action {
   margin-right: -60px;
