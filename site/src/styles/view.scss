@@ -114,14 +114,11 @@
     margin: 0;
     padding: 0;
     border-width: 0;
-
-    .ui-btn-up-b {
-    }
   }
 }
 
 .ui-li .ui-btn-inner a.ui-link-inherit {
-  /* Give extra space before the ellipsis cutoff. */
+  // Give extra space before the ellipsis cutoff. 
   padding-right: 12px;
 }
 
