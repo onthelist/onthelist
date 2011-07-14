@@ -15,6 +15,7 @@ $('#view-party').live 'pageshow', ->
 
     $('[data-key=name]', self).text data.name
     $('[data-key=size]', self).text data.size
+    $('[data-key=notes]', self).text data.notes
 
     $('[data-key=status]', self).text party.status data
 
