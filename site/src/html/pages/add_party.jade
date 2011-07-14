@@ -35,7 +35,7 @@
       fieldset.form-radio(data-role="controlgroup", data-type="horizontal")
         legend Alert Method
         div.center-wrapper
-          input#text-message(type="radio", name="alert_method", value="sms", checked="checked")
+          input#text-message(type="radio", name="alert_method", value="sms")
           label(for="text-message") Text
           input#call(type="radio", name="alert_method", value="call")
           label(for="call") Call
@@ -44,9 +44,8 @@
           input#wait(type="radio", name="alert_method", value="wait")
           label(for="wait") Wait
         
-    div(data-role="fieldcontain")
-      label(for="party-pager-number") Pager
-      input#party-pager-number.short-code(type="text", name="pager_number", value="", placeholder="Pager")
+      div(data-role="fieldcontain", data-bound-value="page")
+        input.short-code(type="number", name="pager_number", value="", placeholder="Pager #")
       
     div(data-role="fieldcontain")
         label(for="party-notes") Notes

@@ -27,6 +27,13 @@ class Queue
   get: (args...) ->
     return @ds.get(args...)
 
+  find: (filter, res) ->
+    #  return @ds.find(args...)
+    #  Find isn't actually implemented in Lawnchair
+    out = []
+    @ds.all (rows) ->
+      res (row for row in rows when filter(row))
+
   register_row: (row) ->
     @elem.trigger('rowAdd', row)
 

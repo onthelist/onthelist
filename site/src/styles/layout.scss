@@ -43,15 +43,29 @@ time {
   display: inline-block;
 }
 
-.short-code {
-// Used for the pager number, needs implementation.
-  text-align: center !important;
-  font-size: 1.2em !important;
-  width: 40px !important;
+[data-role=fieldcontain] .short-code {
+  text-align: center;
+  font-size: 1.2em;
+  width: 5em;
+  display: block;
+  margin: 0 auto;
+
+  &:-moz-placeholder {
+    text-indent: 0;
+  }
+}
+
+[data-bound-value] {
+  display: none;
+  border: 0;
+
+  // We have to correct for the lack of a label
+  margin-left: 22%;
+  width: 60%;
 }
 
 .center-wrapper {
-// Used to center form elements
+  // Used to center form elements
   display: block !important;
   -padding: 10px 0;
   -border: 1px dotted;
@@ -65,7 +79,7 @@ time {
 }
   
 .small-input {
-// Used for the table chart input
+  // Used for the table chart input
   display: table-cell;
   text-align: center !important;
   font-size: 1.1em !important;
@@ -73,7 +87,7 @@ time {
   vertical-align: middle;
 }
 .small-button {
-// Used for the table chart input
+  // Used for the table chart input
   display: table-cell;
   vertical-align: middle;
 }
@@ -217,5 +231,12 @@ div.ui-slider-switch {
   .ui-btn-inner {
     // Narrow radio group buttons. Corrects large to medium devices
     padding: 0.7em 14px;  
-    }
+  }
+  .ui-controlgroup-horizontal .ui-checkbox .ui-btn, 
+    .ui-controlgroup-horizontal .ui-radio .ui-btn, 
+    .ui-controlgroup-horizontal .ui-checkbox:last-child, 
+    .ui-controlgroup-horizontal .ui-radio:last-child {
+
+    margin-right: 4px;
+  }
 }
