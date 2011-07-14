@@ -1,3 +1,6 @@
 [submodule "site/src/libs/jqm"]
 	path = site/src/libs/jqm
 	url = git@github.com:onthelist/jquery-mobile.git
+[submodule "site/src/libs/iscroll"]
+	path = site/src/libs/iscroll
+	url = git@github.com:onthelist/iscroll.git
