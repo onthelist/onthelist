@@ -1,3 +1,5 @@
+scroll = null
+
 styles =
   empty:
     fill_color: '#F9F9F9'
@@ -12,6 +14,16 @@ class Sprite
     @canvas = document.createElement 'canvas'
     @parent.appendChild @canvas
     @cxt = @canvas.getContext '2d'
+
+    $(@canvas).draggable()
+      .bind('touchstart mousedown', ->
+        scroll.enabled = false
+        true
+      )
+      .bind('touchend mouseup', ->
+        scroll.enabled = true
+        true
+      )
 
     @w = @h = 0
 
