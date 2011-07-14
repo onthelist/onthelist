@@ -64,18 +64,21 @@ time {
 .center-wrapper {
   // Used to center form elements
   display: block !important;
-  margin: 2px auto !important;
+  margin: 0 auto !important;
   text-align:center;
 }
 
 .table-wrapper {
-  display:inline;
+  margin: 0 auto !important;
+  height: 3em;
+  border: 2px dotted #000;
+  display: inline-block;
   vertical-align: middle;
 }
   
-.small-input {
+.numeric-id.ui-input-text {
   // Used for the table chart input
-  display: table-cell;
+  display: inline-block;
   text-align: center !important;
   font-size: 1.1em !important;
   width: 35px !important;
@@ -83,7 +86,7 @@ time {
 }
 .small-button {
   // Used for the table chart input
-  display: table-cell;
+  display: inline-block;
   vertical-align: middle;
 }
 
