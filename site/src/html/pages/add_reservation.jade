@@ -30,15 +30,12 @@
       input#reservation-time(name="reservation_time", type="date", data-role="datebox", data-options='{"mode": "timebox", "timeFormat": 12, "pickPageTheme": "b"}', placeholder="Time")
     
     label(for="reservation-table-number") Table
-    div.center-wrapper
-      div.table-wrapper
-        input#reservation-table-number.small-input(type="text", name="reservation_table_number")
-        a.small-button(href="#table-reservation", data-role="button") Table Chart
-       
-      
+    div.center-wrapper(data-role="controlgroup", data-type="horizontal")
+      input#reservation-table-number.numeric-id.ui-corner-left(type="text", name="reservation_table_number")
+      a.small-button.ui-btn-corner-right(href="#table-reservation", data-role="button") Table Chart
     
     div(data-role="fieldcontain")
       label(for="reservation-notes") Notes
-      input#reservation-notes(type="text", name="notes", value="", placeholder="Notes")
+      input#reservation-notes(type="number", name="notes", value="", placeholder="Notes")
     
     a(href="#add-reservation", data-role="button") Add
