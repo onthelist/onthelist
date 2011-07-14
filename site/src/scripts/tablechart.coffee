@@ -1,4 +1,4 @@
-scroll = null
+scroller = null
 
 styles =
   empty:
@@ -15,13 +15,16 @@ class Sprite
     @parent.appendChild @canvas
     @cxt = @canvas.getContext '2d'
 
-    $(@canvas).draggable()
+    $(@canvas).draggable(
+      opacity: 0.5
+      containment: 'parent'
+    )
       .bind('touchstart mousedown', ->
-        scroll.enabled = false
+        scroller.enabled = false
         true
       )
       .bind('touchend mouseup', ->
-        scroll.enabled = true
+        scroller.enabled = true
         true
       )
 
@@ -302,19 +305,10 @@ $ ->
     $win.bind 'beforepageshow', ->
       $win.unbind 'resize', update_size
 
-    $(document).bind 'touchmove', (e) ->
-      do e.preventDefault
-    
     opts =
       lockDirection: false
       hScrollbar: true
       zoom: true
       zoomMax: 6
 
-    scroll = new iScroll $content[0], opts
-
-#    $('#item').bind 'mousedown', ->
-#      return false
-#    $('#item').draggable()
-
-
+    scroller = new iScroll $content[0], opts

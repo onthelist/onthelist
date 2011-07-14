@@ -1,6 +1,7 @@
 $ ->
-  $('#add-party a[href=#add]').click (e) ->
+  $('#add-party a[href=#add]').live 'vclick', (e) ->
     do e.preventDefault
+    do e.stopPropagation
 
     dia = $ '#add-party'
 
