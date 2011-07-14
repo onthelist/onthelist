@@ -145,6 +145,8 @@ $ ->
       $('[name=alert_method]', this).val row.alert_method
       $('[name=seating_preference]', this).val row.seating_preference
 
+      $('[name=party_size]', this).focus()
+
     # Disable sms + call alert methods if there is no phone #
 
     phone_disabled = false
