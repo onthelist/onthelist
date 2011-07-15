@@ -31,38 +31,51 @@ html(lang="en")
     script(src="../libs/jqm/jquery.mobile-1.0b2pre.js")
 
     script(src="../../extern/datebox/jquery.mobile.datebox.js")
+      script(src="../../extern/jquery.caret.1.02.js")
+
     script(src="../libs/iscroll/iscroll.js")
+      
+    script(src="../../extern/datejs/date-en-US.js")
     
     script(src="../../extern/lawnchair/Lawnchair.js")
     script(src="/extern/lawnchair/webkit-sqlite.js")
     script(src="../../extern/lawnchair/dom.js")
     script(src="../../extern/lawnchair/memory.js")
-      
-    script(src="../../extern/datejs/date-en-US.js")
-      
-    script(src="../../extern/jquery.caret.1.02.js")
 
     script(src="../scripts/utils/date.js")
-    script(src="../scripts/utils/formatting.js")
     script(src="../scripts/utils/elements.js")
 
-    script(src="../scripts/time.js")
-    script(src="../scripts/logging.js")
-    script(src="../scripts/time_list.js")
-    script(src="../scripts/queue.js")
-    script(src="../scripts/status.js")
-    script(src="../scripts/forms.js")
-    script(src="../scripts/search_ac.js")
-    script(src="../scripts/nav.js")
-    script(src="../scripts/view.js")
-    script(src="../scripts/tablechart.js")
+    script(src="../scripts/monitoring/logging.js")
 
-    script
-      $(document).bind("mobileinit", function(){
-        window.scrollTo(0, 1);
-        $.mobile.page.prototype.options.degradeInputs.date = 'text';
-      });
+    script(src="../scripts/format/object.js")
+    script(src="../scripts/format/date.js")
+    script(src="../scripts/format/phone.js")
+    script(src="../scripts/format/status.js")
 
+    script(src="../scripts/data/object.js")
+    script(src="../scripts/data/queue.js")
+
+    script(src="../scripts/ui/hide_address_bar.js")
+    script(src="../scripts/ui/navbar.js")
+    script(src="../scripts/ui/page_size.js")
+    script(src="../scripts/ui/range.js")
+    script(src="../scripts/ui/search_fill.js")
+    script(src="../scripts/ui/time.js")
+    script(src="../scripts/ui/time_list.js")
+
+    script(src="../scripts/pages/add_party/alert_method.js")
+    script(src="../scripts/pages/add_party/form.js")
+    script(src="../scripts/pages/add_party/search.js")
+  
+    script(src="../scripts/pages/view_party.js")
+
+    script(src="../scripts/pages/queue/check_in.js")
+    script(src="../scripts/pages/queue/list.js")
+      
+    script(src="../scripts/pages/tablechart/sprites.js")
+    script(src="../scripts/pages/tablechart/chart.js")
+    script(src="../scripts/pages/tablechart/demo.js")
+      
   body
     include_files(path="html/pages/", first="queue.jade"):
       - each file in files

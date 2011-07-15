@@ -17,7 +17,7 @@ $('#view-party').live 'pageshow', ->
     $('[data-key=size]', self).text data.size
     $('[data-key=notes]', self).text data.notes
 
-    $('[data-key=status]', self).text party.status data
+    $('[data-key=status]', self).text $F.party.status data
 
     $('time.icon', self)
       .attr('datetime', data.add_time)
@@ -29,7 +29,7 @@ $('#view-party').live 'pageshow', ->
       .change ->
         $.log $(this).val()
 
-    fmt_phone = Format.phone data.phone
+    fmt_phone = $F.phone data.phone
     $('#text-actions-menu li[tabindex=-1] a')
       .text("Call Guest at #{fmt_phone}")
       .attr("href", "tel:#{data.phone}")
