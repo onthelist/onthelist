@@ -1,4 +1,4 @@
-window.party =
+window.$F.party =
   status: (obj) ->
     if not obj.status or obj.status == 'waiting'
 
