@@ -28,7 +28,7 @@ $.fn.time = (opts, args...) ->
       do this["_update_#{@format}"]
 
     _update_elapsed: ->
-      @elem.text Date.format_elapsed @elapsed
+      @elem.text $F.date.format_elapsed @elapsed
 
     _update_remaining: ->
       if not @target?

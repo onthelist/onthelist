@@ -11,7 +11,7 @@ add_list_row = (list, row) ->
   el.append link
 
   elapsed = Date.get_elapsed row.add_time
-  e_time = $ '<time>' + Date.format_elapsed(elapsed) + '</time>'
+  e_time = $ '<time>' + $F.date.format_elapsed(elapsed) + '</time>'
   e_time.attr('data-minutes', elapsed)
   e_time.attr('datetime', row.add_time)
 
@@ -39,12 +39,11 @@ add_list_row = (list, row) ->
   list.insert el, elapsed
 
 $ ->
-  $($D).bind 'queue.ready', ->
     q_elem = $('#queue-list')
 
     list = do q_elem.queueList
 
-    $D.queue.bind 'rowAdd', (e, row) ->
+    $D.queue.live 'rowAdd', (e, row) ->
       elapsed = Date.get_elapsed row.add_time
 
       add_list_row(list, row)

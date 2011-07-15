@@ -1,7 +1,24 @@
 class Queue
-  constructor: (@ds) ->
-    @ds.each (row) =>
-      @register_row row
+  constructor: ->
+    @evt = $({})
+
+    @ready = $.Deferred()
+    @initing = false
+
+  init: ->
+    if not @initing and not @ds?
+      @initing = true
+      
+      new Lawnchair 'queue', (ds) =>
+        @initing = false
+        @ds = ds
+        
+        @ready.resolve this
+
+        @ds.each (row) =>
+          @register_row row
+
+    return @ready.promise()
 
   add: (vals={}) ->
     '''
@@ -16,7 +33,7 @@ class Queue
 
   remove: (row) ->
     @ds.remove row, =>
-      $(this).trigger('rowRemove', row.key || row)
+      @evt.trigger('rowRemove', row.key || row)
 
   get: (args...) ->
     return @ds.get(args...)
@@ -28,36 +45,46 @@ class Queue
       res (row for row in rows when filter(row))
 
   register_row: (row) ->
-    $(this).trigger('rowAdd', row)
+    @evt.trigger('rowAdd', row)
 
-$ ->
-  new Lawnchair 'queue', (queue_ds) ->
-    $D.queue = new Queue queue_ds
-    $($D).trigger('queue.ready', [window.$D.queue])
-    
-    queue_ds.each (row) ->
-      # DOM adaptor doesn't seem to support find
-      if Date.get_elapsed(row.add_time) > 60 * 2
-        queue_ds.remove row
+  live: (evt, func) ->
+    if evt.indexOf 'row' == 0
+      # We call the func on all the existing rows with evt of false
+      # to allow the event to be bound after the data is initially loaded
+      @ds.each (row) ->
+        func(false, row)
 
-    queue_ds.all (rows) ->
-      if rows.length < 12
-        fnames = ['John', 'Jane', 'Zack', 'Marshall', 'Dick']
-        lnames = ['Smith', 'Bloom', 'Wright', 'Miller', 'Lombardi']
+    @evt.bind(evt, func)
 
-        name = fnames[Math.floor(Math.random() * 5)] + ' ' +
-          lnames[Math.floor(Math.random() * 5)]
+  bind: (args...) ->
+    @evt.bind(args...)
 
-        size = Math.ceil(Math.random() * 12)
-        time = Math.floor(Math.random() * 90)
+$D.queue = new Queue
+$.when( $D.queue.init() ).then ->
+  
+  $D.queue.ds.each (row) ->
+    # DOM adaptor doesn't seem to support find
+    if Date.get_elapsed(row.add_time) > 60 * 2
+      $D.queue.ds.remove row
 
-        $D.queue.add
-          key: queue_ds.uuid()
-          name: name
-          size: size
-          add_time: (new Date).add(-time).minutes()
-          phone: '2482298031'
-          quoted_wait: 60
-          alert_method: 'sms'
-          status: 'waiting'
-          notes: ''
+  $D.queue.ds.all (rows) ->
+    if rows.length < 12
+      fnames = ['John', 'Jane', 'Zack', 'Marshall', 'Dick']
+      lnames = ['Smith', 'Bloom', 'Wright', 'Miller', 'Lombardi']
+
+      name = fnames[Math.floor(Math.random() * 5)] + ' ' +
+        lnames[Math.floor(Math.random() * 5)]
+
+      size = Math.ceil(Math.random() * 12)
+      time = Math.floor(Math.random() * 90)
+
+      $D.queue.add
+        key: $D.queue.ds.uuid()
+        name: name
+        size: size
+        add_time: (new Date).add(-time).minutes()
+        phone: '2482298031'
+        quoted_wait: 60
+        alert_method: 'sms'
+        status: 'waiting'
+        notes: ''
