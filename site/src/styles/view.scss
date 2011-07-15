@@ -1,5 +1,22 @@
 @import "compass/css3";
 
+.clear {
+  clear: both;
+  display: block;
+  height: 0;
+  font-size: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+.major-details {
+  display: block;
+}
+
+.overtime {
+  color: #D44; /* Red */
+}
+
 .pill {
   margin: -15px -15px 14px -15px;
   position: relative;
@@ -57,12 +74,7 @@
       opacity: 0.5;
     }
   }
-
-  .upper {
-    height: 42px;
-    top: 0;
-  }
-
+  
   .lower {
     // Status bar
     padding: 7px 0 0 8px;
@@ -80,10 +92,11 @@
       bottom: -1px;
     }
   }
-}
 
-.major-details {
-  display: block;
+  .upper {
+    height: 42px;
+    top: 0;
+  }
 }
 
 .action-select {
@@ -103,10 +116,7 @@
     display: inline-block;
     clear: none;
   }
-  .ui-select .ui-btn-icon-right .ui-btn-inner {
-    padding-right: 20px;
-    text-indent: -9999px;
-  }
+  
   .ui-field-contain {
     position: absolute;
     top: 0;
@@ -115,18 +125,14 @@
     padding: 0;
     border-width: 0;
   }
+  
+  .ui-select .ui-btn-icon-right .ui-btn-inner {
+    padding-right: 20px;
+    text-indent: -9999px;
+  }
 }
 
 .ui-li .ui-btn-inner a.ui-link-inherit {
   // Give extra space before the ellipsis cutoff. 
   padding-right: 12px;
-}
-
-.clear {
-  clear: both;
-  display: block;
-  height: 0;
-  font-size: 0;
-  width: 0;
-  visibility: hidden;
 }

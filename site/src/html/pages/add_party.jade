@@ -30,6 +30,12 @@
       select#party-called-ahead(name="called_ahead", data-role="slider")
         option(value="on") No
         option(value="off") Yes
+    
+    div(data-role="fieldcontain")
+      label(for="reservation-table-number") Table
+      div(data-role="inline-center")
+        input#reservation-table-number.numeric-id.ui-corner-left(type="number", name="reservation_table_number")
+        a.inline-button.ui-btn-corner-right(href="#table-reservation", data-role="button", data-icon="grid") Chart
           
     div(data-role="fieldcontain")
       fieldset.form-radio(data-role="controlgroup", data-type="horizontal")

@@ -1,18 +1,8 @@
-// Elements marked with !important are overwritten with jQuery Mobile's framework. Any changes on input, text or alignment sizes usually require !important.
 
-.ui-li-count {
-  width: 25px;
-  text-align: center;
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.overtime {
-  color: #D44; /* Red */
-}
-
-.info {
+:-moz-placeholder {
+  font-style: italic;
   font-weight: normal;
+  color: #777;
 }
 
 time {
@@ -23,13 +13,38 @@ time {
   display: inline-block;
 }
 
+::-webkit-input-placeholder {
+  font-style: italic;
+  font-weight: normal;
+  color: #777;
+}
+
+.center-wrapper {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+}
+
 .date {
-  font-family: "Trebuchet MS", "Verdana", "FreeSans";
+  font-family: "Trebuchet MS", "Verdana", "FreeSans", sans-serif;
   text-align: right;
   font-weight: bold;
   float: right;
   color: #E8F3FF;
   display: inline-block;
+}
+
+.ui-li-count {
+  width: 25px;
+  text-align: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.ui-li.ui-btn a.list-action {
+  margin-right: -60px;
+  text-align: center;
 }
 
 .year {
@@ -38,267 +53,4 @@ time {
   float:right;
   color: #EAEAEA;
   display: inline-block;
-}
-
-[data-role=fieldcontain] .short-code {
-  text-align: center;
-  font-size: 1.2em;
-  width: 5em;
-  display: block;
-  margin: 0 auto;
-
-  &:-moz-placeholder {
-    text-indent: 0;
-  }
-}
-
-[data-bound-value] {
-  display: none;
-  border: 0;
-
-  // We have to correct for the lack of a label
-  margin-left: 22%;
-  width: 60%;
-}
-
-input.ui-input-text {
-  margin: 0;
-}
-
-.infield-button {
-  position: absolute;
-  top: 0;
-  left: 80.6%;
-  height: 22px;
-  width: 25px;
-  margin: 0;
-  padding: 0.4em 5px 0.4em 0;
-  font-size: 16px;
-  line-height: 1.3;
-  color: #999;
-
-  -webkit-box-shadow: 0 0 0;
-  -moz-box-shadow: 0 0 0;
-  box-shadow: 0 0 0;
-
-  &.loading {
-    background-image: url('../images/loading.gif');
-  }
-  &.empty {
-    display: none;
-  }
-}
-
-@media all and (max-width: 450px) {
-  .infield-button {
-    right: -1px;
-    top: 7px;
-    left: auto;
-  }
-}
-
-.center-wrapper {
-  // Used to center form elements
-  display: block;
-  margin: 0 auto;
-  text-align:center;
-}
- 
-.numeric-id.ui-input-text {
-  display: inline-block;
-  font-size: 1.3em;
-  margin: 0 -6px -1px;
-  text-align: center;
-  vertical-align: middle;
-  width: 53px;
-}
-
-.small-button {
-  // Used for the table chart input
-  color: #666;
-  display: inline-block;
-  vertical-align: middle;
-  padding: 0;
-}
-
-.small-button .ui-btn-inner {
-  // Reduces padding
-  padding: 0.6em 11px 0.7em 33px;
-}
-
-.small-button.ui-btn-icon-left .ui-icon {
-  // Corrects icon positioning
-  left: 8px;
-}
-
-.ui-li.ui-btn a.list-action {
-  margin-right: -60px;
-  text-align: center;
-}
-
-input.ui-slider-input {
-  width: 30px;
-  font-weight: bold;
-}
-
-::-webkit-input-placeholder {
-  font-style: italic;
-  font-weight: normal;
-  color: #777;
-}
-:-moz-placeholder {
-  font-style: italic;
-  font-weight: normal;
-  color: #777;
-}
-
-label, .ui-controlgroup-label {
-  font-size: 90% !important;
-  font-weight: bold !important;
-}
-
-[data-role=fieldcontain] {
-  fieldset {
-    margin: 2px auto;
-  }
-  
-  form.content {
-    .ui-input-text {
-      font-weight: bold;
-      font-size: 90% !important;
-      color: #444;
-    }
-  }
-  
-  label {
-    font-weight: bold;
-  }
-}
-
-input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input::-moz-outer-spin-button, input::-moz-inner-spin-button {
-  -moz-appearance: none;
-  margin: 0;
-}
-
-.form-radio {
-  .ui-btn {
-    // Properly hide radio buttons behind jQuery Mobile labels. Cause: shortened dialog boxes
-    top: 2px;
-  }
-}
-
-div.ui-slider-switch {
-  // Corects slider centering
-  margin-left: 7.5%;
-  margin-right: 7.5%;
-}
-
-.wide-slider{
-  // Widens slider handles. Unused at the moment
-  a.ui-slider-handle {
-    height: 31px;
-    top: 40%;
-    width: 45px;
-  }
-}
-
-.ui-controlgroup-controls {
-  margin: 2px auto;
-  text-align:center;
-}
-
-[data-role=dialog] {
-  form.ui-content {
-    padding-top: 0;
-  }
-}
-
-.ui-controlgroup-horizontal .ui-checkbox .ui-btn, 
-  .ui-controlgroup-horizontal .ui-radio .ui-btn, 
-  .ui-controlgroup-horizontal .ui-checkbox:last-child, 
-  .ui-controlgroup-horizontal .ui-radio:last-child {
-
-  // Correct visible overflow when buttons are disabled.
-
-  margin-right: 4px;
-}
-
-@media all and (max-width: 450px) {
-  .date-time {
-    .ui-btn {
-      // Corrects date and time buttons from being too low for their input box. Cause: shortened dialog boxes
-      top: -4px;
-    }
-  }
-  
-  div.ui-slider-switch {
-    // Corrects slider centering on small screens
-    margin-left: 17%;
-    margin-right: 17%;
-  }
-  [data-role=controlgroup] {
-    .ui-btn-inner {
-      // Narrow radio group buttons
-      padding: 0.7em 14px;
-    }
-  }
-  form.content {
-    .ui-field-contain { 
-      // Reduce the vert padding on mobile-view forms
-      padding: 7px 0;
-    }
-    
-    label, .ui-controlgroup-label {
-      text-align: center;
-    }
-      
-    label {
-      &.ui-input-text {
-        display: none;
-      }
-      
-      &.ui-slider {
-        display: block;
-      }
-    }
-  }
-}
-
-@media all and (max-width: 600px) {
-  [data-role=controlgroup] {
-    .ui-btn-inner {
-      // Narrow radio group buttons
-      padding: 0.7em 13px;
-    }
-  }
-  .ui-controlgroup-horizontal .ui-checkbox .ui-btn, 
-    .ui-controlgroup-horizontal .ui-radio .ui-btn, 
-    .ui-controlgroup-horizontal .ui-checkbox:last-child, 
-    .ui-controlgroup-horizontal .ui-radio:last-child {
-
-    // Correct visible overflow when buttons are disabled.
-    margin-right: 4px;
-  }
-}
-
-@media all and (min-width: 451px){
-  form.content {
-    label, .ui-controlgroup-label {
-      text-align: right;
-      display: inline-block;
-    }
-  
-    // Hide placeholder text on screens large enough for labels
-    ::-webkit-input-placeholder {
-      text-indent: -9999px;
-    }
-    :-moz-placeholder {
-      text-indent: -9999px;
-    }
-  }
 }

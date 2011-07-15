@@ -29,10 +29,11 @@
       label(for="reservation-time") Time
       input#reservation-time(name="reservation_time", type="date", data-role="datebox", data-options='{"mode": "timebox", "timeFormat": 12, "pickPageTheme": "b"}', placeholder="Time")
     
-    label(for="reservation-table-number") Table
-    div.center-wrapper
-      input#reservation-table-number.numeric-id.ui-corner-left(type="number", name="reservation_table_number")
-      a.small-button.ui-btn-corner-right(href="#table-reservation", data-role="button", data-icon="grid") Chart
+    div(data-role="fieldcontain")
+      label(for="reservation-table-number") Table
+      div(data-role="inline-center")
+        input#reservation-table-number.numeric-id.ui-corner-left(type="number", name="reservation_table_number")
+        a.inline-button.ui-btn-corner-right(href="#table-reservation", data-role="button", data-icon="grid") Chart
     
     div(data-role="fieldcontain")
       label(for="reservation-notes") Notes
