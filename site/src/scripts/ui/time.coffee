@@ -1,3 +1,4 @@
+# Display a time as elapsed minutes, remaining minutes or a graphical timer.
 $.fn.time = (opts, args...) ->
   class TimeDisplay
     constructor: (@elem, @opts) ->
