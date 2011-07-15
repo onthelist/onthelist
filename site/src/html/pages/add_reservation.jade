@@ -31,11 +31,11 @@
     
     label(for="reservation-table-number") Table
     div.center-wrapper
-      input#reservation-table-number.numeric-id.ui-corner-left(type="text", name="reservation_table_number")
-      a.small-button.ui-btn-corner-right(href="#table-reservation", data-role="button") Table Chart
+      input#reservation-table-number.numeric-id.ui-corner-left(type="number", name="reservation_table_number")
+      a.small-button.ui-btn-corner-right(href="#table-reservation", data-role="button", data-icon="grid") Chart
     
     div(data-role="fieldcontain")
       label(for="reservation-notes") Notes
-      input#reservation-notes(type="number", name="notes", value="", placeholder="Notes")
-    
+      input#reservation-notes(type="text", name="notes", value="", placeholder="Notes")
+      
     a(href="#add-reservation", data-role="button") Add

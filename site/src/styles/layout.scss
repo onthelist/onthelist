@@ -99,37 +99,43 @@ input.ui-input-text {
 
 .center-wrapper {
   // Used to center form elements
-  display: block !important;
-  margin: 0 auto !important;
+  display: block;
+  margin: 0 auto;
   text-align:center;
 }
-
-.table-wrapper {
-  margin: 0 auto !important;
-  height: 3em;
-  border: 2px dotted #000;
-  display: inline-block;
-  vertical-align: middle;
-}
-  
+ 
 .numeric-id.ui-input-text {
-  // Used for the table chart input
   display: inline-block;
-  text-align: center !important;
-  font-size: 1.1em !important;
-  width: 35px !important;
+  font-size: 1.3em;
+  margin: 0 -6px -1px;
+  text-align: center;
   vertical-align: middle;
+  width: 53px;
 }
+
 .small-button {
   // Used for the table chart input
+  color: #666;
   display: inline-block;
   vertical-align: middle;
+  padding: 0;
+}
+
+.small-button .ui-btn-inner {
+  // Reduces padding
+  padding: 0.6em 11px 0.7em 33px;
+}
+
+.small-button.ui-btn-icon-left .ui-icon {
+  // Corrects icon positioning
+  left: 8px;
 }
 
 .ui-li.ui-btn a.list-action {
   margin-right: -60px;
   text-align: center;
 }
+
 input.ui-slider-input {
   width: 30px;
   font-weight: bold;
@@ -171,6 +177,11 @@ label, .ui-controlgroup-label {
 
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
   -webkit-appearance: none;
+  margin: 0;
+}
+
+input::-moz-outer-spin-button, input::-moz-inner-spin-button {
+  -moz-appearance: none;
   margin: 0;
 }
 
