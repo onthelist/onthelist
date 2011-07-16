@@ -237,7 +237,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
   form.content {
     .ui-controlgroup-label, label {
       text-align: right;
-      display: inline-block;
+      -display: inline-block;
     }
   
     // Hide placeholder text on screens large enough for labels
