@@ -4,11 +4,9 @@ $('#view-party').live 'pageshow', ->
   # JQM doesn't support any sort of URL parameter passing
   key = $$('#queue-list').selected_key
 
-  queue = $$('#queue-list').queue
-
   $('[data-key]', self).text ''
 
-  queue.get key, (data) ->
+  $D.queue.get key, (data) ->
     if not data
       alert 'Record not found'
       return
@@ -40,7 +38,7 @@ $('#view-party').live 'pageshow', ->
         return false
 
     do_delete = ->
-      queue.remove data
+      $D.queue.remove data
 
       $(self).dialog 'close'
 
