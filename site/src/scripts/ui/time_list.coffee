@@ -19,23 +19,101 @@ class IsotopeList
       # So we use transforms on all mobile devices with tablet-like proportions.
       
       ua = navigator.userAgent
-      if /mobile/i.test(ua) and
-        (window.outerWidth > 480 or window.outerHeight > 480)
+      if /mobile/i.test(ua) and (window.outerWidth > 480 or window.outerHeight > 480)
 
         return true
       return false
+
+    sort_fields =
+       remaining: ($el) ->
+          $time = $('time', $el)
+
+          elapsed = parseInt $time.attr 'data-minutes'
+          target = parseInt $time.attr 'data-target'
+
+          return target - elapsed
+         
+        elapsed: ($el) ->
+          parseInt $el.find('time').attr('data-minutes')
+
+        lname: ($el) ->
+          name = $el.find('[data-key=name]').text()
+          if name.indexOf(' ') == -1
+            return name
+
+          return name.substring(name.indexOf(' ') + 1)
 
     $elem = $ @elem
     $elem.isotope
       itemSelector: 'li:not(.ui-li-divider)'
       layoutMode: 'sectionList'
-      groupBy: 'elapsed'
+      groupBy: 'lname'
       transformsEnabled: use_transforms()
-      getSortData:
-        elapsed: ($el) ->
-          parseInt $el.find('time').attr('data-minutes')
-      sortBy: 'elapsed'
+      getSortData: sort_fields
+      sortBy: 'lname'
       getGroupData:
+        lname:
+          sections:
+            [
+              label: 'A-E'
+              attrs:
+                'data-start': 'A'
+            ,
+              label: 'F-L'
+              attrs:
+                'data-start': 'F'
+            ,
+              label: 'M-Z'
+              attrs:
+                'data-start': 'M'
+            ]
+          map: (el, $sections) ->
+            lname = sort_fields.lname $(el)
+            key = lname.substring(0, 1).toUpperCase()
+            
+            last = 0
+            $.each $sections, (i, $sec) ->
+              start = $sec.attr 'data-start'
+
+              if key < start
+                return false
+
+              last = i
+
+            return last
+        
+        remaining:
+          sections:
+            [
+              label: '16+ mins over'
+              attrs:
+                'data-start': -16
+            ,
+              label: '0-15 mins over'
+              attrs:
+                'data-start': 0
+            ,
+              label: '1-15 mins rem'
+              attrs:
+                'data-start': 15
+            ,
+              label: '16+ mins rem'
+              attrs:
+                'data-start': '+'
+            ]
+          map: (el, $sections) ->
+            rem = sort_fields.remaining $(el)
+
+            last = 0
+            $.each $sections, (i, $sec) ->
+              start = $sec.attr 'data-start'
+
+              if start == '+' or parseInt(start) >= rem
+                last = i
+                return false
+
+            return last
+
         elapsed:
           sections:
             [
@@ -56,7 +134,7 @@ class IsotopeList
                 'data-start': 61
             ]
           map: (el, $sections) ->
-            elapsed = parseInt $('time', el).attr 'data-minutes'
+            elapsed = sort_fields.elapsed $(el)
 
             last = null
             $.each $sections, (i, $sec) ->
@@ -92,10 +170,6 @@ class TimeList extends IsotopeList
 
     $$(@elem).time_list = this
 
-    do this.add_sections
-
-  add_sections: ->
-
   refresh: ->
     if @elem.jqmData 'listview'
       @elem.listview 'refresh'
@@ -111,36 +185,6 @@ class ElapsedTimeList extends TimeList
     setInterval(->
       do self.update
     , 60000)
-
-  add_sections: ->
-    @time_blocks = [10, 30, 60, '+']
-    @sections = {}
-
-    for i, block of @time_blocks
-      if i == '0'
-        start = 0
-      else
-        start = @time_blocks[i-1] + 1
-      
-      end = block
-
-      li = @sections[i] = $('<li></li>')
-      li.attr('data-role', 'list-divider')
-      li.attr('data-theme', 'a')
-      li.attr('data-start', start)
-
-      text = ''
-      if end != '+'
-        text += start + ' - ' + end
-      else
-        text += 'More Than ' + start
-      text += ' mins'
-
-      li.text text
-
-#      @elem.append li
-
-    do this.refresh
 
   insert: (elem, elapsed=null) ->
     if not elapsed
@@ -199,7 +243,7 @@ class QueueList extends TargetTimeList
     li.attr('data-place', 'false')
     li.text 'Upcoming Reservations'
 
-    #@elem.append li
+    @elem.append li
     
     do this.refresh
 

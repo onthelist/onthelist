@@ -22,8 +22,10 @@ add_list_row = (list, row) ->
 
   link.append e_time
 
-  name = row.name
-  link.append name
+  e_name = $('<span></span>')
+  e_name.attr('data-key', 'name')
+  e_name.text row.name
+  link.append e_name
 
   size = row.size
 
