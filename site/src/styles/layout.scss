@@ -54,3 +54,17 @@ time {
   color: #EAEAEA;
   display: inline-block;
 }
+
+#queue-list {
+  li {
+    width: 300px;
+    height: 2.5em;
+    margin-right: 4px;
+    -moz-box-sizing: padding-box;
+    box-sizing: padding-box;
+
+    &.ui-li-divider {
+      height: 2em;
+    }
+  }
+}

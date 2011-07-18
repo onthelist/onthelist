@@ -1,5 +1,49 @@
-class TimeList
+class IsotopeList
   constructor: (@elem) ->
+    #do @add_dynamics
+
+  add_dynamics: ->
+    $elem = $ @elem
+    $elem.isotope
+      itemSelector: 'li:not(.ui-li-divider)'
+      layoutMode: 'sectionList'
+      groupBy: 'elapsed'
+      getGroupData:
+        elapsed:
+          sections:
+            [
+              label: '0-10 mins'
+              attrs:
+                'data-start': 0
+            ,
+              label: '11-30 mins'
+              attrs:
+                'data-start': 11
+            ]
+          map: (el, $sections) ->
+            elapsed = parseInt $('time', el).attr 'data-minutes'
+
+            last = null
+            $.each $sections, (i, $sec) ->
+              start = parseInt $sec.attr 'data-start'
+
+              if start > elapsed
+                return false
+
+              last = i
+
+            return last
+
+  refresh: ->
+    $(@elem).isotope 'destroy'
+    do @add_dynamics
+    #$(@elem).isotope 'reloadItems'
+    #$(@elem).isotope 'reLayout'
+
+class TimeList extends IsotopeList
+  constructor: (@elem) ->
+    super
+
     $$(@elem).time_list = this
 
     do this.add_sections
@@ -9,6 +53,8 @@ class TimeList
   refresh: ->
     if @elem.jqmData 'listview'
       @elem.listview 'refresh'
+
+    super
 
 class ElapsedTimeList extends TimeList
   constructor: (@elem) ->
@@ -46,7 +92,7 @@ class ElapsedTimeList extends TimeList
 
       li.text text
 
-      @elem.append li
+#      @elem.append li
 
     do this.refresh
 
@@ -127,7 +173,7 @@ class QueueList extends TargetTimeList
     li.attr('data-place', 'false')
     li.text 'Upcoming Reservations'
 
-    @elem.append li
+    #@elem.append li
     
     do this.refresh
 
