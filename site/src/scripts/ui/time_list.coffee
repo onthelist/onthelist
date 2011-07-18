@@ -161,8 +161,10 @@ class IsotopeList
 
   refresh: ->
     if @dynamics_added
+      #$(@elem).isotope('reLayout')
       $(@elem).isotope 'destroy'
       do @add_dynamics
+      
 
 class TimeList extends IsotopeList
   constructor: (@elem) ->
