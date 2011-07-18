@@ -1,13 +1,20 @@
 class IsotopeList
   constructor: (@elem) ->
-    #do @add_dynamics
+    @dynamics_added = false
 
   add_dynamics: ->
+    @dynamics_added = true
+
     $elem = $ @elem
     $elem.isotope
       itemSelector: 'li:not(.ui-li-divider)'
       layoutMode: 'sectionList'
       groupBy: 'elapsed'
+      transformsEnabled: false
+      getSortData:
+        elapsed: ($el) ->
+          parseInt $el.find('time').attr('data-minutes')
+      sortBy: 'elapsed'
       getGroupData:
         elapsed:
           sections:
@@ -19,6 +26,14 @@ class IsotopeList
               label: '11-30 mins'
               attrs:
                 'data-start': 11
+            ,
+              label: '31-60 mins'
+              attrs:
+                'data-start': 31
+            ,
+              label: '61+ mins'
+              attrs:
+                'data-start': 61
             ]
           map: (el, $sections) ->
             elapsed = parseInt $('time', el).attr 'data-minutes'
@@ -34,11 +49,22 @@ class IsotopeList
 
             return last
 
+    
+    # Isotope will set the height after the elements are added.  If their
+    # are enough elements, the scroll bar will appear, shifting the els.
+    # We have to refresh it after the height is set, so the widths can
+    # be corrected.
+    $elem.isotope('reLayout')
+
+    $(window).bind 'smartresize.isotope', ->
+      # Temp fix to page resizing problem (header shows up too high).
+      $.fixedToolbars.hide(true)
+
+
   refresh: ->
-    $(@elem).isotope 'destroy'
-    do @add_dynamics
-    #$(@elem).isotope 'reloadItems'
-    #$(@elem).isotope 'reLayout'
+    if @dynamics_added
+      $(@elem).isotope 'destroy'
+      do @add_dynamics
 
 class TimeList extends IsotopeList
   constructor: (@elem) ->
@@ -103,27 +129,7 @@ class ElapsedTimeList extends TimeList
 
     $('time', elem).time()
 
-    last = null
-    @elem.children('li').each (i, el) ->
-      if not last
-        # Just in case we have a negative elapsed
-        last = el
-
-      if el.getAttribute('data-place') == 'false'
-        # If it's a divider, we also won't place beyond it:
-        return (el.getAttribute('data-role') != 'list-divider')
-
-      if el.getAttribute('data-role') == 'list-divider'
-        start = parseInt el.getAttribute 'data-start'
-      else
-        start = parseInt $('time', el).attr 'data-minutes'
-
-      if elapsed < start
-        return false
-
-      last = el
-
-    $(last).after elem
+    $(@elem).append elem
 
     do this.refresh
 
@@ -177,5 +183,7 @@ class QueueList extends TargetTimeList
     
     do this.refresh
 
-$.fn.queueList = ->
-  new QueueList(this)
+$.fn.queueList = (action) ->
+  if not action?
+    return new QueueList(this)
+  return $$(this).time_list[action]()

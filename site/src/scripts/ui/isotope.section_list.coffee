@@ -7,6 +7,7 @@ $.extend $.Isotope.prototype,
     @groups = @groupData[@groupBy]
 
     @sections = []
+    $last = null
     for group, i in @groups.sections
       $el = $ '<li></li>'
       $el.addClass('ui-li ui-li-divider ui-bar-b section-header')
@@ -15,12 +16,18 @@ $.extend $.Isotope.prototype,
       $el.attr('data-index', i)
 
       if group.attrs?
-        for name, val in group.attrs
+        for own name, val of group.attrs
           $el.attr name, val
 
       $el.html group.label
 
-      @element.append $el
+      if $last?
+        $last.after $el
+      else
+        @element.prepend $el
+
+      $last = $el
+
       @sections.push
         $el: $el
         opts: group
@@ -39,21 +46,26 @@ $.extend $.Isotope.prototype,
 
 $.extend $.Isotope.prototype,
   _sectionListGetDims: ->
-    min_col_width = @sectionList.minColumnWidth ? 300
-    @sectionList.colSpacing = @sectionList.columnSpacing ? 4
+    @min_col_width = @sectionList.minColumnWidth ? 300
+    @sectionList.colSpacing = @sectionList.columnSpacing ? 1
 
-    width = @element.width()
-    @sectionList.numCols = Math.min(@sections.length, (Math.floor (width / min_col_width)) or 1)
-    @sectionList.colWidth = (width - @sectionList.colSpacing * (@sectionList.numCols - 1)) / @sectionList.numCols
+    @sectionList.numCols = @_sectionListNumCols()
+    @sectionList.colWidth = (@width - @sectionList.colSpacing * (@sectionList.numCols - 1)) / @sectionList.numCols
+
+  _sectionListNumCols: ->
+    @width = @element.width()
+    return Math.min(@sections.length, (Math.floor (@width / @min_col_width)) or 1)
 
   _sectionListMap: ($elems) ->
     self = this
     @sectionList.members = []
 
+    for section in @sections
+      @sectionList.members.push []
+
     $elems.each ->
       index = self._findSection this
 
-      self.sectionList.members[index] ?= []
       self.sectionList.members[index].push this
 
   _sectionListGetPos: ->
@@ -86,14 +98,26 @@ $.extend $.Isotope.prototype,
 
       col++
 
+  _sectionListWidthPercentage: (px) ->
+    view_width = @element.width()
+
+    return 100 * (px / view_width)
+
+  _sectionListSetWidth: ($el) ->
+    width = @sectionList.colWidth
+    width -= parseFloat $el.css('padding-left')
+    width -= parseFloat $el.css('padding-right')
+
+    $el.width (@_sectionListWidthPercentage(width) + '%')
+
   _sectionListPlace: ->
     for lst, index in @sectionList.members
       coords = @sectionList.coords[index]
       $header = @sections[index].$el
       
-      @_pushPosition $header, coords.x, coords.y
+      @_pushPosition $header, (@_sectionListWidthPercentage(coords.x) + '%'), coords.y
 
-      $header.width(@sectionList.colWidth + 'px')
+      @_sectionListSetWidth $header
 
       if not lst?
         continue
@@ -103,9 +127,9 @@ $.extend $.Isotope.prototype,
       for el in lst
         $el = $ el
 
-        $el.width(@sectionList.colWidth + 'px')
+        @_sectionListSetWidth $el
 
-        @_pushPosition $el, x, y
+        @_pushPosition $el, (@_sectionListWidthPercentage(x) + '%'), y
 
         y += $el.outerHeight()
 
@@ -125,6 +149,9 @@ $.extend $.Isotope.prototype,
 
   _sectionListGetContainerSize: ->
     max_height = 0
+    for section in @sections
+      max_height += section.$el.outerHeight()
+
     for coords in @sectionList.coords
       max_height = Math.max(max_height, coords.y + coords.height)
         
@@ -133,4 +160,4 @@ $.extend $.Isotope.prototype,
     }
 
   _sectionListResizeChanged: ->
-    true
+    @sectionList.numCols != @_sectionListNumCols()

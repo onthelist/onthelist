@@ -57,14 +57,11 @@ time {
 
 #queue-list {
   li {
-    width: 300px;
     height: 2.5em;
-    margin-right: 4px;
-    -moz-box-sizing: padding-box;
-    box-sizing: padding-box;
+    margin-right: 1px;
 
     &.ui-li-divider {
-      height: 2em;
+      height: 1em;
     }
   }
 }

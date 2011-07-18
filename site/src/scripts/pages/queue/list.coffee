@@ -43,6 +43,9 @@ $ ->
 
     list = do q_elem.queueList
 
+    $('#queue').bind 'pageshow', ->
+      do list.add_dynamics
+
     $D.queue.live 'rowAdd', (e, row) ->
       elapsed = Date.get_elapsed row.add_time
 

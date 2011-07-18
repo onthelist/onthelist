@@ -48,7 +48,7 @@ class Queue
     @evt.trigger('rowAdd', row)
 
   live: (evt, func) ->
-    if evt.indexOf 'row' == 0
+    if @ds? and evt.indexOf 'row' == 0
       # We call the func on all the existing rows with evt of false
       # to allow the event to be bound after the data is initially loaded
       @ds.each (row) ->
