@@ -19,7 +19,7 @@ $.extend $.Isotope.prototype,
         for own name, val of group.attrs
           $el.attr name, val
 
-      $el.html group.label
+      $el.html "<span class='ui-li-divider-inner'>#{group.label}</span>"
 
       if $last?
         $last.after $el
@@ -99,23 +99,29 @@ $.extend $.Isotope.prototype,
       col++
 
   _sectionListWidthPercentage: (px) ->
+    if @options.transformsEnabled
+      # Transforms don't support percentage widths (meaning we will have
+      # to redraw whenever the size is changed, even if we are using the
+      # same # of cols.
+      return px
+
     view_width = @element.width()
 
-    return 100 * (px / view_width)
+    return 100 * (px / view_width) + '%'
 
   _sectionListSetWidth: ($el) ->
     width = @sectionList.colWidth
     width -= parseFloat $el.css('padding-left')
     width -= parseFloat $el.css('padding-right')
 
-    $el.width (@_sectionListWidthPercentage(width) + '%')
+    $el.width @_sectionListWidthPercentage(width)
 
   _sectionListPlace: ->
     for lst, index in @sectionList.members
       coords = @sectionList.coords[index]
       $header = @sections[index].$el
       
-      @_pushPosition $header, (@_sectionListWidthPercentage(coords.x) + '%'), coords.y
+      @_pushPosition $header, @_sectionListWidthPercentage(coords.x), coords.y
 
       @_sectionListSetWidth $header
 
@@ -129,7 +135,7 @@ $.extend $.Isotope.prototype,
 
         @_sectionListSetWidth $el
 
-        @_pushPosition $el, (@_sectionListWidthPercentage(x) + '%'), y
+        @_pushPosition $el, @_sectionListWidthPercentage(x), y
 
         y += $el.outerHeight()
 
@@ -160,4 +166,5 @@ $.extend $.Isotope.prototype,
     }
 
   _sectionListResizeChanged: ->
-    @sectionList.numCols != @_sectionListNumCols()
+    # See _sectionListWidthPercentage
+    @options.transformsEnabled or @sectionList.numCols != @_sectionListNumCols()

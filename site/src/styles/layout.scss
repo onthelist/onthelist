@@ -57,11 +57,21 @@ time {
 
 #queue-list {
   li {
+    &.ui-li:last-child, &.ui-li.ui-field-contain:last-child {
+      border-bottom-width: 0;
+    }
+
     height: 2.5em;
     margin-right: 1px;
 
     &.ui-li-divider {
-      height: 1em;
+      padding: 0;
+      height: auto;
+
+      .ui-li-divider-inner {
+        padding: 0.5em 15px;
+        display: block;
+      }
     }
   }
 }

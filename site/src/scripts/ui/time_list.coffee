@@ -5,12 +5,32 @@ class IsotopeList
   add_dynamics: ->
     @dynamics_added = true
 
+    use_transforms = ->
+      # Using transforms prevents us from using percentage sizing, which
+      # is required to allow the cols to smoothly expand when resized less
+      # than the amount necessary to change the number of cols.
+      #
+      # Transforms also blur the text in Chrome.
+      #
+      # They are however required on the iPad, as (unlike the iPhone), it is
+      # wide enough to use a diff number of cols on port. vs land., and requires
+      # hardware accel. for the transformation to be smooth.
+      #
+      # So we use transforms on all mobile devices with tablet-like proportions.
+      
+      ua = navigator.userAgent
+      if /mobile/i.test(ua) and
+        (window.outerWidth > 480 or window.outerHeight > 480)
+
+        return true
+      return false
+
     $elem = $ @elem
     $elem.isotope
       itemSelector: 'li:not(.ui-li-divider)'
       layoutMode: 'sectionList'
       groupBy: 'elapsed'
-      transformsEnabled: false
+      transformsEnabled: use_transforms()
       getSortData:
         elapsed: ($el) ->
           parseInt $el.find('time').attr('data-minutes')

@@ -553,7 +553,7 @@
     },
 
     _pushPosition : function( $elem, x, y ) {
-      if (x.indexOf('%') == -1)
+      if (typeof x != 'string' || x.indexOf('%') == -1)
         x += this.offset.left;
       y += this.offset.top;
       var position = this.getPositionStyles( x, y );

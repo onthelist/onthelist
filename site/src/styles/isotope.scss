@@ -13,15 +13,7 @@
 }
 
 .isotope .isotope-item {
-  -webkit-transition-property: top, left, opacity;
-     -moz-transition-property: top, left, opacity;
-          transition-property: top, left, opacity;
+  -webkit-transition-property: -webkit-transform, top, left, opacity;
+     -moz-transition-property: -moz-transform, top, left, opacity;
+          transition-property: transform, top, left, opacity;
 }
-
-/*
-Chrome blurs the content when it's given a 3d trx
-.isotope .isotope-item {
-  -webkit-transition-property: -webkit-transform, opacity;
-     -moz-transition-property:    -moz-transform, opacity;
-          transition-property:         transform, opacity;
-}*/
