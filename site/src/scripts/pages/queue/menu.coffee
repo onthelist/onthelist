@@ -44,6 +44,3 @@ $ ->
         return false
 
       return true
-
-    $li.bind 'optionChange', (e, name, val) ->
-      $('#queue').trigger('optionChange', [name, val])
