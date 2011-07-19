@@ -1,7 +1,122 @@
 $.extend $.Isotope.prototype,
-  _getGroups: ->
+  _getGroups: (num_cols) ->
     @groupData = @options.getGroupData ? {}
     @groupBy = @options.groupBy
+
+    for own name, group of @groupData
+      @_buildSection(group, num_cols)
+
+  _buildSection: (group, num_cols) ->
+    group.num ?= 4
+    if group.sectionBounds?
+      # We need to divide up the sections.
+      if group.sectionBounds.length == 2 and group.num > 2
+        # The bounds refer to the start and end of the total
+        # range, we have to break it up into `num` chunks.
+        if not group.allowPartialRows and group.num > num_cols
+          num = num_cols
+          while num < group.num
+            num += num_cols
+
+        else
+          num = group.num
+
+        if group.unboundedRight
+          num -= 1
+
+        s_bounds = @_listBounds(group.sectionBounds, num, group)
+
+      else
+        # The section end points were provided explicitly.
+        s_bounds = group.sectionBounds
+
+      # Expand the bounds into sections
+      sections = []
+      for bound, i in s_bounds
+        start = bound
+        if group.unboundedLeft and i == 0
+          label = "Less Than #{bound}"
+          start = '-'
+        else if group.unboundedRight and i == (s_bounds.length - 1)
+          label = "More Than #{bound}"
+        else if i == (s_bounds.length - 1)
+          # If the end is bounded, we will have one less section than
+          # the # of bounds provided.
+          continue
+        else
+          st_bound = bound
+          en_bound = s_bounds[i + 1]
+
+          if i != 0
+            st_bound = @_incrementBound(st_bound)
+
+          label = "#{st_bound} - #{en_bound}"
+
+        section =
+          label: label
+          attrs:
+            'data-start': start
+
+        sections.push section
+
+      # Build the func to map a element into a section
+      def_parse = (el) -> parseInt(el.text())
+      func = group.parse ? def_parse
+      map = (el, $sections) ->
+        val = func(el)
+
+        last = 0
+        $.each $sections, (i, $sec) ->
+          start = $sec.attr 'data-start'
+
+          if start == '-'
+            return
+
+          if typeof val != 'string'
+            start = parseInt start
+
+          if start >= val
+            return false
+
+          last = i
+
+        return last
+
+      group.sections = sections
+      group.map = map
+
+  _incrementBound: (bound) ->
+    is_char = typeof bound == 'string'
+
+    if is_char
+      bound = bound.charCodeAt(0)
+
+    bound += 1
+
+    if is_char
+      bound = String.fromCharCode(bound)
+
+    return bound
+
+  _listBounds: (bounds, num, group) ->
+    is_char = typeof bounds[0] == 'string'
+
+    if is_char
+      bounds = (b.charCodeAt(0) for b in bounds)
+
+    incr = (bounds[1] - bounds[0]) / num
+    out = (o for o in [bounds[0]..bounds[1]] by incr)
+    out = (Math.floor(o + .5) for o in out)
+
+    if group.unboundedLeft
+      # If we start at -INF, the first bound is not the start of the first
+      # range, it's the end of it, so the next bound has to take it's place.
+      out[1] = out[0]
+
+    if is_char
+      out = (String.fromCharCode(o) for o in out)
+
+    return out
 
   _createGroups: ->
     @groups = @groupData[@groupBy]
@@ -52,9 +167,14 @@ $.extend $.Isotope.prototype,
     @sectionList.numCols = @_sectionListNumCols()
     @sectionList.colWidth = (@width - @sectionList.colSpacing * (@sectionList.numCols - 1)) / @sectionList.numCols
 
-  _sectionListNumCols: ->
+  _sectionListNumCols: (limit=true) ->
     @width = @element.width()
-    return Math.min(@sections.length, (Math.floor (@width / @min_col_width)) or 1)
+    num = Math.floor(@width / @min_col_width) or 1
+
+    if limit and @sections and @sections.length
+      num = Math.min(@sections.length, num)
+
+    return num
 
   _sectionListMap: ($elems) ->
     self = this
@@ -144,10 +264,10 @@ $.extend $.Isotope.prototype,
 
     $(@element).find('.section-header').remove()
 
-    do @_getGroups
+  _sectionListLayout: ($elems) ->
+    @_getGroups @_sectionListNumCols(false)
     do @_createGroups
 
-  _sectionListLayout: ($elems) ->
     do @_sectionListGetDims
     @_sectionListMap $elems
     do @_sectionListGetPos

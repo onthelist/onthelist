@@ -25,13 +25,13 @@ class IsotopeList
       return false
 
     sort_fields =
-       remaining: ($el) ->
-          $time = $('time', $el)
+       remaining: (el) ->
+          $time = $('time', el)
 
           elapsed = parseInt $time.attr 'data-minutes'
           target = parseInt $time.attr 'data-target'
 
-          return target - elapsed
+          return (target - elapsed)
          
         elapsed: ($el) ->
           parseInt $el.find('time').attr('data-minutes')
@@ -53,100 +53,22 @@ class IsotopeList
       sortBy: 'remaining'
       getGroupData:
         lname:
-          sections:
-            [
-              label: 'A-E'
-              attrs:
-                'data-start': 'A'
-            ,
-              label: 'F-L'
-              attrs:
-                'data-start': 'F'
-            ,
-              label: 'M-Z'
-              attrs:
-                'data-start': 'M'
-            ]
-          map: (el, $sections) ->
+          num: 3
+          sectionBounds: ['A', 'Z']
+          parse: (el) ->
             lname = sort_fields.lname $(el)
-            key = lname.substring(0, 1).toUpperCase()
-            
-            last = 0
-            $.each $sections, (i, $sec) ->
-              start = $sec.attr 'data-start'
-
-              if key < start
-                return false
-
-              last = i
-
-            return last
-        
+            return lname.substring(0, 1).toUpperCase()
         remaining:
-          sections:
-            [
-              label: '16+ min over'
-              attrs:
-                'data-start': -16
-            ,
-              label: '0-15 min over'
-              attrs:
-                'data-start': 0
-            ,
-              label: '1-15 min remaining'
-              attrs:
-                'data-start': 15
-            ,
-              label: '16+ min remaining'
-              attrs:
-                'data-start': '+'
-            ]
-          map: (el, $sections) ->
-            rem = sort_fields.remaining $(el)
-
-            last = 0
-            $.each $sections, (i, $sec) ->
-              start = $sec.attr 'data-start'
-
-              if start == '+' or parseInt(start) >= rem
-                last = i
-                return false
-
-            return last
-
+          sectionBounds: [-30, 30]
+          unboundedLeft: true
+          unboundedRight: true
+          parse: (el) ->
+            sort_fields.remaining(el)
         elapsed:
-          sections:
-            [
-              label: '0-10 mins'
-              attrs:
-                'data-start': 0
-            ,
-              label: '11-30 mins'
-              attrs:
-                'data-start': 11
-            ,
-              label: '31-60 mins'
-              attrs:
-                'data-start': 31
-            ,
-              label: '61+ mins'
-              attrs:
-                'data-start': 61
-            ]
-          map: (el, $sections) ->
-            elapsed = sort_fields.elapsed $(el)
-
-            last = null
-            $.each $sections, (i, $sec) ->
-              start = parseInt $sec.attr 'data-start'
-
-              if start > elapsed
-                return false
-
-              last = i
-
-            return last
-
+          sectionBounds: [0, 60]
+          unboundedRight: true
+          parse: (el) ->
+            sort_fields.elapsed $(el)
     
     # Isotope will set the height after the elements are added.  If their
     # are enough elements, the scroll bar will appear, shifting the els.
