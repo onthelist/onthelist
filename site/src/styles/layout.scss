@@ -1,8 +1,14 @@
+@import "compass";
+
+footer {
+  @include opacity(0.94);
+  
+}
 
 :-moz-placeholder {
   font-style: italic;
   font-weight: normal;
-  color: #777;
+  color: #444;
 }
 
 time {
@@ -16,7 +22,7 @@ time {
 ::-webkit-input-placeholder {
   font-style: italic;
   font-weight: normal;
-  color: #777;
+  color: #444;
 }
 
 .center-wrapper {

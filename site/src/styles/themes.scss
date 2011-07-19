@@ -3,7 +3,97 @@
 /* A
 -----------------------------------------------------------------------------------------------------------*/
 
-.ui-bar-a {
+
+/* B
+-----------------------------------------------------------------------------------------------------------*/
+
+.ui-bar-b {  
+  font-weight: bold;
+  border: 1px solid       #404040; 
+  background:             #AAA; 
+  color:                  #F9F9F9; 
+  text-shadow: 1px 1px 1px #444; 
+  @include background-image(linear-gradient(#AAA, #777));
+}
+.ui-btn-up-b {
+  border: 1px solid       #BD610D;
+  background:             #e68510;
+  color:                  #fff;
+  @include background-image(linear-gradient(#EAB24B, #e68510));
+}
+.ui-btn-up-b a.ui-link-inherit {
+  color:                  #fff;
+}
+.ui-btn-hover-b {
+  border: 1px solid       #b77504;
+  background:             #ed9730;
+  color:                  #fff;
+  @include background-image(linear-gradient(#F9CE84, #edab30));
+}
+.ui-btn-hover-b a.ui-link-inherit {
+  color:                  #fff;
+}
+.ui-btn-down-b {
+  border: 1px solid       #BD610D;
+  background:             #BA6E11;
+  color:                  #fff;
+  @include background-image(linear-gradient(#BA8011, #BA8011));
+}
+.ui-btn-up-b,
+.ui-btn-hover-b,
+.ui-btn-down-b {
+  text-shadow: 0 -1px 0px #94440F;
+  cursor: pointer;
+  font-weight: bold; 
+  text-decoration: none;
+  font-family: Helvetica, Arial, sans-serif;
+}
+.ui-bar-b, 
+.ui-bar-b input, 
+.ui-bar-b select, 
+.ui-bar-b textarea, 
+.ui-bar-b button { 
+  font-family: Helvetica, Arial, sans-serif;
+}
+.ui-bar-b .ui-link-inherit { 
+  color:                  #fff;
+}
+.ui-bar-b .ui-link { 
+  color:                  #7cc4e7;
+  font-weight: bold;
+}
+.ui-body-b {
+  font-weight: normal;
+  border: 1px solid       #222;
+  background:             #444;
+  color:                  #ddd;
+  text-shadow: 0 -1px 0px #000;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#333), color-stop(5%, #333), color-stop(15%, #444), color-stop(60%, #444), to(#222)); /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, #333 0%, #333 5%, #444 15%, #444 60%, #222 100%); /* Chrome 10+, Saf5.1+ */
+  background-image:    -moz-linear-gradient(top, #333 0%, #333 5%, #444 15%, #444 60%, #222 100%); /* FF3.6 */
+  background-image:     -ms-linear-gradient(top, #333 0%, #333 5%, #444 15%, #444 60%, #222 100%); /* IE10 */
+  background-image:      -o-linear-gradient(top, #333 0%, #333 5%, #444 15%, #444 60%, #222 100%); /* Opera 11.10+ */
+  background-image:         linear-gradient(top, #333 0%, #333 5%, #444 15%, #444 60%, #222 100%);
+}
+.ui-body-b, 
+.ui-body-b input, 
+.ui-body-b select, 
+.ui-body-b textarea, 
+.ui-body-b button { 
+  font-family: Helvetica, Arial, sans-serif; 
+}
+.ui-body-b .ui-link-inherit { 
+  color:                  #fff; 
+}
+.ui-body-b .ui-link { 
+  color:                  #e98a15; 
+  font-weight: bold; 
+}
+
+/* C
+-----------------------------------------------------------------------------------------------------------*/
+
+.ui-bar-c {
 	border: 1px solid 		#2A2A2A;
 	background: 			#111111;
 	color: 					#ffffff;
@@ -11,202 +101,27 @@
 	text-shadow: 0 -1px 1px #000000;
   @include background-image(linear-gradient(#3c3c3c, #111));
 }
-.ui-bar-a, 
-.ui-bar-a input, 
-.ui-bar-a select, 
-.ui-bar-a textarea, 
-.ui-bar-a button {
-	font-family: Helvetica, Arial, sans-serif;
-}
-.ui-bar-a .ui-link-inherit {
-	color: 					#fff;
-}
-.ui-bar-a .ui-link {
-	color: 					#7cc4e7;
-	font-weight: bold;
-}
-.ui-body-a {
-	border: 1px solid 		#2A2A2A;
-	background: 			#222222;
-	color: 					#fff;
-	 text-shadow: 0 1px 0 	#000;
-	font-weight: normal;
-  @include background-image(linear-gradient(#666, #222));
-}
-.ui-body-a,
-.ui-body-a input,
-.ui-body-a select,
-.ui-body-a textarea,
-.ui-body-a button {
-	font-family: Helvetica, Arial, sans-serif;
-}
-.ui-body-a .ui-link-inherit {
-	color: 					#fff;
-}
-.ui-body-a .ui-link {
-	color: 					#2489CE;
-	font-weight: bold;
-}
-.ui-br {
-	border-bottom: rgb(130,130,130);
-	border-bottom: rgba(130,130,130,.3);
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-}
-.ui-btn-up-a {
-	border: 1px solid 		#222;
-	background: 			#333333;
-	font-weight: bold;
-	color: 					#fff;
-	text-shadow: 0 -1px 1px #000;
-  @include background-image(linear-gradient(#555, #333));
-}
-.ui-btn-up-a a.ui-link-inherit {
-	color: 					#fff;
-}
-.ui-btn-hover-a {
-	border: 1px solid 		#000;
-	background: 			#444444;
-	font-weight: bold;
-	color: 					#fff;
-	text-shadow: 0 -1px 1px #000;
-  @include background-image(linear-gradient(#666, #444));
-}
-.ui-btn-hover-a a.ui-link-inherit {
-	color: 					#fff;
-}
-.ui-btn-down-a {
-	border: 1px solid 		#000;
-	background: 			#3d3d3d;
-	font-weight: bold;
-	color: 					#fff;
-	text-shadow: 0 -1px 1px #000;
-  @include background-image(linear-gradient(#333, #5a5a5a));
-}
-.ui-btn-down-a a.ui-link-inherit {
-	color: 					#fff;
-}
-.ui-btn-up-a,
-.ui-btn-hover-a,
-.ui-btn-down-a {
-	font-family: Helvetica, Arial, sans-serif;
-	text-decoration: none;
-}
-
-
-/* B
------------------------------------------------------------------------------------------------------------*/
-
-.ui-bar-b {
-	border: 1px solid 		#456f9a;
-	background: 			#5e87b0;
-	color: 					#fff;
-	font-weight: bold;
-	text-shadow: 0 -1px 1px #254f7a;
-  @include background-image(linear-gradient(#81a8ce, #5e87b0));
-}
-.ui-bar-b,
-.ui-bar-b input,
-.ui-bar-b select,
-.ui-bar-b textarea,
-.ui-bar-b button {
-	font-family: Helvetica, Arial, sans-serif;
-}
-.ui-bar-b .ui-link-inherit {
-	color: 					#fff;
-}
-.ui-bar-b .ui-link {
-	color: 					#7cc4e7;
-	font-weight: bold;
-}
-
-.ui-body-b {
-	border: 1px solid 		#C6C6C6;
-	background: 			#cccccc;
-	color: 					#333333;
-	text-shadow: 0 1px 0 	#fff;
-	font-weight: normal;
-  @include background-image(linear-gradient(#e6e6e6, #ccc));
-}
-.ui-body-b,
-.ui-body-b input,
-.ui-body-b select,
-.ui-body-b textarea,
-.ui-body-b button {
-	font-family: Helvetica, Arial, sans-serif;
-}
-.ui-body-b .ui-link-inherit {
-	color: 					#333333;
-}
-.ui-body-b .ui-link {
-	color: 					#2489CE;
-	font-weight: bold;
-}
-.ui-btn-up-b {
-	border: 1px solid 		#145072;
-	background: 			#2567ab;
-	font-weight: bold;
-	color: 					#fff;
-	text-shadow: 0 -1px 1px #145072;
-  @include background-image(linear-gradient(#5f9cc5, #396b9e));
-}
-.ui-btn-up-b a.ui-link-inherit {
-	color: 					#fff;
-}
-.ui-btn-hover-b {
-	border: 1px solid 		#00516e;
-	background: 			#4b88b6;
-	font-weight: bold;
-	color: 					#fff;
-	text-shadow: 0 -1px 1px #014D68;
-  @include background-image(linear-gradient(#72b0d4, #4b88b6));
-}
-.ui-btn-hover-b a.ui-link-inherit {
-	color: 					#fff;
-}
-.ui-btn-down-b {
-	border: 1px solid 		#225377;
-	background: 			#4e89c5;
-	font-weight: bold;
-	color: 					#fff;
-	text-shadow: 0 -1px 1px #225377;
-  @include background-image(linear-gradient(#396b9e, #4e89c5));
-}
-.ui-btn-down-b a.ui-link-inherit {
-	color: 					#fff;
-}
-.ui-btn-up-b,
-.ui-btn-hover-b,
-.ui-btn-down-b {
-	font-family: Helvetica, Arial, sans-serif;
-	text-decoration: none;
-}
-
-
-/* C
------------------------------------------------------------------------------------------------------------*/
-
-.ui-bar-c {
-	border: 1px solid 		#B3B3B3;
-	background: 			#e9eaeb;
-	color: 					#3E3E3E;
-	font-weight: bold;
-	text-shadow: 0 1px 1px 	#fff;
-  @include background-image(linear-gradient(#f0f0f0, #e9eaeb));
-}
-.ui-bar-c,
-.ui-bar-c input,
-.ui-bar-c select,
-.ui-bar-c textarea,
+.ui-bar-c, 
+.ui-bar-c input, 
+.ui-bar-c select, 
+.ui-bar-c textarea, 
 .ui-bar-c button {
 	font-family: Helvetica, Arial, sans-serif;
 }
+.ui-bar-c .ui-link-inherit {
+	color: 					#fff;
+}
+.ui-bar-c .ui-link {
+	color: 					#7cc4e7;
+	font-weight: bold;
+}
 .ui-body-c {
-	border: 1px solid 		#B3B3B3;
-	color: 					#333333;
-	text-shadow: 0 1px 0 	#fff;
-	background: 			#f0f0f0;
-  @include background-image(linear-gradient(#eee, #ddd));
+	border: 1px solid 		#2A2A2A;
+	background: 			#222222;
+	color: 					#fff;
+	text-shadow: 0 1px 0 	#000;
+	font-weight: normal;
+  @include background-image(linear-gradient(#666, #222));
 }
 .ui-body-c,
 .ui-body-c input,
@@ -215,47 +130,69 @@
 .ui-body-c button {
 	font-family: Helvetica, Arial, sans-serif;
 }
+
 .ui-body-c .ui-link-inherit {
-	color: 					#333333;
+	color: 					#fff;
 }
 .ui-body-c .ui-link {
 	color: 					#2489CE;
 	font-weight: bold;
 }
 
-.ui-btn-up-c {
-	border: 1px solid 		#ccc;
-	background: 			#eee;
-	font-weight: bold;
-	color: 					#444;
-	text-shadow: 0 1px 1px #f6f6f6;
-  @include background-image(linear-gradient(#fdfdfd, #eee));
-}
-.ui-btn-up-c a.ui-link-inherit {
-	color: 					#2F3E46;
+.ui-body-c {
+  &.ui-input-search, input.ui-input-text, .ui-slider-handle  {
+    @include background-image(linear-gradient(#eee, #C6C6C6));
+    color: #333;
+    text-shadow: 0 1px 0	#fff;
+    
+    &.ui-focus {
+      box-shadow: 0 0 10px #F89D08;
+    }
+  }
+  &.inline-button {
+  // Used for the table chart selection
+  color: #333;
+  }
 }
 
-.ui-btn-hover-c {
-	border: 1px solid 		#bbb;
-	background: 			#dadada;
+.ui-br {
+	border-bottom: rgb(130,130,130);
+	border-bottom: rgba(130,130,130,.3);
+	border-bottom-width: 1px;
+	border-bottom-style: none;
+}
+.ui-btn-up-c {
+	border: 1px solid 		#444444;
+	background: 			#333333;
 	font-weight: bold;
-	color: 					#101010;
-	text-shadow: 0 1px 1px 	#fff;
-  @include background-image(linear-gradient(#ededed, #dadada));
+	color: 					#fff;
+	text-shadow: 0 -1px 1px #000;
+  @include background-image(linear-gradient(#555, #4C4C4C));
+}
+.ui-btn-up-c a.ui-link-inherit {
+	color: 					#fff;
+}
+.ui-btn-hover-c {
+	border: 1px solid 		#000;
+	background: 			#444444;
+	font-weight: bold;
+	color: 					#fff;
+	text-shadow: 0 -1px 1px #000;
+  @include background-image(linear-gradient(#666, #555));
 }
 .ui-btn-hover-c a.ui-link-inherit {
-	color: 					#2F3E46;
+	color: 					#fff;
 }
 .ui-btn-down-c {
-	border: 1px solid 		#808080;
-	background: 			#fdfdfd;
+	border: 1px solid 		#000;
+	background: 			#3d3d3d;
 	font-weight: bold;
-	color: 					#111111;
-	text-shadow: 0 1px 1px 	#ffffff;
-  @include background-image(linear-gradient(#eee, #fdfdfd));
+	color: 					#fff;
+	text-shadow: 0 -1px 1px #000;
+  @include background-image(linear-gradient(#444, #555));
 }
 .ui-btn-down-c a.ui-link-inherit {
-	color: 					#2F3E46;
+	color: 					#fff;
 }
 .ui-btn-up-c,
 .ui-btn-hover-c,
@@ -263,7 +200,16 @@
 	font-family: Helvetica, Arial, sans-serif;
 	text-decoration: none;
 }
-
+.ui-btn-up-c, .ui-btn-hover-c, .ui-btn-down-c {
+  &.ui-li .ui-btn-inner {
+    border-top: 0;
+  }
+  .ui-li-count {
+    color: #666;
+    text-shadow: 0 0 0;
+    background: #f7f7f7;
+  }
+}
 
 /* D
 -----------------------------------------------------------------------------------------------------------*/
@@ -349,37 +295,38 @@
 	text-decoration: none;
 }
 
-
 /* E
 -----------------------------------------------------------------------------------------------------------*/
 
 .ui-bar-e {
-	border: 1px solid 		#F7C942;
-	background: 			#fadb4e;
-	color: 					#333;
-	text-shadow: 0 1px 0 	#fff;
-  @include background-image(linear-gradient(#fceda7, #fadb4e));
+  font-weight: bold;
+  border: 1px solid       #D05E00;
+  background:             #F89D08; 
+  color:                  #EFEFEF; 
+  text-shadow: 0 0px 0px #94440F; 
+  @include background-image(linear-gradient(#F89D08, #D05E00));
 }
-.ui-bar-e,
-.ui-bar-e input,
-.ui-bar-e select,
-.ui-bar-e textarea,
+.ui-bar-e, 
+.ui-bar-e input, 
+.ui-bar-e select, 
+.ui-bar-e textarea, 
 .ui-bar-e button {
 	font-family: Helvetica, Arial, sans-serif;
 }
 .ui-bar-e .ui-link-inherit {
-	color: 					#333;
+	color: 					#fff;
 }
 .ui-bar-e .ui-link {
-	color: 					#2489CE;
+	color: 					#7cc4e7;
 	font-weight: bold;
 }
 .ui-body-e {
-	border: 1px solid 		#F7C942;
-	color: 					#333333;
-	text-shadow: 0 1px 0 	#fff;
-	background: 			#faeb9e;
-  @include background-image(linear-gradient(#fff, #faeb9e));
+	border: 1px solid 		#2A2A2A;
+	background: 			#222222;
+	color: 					#fff;
+	 text-shadow: 0 1px 0 	#000;
+	font-weight: normal;
+  @include background-image(linear-gradient(#666, #222));
 }
 .ui-body-e,
 .ui-body-e input,
@@ -389,51 +336,84 @@
 	font-family: Helvetica, Arial, sans-serif;
 }
 .ui-body-e .ui-link-inherit {
-	color: 					#333333;
+	color: 					#fff;
 }
 .ui-body-e .ui-link {
 	color: 					#2489CE;
 	font-weight: bold;
 }
-.ui-btn-up-e {
-	border: 1px solid 		#F7C942;
-	background: 			#fadb4e;
-	font-weight: bold;
-	color: 					#333;
-	text-shadow: 0 1px 0 	#fff;
-  @include background-image(linear-gradient(#fceda7, #fadb4e));
-}
-.ui-btn-up-e a.ui-link-inherit {
-	color: 					#333;
-}
-.ui-btn-hover-e {
-	border: 1px solid 		#e79952;
-	background: 			#fbe26f;
-	font-weight: bold;
-	color: 					#111;
-	text-shadow: 0 1px 1px 	#fff;
-  @include background-image(linear-gradient(#fcf0b5, #fbe26f));
+.ui-br {
+	border-bottom: rgb(130,130,130);
+	border-bottom: rgba(130,130,130,.3);
+	border-bottom-width: 1px;
+	border-bottom-style: none;
 }
 
+.ui-btn-up-e {
+	border: 1px solid 		#222;
+	background: 			#333333;
+	font-weight: bold;
+	color: 					#fff;
+	text-shadow: 0 -1px 1px #000;
+  @include background-image(linear-gradient(#555, #333));
+}
+  
+.ui-btn-up-e a.ui-link-inherit {
+	color: 					#fff;
+}
+.ui-btn-hover-e {
+	border: 1px solid 		#000;
+	background: 			#444444;
+	font-weight: bold;
+	color: 					#fff;
+	text-shadow: 0 -1px 1px #000;
+  @include background-image(linear-gradient(#666, #444));
+}
 .ui-btn-hover-e a.ui-link-inherit {
-	color: 					#333;
+	color: 					#fff;
 }
 .ui-btn-down-e {
-	border: 1px solid 		#F7C942;
-	background: 			#fceda7;
+	border: 1px solid 		#000;
+	background: 			#3d3d3d;
 	font-weight: bold;
-	color: 					#111;
-	text-shadow: 0 1px 1px 	#ffffff;
-  @include background-image(linear-gradient(#fadb4e, #fceda7));
+	color: 					#fff;
+	text-shadow: 0 -1px 1px #000;
+  @include background-image(linear-gradient(#333, #5a5a5a));
 }
 .ui-btn-down-e a.ui-link-inherit {
-	color: 					#333;
+	color: 					#fff;
 }
 .ui-btn-up-e,
 .ui-btn-hover-e,
 .ui-btn-down-e {
 	font-family: Helvetica, Arial, sans-serif;
 	text-decoration: none;
+}
+
+footer .ui-btn-up-e {
+  font-weight: bold;
+  border: 1px solid       #666;
+  background:             #F89D08; 
+  color:                  #EFEFEF; 
+  text-shadow: 0 0px 0px #94440F; 
+  @include background-image(linear-gradient(#F89D08, #D05E00));
+}
+
+footer .ui-btn-hover-e {
+  font-weight: bold;
+  border: 1px solid       #555; 
+  background:             #EEE8AA; 
+  color:                  #4C4C4C; 
+  text-shadow: 0 0px 0px #94440F; 
+  @include background-image(linear-gradient(#F9F2B3, #FFDD59));
+}
+footer .ui-btn-down-e {
+  font-weight: bold;
+  border: 1px solid       #555; 
+  background:             #EEE8AA; 
+  color:                  #4C4C4C; 
+  text-shadow: 0 0px 0px #94440F; 
+  @include background-image(linear-gradient(#FFDD59, #EEE8AA));
 }
 
 // F Theme: red color scheme. Used for the delete button
@@ -477,3 +457,8 @@
   text-decoration: none;
 }
 // End of F Theme  -----------------------------------------------------------------------------------------------------------------------
+
+.ui-btn-active {
+  border: 1px solid #666; 
+ @include background-image(linear-gradient(#F89D08, #D05E00));
+}
