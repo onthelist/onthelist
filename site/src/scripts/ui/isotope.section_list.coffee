@@ -6,7 +6,15 @@ $.extend $.Isotope.prototype,
     for own name, group of @groupData
       @_buildSection(group, num_cols, guess_height)
 
+  _defaultSectionLabeler: (type, left, right) ->
+    switch type
+      when '-INF' then "Less Than #{left}"
+      when 'INF' then "More Than #{left}"
+      when 'range' then "#{left} - #{right}"
+      when 'single' then left
+
   _buildSection: (group, num_cols, guess_height) ->
+    lbl_maker = group.labelMaker ? @_defaultSectionLabeler
     group.num ?= 4
     if group.sectionBounds?
       # We need to divide up the sections.
@@ -59,10 +67,10 @@ $.extend $.Isotope.prototype,
       for bound, i in s_bounds
         start = bound
         if group.unboundedLeft and i == 0
-          label = "Less Than #{bound}"
+          label = lbl_maker('-INF', bound)
           start = '-'
         else if group.unboundedRight and i == (s_bounds.length - 1)
-          label = "More Than #{bound}"
+          label = lbl_maker('INF', bound)
         else if i == (s_bounds.length - 1)
           # If the end is bounded, we will have one less section than
           # the # of bounds provided.
@@ -73,7 +81,7 @@ $.extend $.Isotope.prototype,
 
           if @_shiftBound(st_bound) == en_bound
             # The start and end are the same (it's a single value)
-            label = st_bound
+            label = lbl_maker('single', st_bound)
           else
             if i + 1 == s_bounds.length - 1
               # This is the last divider, the ending bound is one plus
@@ -83,7 +91,7 @@ $.extend $.Isotope.prototype,
             if i != 0
               st_bound = @_shiftBound(st_bound)
             
-            label = "#{st_bound} - #{en_bound}"
+            label = lbl_maker('range', st_bound, en_bound)
 
         section =
           label: label

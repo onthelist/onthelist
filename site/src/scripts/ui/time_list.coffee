@@ -63,11 +63,32 @@ class IsotopeList
           sectionBounds: [-30, 30]
           unboundedLeft: true
           unboundedRight: true
+          labelMaker: (type, left, right) ->
+            _convert = (v) ->
+              if v >= 0
+                "#{v} Min Remaining"
+              else
+                "#{Math.abs v} Min Over"
+
+            switch type
+              when '-INF' then "More Than #{_convert left}"
+              when 'INF' then "More Than #{_convert left}"
+              when 'range' then "#{_convert left} to #{_convert right}"
+              when 'single' then _convert(left)
           parse: (el) ->
             sort_fields.remaining(el)
         elapsed:
           sectionBounds: [0, 60]
           unboundedRight: true
+          labelMaker: (type, left, right) ->
+            _convert = (v) ->
+              "#{v} Min"
+            
+            switch type
+              when '-INF' then "More Than #{_convert left}"
+              when 'INF' then "More Than #{_convert left}"
+              when 'range' then "#{_convert left} to #{_convert right}"
+              when 'single' then _convert(left)
           parse: (el) ->
             sort_fields.elapsed $(el)
     
