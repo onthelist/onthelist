@@ -154,18 +154,14 @@ class IsotopeList
     # be corrected.
     $elem.isotope('reLayout')
 
-    $(window).bind 'smartresize.isotope', ->
-      # Temp fix to page resizing problem (header shows up too high).
-      $.fixedToolbars.hide(true)
-
-
   refresh: ->
     if @dynamics_added
-      #$(@elem).isotope('reLayout')
-      $(@elem).isotope 'destroy'
-      do @add_dynamics
-      
+      $(@elem).isotope('reloadItems')
 
+      # Necessary for webkit:
+      iso = $(@elem).data('isotope')
+      do iso._init
+      
 class TimeList extends IsotopeList
   constructor: (@elem) ->
     super

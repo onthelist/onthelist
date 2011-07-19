@@ -155,8 +155,9 @@ $.extend $.Isotope.prototype,
 
   _sectionListGetContainerSize: ->
     max_height = 0
-    for section in @sections
-      max_height += section.$el.outerHeight()
+    for section, i in @sections
+      if i % @sectionList.numCols == 0
+        max_height += section.$el.outerHeight()
 
     for coords in @sectionList.coords
       max_height = Math.max(max_height, coords.y + coords.height)

@@ -333,7 +333,6 @@
 
     // sets up widget
     _create : function( options ) {
-      
       this.options = $.extend( true, {}, $.Isotope.settings, options );
       
       this.styleQueue = [];
@@ -735,7 +734,7 @@
             this.style[ transformProp ] = null;
           }
         });
-      
+     
       // re-apply saved container styles
       var elemStyle = this.element[0].style;
       for ( var i=0, len = isoContainerStyles.length; i < len; i++ ) {
