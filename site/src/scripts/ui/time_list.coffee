@@ -53,7 +53,8 @@ class IsotopeList
       sortBy: 'remaining'
       getGroupData:
         lname:
-          num: 3
+          num: 26
+          vertDistribute: true
           sectionBounds: ['A', 'Z']
           parse: (el) ->
             lname = sort_fields.lname $(el)

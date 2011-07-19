@@ -1,33 +1,57 @@
 $.extend $.Isotope.prototype,
-  _getGroups: (num_cols) ->
+  _getGroups: (num_cols, guess_height) ->
     @groupData = @options.getGroupData ? {}
     @groupBy = @options.groupBy
 
     for own name, group of @groupData
-      @_buildSection(group, num_cols)
+      @_buildSection(group, num_cols, guess_height)
 
-  _buildSection: (group, num_cols) ->
+  _buildSection: (group, num_cols, guess_height) ->
     group.num ?= 4
     if group.sectionBounds?
       # We need to divide up the sections.
-      if group.sectionBounds.length == 2 and group.num > 2
+      #
+      # We are either provided a start and end, or an explicit list.
+      if group.sectionBounds.length == 2
         # The bounds refer to the start and end of the total
         # range, we have to break it up into `num` chunks.
+        #
+        # `sectionBounds` is/will be a list of the 'edges' of
+        # the sections, so the start of each section and the end
+        # of the last section.
         if not group.allowPartialRows and group.num > num_cols
+          # If we're not allowing partial rows, than we start at the
+          # number of columns we can fit, and keep adding that number
+          # until we're close enough to the target.
           num = num_cols
-          while num < group.num
+          while num + ((num_cols - 1) / 2) < group.num
             num += num_cols
 
         else
           num = group.num
 
+        if group.vertDistribute and num_cols == 1
+          # If we're one col, vertDistribute will keep adding groups
+          # until there's enough that sections probably won't span
+          # more than a page.
+          while true
+            height = guess_height(num)
+            pages = @_estimateNumPages(height)
+
+            if pages * 1.5 < num
+              break
+            
+            num += 1
+
         if group.unboundedRight
+          # Normally the last point represents the end, but if the right
+          # side can go off into infinity, we don't need it.
           num -= 1
 
         s_bounds = @_listBounds(group.sectionBounds, num, group)
 
       else
-        # The section end points were provided explicitly.
+        # The section edges were provided explicitly.
         s_bounds = group.sectionBounds
 
       # Expand the bounds into sections
@@ -47,10 +71,19 @@ $.extend $.Isotope.prototype,
           st_bound = bound
           en_bound = s_bounds[i + 1]
 
-          if i != 0
-            st_bound = @_incrementBound(st_bound)
+          if @_shiftBound(st_bound) == en_bound
+            # The start and end are the same (it's a single value)
+            label = st_bound
+          else
+            if i + 1 == s_bounds.length - 1
+              # This is the last divider, the ending bound is one plus
+              # the actual end.
+              en_bound = @_shiftBound(en_bound, -1)
 
-          label = "#{st_bound} - #{en_bound}"
+            if i != 0
+              st_bound = @_shiftBound(st_bound)
+            
+            label = "#{st_bound} - #{en_bound}"
 
         section =
           label: label
@@ -75,7 +108,7 @@ $.extend $.Isotope.prototype,
           if typeof val != 'string'
             start = parseInt start
 
-          if start >= val
+          if start > val
             return false
 
           last = i
@@ -85,13 +118,13 @@ $.extend $.Isotope.prototype,
       group.sections = sections
       group.map = map
 
-  _incrementBound: (bound) ->
+  _shiftBound: (bound, i=1) ->
     is_char = typeof bound == 'string'
 
     if is_char
       bound = bound.charCodeAt(0)
 
-    bound += 1
+    bound += i
 
     if is_char
       bound = String.fromCharCode(bound)
@@ -104,10 +137,22 @@ $.extend $.Isotope.prototype,
     if is_char
       bounds = (b.charCodeAt(0) for b in bounds)
 
-    incr = (bounds[1] - bounds[0]) / num
-    out = (o for o in [bounds[0]..bounds[1]] by incr)
-    out = (Math.floor(o + .5) for o in out)
+    @range = (bounds[1] - bounds[0])
 
+    num = Math.min(@range + 1, num)
+
+    incr = @range / num
+    b = bounds[0]
+    out = []
+    for i in [0...num]
+      b = Math.floor(b + .5)
+      out.push b
+
+      b += incr
+
+    # The points represent the dividing lines, we have to add a right margin.
+    out.push (bounds[1] + 1)
+    
     if group.unboundedLeft
       # If we start at -INF, the first bound is not the start of the first
       # range, it's the end of it, so the next bound has to take it's place.
@@ -115,6 +160,7 @@ $.extend $.Isotope.prototype,
 
     if is_char
       out = (String.fromCharCode(o) for o in out)
+
 
     return out
 
@@ -158,6 +204,13 @@ $.extend $.Isotope.prototype,
       return i
 
     throw "Invalid Section"
+  
+  _estimateNumPages: (height) ->
+    page_size = $UI.get_page_space $('.ui-page-active')
+
+    page_height = page_size[1] - 30
+
+    return height / page_height
 
 $.extend $.Isotope.prototype,
   _sectionListGetDims: ->
@@ -176,6 +229,19 @@ $.extend $.Isotope.prototype,
 
     return num
 
+  _sectionListEstimateHeight: (num_elems, num_cols, num_sections) ->
+    # Estimate the height so we can determine the right number of
+    # sections to create such that there is a heading visible most
+    # of the time, but all the space isn't consumed by headings.
+    
+    DIVIDER_HEIGHT = 33
+    ELEMENT_HEIGHT = 43
+
+    v_elem_cnt = num_elems / num_cols
+    v_sec_cnt = num_sections / num_cols
+
+    return ELEMENT_HEIGHT * v_elem_cnt + DIVIDER_HEIGHT * v_sec_cnt
+ 
   _sectionListMap: ($elems) ->
     self = this
     @sectionList.members = []
@@ -265,7 +331,13 @@ $.extend $.Isotope.prototype,
     $(@element).find('.section-header').remove()
 
   _sectionListLayout: ($elems) ->
-    @_getGroups @_sectionListNumCols(false)
+    num_cols = @_sectionListNumCols(false)
+
+    guess_height = (num_sections) =>
+      cols = Math.min(num_cols, num_sections)
+      return @_sectionListEstimateHeight($elems.length, cols, num_sections)
+
+    @_getGroups(num_cols, guess_height)
     do @_createGroups
 
     do @_sectionListGetDims
