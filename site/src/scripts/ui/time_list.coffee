@@ -19,7 +19,7 @@ class IsotopeList
       # So we use transforms on all mobile devices with tablet-like proportions.
       
       ua = navigator.userAgent
-      if /mobile/i.test(ua) and (window.outerWidth > 480 or window.outerHeight > 480)
+      if /mobile/i.test(ua) and (window.outerWidth > 480 or window.outerHeight > 480 or true)
 
         return true
       return false
@@ -50,7 +50,7 @@ class IsotopeList
       groupBy: 'lname'
       transformsEnabled: use_transforms()
       getSortData: sort_fields
-      sortBy: 'lname'
+      sortBy: 'remaining'
       getGroupData:
         lname:
           sections:
@@ -85,19 +85,19 @@ class IsotopeList
         remaining:
           sections:
             [
-              label: '16+ mins over'
+              label: '16+ min over'
               attrs:
                 'data-start': -16
             ,
-              label: '0-15 mins over'
+              label: '0-15 min over'
               attrs:
                 'data-start': 0
             ,
-              label: '1-15 mins rem'
+              label: '1-15 min remaining'
               attrs:
                 'data-start': 15
             ,
-              label: '16+ mins rem'
+              label: '16+ min remaining'
               attrs:
                 'data-start': '+'
             ]
@@ -161,6 +161,12 @@ class IsotopeList
       # Necessary for webkit:
       iso = $(@elem).data('isotope')
       do iso._init
+
+  sort: (key) ->
+    $(@elem).isotope({sortBy: key})
+
+  group: (key) ->
+    $(@elem).isotope({groupBy: key})
       
 class TimeList extends IsotopeList
   constructor: (@elem) ->
@@ -189,7 +195,8 @@ class ElapsedTimeList extends TimeList
       # We can pass in elapsed time to avoid having to parse it twice
       elapsed = parseInt $('time', elem).attr 'data-minutes'
 
-    $('time', elem).time()
+    $('time', elem).time
+      format: 'remaining'
 
     $(@elem).append elem
 
@@ -226,7 +233,7 @@ class TargetTimeList extends ElapsedTimeList
   insert: (elem, args...) ->
     super(elem, args...)
 
-    $(elem).find('time').click =>
+    $(elem).find('time').bind 'vclick', =>
       $(@elem).find('time').time 'toggle_format'
 
       return false

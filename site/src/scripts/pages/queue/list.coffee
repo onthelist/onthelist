@@ -48,6 +48,12 @@ $ ->
     $('#queue').bind 'pageshow', ->
       do list.add_dynamics
 
+    $('#queue').bind 'sortUpdate', (e, order) ->
+      list.sort order
+
+    $('#queue').bind 'groupUpdate', (e, cls) ->
+      list.group cls
+
     $D.queue.live 'rowAdd', (e, row) ->
       elapsed = Date.get_elapsed row.add_time
 
