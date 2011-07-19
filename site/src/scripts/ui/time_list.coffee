@@ -19,8 +19,7 @@ class IsotopeList
       # So we use transforms on all mobile devices with tablet-like proportions.
       
       ua = navigator.userAgent
-      if /mobile/i.test(ua) and (window.outerWidth > 480 or window.outerHeight > 480 or true)
-
+      if /mobile/i.test(ua)
         return true
       return false
 

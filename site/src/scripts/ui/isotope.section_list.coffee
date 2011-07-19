@@ -78,19 +78,18 @@ $.extend $.Isotope.prototype,
         else
           st_bound = bound
           en_bound = s_bounds[i + 1]
-
-          if @_shiftBound(st_bound) == en_bound
-            # The start and end are the same (it's a single value)
-            label = lbl_maker('single', st_bound)
-          else
-            if i + 1 == s_bounds.length - 1
+          
+          if i != 0
+            st_bound = @_shiftBound(st_bound)
+           if i + 1 == s_bounds.length - 1
               # This is the last divider, the ending bound is one plus
               # the actual end.
               en_bound = @_shiftBound(en_bound, -1)
 
-            if i != 0
-              st_bound = @_shiftBound(st_bound)
-            
+          if st_bound == en_bound
+            # The start and end are the same (it's a single value)
+            label = lbl_maker('single', st_bound)
+          else
             label = lbl_maker('range', st_bound, en_bound)
 
         section =
@@ -145,7 +144,7 @@ $.extend $.Isotope.prototype,
     if is_char
       bounds = (b.charCodeAt(0) for b in bounds)
 
-    @range = (bounds[1] - bounds[0])
+    @range = (bounds[1] - bounds[0]) + 1
 
     num = Math.min(@range + 1, num)
 
@@ -153,8 +152,7 @@ $.extend $.Isotope.prototype,
     b = bounds[0]
     out = []
     for i in [0...num]
-      b = Math.floor(b + .5)
-      out.push b
+      out.push Math.floor(b + .5)
 
       b += incr
 
@@ -168,7 +166,6 @@ $.extend $.Isotope.prototype,
 
     if is_char
       out = (String.fromCharCode(o) for o in out)
-
 
     return out
 
