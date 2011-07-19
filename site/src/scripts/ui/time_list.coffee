@@ -54,6 +54,7 @@ class IsotopeList
       getGroupData:
         lname:
           num: 3
+          vertDistribute: true
           sectionBounds: ['A', 'Z']
           parse: (el) ->
             lname = sort_fields.lname $(el)
