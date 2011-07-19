@@ -48,11 +48,17 @@ $ ->
     $('#queue').bind 'pageshow', ->
       do list.add_dynamics
 
-    $('#queue').bind 'sortUpdate', (e, order) ->
-      list.sort order
+    q_elem.bind 'update', ->
+      $.fixedToolbars.show(true)
 
-    $('#queue').bind 'groupUpdate', (e, cls) ->
-      list.group cls
+    q_elem.bind 'beforeUpdate', ->
+      $.fixedToolbars.hide(true)
+
+    $('#queue').bind 'optionChange', (e, name, val) ->
+      switch name
+        when 'sort' then list.sort val
+        when 'group' then list.group val
+        when 'time_view' then $q_elem.find('time').time 'toggle_format'
 
     $D.queue.live 'rowAdd', (e, row) ->
       elapsed = Date.get_elapsed row.add_time

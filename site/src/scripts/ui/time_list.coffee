@@ -163,10 +163,16 @@ class IsotopeList
       do iso._init
 
   sort: (key) ->
-    $(@elem).isotope({sortBy: key})
+    $(@elem)
+      .trigger('beforeUpdate')
+      .isotope({sortBy: key})
+      .trigger('update')
 
   group: (key) ->
-    $(@elem).isotope({groupBy: key})
+    $(@elem)
+      .trigger('beforeUpdate')
+      .isotope({groupBy: key})
+      .trigger('update')
       
 class TimeList extends IsotopeList
   constructor: (@elem) ->
@@ -229,16 +235,7 @@ class ElapsedTimeList extends TimeList
 
     do this.refresh
 
-class TargetTimeList extends ElapsedTimeList
-  insert: (elem, args...) ->
-    super(elem, args...)
-
-    $(elem).find('time').bind 'vclick', =>
-      $(@elem).find('time').time 'toggle_format'
-
-      return false
-          
-class QueueList extends TargetTimeList
+class QueueList extends ElapsedTimeList
   add_sections: ->
     super
 
