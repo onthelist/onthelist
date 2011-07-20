@@ -54,3 +54,34 @@ time {
   color: #EAEAEA;
   display: inline-block;
 }
+
+.ui-content .pseudo-list {
+  margin-bottom: 15px;
+}
+#queue-list {
+  li {
+    &.ui-li:last-child, &.ui-li.ui-field-contain:last-child {
+      border-bottom-width: 0;
+    }
+
+    &.ui-li-divider {
+      padding: 0;
+      height: auto;
+
+      .ui-li-divider-inner {
+        padding: 0.5em 15px;
+        display: block;
+      }
+    }
+    &.ui-screen-hidden {
+      display: block;
+    }
+    &.ui-screen-highlight:not(.ui-li-divider) {
+      background: -moz-linear-gradient(center top , #FCEDA7, #FADB4E) repeat scroll 0 0 #FADB4E;
+    }
+  }
+  
+  .list-control {
+    z-index: 1001 !important;
+  }
+}

@@ -48,7 +48,7 @@ class Queue
     @evt.trigger('rowAdd', row)
 
   live: (evt, func) ->
-    if evt.indexOf 'row' == 0
+    if @ds? and evt.indexOf 'row' == 0
       # We call the func on all the existing rows with evt of false
       # to allow the event to be bound after the data is initially loaded
       @ds.each (row) ->
@@ -68,7 +68,8 @@ $.when( $D.queue.init() ).then ->
       $D.queue.ds.remove row
 
   $D.queue.ds.all (rows) ->
-    if rows.length < 12
+    len = rows.length
+    while len++ < 12
       fnames = ['John', 'Jane', 'Zack', 'Marshall', 'Dick']
       lnames = ['Smith', 'Bloom', 'Wright', 'Miller', 'Lombardi']
 
@@ -88,3 +89,5 @@ $.when( $D.queue.init() ).then ->
         alert_method: 'sms'
         status: 'waiting'
         notes: ''
+
+      break

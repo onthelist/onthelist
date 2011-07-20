@@ -15,7 +15,7 @@ $ ->
       alert_method: $('[name=alert_method]', dia).val()
       notes: $('[name=notes]', dia).val()
 
-    $$('#queue-list').queue.add(vals)
+    $D.queue.add(vals)
 
     $.log 'close'
     dia.dialog 'close'
