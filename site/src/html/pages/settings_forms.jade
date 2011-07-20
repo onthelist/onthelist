@@ -1,0 +1,18 @@
+#settings-forms(data-role="page")
+  header(data-role="header", data-position="fixed")
+    a(href="#settings", data-role="back") Back
+    h1 Forms
+    a(href="#save") Save
+  form.content(data-role="content")
+    div(data-role="settings")
+      ul(data-role="listview")
+        li(data-role="list-divider") Seating
+      
+      div(data-role="fieldcontain")  
+        fieldset(data-role="controlgroup")
+          legend Types
+          input#first-available-options.custom(type="checkbox", name="first_available_options")
+          label(for="first-available-options") First Available
+      
+      ul(data-role="listview")
+        li(data-role="list-divider") Alert methods

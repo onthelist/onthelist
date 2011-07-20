@@ -22,7 +22,7 @@
   form.content {
     .ui-input-text {
       font-weight: bold;
-      font-size: 90% !important;
+      font-size: 90%;
       color: #444;
     }
   }
@@ -59,8 +59,8 @@ div.ui-slider-switch {
 }
 
 label, .ui-controlgroup-label {
-  font-size: 90% !important;
-  font-weight: bold !important;
+  -font-size: 90%;
+  font-weight: bold;
 }
 
 input::-moz-outer-spin-button, input::-moz-inner-spin-button {
@@ -237,7 +237,6 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
   form.content {
     .ui-controlgroup-label, label {
       text-align: right;
-      display: inline-block;
     }
   
     // Hide placeholder text on screens large enough for labels
