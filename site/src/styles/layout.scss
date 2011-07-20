@@ -1,3 +1,4 @@
+@import "compass/css3/images";
 
 :-moz-placeholder {
   font-style: italic;
@@ -58,6 +59,7 @@ time {
 .ui-content .pseudo-list {
   margin-bottom: 15px;
 }
+
 #queue-list {
   li {
     &.ui-li:last-child, &.ui-li.ui-field-contain:last-child {
@@ -77,7 +79,8 @@ time {
       display: block;
     }
     &.ui-screen-highlight:not(.ui-li-divider) {
-      background: -moz-linear-gradient(center top , #FCEDA7, #FADB4E) repeat scroll 0 0 #FADB4E;
+      background: repeat scroll 0 0 #FADB4E;
+      @include background(linear-gradient(center top , #FCEDA7, #FADB4E));
     }
   }
   
