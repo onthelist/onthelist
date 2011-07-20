@@ -358,7 +358,7 @@ $.extend $.Isotope.prototype,
 
     for coords in @sectionList.coords
       max_height = Math.max(max_height, coords.y + coords.height)
-        
+
     return {
       height: max_height
     }

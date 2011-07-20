@@ -2,6 +2,11 @@ class IsotopeList
   constructor: (@elem) ->
     @dynamics_added = false
 
+  _height_changed: ->
+    # Let fixed elements know the transition of the height is done
+    # so they can reposition.
+    $(@elem).trigger('heightChange')
+
   add_dynamics: ->
     @dynamics_added = true
 
@@ -50,6 +55,9 @@ class IsotopeList
       transformsEnabled: use_transforms()
       getSortData: sort_fields
       sortBy: 'remaining'
+      animationOptions:
+        complete: =>
+          do @_height_changed
       getGroupData:
         lname:
           num: 3
@@ -90,6 +98,11 @@ class IsotopeList
               when 'single' then _convert(left)
           parse: (el) ->
             sort_fields.elapsed $(el)
+
+    $elem.bind 'webkitTransitionEnd transitionend oTransitionEnd', (e) =>
+      if e.target == $elem[0]
+        # The list is done expanding / contracting
+        do @_height_changed
     
     # Isotope will set the height after the elements are added.  If their
     # are enough elements, the scroll bar will appear, shifting the els.
