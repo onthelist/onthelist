@@ -42,7 +42,7 @@ $.extend $.Isotope.prototype,
           # If we're one col, vertDistribute will keep adding groups
           # until there's enough that sections probably won't span
           # more than a page.
-          while true
+          while num < 30
             height = guess_height(num)
             pages = @_estimateNumPages(height)
 
@@ -240,7 +240,7 @@ $.extend $.Isotope.prototype,
     # of the time, but all the space isn't consumed by headings.
     
     DIVIDER_HEIGHT = 33
-    ELEMENT_HEIGHT = 43
+    ELEMENT_HEIGHT = 46
 
     v_elem_cnt = num_elems / num_cols
     v_sec_cnt = num_sections / num_cols
@@ -358,7 +358,7 @@ $.extend $.Isotope.prototype,
 
     for coords in @sectionList.coords
       max_height = Math.max(max_height, coords.y + coords.height)
-        
+
     return {
       height: max_height
     }

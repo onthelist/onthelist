@@ -48,11 +48,8 @@ $ ->
     $('#queue').bind 'pageshow', ->
       do list.add_dynamics
 
-    q_elem.bind 'update', ->
-      $.fixedToolbars.show(true)
-
-    q_elem.bind 'beforeUpdate', ->
-      $.fixedToolbars.hide(true)
+    q_elem.bind 'heightChange', ->
+      $.fixedToolbars.show()
 
     $('#queue').bind 'optionChange', (e, name, val) ->
       switch name

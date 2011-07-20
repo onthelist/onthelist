@@ -5,17 +5,22 @@ $ ->
 
   show_fake_page = (self) ->
     # Add Dummy List Element
+    add_list = $ '<ul></ul>'
+    add_list.addClass 'pseudo-list'
+    
     add_el = $ '<li></li>'
+    add_list.append add_el
+
     link = $ '<a></a>'
     add_el.append link
 
     link.addClass "list-action"
     link.text "Check-In Without Queue"
   
-    $('#queue-list').prepend add_el
-    $('#queue-list').listview 'refresh'
+    $('#queue-list').before add_list
+    add_list.listview()
 
-    # Hide Add Button
+    # Replace add button with back button
     cancel_el = $ '<a></a>'
     cancel_el.attr('href', '#queue')
     cancel_el.addClass 'ui-btn-left'
