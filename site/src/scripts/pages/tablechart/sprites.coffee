@@ -14,13 +14,6 @@ class $TC.Sprite
     @parent.appendChild @canvas
     @cxt = @canvas.getContext '2d'
 
-    if @class_name?
-      $(@canvas).addClass @class_name
-
-    $(@canvas).bind 'vclick', =>
-      $.log 'v'
-      $(@canvas).toggleClass 'highlight'
-
     $(@canvas).draggable(
       opacity: 0.5
       containment: 'parent'
@@ -129,8 +122,6 @@ class $TC.Table extends $TC.Sprite
     do @cxt.restore
 
 class $TC.RoundTable extends $TC.Table
-  class_name: 'round'
-
   draw: ->
     circ = @seats * (@seat_width + @seat_spacing)
     rad = circ / Math.PI / 2
@@ -140,9 +131,6 @@ class $TC.RoundTable extends $TC.Table
     center = rad + @seat_depth
 
     this.size 2*center, 2*center
-
-    # The transparent border defines the size of the highlight aura
-    $(@canvas).css('border-width', (center * .4) + 'px')
 
     ang = 0
     for i in [0...@seats]
@@ -157,8 +145,6 @@ class $TC.RoundTable extends $TC.Table
 
 
 class $TC.RectTable extends $TC.Table
-  class_name: 'rect'
-
   width: 28
   single_width: 20
 
