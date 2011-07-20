@@ -240,7 +240,7 @@ $.extend $.Isotope.prototype,
     # of the time, but all the space isn't consumed by headings.
     
     DIVIDER_HEIGHT = 33
-    ELEMENT_HEIGHT = 43
+    ELEMENT_HEIGHT = 46
 
     v_elem_cnt = num_elems / num_cols
     v_sec_cnt = num_sections / num_cols

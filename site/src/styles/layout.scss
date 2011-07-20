@@ -61,8 +61,7 @@ time {
       border-bottom-width: 0;
     }
 
-    height: 2.5em;
-    margin-right: 1px;
+    height: 2.8em;
 
     &.ui-li-divider {
       padding: 0;
@@ -72,6 +71,12 @@ time {
         padding: 0.5em 15px;
         display: block;
       }
+    }
+    &.ui-screen-hidden {
+      display: block;
+    }
+    &.ui-screen-highlight:not(.ui-li-divider) {
+      background: -moz-linear-gradient(center top , #FCEDA7, #FADB4E) repeat scroll 0 0 #FADB4E;
     }
   }
   
