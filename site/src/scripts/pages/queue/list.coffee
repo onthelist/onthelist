@@ -22,8 +22,10 @@ add_list_row = (list, row) ->
 
   link.append e_time
 
-  name = row.name
-  link.append name
+  e_name = $('<span></span>')
+  e_name.attr('data-key', 'name')
+  e_name.text row.name
+  link.append e_name
 
   size = row.size
 
@@ -42,6 +44,21 @@ $ ->
     q_elem = $('#queue-list')
 
     list = do q_elem.queueList
+
+    $('#queue').bind 'pageshow', ->
+      do list.add_dynamics
+
+    q_elem.bind 'update', ->
+      $.fixedToolbars.show(true)
+
+    q_elem.bind 'beforeUpdate', ->
+      $.fixedToolbars.hide(true)
+
+    $('#queue').bind 'optionChange', (e, name, val) ->
+      switch name
+        when 'sort' then list.sort val
+        when 'group' then list.group val
+        when 'time_view' then q_elem.find('time').time 'toggle_format'
 
     $D.queue.live 'rowAdd', (e, row) ->
       elapsed = Date.get_elapsed row.add_time

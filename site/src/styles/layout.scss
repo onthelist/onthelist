@@ -60,3 +60,28 @@ time {
   color: #EAEAEA;
   display: inline-block;
 }
+
+#queue-list {
+  li {
+    &.ui-li:last-child, &.ui-li.ui-field-contain:last-child {
+      border-bottom-width: 0;
+    }
+
+    height: 2.5em;
+    margin-right: 1px;
+
+    &.ui-li-divider {
+      padding: 0;
+      height: auto;
+
+      .ui-li-divider-inner {
+        padding: 0.5em 15px;
+        display: block;
+      }
+    }
+  }
+  
+  .list-control {
+    z-index: 1001 !important;
+  }
+}
