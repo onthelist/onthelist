@@ -14,7 +14,19 @@
         span#party-size-details(data-key="size")
       span.clear
     
-    h3#party-notes-details.center-wrapper(data-key="notes") Low carb menu
+    div.center-wrapper
+      h3#party-seating-preference-details First Available
+    hr
+    
+    h4 Check in Time: 
+      span#party-check-in-time-details 5:40 PM
+    
+    h4#party-notes-details Requests a quiet area
+    
+    hr
+    div.center-wrapper
+      h3#party-time-remaining-details 30 Minutes
+          span &nbsp;Remaining
 
     div.action-select(data-role="controlgroup", data-type="horizontal")
       a(href="#alert-party",data-role="button", data-theme="b") Send Text Alert
@@ -23,6 +35,6 @@
           option(value="custom_sms") Compose Custom Text
           option(value="call") Call Guest at (248) 229-8031
 
-    a(href="#check-in-party",data-role="button", data-theme="b") Check-In
+    a(href="#check-in-party",data-role="button") Check-In
 
     a(href="#delete-party",data-role="button", data-theme="f") Delete 
