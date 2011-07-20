@@ -69,7 +69,7 @@ $.when( $D.queue.init() ).then ->
 
   $D.queue.ds.all (rows) ->
     len = rows.length
-    while len++ < 40
+    while len++ < 12
       fnames = ['John', 'Jane', 'Zack', 'Marshall', 'Dick']
       lnames = ['Smith', 'Bloom', 'Wright', 'Miller', 'Lombardi']
 
@@ -89,3 +89,5 @@ $.when( $D.queue.init() ).then ->
         alert_method: 'sms'
         status: 'waiting'
         notes: ''
+
+      break
