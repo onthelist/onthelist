@@ -55,13 +55,14 @@ time {
   display: inline-block;
 }
 
+.ui-content .pseudo-list {
+  margin-bottom: 15px;
+}
 #queue-list {
   li {
     &.ui-li:last-child, &.ui-li.ui-field-contain:last-child {
       border-bottom-width: 0;
     }
-
-    height: 2.8em;
 
     &.ui-li-divider {
       padding: 0;
