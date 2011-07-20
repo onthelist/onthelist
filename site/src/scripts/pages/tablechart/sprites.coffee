@@ -6,7 +6,9 @@ styles =
     fill_color: '#DDD'
     line_color: '#555'
 
-class Sprite
+window.$TC ?= {}
+
+class $TC.Sprite
   constructor: (@parent) ->
     @canvas = document.createElement 'canvas'
     @parent.appendChild @canvas
@@ -17,11 +19,11 @@ class Sprite
       containment: 'parent'
     )
       .bind('touchstart mousedown', ->
-        scroller.enabled = false
+        $TC.scroller.enabled = false
         true
       )
       .bind('touchend mouseup', ->
-        scroller.enabled = true
+        $TC.scroller.enabled = true
         true
       )
 
@@ -41,7 +43,7 @@ class Sprite
 
     do this._move
 
-class Table extends Sprite
+class $TC.Table extends $TC.Sprite
   seat_width: 10
   seat_depth: 7
   seat_spacing: 3
@@ -119,7 +121,7 @@ class Table extends Sprite
 
     do @cxt.restore
 
-class RoundTable extends Table
+class $TC.RoundTable extends $TC.Table
   draw: ->
     circ = @seats * (@seat_width + @seat_spacing)
     rad = circ / Math.PI / 2
@@ -142,7 +144,7 @@ class RoundTable extends Table
     this._draw_circle center, center, rad
 
 
-class RectTable extends Table
+class $TC.RectTable extends $TC.Table
   width: 28
   single_width: 20
 

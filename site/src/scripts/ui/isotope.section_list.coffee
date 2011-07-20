@@ -42,7 +42,7 @@ $.extend $.Isotope.prototype,
           # If we're one col, vertDistribute will keep adding groups
           # until there's enough that sections probably won't span
           # more than a page.
-          while true
+          while num < 30
             height = guess_height(num)
             pages = @_estimateNumPages(height)
 

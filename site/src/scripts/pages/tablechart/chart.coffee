@@ -1,4 +1,5 @@
-scroller = null
+window.$TC ?= {}
+$TC.scroller = null
 
 BASE_HEIGHT = 720.0
 BASE_WIDTH = 1280.0
@@ -76,4 +77,4 @@ $('#tablechart').live 'pageshow', ->
     zoom: true
     zoomMax: 6
 
-  scroller = new iScroll $content[0], opts
+  $TC.scroller = new iScroll $content[0], opts
