@@ -107,7 +107,8 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
   box-shadow: 0 0 0;
 
   &.loading {
-    background-image: url('../images/loading.gif');
+    background: url('../images/loading.gif') center center no-repeat;
+    color: transparent;
   }
   &.empty {
     display: none;
