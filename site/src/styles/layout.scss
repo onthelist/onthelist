@@ -69,7 +69,7 @@ time {
 #queue-list {
   li {
     &.ui-li:last-child, &.ui-li.ui-field-contain:last-child {
-      border-bottom-width: 0;
+      border-bottom-width: 2px;
     }
 
     &.ui-li-divider {

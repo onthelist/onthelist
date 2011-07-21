@@ -7,40 +7,41 @@
 /* B
 -----------------------------------------------------------------------------------------------------------*/
 
-.ui-bar-b {  
-  border: 1px solid       #e68510;
-  background:             #e68510;
+.ui-bar-b {
+  border: 1px solid       #0DB8C4;
+  background:             #0BA2AA;
   color:                  #fff;
-  @include background-image(linear-gradient(#EAB24B, #e68510));
+  @include background-image(linear-gradient(#0FD4E2, #0BA2AA));
 }
 .ui-btn-up-b {
-  border: 1px solid       #e68510;
-  background:             #e68510;
+  border: 1px solid       #0DB8C4;
+  background:             #0BA2AA;
   color:                  #fff;
-  @include background-image(linear-gradient(#EAB24B, #e68510));
+  @include background-image(linear-gradient(#0FD4E2, #0BA2AA));
 }
 .ui-btn-up-b a.ui-link-inherit {
   color:                  #fff;
 }
 .ui-btn-hover-b {
-  border: 1px solid       #b77504;
-  background:             #ed9730;
+  border: 1px solid       #0CACB5;
+  background:             #10E4EF;
   color:                  #fff;
-  @include background-image(linear-gradient(#F9CE84, #edab30));
+  @include background-image(linear-gradient(#10E4EF, #0CACB5));
 }
 .ui-btn-hover-b a.ui-link-inherit {
   color:                  #fff;
 }
 .ui-btn-down-b {
-  border: 1px solid       #BD610D;
-  background:             #BA6E11;
+  border: 1px solid       #0FD4E2;
+  background:             #0BA2AA;
   color:                  #fff;
-  @include background-image(linear-gradient(#BA8011, #BA8011));
+  @include background-image(linear-gradient(#0BA2AA, #0FD4E2));
 }
+.ui-bar-e,
 .ui-btn-up-b,
 .ui-btn-hover-b,
 .ui-btn-down-b {
-  text-shadow: 0 -1px 0px #94440F;
+  text-shadow: 0 -1px 0px #108D93;
   cursor: pointer;
   font-weight: bold; 
   text-decoration: none;
@@ -146,9 +147,14 @@
     text-shadow: 0 1px 0	#fff;
     
     &.ui-focus {
-      box-shadow: 0 0 10px #F89D08;
+      box-shadow: 0 0 10px #0BA2AA;
     }
   }
+  
+  &.ui-input-search .ui-shadow-inset {
+    box-shadow: 0 1px 4px rgba(3, 0, 0, 0.2) inset;
+  }
+  
   &.inline-button {
   // Used for the table chart selection
   color: #333;
@@ -301,11 +307,11 @@
 -----------------------------------------------------------------------------------------------------------*/
 
 .ui-bar-e {
-	border: 1px solid 		#F7C942;
-	background: 			#fadb4e;
-	color: 					#333;
-	text-shadow: 0 1px 0 	#fff;
-  @include background-image(linear-gradient(#fceda7, #fadb4e));
+	border: 1px solid 		#CC831E;
+	background: 			#F8A012;
+	color: 					#444;
+	text-shadow: 0 1px 0 #a5a5a5;
+  @include background-image(linear-gradient(#FFA632, #E28F22));
 }
 .ui-bar-e, 
 .ui-bar-e input, 
@@ -351,35 +357,35 @@
 }
 
 .ui-btn-up-e {
-	border: 1px solid 		#222;
-	background: 			#333333;
+	border: 1px solid 		#48F75D;
+	background: 			#76F786;
 	font-weight: bold;
-	color: 					#fff;
-	text-shadow: 0 -1px 1px #000;
-  @include background-image(linear-gradient(#555, #333));
+	color: 					#444;
+	text-shadow: 0 -1px 1px #a5a5a5;
+  @include background-image(linear-gradient(#ADFFB5, #91D898));
 }
   
 .ui-btn-up-e a.ui-link-inherit {
-	color: 					#fff;
+	color: 					#444;
 }
 .ui-btn-hover-e {
-	border: 1px solid 		#000;
-	background: 			#444444;
+	border: 1px solid 		#91D898;
+	background: 			#ADFFB5;
 	font-weight: bold;
-	color: 					#fff;
-	text-shadow: 0 -1px 1px #000;
-  @include background-image(linear-gradient(#666, #444));
+	color: 					#444;
+	text-shadow: 0 -1px 1px #a5a5a5;
+  @include background-image(linear-gradient(#BCFFC2, #9ED6A3));
 }
 .ui-btn-hover-e a.ui-link-inherit {
-	color: 					#fff;
+	color: 					#444;
 }
 .ui-btn-down-e {
-	border: 1px solid 		#000;
-	background: 			#3d3d3d;
+	border: 1px solid 		#ADFFB5;
+	background: 			#91D898;
 	font-weight: bold;
-	color: 					#fff;
-	text-shadow: 0 -1px 1px #000;
-  @include background-image(linear-gradient(#333, #5a5a5a));
+	color: 					#444;
+	text-shadow: 0 -1px 1px #a5a5a5;
+  @include background-image(linear-gradient(#91D898, #ADFFB5));
 }
 .ui-btn-down-e a.ui-link-inherit {
 	color: 					#fff;
@@ -461,5 +467,14 @@ footer .ui-btn-down-e {
 
 .ui-btn-active {
   border: 1px solid #666; 
- @include background-image(linear-gradient(#F89D08, #D05E00));
+ @include background-image(linear-gradient(#0FD4E2, #0BA2AA));
 }
+
+.overtime {
+  color: #FF4F4F;
+}
+
+.pill .minor .subtext {
+  opacity: 0.9;
+}
+
