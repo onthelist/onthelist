@@ -3117,7 +3117,7 @@ $.widget( "mobile.page", $.mobile.widget, {
 			var link = findClosestLink( event.target );
 			if ( link ) {
 				if ( path.parseUrl( link.getAttribute( "href" ) || "#" ).hash !== "#" ) {
-					$( link ).closest( ".ui-btn" ).not( ".ui-disabled" ).addClass( $.mobile.activeBtnClass );
+					$( link ).closest( ".ui-btn:visible" ).not( ".ui-disabled" ).addClass( $.mobile.activeBtnClass );
 					$( "." + $.mobile.activePageClass + " .ui-btn" ).not( link ).blur();
 				}
 			}
@@ -3195,7 +3195,7 @@ $.widget( "mobile.page", $.mobile.widget, {
 				//     moved into more comprehensive isExternalLink
 				isExternal = useDefaultUrlHandling || ( path.isExternal( href ) && !isCrossDomainPageLoad );
 
-			$activeClickedLink = $link.closest( ".ui-btn" );
+			$activeClickedLink = $link.closest( ".ui-btn:visible" );
 
 			if( isExternal ) {
 				httpCleanup();
@@ -3271,6 +3271,12 @@ $.widget( "mobile.page", $.mobile.widget, {
 		$( window ).bind( "throttledresize", resetActivePageHeight );
 
 	};//_registerInternalEvents callback
+
+	$(function(){
+	  var loc = document.location.toString()
+	  if (loc.indexOf(dialogHashKey) != -1)
+  	  document.location = path.getFilePath(loc);
+	});
 
 })( jQuery );
 /*!

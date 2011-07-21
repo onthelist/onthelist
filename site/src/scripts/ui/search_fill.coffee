@@ -12,7 +12,7 @@ class GuestSearchBox
     @request = null
     @wait_timer = null
     @match = null
-    @queue = $$('#queue-list').queue
+    @queue = $D.queue
 
     do this._add_button
 

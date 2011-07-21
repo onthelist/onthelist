@@ -33,7 +33,7 @@ $ ->
       icon: 'arrow-l'
       iconpos: 'notext'
 
-    cancel_el.click ->
+    cancel_el.bind 'vclick', ->
       hide_fake_page self
 
     do $(self).hide
@@ -50,7 +50,7 @@ $ ->
     $('.ui-title:visible').text last_title
     last_title = false
 
-  $('a[href=#check-in]').click (e) ->
+  $('a[href=#check-in]').bind 'vclick', (e) ->
     do e.preventDefault
 
     if last_title

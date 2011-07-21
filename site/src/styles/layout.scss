@@ -47,6 +47,14 @@ time {
   text-align: center;
   padding-left: 0;
   padding-right: 0;
+  
+  box-shadow: -1px 1px 1px #DDDDDD;
+  background: no-repeat scroll 0 0 #DFDFDF;
+  @include background(linear-gradient(center top, #FFF, #DFDFDF));
+
+  &.slice {
+    border-color: #F9F9F9;
+  }
 }
 
 .ui-li.ui-btn a.list-action {

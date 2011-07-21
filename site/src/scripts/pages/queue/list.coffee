@@ -34,7 +34,7 @@ add_list_row = (list, row) ->
     e_slice.css 'right', (38 + 2 * (size - i)) + 'px'
     link.append e_slice
 
-  e_size = $ '<span class="ui-li-count"></span>'
+  e_size = $ '<span class="ui-li-count" data-key="size"></span>'
   e_size.text size
   link.append e_size
 
@@ -63,7 +63,5 @@ $ ->
       add_list_row(list, row)
 
     $D.queue.bind 'rowRemove', (e, key) ->
-      do $('a[data-id=' + key + ']', this).parents('li').first().remove
-
-      do list.refresh
+      list.remove($('a[data-id=' + key + ']', q_elem).parents('li').first())
     

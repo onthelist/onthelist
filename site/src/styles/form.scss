@@ -119,7 +119,8 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
   box-shadow: 0 0 0;
 
   &.loading {
-    background-image: url('../images/loading.gif');
+    background: url('../images/loading.gif') center center no-repeat;
+    color: transparent;
   }
   &.empty {
     display: none;
@@ -130,7 +131,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
   // Used for the table chart input
   display: inline-block;
   font-size: 1.3em;
-  margin: 0 -6px -1px;
+  margin: 0 -9px -1px;
   text-align: center;
   vertical-align: middle;
   width: 53px;
