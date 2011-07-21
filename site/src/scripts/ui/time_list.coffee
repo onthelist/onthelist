@@ -51,10 +51,10 @@ class IsotopeList
     $elem.isotope
       itemSelector: 'li:not(.ui-li-divider)'
       layoutMode: 'sectionList'
-      groupBy: 'lname'
+      groupBy: @groupBy ? 'lname'
       transformsEnabled: use_transforms()
       getSortData: sort_fields
-      sortBy: 'remaining'
+      sortBy: @sortBy ? 'remaining'
       animationOptions:
         complete: =>
           do @_height_changed
@@ -119,16 +119,12 @@ class IsotopeList
       do iso._init
 
   sort: (key) ->
-    $(@elem)
-      .trigger('beforeUpdate')
-      .isotope({sortBy: key})
-      .trigger('update')
+    @sortBy = key
+    $(@elem).isotope({sortBy: key})
 
   group: (key) ->
-    $(@elem)
-      .trigger('beforeUpdate')
-      .isotope({groupBy: key})
-      .trigger('update')
+    @groupBy = key
+    $(@elem).isotope({groupBy: key})
       
 class TimeList extends IsotopeList
   constructor: (@elem) ->
