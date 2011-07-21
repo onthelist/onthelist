@@ -8,15 +8,13 @@
 -----------------------------------------------------------------------------------------------------------*/
 
 .ui-bar-b {  
-  font-weight: bold;
-  border: 1px solid       #404040; 
-  background:             #AAA; 
-  color:                  #F9F9F9; 
-  text-shadow: 1px 1px 1px #444; 
-  @include background-image(linear-gradient(#AAA, #777));
+  border: 1px solid       #e68510;
+  background:             #e68510;
+  color:                  #fff;
+  @include background-image(linear-gradient(#EAB24B, #e68510));
 }
 .ui-btn-up-b {
-  border: 1px solid       #BD610D;
+  border: 1px solid       #e68510;
   background:             #e68510;
   color:                  #fff;
   @include background-image(linear-gradient(#EAB24B, #e68510));
@@ -218,11 +216,12 @@
 -----------------------------------------------------------------------------------------------------------*/
 
 .ui-bar-d {
-	border: 1px solid 		#ccc;
-	background: 			#bbb;
-	color: 					#333;
-	text-shadow: 0 1px 0 #eee;
-  @include background-image(linear-gradient(#ddd, #bbb));
+  font-weight: bold;
+  border: 1px solid       #404040; 
+  background:             #AAA; 
+  color:                  #F9F9F9; 
+  text-shadow: 1px 1px 1px #444; 
+  @include background-image(linear-gradient(#AAA, #777));
 }
 .ui-bar-d,
 .ui-bar-d input,
@@ -302,12 +301,11 @@
 -----------------------------------------------------------------------------------------------------------*/
 
 .ui-bar-e {
-  font-weight: bold;
-  border: 1px solid       #D05E00;
-  background:             #F89D08; 
-  color:                  #EFEFEF; 
-  text-shadow: 0 0px 0px #94440F; 
-  @include background-image(linear-gradient(#F89D08, #D05E00));
+	border: 1px solid 		#F7C942;
+	background: 			#fadb4e;
+	color: 					#333;
+	text-shadow: 0 1px 0 	#fff;
+  @include background-image(linear-gradient(#fceda7, #fadb4e));
 }
 .ui-bar-e, 
 .ui-bar-e input, 
