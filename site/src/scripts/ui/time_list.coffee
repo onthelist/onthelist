@@ -125,6 +125,9 @@ class IsotopeList
   group: (key) ->
     @groupBy = key
     $(@elem).isotope({groupBy: key})
+
+  remove: ($elems) ->
+    $(@elem).isotope('remove', $elems)
       
 class TimeList extends IsotopeList
   constructor: (@elem) ->

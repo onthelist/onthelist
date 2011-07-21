@@ -63,7 +63,5 @@ $ ->
       add_list_row(list, row)
 
     $D.queue.bind 'rowRemove', (e, key) ->
-      do $('a[data-id=' + key + ']', this).parents('li').first().remove
-
-      do list.refresh
+      list.remove($('a[data-id=' + key + ']', q_elem).parents('li').first())
     
