@@ -4,50 +4,47 @@
     h1 Notifications
     a(href="#save") Save
   form.content(data-role="content")
-    div(data-role="settings")
-      ul(data-role="listview")
-        li(data-role="list-divider") Parties
+    header.ui-bar-b Parties
           
-      div(data-role="fieldcontain")
-        label(for="party-is-late") Is Late
-        select#party-is-late(name="party_is_late", data-native-menu="false")
-          option(value="first_available") Never
-          option(value="5_minutes_after") 5 Minutes After
-          option(value="10_minutes_after") 10 Minutes After
-          option(value="15_minutes_after") 15 Minutes After 
-          
-        label(for="party-checks-in") Checks In
-        select#party-checks-in(name="party_checks_in", data-role="slider")
-          option(value="on") No
-          option(value="off") Yes
+    div(data-role="fieldcontain")
+      label(for="party-is-late") Is Late
+      select#party-is-late(name="party_is_late", data-native-menu="false")
+        option(value="first_available") Never
+        option(value="5_minutes_after") 5 Minutes After
+        option(value="10_minutes_after") 10 Minutes After
+        option(value="15_minutes_after") 15 Minutes After 
         
-        label(for="party-estimate-verses-actual") Estimated Verse/Actual Wait Time
-        select#party-estimate-verses-actual(name="party_estimate_verses_actual", data-native-menu="false")
-          option(value="first_available") Never
-          option(value="5_minutes_before") 5 Minutes Before
-          option(value="10_minutes_before") 10 Minutes Before
-          option(value="15_minutes_before") 15 Minutes Before
-          option(value="5_minutes_after") 5 Minutes After
-          option(value="10_minutes_after") 10 Minutes After
-          option(value="15_minutes_after") 15 Minutes After
-        
-        label(for="party-is-alerted") Alerted
-        select#party-is-alerted(name="party_is_alerted", data-role="slider")
-          option(value="on") No
-          option(value="off") Yes
-        
-        label(for="party-seated") Seated
-        select#party-seated(name="party_seated", data-role="slider")
-          option(value="on") No
-          option(value="off") Yes
-          
-        label(for="party-leaves") Leaves
-        select#party-leaves(name="party_leaves", data-role="slider")
-          option(value="on") No
-          option(value="off") Yes
+      label(for="party-checks-in") Checks In
+      select#party-checks-in(name="party_checks_in", data-role="slider")
+        option(value="on") No
+        option(value="off") Yes
       
-      ul(data-role="listview")
-        li(data-role="list-divider") Reservations
+      label(for="party-estimate-verses-actual") Estimated Verse/Actual Wait Time
+      select#party-estimate-verses-actual(name="party_estimate_verses_actual", data-native-menu="false")
+        option(value="first_available") Never
+        option(value="5_minutes_before") 5 Minutes Before
+        option(value="10_minutes_before") 10 Minutes Before
+        option(value="15_minutes_before") 15 Minutes Before
+        option(value="5_minutes_after") 5 Minutes After
+        option(value="10_minutes_after") 10 Minutes After
+        option(value="15_minutes_after") 15 Minutes After
+      
+      label(for="party-is-alerted") Alerted
+      select#party-is-alerted(name="party_is_alerted", data-role="slider")
+        option(value="on") No
+        option(value="off") Yes
+      
+      label(for="party-seated") Seated
+      select#party-seated(name="party_seated", data-role="slider")
+        option(value="on") No
+        option(value="off") Yes
+        
+      label(for="party-leaves") Leaves
+      select#party-leaves(name="party_leaves", data-role="slider")
+        option(value="on") No
+        option(value="off") Yes
+    
+      header.ui-bar-b Reservations
         
       div(data-role="fieldcontain")
         label(for="reservation-is-late") Is Late
