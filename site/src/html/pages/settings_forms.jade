@@ -5,8 +5,19 @@
     a(href="#save") Save
   form.content(data-role="content")
     div(data-role="settings")
-      ul(data-role="listview")
-        li(data-role="list-divider") Seating
+      header.ui-bar-b Seating     
+      div(data-role="fieldcontain")
+        label(for="seating-type-0") Options
+        input#seating-type-0(type="text", name="seating_type_0", value="First Available")
+      div(data-role="fieldcontain")
+        label(for="seating-type-1") &nbsp
+        input#seating-type-1(type="text", name="seating_type_1", value="Booth")
+      div(data-role="fieldcontain")  
+        label(for="seating-type-2") &nbsp
+        input#seating-type-2(type="text", name="seating_type_2", value="Outside")
+      div(data-role="fieldcontain")
+        label(for="new-seating-type") New Option
+        input#new-seating-type(type="text", name="new_seating_type", placeholder="New Option")
       
       div(data-role="fieldcontain")  
         fieldset(data-role="controlgroup")
@@ -14,5 +25,4 @@
           input#first-available-options.custom(type="checkbox", name="first_available_options")
           label(for="first-available-options") First Available
       
-      ul(data-role="listview")
-        li(data-role="list-divider") Alert methods
+      header.ui-bar-b Alert methods

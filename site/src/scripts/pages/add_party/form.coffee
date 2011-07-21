@@ -1,8 +1,5 @@
 $ ->
-  $('#add-party a[href=#add]').live 'vclick', (e) ->
-    do e.preventDefault
-    do e.stopPropagation
-
+  $('#add-party a[href=#add]').bind 'vclick', (e) ->
     dia = $ '#add-party'
 
     vals =
@@ -17,8 +14,6 @@ $ ->
 
     $D.queue.add(vals)
 
-    $.log 'close'
     dia.dialog 'close'
-    $.log 'ed'
 
     false

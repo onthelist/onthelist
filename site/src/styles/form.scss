@@ -58,6 +58,18 @@ div.ui-slider-switch {
   margin-right: 7.5%;
 }
 
+form.content {
+  header {
+    width: 100%;
+    font-size: 1.2em;
+    margin: 10px -16px 5px;
+    padding: 5px 15px;
+  }
+  header:first-child {
+    margin-top: -15px;
+  }
+}
+
 label, .ui-controlgroup-label {
   -font-size: 90%;
   font-weight: bold;
