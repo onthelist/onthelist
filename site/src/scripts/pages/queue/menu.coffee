@@ -12,6 +12,10 @@ $ ->
       name: 'lname'
       label: 'Last Name'
 
+    _size_field =
+      name: 'size'
+      label: 'Party Size'
+
     opts =
       fields:
         [
@@ -25,13 +29,13 @@ $ ->
           default: 'remaining'
           label: 'Sorted By'
           options:
-            [_remaining_field, _elapsed_field, _lname_field]
+            [_remaining_field, _elapsed_field, _lname_field, _size_field]
         ,
           name: 'group'
           default: 'lname'
           label: 'Grouped By'
           options:
-            [_remaining_field, _elapsed_field, _lname_field]
+            [_remaining_field, _elapsed_field, _lname_field, _size_field]
         ]
 
     $link = $('[href=#queue]', this)

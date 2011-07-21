@@ -47,6 +47,10 @@ class IsotopeList
 
           return name.substring(name.indexOf(' ') + 1)
 
+        size: ($el) ->
+          size = $el.find('[data-key=size]').text()
+          return parseInt size
+
     $elem = $ @elem
     $elem.isotope
       itemSelector: 'li:not(.ui-li-divider)'
@@ -66,6 +70,16 @@ class IsotopeList
           parse: (el) ->
             lname = sort_fields.lname $(el)
             return lname.substring(0, 1).toUpperCase()
+        size:
+          sectionBounds: [1, 2, 5]
+          unboundedRight: true
+          parse: (el) ->
+            return sort_fields.size $(el)
+          labelMaker: (type, left, right) ->
+            switch type
+              when 'INF' then "Parties of #{left} or more"
+              when 'range' then "Parties of #{left} to #{right}"
+              when 'single' then "Parties of #{left}"
         remaining:
           sectionBounds: [-30, 30]
           unboundedLeft: true

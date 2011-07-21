@@ -34,7 +34,7 @@ add_list_row = (list, row) ->
     e_slice.css 'right', (38 + 2 * (size - i)) + 'px'
     link.append e_slice
 
-  e_size = $ '<span class="ui-li-count"></span>'
+  e_size = $ '<span class="ui-li-count" data-key="size"></span>'
   e_size.text size
   link.append e_size
 
