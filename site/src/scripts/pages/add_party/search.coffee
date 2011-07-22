@@ -1,5 +1,5 @@
 $ ->
-  $('#add-party').live 'pagecreate', ->
+  $('#add-party').bind 'pagecreate', ->
     $('[name=phone_number]', this).guest_search(
       field: 'phone'
     ).bind 'fill', (e, row) =>

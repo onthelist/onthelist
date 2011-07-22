@@ -1,4 +1,17 @@
 $ ->
+  $('#add-party').bind 'pagecreate', ->
+    $('.ui-input-text', this).each (i, el) ->
+      $el = $(el)
+      if $el.val()
+        $el.attr('data-default', $el.val())
+
+  $('#add-party').bind 'pageshow', ->
+    $('.ui-input-text', this).each (i, el) ->
+      $el = $(el)
+      $el.val($el.attr('data-default') ? '')
+
+    $('.ui-input-text', this).first().focus()
+
   $('#add-party a[href=#add]').bind 'vclick', (e) ->
     dia = $ '#add-party'
 

@@ -174,10 +174,13 @@ $f-hover-2: lighten($f-2, 3%);
   .ui-body-c {
     &.ui-input-search, input.ui-input-text, .ui-slider-handle  {
       background: #eee;
+
       @include background-image(linear-gradient(#eee, #C6C6C6));
+
       background-size: 100%;
       color: #333;
-      text-shadow: 0 1px 0	#fff;
+      text-shadow: 0 1px 0#fff;
+      border: 0;
       
       &.ui-focus {
         box-shadow: 0 0 10px #F89D08;
@@ -196,7 +199,7 @@ $f-hover-2: lighten($f-2, 3%);
     border-bottom-style: none;
   }
   .ui-btn-up-c {
-    border: 1px solid 		#555;
+    border: 1px solid 		#666;
     background: 			$c-1;
     @include background-image(linear-gradient($c-1, $c-2));
   }
@@ -204,7 +207,7 @@ $f-hover-2: lighten($f-2, 3%);
     color: 					#fff;
   }
   .ui-btn-hover-c {
-    border: 1px solid #444;
+    border: 1px solid #555;
     background: $c-hover-1;
     @include background-image(linear-gradient($c-hover-1, $c-hover-2));
   }
@@ -212,7 +215,7 @@ $f-hover-2: lighten($f-2, 3%);
     color: 					#fff;
   }
   .ui-btn-down-c {
-    border: 1px solid #444;
+    border: 1px solid #555;
     background: #3d3d3d;
     @include background-image(linear-gradient($c-2, $c-1));
   }
@@ -235,8 +238,18 @@ $f-hover-2: lighten($f-2, 3%);
     .ui-li-count {
       color: #666;
       text-shadow: 0 0 0;
-      background: #f7f7f7;
-      @include background-image(linear-gradient(#f7f7f7, #EAEAEA));
+      background: #CCC;
+      @include background-image(linear-gradient(#FFF, #CCC));
+
+      box-shadow: -1px 0 2px #333;
+      -moz-box-shadow: -1px 0 2px #333;
+      -webkit-box-shadow: -1px 0 2px #333;
+
+      border-color: transparent;
+
+      &.slice {
+        border-color: #888;
+      }
     }
   }
 
@@ -435,12 +448,7 @@ $f-hover-2: lighten($f-2, 3%);
       -color: #444;
     }
   }
-
-  .ui-li-count {
-    box-shadow: -1px 0 0 #DDD;
-  }
 }
-
 
 // F Theme: red color scheme. Used for the delete button
 .ui-btn-up-f {

@@ -27,15 +27,32 @@ class GuestSearchBox
     @$elem.parent().append @$button
 
     @$button.bind 'vclick', (e) =>
-      if @match?
+      if @match? and @_check_match(@match, @$elem.val())
+        @$elem.caret(0, 0)
+
         @$elem.trigger('fill', [@match, this, 'click'])
 
     @$elem.bind 'blur', (e) =>
-      if @match?
+      if @match? and @_check_match(@match, @$elem.val())
+        @$elem.caret(0, 0)
+
         @$elem.trigger('fill', [@match, this, 'blur'])
+
+  _strip_typed_ahead: (val, evt) ->
+    # Keyup fires before the selected text has been cleared from the input,
+    # so we have to strip what we already typed ahead.
+    if @typed_ahead? and val.indexOf(@typed_ahead) == val.length - @typed_ahead.length
+      val = val.substring(0, val.length - @typed_ahead.length)
+
+      if evt.keyCode? and evt.keyCode == @typed_ahead.charCodeAt(0)
+        val += @typed_ahead[0]
+
+    return val
 
   _handle_change: (evt) ->
     val = @$elem.val()
+    @entered = val
+
     if val == @last_val
       return true
 
@@ -44,10 +61,12 @@ class GuestSearchBox
     @last_val = val
 
     if @match and @_check_match(@match, val)
-      # If this still matches the already-loaded match
-      # just update the type ahead text.
-      do @_type_ahead
-      return true
+#      # If this still matches the already-loaded match
+#      # just update the type ahead text.
+#      @entered = @_strip_typed_ahead(val, evt)
+#      do @_type_ahead
+#      return true
+      ''
     else
       @match = null
     
@@ -104,15 +123,18 @@ class GuestSearchBox
     if @$elem.triggerHandler('typeAhead', [@match, this]) == false
       return
 
+    if not @$elem.is(':focus')
+      return
+
     val = @match[@opts.field]
 
     if @opts.format_type_ahead?
       val = @opts.format_type_ahead val
 
-    entered = @$elem.val()
     @$elem.val val
+    @typed_ahead = val.substring(@entered.length)
 
-    @$elem.caret(entered.length, val.length)
+    @$elem.caret(@entered.length, val.length)
 
   _button_empty: ->
     @$button.text ''
