@@ -86,7 +86,7 @@ html(lang="en")
     script(src="../scripts/pages/tablechart/chart.js")
     script(src="../scripts/pages/tablechart/demo.js")
       
-  body
+  body.dark-theme
     include_files(path="html/pages/", first="queue.jade"):
       - each file in files
         != file.contents
