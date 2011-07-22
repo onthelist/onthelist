@@ -1,7 +1,6 @@
 @import "compass";
 
 // B
-
 $b-1: #FDB243; // Orange
 $b-2: darken($b-1, 18%);
  
@@ -9,32 +8,28 @@ $b-hover-1: lighten($b-1, 6%);
 $b-hover-2: lighten($b-2, 4%);
 
 // C
-
-$c-1: #555;
+$c-1: #555; // Dark Gray
 $c-2: darken($c-1, 10%);
  
 $c-hover-1: lighten($c-1, 6%);
 $c-hover-2: lighten($c-2, 4%);
 
 // D
-
-$d-1: #555;
+$d-1: #555; // Dark Gray
 $d-2: darken($d-1, 15%);
  
 $d-hover-1: lighten($d-1, 6%);
 $d-hover-2: lighten($d-2, 4%);
 
 // E
-
-$e-1: #F8F8F8;
+$e-1: #F8F8F8; // Off-White
 $e-2: darken($e-1, 25%);
 
 $e-hover-1: lighten($e-1, 6%);
 $e-hover-2: lighten($e-2, 4%);
 
 // F
-
-$f-1: #F73939;
+$f-1: #F73939; // Red
 $f-2: darken($f-1, 20%);
 
 $f-hover-1: lighten($f-1, 4%);
@@ -177,6 +172,7 @@ $f-hover-2: lighten($f-2, 3%);
       background: #EEE;
       @include background-image(linear-gradient(#EEE, #C6C6C6));
       background-size: 100%;
+      border: 0;
       color: #333;
       text-shadow: 0 1px 0	#FFF;
     }
@@ -206,7 +202,7 @@ $f-hover-2: lighten($f-2, 3%);
     color: #FFF;
   }
   .ui-btn-hover-c {
-    border: 1px solid #444;
+    border: 1px solid #555;
     background: $c-hover-1;
     @include background-image(linear-gradient($c-hover-1, $c-hover-2));
   }
@@ -237,8 +233,18 @@ $f-hover-2: lighten($f-2, 3%);
     .ui-li-count {
       color: #666;
       text-shadow: 0 0 0;
-      background: #F7F7F7;
-      @include background-image(linear-gradient(#F7F7F7, #EAEAEA));
+      background: #CCC;
+      @include background-image(linear-gradient(#FFF, #CCC));
+
+      box-shadow: -1px 0 2px #333;
+      -moz-box-shadow: -1px 0 2px #333;
+      -webkit-box-shadow: -1px 0 2px #333;
+
+      border-color: transparent;
+
+      &.slice {
+        border-color: #888;
+      }
     }
   }
 
@@ -491,4 +497,3 @@ $f-hover-2: lighten($f-2, 3%);
 }
 
 // End of Themes
-
