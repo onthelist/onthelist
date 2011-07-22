@@ -77,8 +77,11 @@ time {
 #queue-list {
   li {
     &.ui-li:last-child, &.ui-li.ui-field-contain:last-child {
-      border-bottom-width: 2px;
+      border-bottom-width: 1px;
     }
+
+    height: 2.9em;
+    border-width: 1px 0;
 
     &.ui-li-divider {
       padding: 0;
@@ -89,13 +92,13 @@ time {
         display: block;
       }
     }
-    &.ui-screen-hidden {
-      display: block;
+/*    &.ui-screen-hidden {
+      -display: block;
     }
     &.ui-screen-highlight:not(.ui-li-divider) {
       background: repeat scroll 0 0 #FADB4E;
       @include background(linear-gradient(center top , #FCEDA7, #FADB4E));
-    }
+    }*/
   }
   
   .list-control {

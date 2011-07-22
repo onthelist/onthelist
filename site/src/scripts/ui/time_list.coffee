@@ -117,6 +117,9 @@ class IsotopeList
       if e.target == $elem[0]
         # The list is done expanding / contracting
         do @_height_changed
+
+    $elem.bind 'filter', =>
+      do @refresh
     
     # Isotope will set the height after the elements are added.  If their
     # are enough elements, the scroll bar will appear, shifting the els.

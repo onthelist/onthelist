@@ -196,7 +196,7 @@ $f-hover-2: lighten($f-2, 3%);
     border-bottom-style: none;
   }
   .ui-btn-up-c {
-    border: 1px solid 		#444;
+    border: 1px solid 		#555;
     background: 			$c-1;
     @include background-image(linear-gradient($c-1, $c-2));
   }
@@ -407,6 +407,38 @@ $f-hover-2: lighten($f-2, 3%);
     font-family: Helvetica, Arial, sans-serif;
     text-decoration: none;
   }
+  
+  // Dark Theme Correction
+
+  time {
+    color: #D8D8D8;
+  }
+
+  .ui-btn-active {
+    border: 1px solid #666; 
+    @include background-image(linear-gradient($b-1, $b-2));
+  }
+
+  .overtime {
+    color: #FF4F4F;
+  }
+
+  .pill {
+    .minor {
+      border-color: #777;
+      .subtext {
+        opacity: 0.9;
+      }
+    }
+    
+    .lower {
+      -color: #444;
+    }
+  }
+
+  .ui-li-count {
+    box-shadow: -1px 0 0 #DDD;
+  }
 }
 
 
@@ -459,30 +491,4 @@ $f-hover-2: lighten($f-2, 3%);
 // End of Themes
 
 
-// Dark Theme Correction
 
-time {
-  color: #D8D8D8;
-}
-
-.ui-btn-active {
-  border: 1px solid #666; 
- @include background-image(linear-gradient($b-1, $b-2));
-}
-
-.overtime {
-  color: #FF4F4F;
-}
-
-.pill {
-  .minor {
-    border-color: #777;
-    .subtext {
-      opacity: 0.9;
-    }
-  }
-  
-  .lower {
-    -color: #444;
-  }
-}

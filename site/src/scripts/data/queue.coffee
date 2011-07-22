@@ -79,6 +79,9 @@ $.when( $D.queue.init() ).then ->
       size = Math.ceil(Math.random() * 12)
       time = Math.floor(Math.random() * 90)
 
+      notes = ['Requests a quiet room', 'Drink: Martini extra olives', '']
+      note = notes[Math.floor(Math.random() * 3)]
+
       $D.queue.add
         key: $D.queue.ds.uuid()
         name: name
@@ -88,6 +91,6 @@ $.when( $D.queue.init() ).then ->
         quoted_wait: 60
         alert_method: 'sms'
         status: 'waiting'
-        notes: ''
+        notes: note
 
       break

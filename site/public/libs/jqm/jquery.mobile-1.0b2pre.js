@@ -1,6 +1,6 @@
 /*!
  * jQuery Mobile v Git Build
- * Git Info SHA1: 59b133205ba70f2f2b95533a15aae26ed880e6d8 Date: Wed Jul 20 17:12:13 2011 -0400
+ * Git Info SHA1: 5c6a37b06a7ad5e9decc618fbbaaf6de81c3c0bb Date: Thu Jul 21 16:19:44 2011 -0400
  * http://jquerymobile.com/
  *
  * Copyright 2010, jQuery Project
@@ -3273,7 +3273,7 @@ $.widget( "mobile.page", $.mobile.widget, {
 	};//_registerInternalEvents callback
 
 	$(function(){
-	  var loc = document.location.toString()
+	  var loc = document.location.toString();
 	  if (loc.indexOf(dialogHashKey) != -1)
   	  document.location = path.getFilePath(loc);
 	});
@@ -5708,6 +5708,8 @@ $( ":jqmData(role='listview')" ).live( "listviewcreate", function() {
 				  .toggleClass( "ui-screen-hidden", false );
 
 			}
+
+      list.trigger('filter', [val]);
 		})
 		.appendTo( wrapper )
 		.textinput();
