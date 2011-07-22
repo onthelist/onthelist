@@ -15,23 +15,13 @@
       span.clear
     
     div.center-wrapper
-      h3#party-seating-preference-details First Available
-    hr
+      h4 Check in Time: 
+        span#party-notes-details Requests a quiet area
     
-    h4 Check in Time: 
-      span#party-check-in-time-details 5:40 PM
-    
-    h4#party-notes-details Requests a quiet area
-    
-    hr
-    div.center-wrapper
-      h3#party-time-remaining-details 30 Minutes
-          span &nbsp;Remaining
-
     div.action-select(data-role="controlgroup", data-type="horizontal")
-      a(href="#alert-party",data-role="button", data-theme="b") Send Text Alert
+      a(href="#alert-party",data-role="button") Send Text Alert
       div(data-role="fieldcontain")
-        select#text-actions(data-theme="b", data-native-menu="false")
+        select#text-actions(data-native-menu="false")
           option(value="custom_sms") Compose Custom Text
           option(value="call") Call Guest at (248) 229-8031
 
