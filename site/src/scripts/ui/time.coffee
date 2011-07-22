@@ -83,17 +83,18 @@ $.fn.time = (opts, args...) ->
       end_ang = st_ang + per * Math.PI * 2
 
      
-      # Outline
+      # Background Circle
+      do cxt.beginPath
       cxt.arc rad, rad, rad - .5, 0, Math.PI * 2, false
-      cxt.strokeStyle = '#BBB'
-      cxt.lineWidth = 1
-      do cxt.stroke
+      do cxt.closePath
+      cxt.fillStyle = '#F0F0F0'
+      do cxt.fill
 
       # Wedge
       do cxt.beginPath
       cxt.moveTo rad, rad
       cxt.lineTo rad, 0
-      cxt.arc rad, rad, rad, st_ang, end_ang, false
+      cxt.arc rad, rad, rad - .5 - 2, st_ang, end_ang, false
       do cxt.closePath
 
       cxt.fillStyle = if @target <= @elapsed then "#D44" else "#666"

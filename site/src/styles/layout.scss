@@ -18,6 +18,16 @@ time {
   width: 70px;
   margin-right: 12px;
   display: inline-block;
+
+  &.icon {
+    canvas {
+      @include background(radial-gradient(#F9F9F9 0, rgba(0,0,0,0) 12px));
+      background-origin: border-box;
+      background-clip: border-box;
+      background-repeat: no-repeat;
+      border: 1px solid transparent;
+    }
+  }
 }
 
 ::-webkit-input-placeholder {
@@ -92,13 +102,6 @@ time {
         display: block;
       }
     }
-/*    &.ui-screen-hidden {
-      -display: block;
-    }
-    &.ui-screen-highlight:not(.ui-li-divider) {
-      background: repeat scroll 0 0 #FADB4E;
-      @include background(linear-gradient(center top , #FCEDA7, #FADB4E));
-    }*/
   }
   
   .list-control {
