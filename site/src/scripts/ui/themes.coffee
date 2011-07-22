@@ -1,5 +1,3 @@
-$(document).bind 'swipeleft', ->
-  $('body').removeClass('dark-theme')
-
-$(document).bind 'swiperight', ->
-  $('body').addClass('dark-theme')
+$ ->
+  $('[data-role=header]').bind 'swipeleft swiperight', (e) ->
+    $('body').toggleClass('dark-theme')

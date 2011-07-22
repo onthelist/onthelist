@@ -1,14 +1,12 @@
 $ ->
   $('#add-party').bind 'pagecreate', ->
     $('.ui-input-text', this).each (i, el) ->
-      $el = $(el)
-      if $el.val()
-        $el.attr('data-default', $el.val())
+      if el.value
+        el.setAttribute('data-default', el.value)
 
   $('#add-party').bind 'pageshow', ->
     $('.ui-input-text', this).each (i, el) ->
-      $el = $(el)
-      $el.val($el.attr('data-default') ? '')
+      el.value = (el.getAttribute('data-default') ? '')
 
     $('.ui-input-text', this).first().focus()
 
