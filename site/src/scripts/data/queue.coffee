@@ -79,7 +79,7 @@ $.when( $D.queue.init() ).then ->
       size = Math.ceil(Math.random() * 12)
       time = Math.floor(Math.random() * 90)
 
-      notes = ['Requests a quiet room', 'Drink: Martini extra olives', '']
+      notes = ['Requests a quiet table', 'Drink: Martini extra olives', '']
       note = notes[Math.floor(Math.random() * 3)]
 
       $D.queue.add
@@ -93,4 +93,3 @@ $.when( $D.queue.init() ).then ->
         status: 'waiting'
         notes: note
 
-      break

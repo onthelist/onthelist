@@ -60,6 +60,9 @@ time {
   padding-right: 0;
   
   box-shadow: -1px 1px 1px #DDDDDD;
+  -moz-box-shadow: -1px 1px 1px #DDDDDD;
+  -webkit-box-shadow: -1px 1px 1px #DDDDDD;
+
   background: no-repeat scroll 0 0 #DFDFDF;
   @include background(linear-gradient(center top, #FFF, #DFDFDF));
 
