@@ -89,7 +89,7 @@
     .icon {
       position: absolute;
       right: 80px;
-      top: 6px;
+      top: 5px;
     }
   }
 
@@ -99,9 +99,24 @@
   }
 }
 
-.action-select {
+.action-select { 
+  /* Necessary to fix height on FF */
+  line-height: 0;
+
   margin: 0.5em 5px;
   position: relative;
+
+  border-radius: 1em 1em 1em 1em;
+  -moz-border-radius: 1em 1em 1em 1em;
+  -webkit-border-radius: 1em 1em 1em 1em;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+
+  * {
+    line-height: 1.4em;
+  }
 
   .ui-corner-left {
     width: 98%;
@@ -120,12 +135,12 @@
   .ui-field-contain {
     position: absolute;
     top: 0;
-    right: 0;
+    right: -2px;
     margin: 0;
     padding: 0;
     border-width: 0;
   }
-  
+
   .ui-select .ui-btn-icon-right .ui-btn-inner {
     padding-right: 20px;
     text-indent: -9999px;
