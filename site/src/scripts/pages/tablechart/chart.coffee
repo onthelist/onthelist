@@ -3,6 +3,7 @@ $TC.scroller = null
 
 BASE_HEIGHT = 720.0
 BASE_WIDTH = 1280.0
+MIN_SCALE = 0.5
 
 $('#tablechart').live 'pageshow', ->
   $this = $ this
@@ -38,15 +39,14 @@ $('#tablechart').live 'pageshow', ->
     max_fact = Math.max(x_fact, y_fact)
     min_fact = Math.min(x_fact, y_fact)
 
-    if min_fact > 0.5
+    if min_fact > MIN_SCALE
       fact = min_fact
       center = true
     else
       fact = max_fact
       center = false
 
-    # JQ won't set the experimental props using '.css'.
-    $tci.attr('style', "-webkit-transform:scale(#{fact}, #{fact});-moz-transform:scale(#{fact}, #{fact});")
+    $tci.css('left', 0).css('top', 0)
 
     if center
       # If the screen is large enough to show the chart at, at least, 50%
@@ -55,26 +55,40 @@ $('#tablechart').live 'pageshow', ->
         $tci.css('left', (width - fact * BASE_WIDTH) / 2.0 + 'px')
       else
         $tci.css('top', (height - fact * BASE_HEIGHT) / 2.0 + 'px')
+
     
     # The scaling will shrink the chart, but not the space allocated
     # for it, the content area forms a clip to prevent scrolling.
     $content.height height + 'px'
 
-    $tc.height (BASE_HEIGHT * fact) + 'px'
-    $tc.width (BASE_WIDTH * fact) + 'px'
+    $tc.height BASE_HEIGHT + 'px'
+    $tc.width BASE_WIDTH + 'px'
+    
+    if $TC.scroller
+      setTimeout(->
+        # iScroll docs recommend using setTimeout 
+        $TC.scroller.refresh()
+        $TC.scroller.zoom(0, 0, fact, 0)
+      , 0)
 
-  do update_size
+    return fact
 
+  fact = do update_size
+  
   $win = $(window)
   $win.bind 'resize', update_size
 
   $win.bind 'beforepageshow', ->
     $win.unbind 'resize', update_size
 
-  opts =
-    lockDirection: false
-    hScrollbar: true
-    zoom: true
-    zoomMax: 6
+  if not $TC.scroller
+    opts =
+      lockDirection: false
+      hScrollbar: true
+      zoom: true
+      zoomMax: 6
+      zoomMin: .1
 
-  $TC.scroller = new iScroll $content[0], opts
+    $TC.scroller = new iScroll $content[0], opts
+
+    do update_size
