@@ -26,6 +26,12 @@ class $TC.Sprite
         $TC.scroller.enabled = true
         true
       )
+      .bind('drag', (e, ui) ->
+        p = ui.position
+        o = ui.originalPosition
+        p.top = o.top + (p.top - o.top) * 1/$TC.scroller.scale
+        p.left = o.left + (p.left - o.left) * 1/$TC.scroller.scale
+      )
 
     @w = @h = 0
 
