@@ -1,0 +1,17 @@
+#contact(data-role="dialog")
+  header(data-role="header")
+    h1 Contact SpeedyTable
+  form.content(data-role="content")
+    div(data-role="fieldcontain")
+      fieldset.form-radio(data-role="controlgroup", data-type="horizontal")
+        legend Subject
+        input#subject-question(type="radio", name="contact_subject", value="question", checked="checked")
+        label(for="subject-question") Question
+        input#subject-bug-report(type="radio", name="contact_subject", value="bug_report")
+        label(for="subject-bug-report") Bug Report
+
+    div(data-role="fieldcontain")
+      label(for="contact-message") Message
+      textarea#contact-message(name="contact_message", cols="40", rows="8")
+    a(href="#send-message", data-role="button") Send Message
+
