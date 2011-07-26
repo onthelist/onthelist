@@ -4,7 +4,7 @@ $ ->
 
     $tci.selectable()
 
-    $('canvas', $tci).live 'vclick', (e) ->
+    $('canvas', $tci).live 'select vclick', (e) ->
       sel = $tci.data().selectable
 
       sel._mouseStart e

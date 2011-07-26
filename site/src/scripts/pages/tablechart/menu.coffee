@@ -7,18 +7,6 @@ $ ->
 
     $add = $('a[href=#add-table]', $menu)
 
-    $form
-      .bind('disable', ->
-        $('input', $form).attr('disabled', true).addClass('ui-disabled')
-
-        $('input[data-type=range]', $form).slider('disable')
-      )
-      .bind('enable', ->
-        $('input', $form).attr('disabled', false).removeClass('ui-disabled')
-
-        $('input[data-type=range]', $form).slider('enable')
-      )
-
     $add.bind 'vclick', ->
       num = parseInt $size.val()
       x = 500
@@ -31,15 +19,15 @@ $ ->
         when 'round' then $TC.RoundTable
         when 'rect' then $TC.RectTable
       
-      (new obj(tci, num, x, y)).draw()
+      spr = new obj(tci, num, x, y)
+      spr.draw()
+      $(spr.canvas).trigger('select')
 
       false
 
     _handlers = {}
     $('.tablechart-inner', this)
       .live('selectableselected', (e, ui) ->
-        $form.trigger('enable')
-
         sel = ui.selected
         sprite = $$(sel).sprite
 
@@ -59,9 +47,3 @@ $ ->
         $size.bind 'change', _handlers.size
 
       )
-      .live('selectableunselected', (e, ui) ->
-        $form.trigger('disable')
-      )
-
-
-
