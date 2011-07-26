@@ -1,5 +1,12 @@
 $ ->
-  $('#add-party').bind 'pagecreate', ->
+  created = false
+  $('#add-party').bind 'pageshow', ->
+    if created
+      # We need to bind to pageshow for the input to have the proper
+      # width.
+      return
+    created = true
+
     $('[name=phone_number]', this).guest_search(
       field: 'phone'
     ).bind 'fill', (e, row) =>
