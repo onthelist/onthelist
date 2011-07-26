@@ -10,9 +10,19 @@ window.$TC ?= {}
 
 class $TC.Sprite
   constructor: (@parent) ->
+    self = this
+
     @canvas = document.createElement 'canvas'
     @parent.appendChild @canvas
     @cxt = @canvas.getContext '2d'
+
+    $$(@canvas).sprite = this
+
+    offset =
+      top: 0
+      left: 0
+
+    selected = $([])
 
     $(@canvas).draggable(
       opacity: 0.5
@@ -54,9 +64,39 @@ class $TC.Sprite
 
         p.top -= y_shift * $TC.scroller.scale
         p.left -= x_shift * $TC.scroller.scale
+
+        self._update_pos(p.left, p.top)
+      )
+      .bind('dragstart', (e, ui) ->
+        $this = $ this
+
+        #selected = $('.ui-selected').each ->
+        #  $el = $ this
+        #  $el.data 'offset', $el.offset()
+        
+        #if not $this.hasClass 'ui-selected'
+        #  $this.addClass 'ui-selected'
+
+        #offset = $this.offset()
+      )
+      .bind('drag', (e, ui) ->
+        dt = ui.position.top - offset.top
+        dl = ui.position.left - offset.left
+
+        selected.not(this).each ->
+          $el = $(this)
+          offset = $el.data("offset")
+
+        #  $el.css
+        #    top: offset.top + dt
+        #    left: offset.left + dl
       )
 
     @w = @h = 0
+
+  refresh: ->
+    @cxt.clearRect(0, 0, @w, @h)
+    do @draw
 
   draw: ->
 
@@ -65,6 +105,10 @@ class $TC.Sprite
     x = @x - @w / 2
     @canvas.style.top = y + 'px'
     @canvas.style.left = x + 'px'
+
+  _update_pos: (x, y) ->
+    @x = x + @w / 2
+    @y = y + @h / 2
 
   size: (@w, @h) ->
     @canvas.width = @w

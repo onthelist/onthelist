@@ -31,3 +31,30 @@
     position: absolute;
   }
 }
+
+.ui-selectee {
+}
+.ui-selected {
+  background: #fcaf3e;
+}
+.ui-selecting {
+  background: #8ae234;
+}
+
+.docked-right {
+  width: 335px;
+  height: 90%;
+
+  position: absolute;
+  left: 0;
+  top: 5%;
+
+  background-color: rgba(0, 0, 0, .8);
+  z-index: 5;
+
+  text-shadow: 0 0 0;
+
+  a {
+    display: block;
+  }
+}

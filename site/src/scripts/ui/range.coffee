@@ -11,6 +11,19 @@ $ ->
 
     ranges = $('input[data-type=range]', this)
 
+    ranges.bind 'forceVal', (e, val) ->
+      max = this.getAttribute('max')
+      if max? and parseInt(max) < val
+        this.setAttribute('max', val)
+
+      min = this.getAttribute('min')
+      if min? and parseInt(min) > val
+        this.setAttribute('min', val)
+
+      this.value = val
+
+      $(this).slider('refresh')
+
     ranges.change ->
       if this.getAttribute('step')
         val = parseInt this.value
