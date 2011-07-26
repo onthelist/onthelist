@@ -45,5 +45,8 @@ $ ->
         $size.trigger('forceVal', [sprite.seats])
 
         $size.bind 'change', _handlers.size
-
+      )
+      .live('selectableunselected', (e, ui) ->
+        if _handlers.size?
+          $size.unbind 'change', _handlers.size
       )
