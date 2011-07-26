@@ -1,5 +1,5 @@
 /*!
- * iScroll v4.1.7 ~ Copyright (c) 2011 Matteo Spinelli, http://cubiq.org
+ * iScroll v4.1.8 ~ Copyright (c) 2011 Matteo Spinelli, http://cubiq.org
  * Released under MIT license, http://cubiq.org/license
  */
 
@@ -66,6 +66,7 @@ var m = Math,
 			lockDirection: true,
 			useTransform: true,
 			useTransition: false,
+			topOffset: 0,
 			checkDOMChanges: false,		// Experimental
 
 			// Scrollbar
@@ -260,11 +261,11 @@ iScroll.prototype = {
 		var that = this,
 			pos = dir == 'h' ? that.x : that.y,
 			size;
-		
+
 		if (!that[dir + 'Scrollbar']) return;
-		
+
 		pos = that[dir + 'ScrollbarProp'] * pos;
-	
+
 		if (pos < 0) {
 			if (!that.options.fixedScrollbar) {
 				size = that[dir + 'ScrollbarIndicatorSize'] + m.round(pos * 3);
@@ -401,8 +402,8 @@ iScroll.prototype = {
 		if (newX > 0 || newX < that.maxScrollX) {
 			newX = that.options.bounce ? that.x + (deltaX / 2) : newX >= 0 || that.maxScrollX >= 0 ? 0 : that.maxScrollX;
 		}
-		if (newY > 0 || newY < that.maxScrollY) { 
-			newY = that.options.bounce ? that.y + (deltaY / 2) : newY >= 0 || that.maxScrollY >= 0 ? 0 : that.maxScrollY;
+		if (newY > that.minScrollY || newY < that.maxScrollY) { 
+			newY = that.options.bounce ? that.y + (deltaY / 2) : newY >= that.minScrollY || that.maxScrollY >= 0 ? that.minScrollY : that.maxScrollY;
 		}
 
 		if (that.absDistX < 6 && that.absDistY < 6) {
@@ -488,6 +489,11 @@ iScroll.prototype = {
 					that.doubleTapTimer = null;
 					if (that.options.onZoomStart) that.options.onZoomStart.call(that, e);
 					that.zoom(that.pointX, that.pointY, that.scale == 1 ? that.options.doubleTapZoom : 1);
+					if (that.options.onZoomEnd) {
+						setTimeout(function() {
+							that.options.onZoomEnd.call(that, e);
+						}, 200); // 200 is default zoom duration
+					}
 				} else {
 					that.doubleTapTimer = setTimeout(function () {
 						that.doubleTapTimer = null;
@@ -517,13 +523,13 @@ iScroll.prototype = {
 
 		if (duration < 300 && that.options.momentum) {
 			momentumX = newPosX ? that._momentum(newPosX - that.startX, duration, -that.x, that.scrollerW - that.wrapperW + that.x, that.options.bounce ? that.wrapperW : 0) : momentumX;
-			momentumY = newPosY ? that._momentum(newPosY - that.startY, duration, -that.y, (that.maxScrollY < 0 ? that.scrollerH - that.wrapperH + that.y : 0), that.options.bounce ? that.wrapperH : 0) : momentumY;
+			momentumY = newPosY ? that._momentum(newPosY - that.startY, duration, -that.y, (that.maxScrollY < 0 ? that.scrollerH - that.wrapperH + that.y - that.minScrollY : 0), that.options.bounce ? that.wrapperH : 0) : momentumY;
 
 			newPosX = that.x + momentumX.dist;
 			newPosY = that.y + momentumY.dist;
 
  			if ((that.x > 0 && newPosX > 0) || (that.x < that.maxScrollX && newPosX < that.maxScrollX)) momentumX = { dist:0, time:0 };
- 			if ((that.y > 0 && newPosY > 0) || (that.y < that.maxScrollY && newPosY < that.maxScrollY)) momentumY = { dist:0, time:0 };
+ 			if ((that.y > that.minScrollY && newPosY > that.minScrollY) || (that.y < that.maxScrollY && newPosY < that.maxScrollY)) momentumY = { dist:0, time:0 };
 		}
 
 		if (momentumX.dist || momentumY.dist) {
@@ -569,7 +575,7 @@ iScroll.prototype = {
 	_resetPos: function (time) {
 		var that = this,
 			resetX = that.x >= 0 ? 0 : that.x < that.maxScrollX ? that.maxScrollX : that.x,
-			resetY = that.y >= 0 || that.maxScrollY > 0 ? 0 : that.y < that.maxScrollY ? that.maxScrollY : that.y;
+			resetY = that.y >= that.minScrollY || that.maxScrollY > 0 ? that.minScrollY : that.y < that.maxScrollY ? that.maxScrollY : that.y;
 
 		if (resetX == that.x && resetY == that.y) {
 			if (that.moved) {
@@ -594,7 +600,6 @@ iScroll.prototype = {
 
 	_wheel: function (e) {
 		var that = this,
-			duration,
 			wheelDeltaX, wheelDeltaY,
 			deltaX, deltaY,
 			deltaScale;
@@ -610,14 +615,14 @@ iScroll.prototype = {
 		
 		if (that.options.wheelAction == 'zoom') {
 			deltaScale = that.scale * Math.pow(2, 1/3 * (wheelDeltaY ? wheelDeltaY / Math.abs(wheelDeltaY) : 0));
-			if (wheelDeltaY < that.options.zoomMin) wheelDeltaY = that.options.zoomMin;
-			if (wheelDeltaY > that.options.zoomMax) wheelDeltaY = that.options.zoomMax;
+			if (deltaScale < that.options.zoomMin) deltaScale = that.options.zoomMin;
+			if (deltaScale > that.options.zoomMax) deltaScale = that.options.zoomMax;
 			
-			if (wheelDeltaY != that.scale) {
+			if (deltaScale != that.scale) {
 				if (!that.wheelZoomCount && that.options.onZoomStart) that.options.onZoomStart.call(that, e);
 				that.wheelZoomCount++;
 				
-				that.zoom(e.pageX, e.pageY, wheelDeltaY, 400);
+				that.zoom(e.pageX, e.pageY, deltaScale, 400);
 				
 				setTimeout(function() {
 					that.wheelZoomCount--;
@@ -634,7 +639,7 @@ iScroll.prototype = {
 		if (deltaX > 0) deltaX = 0;
 		else if (deltaX < that.maxScrollX) deltaX = that.maxScrollX;
 
-		if (deltaY > 0) deltaY = 0;
+		if (deltaY > that.minScrollY) deltaY = that.minScrollY;
 		else if (deltaY < that.maxScrollY) deltaY = that.maxScrollY;
 
 		that.scrollTo(deltaX, deltaY, 0);
@@ -862,12 +867,15 @@ iScroll.prototype = {
 		that.wrapperW = that.wrapper.clientWidth || 1;
 		that.wrapperH = that.wrapper.clientHeight || 1;
 
+		that.minScrollY = -that.options.topOffset || 0;
 		that.scrollerW = m.round(that.scroller.offsetWidth * that.scale);
-		that.scrollerH = m.round(that.scroller.offsetHeight * that.scale);
+		that.scrollerH = m.round((that.scroller.offsetHeight + that.minScrollY) * that.scale);
 		that.maxScrollX = that.wrapperW - that.scrollerW;
-		that.maxScrollY = that.wrapperH - that.scrollerH;
+		that.maxScrollY = that.wrapperH - that.scrollerH + that.minScrollY;
 		that.dirX = 0;
 		that.dirY = 0;
+
+		if (that.options.onRefresh) that.options.onRefresh.call(that);
 
 		that.hScroll = that.options.hScroll && that.maxScrollX < 0;
 		that.vScroll = that.options.vScroll && (!that.options.bounceLock && !that.hScroll || that.scrollerH > that.wrapperH);
@@ -948,7 +956,7 @@ iScroll.prototype = {
 		pos.top += that.wrapperOffsetTop;
 
 		pos.left = pos.left > 0 ? 0 : pos.left < that.maxScrollX ? that.maxScrollX : pos.left;
-		pos.top = pos.top > 0 ? 0 : pos.top < that.maxScrollY ? that.maxScrollY : pos.top;
+		pos.top = pos.top > that.minScrollY ? that.minScrollY : pos.top < that.maxScrollY ? that.maxScrollY : pos.top;
 		time = time === undefined ? m.max(m.abs(pos.left)*2, m.abs(pos.top)*2) : time;
 
 		that.scrollTo(pos.left, pos.top, time);
@@ -1018,7 +1026,7 @@ iScroll.prototype = {
 		that.refresh();
 
 		that.x = that.x > 0 ? 0 : that.x < that.maxScrollX ? that.maxScrollX : that.x;
-		that.y = that.y > 0 ? 0 : that.y < that.maxScrollY ? that.maxScrollY : that.y;
+		that.y = that.y > that.minScrollY ? that.minScrollY : that.y < that.maxScrollY ? that.maxScrollY : that.y;
 
 		that.scroller.style[vendor + 'TransitionDuration'] = time + 'ms';
 		that.scroller.style[vendor + 'Transform'] = trnOpen + that.x + 'px,' + that.y + 'px' + trnClose + ' scale(' + scale + ')';

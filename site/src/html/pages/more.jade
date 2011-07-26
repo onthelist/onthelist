@@ -1,0 +1,18 @@
+#more(data-role="page")
+  header(data-role="header")
+    a(href="#queue", data-role="back") Back
+    h1 Additional Options
+    a(href="#login", data-role="back") Logout
+  .content(data-role="content")
+    ui(data-role="listview", data-inset="true")
+      li
+        a(href="#settings") Settings
+      li
+        a(href="#statistics") Statistics
+      li
+        a(href="#marketing") Marketing
+      li
+        a(href="#help") Help
+      
+  include_file(path="html/partials/nav_footer.jade"):
+    != contents

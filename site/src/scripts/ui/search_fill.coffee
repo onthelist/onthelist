@@ -16,6 +16,15 @@ class GuestSearchBox
 
     do this._add_button
 
+  _pos_button: ->
+    pos = @$elem.position()
+    w = @$elem.outerWidth()
+
+    left = pos.left + w - @$button.outerWidth()
+
+    @$button.css('left', "#{left}px")
+    @$button.css('height', "#{@$elem.height()}px")
+
   _add_button: ->
     @$button = $('<div></div>')
     @$button.buttonMarkup
@@ -26,6 +35,10 @@ class GuestSearchBox
 
     @$elem.parent().append @$button
 
+    do @_pos_button
+    $(window).bind 'resize', =>
+      do @_pos_button
+   
     @$button.bind 'vclick', (e) =>
       if @match? and @_check_match(@match, @$elem.val())
         @$elem.caret(0, 0)

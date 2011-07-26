@@ -2,8 +2,24 @@
   header(data-role="header")
     h1 The Steakhouse
   .content(data-role="content")
-    .tablechart
-      .tablechart-inner
+    .editor.docked-right
+      a(href='#add-table', data-role="button") Add Table
+      form.options
+        div(data-role="fieldcontain")
+          fieldset.form-radio(data-role="controlgroup", data-type="horizontal")
+            legend Type
+            input#round(type="radio", name="table_type", value="round")
+            label(for="round") Round
+            input#rect(type="radio", name="table_type", value="rect")
+            label(for="rect") Rect
+          
+        div(data-role="fieldcontain")
+          label(for="table-size") Size
+          input#table-size(type="range", name="table_size", value="4", min="1", max="8", data-key="size")
+
+    .tc-container
+      .tablechart
+        .tablechart-inner
   
   include_file(path="html/partials/nav_footer.jade"):
     != contents

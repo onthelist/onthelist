@@ -1,0 +1,13 @@
+#help(data-role="page")
+  header(data-role="header")
+    a(href="#more", data-role="back") Back
+    h1 Help
+  .content(data-role="content")
+    ui(data-role="listview", data-inset="true")
+      li
+        a(href="#faq") Frequently Asked Questions
+      li
+        a(href="#contact") Contact SpeedyTable
+      
+  include_file(path="html/partials/nav_footer.jade"):
+    != contents
