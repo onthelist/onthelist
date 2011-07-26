@@ -21,13 +21,7 @@
         option(value="booth") Booth
         option(value="outside") Outside
         
-    // A word of warning, the date and time input variables seem to be touchy when reordering them.
-    div.date-time(data-role="fieldcontain")
-      label(for="reservation-date") Date
-      input#reservation-date(name="reservation_date", type="date", data-role="datebox", data-options='{"mode": "calbox", "pickPageTheme": "b"}', placeholder="Date")
-    div.date-time(data-role="fieldcontain")
-      label(for="reservation-time") Time
-      input#reservation-time(name="reservation_time", type="date", data-role="datebox", data-options='{"mode": "timebox", "timeFormat": 12, "pickPageTheme": "b"}', placeholder="Time")
+    button(onclick="openDate()") Add Date
     
     div(data-role="fieldcontain")
       label(for="reservation-table-number") Table
