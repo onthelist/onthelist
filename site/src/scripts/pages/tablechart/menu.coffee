@@ -15,7 +15,13 @@ $ ->
 
       type = $types.filter(':checked').attr('value') ? 'round'
 
-      spr = new $TC.MutableTable(tci, num, x, y, type)
+      opts =
+        parent: tci
+        seats: num
+        x: x
+        y: y
+        shape: type
+      spr = new $TC.MutableTable(opts)
       spr.draw()
       $(spr.canvas).trigger('select')
 
