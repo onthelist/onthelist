@@ -20,6 +20,8 @@ class $TC.Sprite
     @parent.appendChild @canvas
     @cxt = @canvas.getContext '2d'
 
+    @$canvas = $(@canvas)
+
     $$(@canvas).sprite = this
 
     offset =
@@ -146,6 +148,13 @@ class $TC.Table extends $TC.Sprite
     @cxt.fillStyle = @text_style.fill_color
     @cxt.font = @text_style.font ? 'bold 1.6em sans-serif'
 
+  draw: ->
+    rot = @opts.rotation ? 0
+    @$canvas.css('-moz-transform', "rotate(#{rot}deg)")
+    @$canvas.css('-moz-transform-origin', "middle center")
+
+    do @_draw
+
   _draw_circle: (x, y, rad, style='empty') ->
     this._apply_style style
 
@@ -212,6 +221,15 @@ class $TC.Table extends $TC.Sprite
     @cxt.textAlign = 'center'
     @cxt.textBaseline = 'middle'
 
+    @cxt.translate(x, y)
+    if @opts.rotation
+      # We want text to always remain upright, so we must correct
+      # for the canvas rotation.
+      rot = @opts.rotation / (180 / Math.PI)
+      @cxt.rotate(-rot)
+
+      # TODO: Scale down max width / height 
+
     if max_height < 30
       size = max_height - 4
     else
@@ -219,7 +237,7 @@ class $TC.Table extends $TC.Sprite
 
     @cxt.font = "bold #{size}px sans-serif"
 
-    @cxt.fillText(text, x, y, max_width)
+    @cxt.fillText(text, 0, 0, max_width)
 
   _draw_fill_text: (text, top, left, w, h) ->
     @cxt.textAlign = 'left'
@@ -236,6 +254,7 @@ class $TC.Table extends $TC.Sprite
     if not label?
       return
 
+    do @cxt.save
     @_apply_text_style style, 'label'
 
     width = @w - margin[1] - margin[3]
@@ -249,11 +268,13 @@ class $TC.Table extends $TC.Sprite
 
       @_draw_centered_text(label, cx, cy, width, height)
 
+    do @cxt.restore
+
 # Do NOT try to do anything in the constructor of the specific table
 # types, the constructor will not be called when the table's shape
 # is changed.
 class $TC.RoundTable extends $TC.Table
-  draw: ->
+  _draw: ->
     circ = @seats * (@seat_width + @seat_spacing)
     rad = circ / Math.PI / 2
 
@@ -283,7 +304,7 @@ class $TC.RectTable extends $TC.Table
   width: 28
   single_width: 20
 
-  draw: ->
+  _draw: ->
     width = if @seats > 1 then @width else @single_width
 
     side_seats = Math.floor(@seats / 2)

@@ -30,39 +30,41 @@ $ ->
       false
 
     _handlers = {}
+    _remove_handler = (name, $elems) ->
+      if _handlers[name]?
+        $elems.unbind 'change', _handlers[name]
+
+    _add_handler = (name, $elems, func) ->
+      _handlers[name] = func
+
+      $elems.bind 'change', _handlers[name]
+
     $('.tablechart-inner', this)
       .live('selectableselected', (e, ui) ->
         sel = ui.selected
         sprite = $$(sel).sprite
 
         # Size
-        
-        if _handlers.size?
-          $size.unbind 'change', _handlers.size
-
-        _handlers.size = ->
-          sprite.seats = this.value
-          do sprite.refresh
+        _remove_handler 'size', $size
 
         $size.trigger('forceVal', [sprite.seats])
 
-        $size.bind 'change', _handlers.size
+        _add_handler 'size', $size, ->
+          sprite.seats = this.value
+          do sprite.refresh
 
         # Type
-        if _handlers.types?
-          $types.unbind 'change', _handlers.types
-
-        _handlers.types = ->
-          type = this.value
-
-          sprite.change_shape(type)
-          do sprite.refresh
+        _remove_handler 'types', $types
 
         $types.filter("[value=#{sprite.shape}]").attr('checked', true)
         $types.filter(":not([value=#{sprite.shape}])").attr('checked', false)
         $types.checkboxradio('refresh')
 
-        $types.bind 'change', _handlers.types
+        _add_handler 'types', $types, ->
+          type = this.value
+
+          sprite.change_shape(type)
+          do sprite.refresh
 
       )
       .live('selectableunselected', (e, ui) ->
