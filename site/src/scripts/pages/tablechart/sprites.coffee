@@ -270,3 +270,24 @@ class $TC.RectTable extends $TC.Table
 
       this._draw_rect @seat_depth, 0, width, height
 
+class $TC.MutableTable extends $TC.Table
+  constructor: (@parent, @seats, @x=0, @y=0, @shape='round') ->
+    obj = do @_get_obj
+
+    obj.call(this, @parent, @seats, @x, @y)
+
+    do @_extend
+
+  _get_obj: ->
+    switch @shape
+      when 'round' then $TC.RoundTable
+      when 'rect' then $TC.RectTable
+
+  change_shape: (@shape) ->
+    do @_extend
+
+  _extend: ->
+    obj = do @_get_obj
+
+    $.extend(this.__proto__, obj.prototype)
+

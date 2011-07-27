@@ -15,13 +15,11 @@ $ ->
 
       type = $types.filter(':checked').attr('value') ? 'round'
 
-      obj = switch type
-        when 'round' then $TC.RoundTable
-        when 'rect' then $TC.RectTable
-      
-      spr = new obj(tci, num, x, y)
+      spr = new $TC.MutableTable(tci, num, x, y, type)
       spr.draw()
       $(spr.canvas).trigger('select')
+
+      window.spr = spr
 
       false
 
@@ -30,8 +28,6 @@ $ ->
       .live('selectableselected', (e, ui) ->
         sel = ui.selected
         sprite = $$(sel).sprite
-
-        $.log sprite
 
         # Size
         
@@ -45,6 +41,23 @@ $ ->
         $size.trigger('forceVal', [sprite.seats])
 
         $size.bind 'change', _handlers.size
+
+        # Type
+        if _handlers.types?
+          $types.unbind 'change', _handlers.types
+
+        _handlers.types = ->
+          type = this.value
+
+          sprite.change_shape(type)
+          do sprite.refresh
+
+        $types.filter("[value=#{sprite.shape}]").attr('checked', true)
+        $types.filter(":not([value=#{sprite.shape}])").attr('checked', false)
+        $types.checkboxradio('refresh')
+
+        $types.bind 'change', _handlers.types
+
       )
       .live('selectableunselected', (e, ui) ->
         if _handlers.size?
