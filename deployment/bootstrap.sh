@@ -2,6 +2,7 @@
 # SpeedyTable bootstrap
 # Installs all requirements for a SpeedyTable server
 
+# The script will fail without GitHub having the user's SSH key. You'll need root's SSH key if running as such.
 while true; do
     read -p "Did you copy this machine's SSH key to GitHub? (y/n) " yn
     case $yn in
@@ -26,6 +27,8 @@ apt-get -yy install wget screen zip unzip vim git build-essential
 #  Clone repo.
 cd /home/www-server
 git clone git@github.com:onthelist/onthelist.git
+# Temporary fix, remove when merged with master.
+git checkout deployment
 
 # Fix file permissions now that everything is in place.
 chown -R www-server:www /home/www-server/
@@ -44,6 +47,8 @@ ruby setup.rb --no-format-executable
 gem install chef --no-ri --no-rdoc
 
 # Chef-solo needs a configuration file for path variables so we'll make a symlink to our repo.
+# !!! Danger Will Robinson! This link will be invalid if you don't checkout deployment.
+mkdir /etc/chef
 ln -s /home/www-server/onthelist/deployment/chef/solo.rb /etc/chef/solo.rb
 
 # We can let Chef-solo take over now. node.json lists all recipes Chef should install.

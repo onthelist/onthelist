@@ -1,2 +1,2 @@
-file_cache_path [ "/home/www-server/deployment/chef" ]
-cookbook_path [ "/home/www-server/deployment/chef/cookbooks" ]
+file_cache_path [ "/home/www-server/onthelist/deployment/chef" ]
+cookbook_path [ "/home/www-server/onthelist/deployment/chef/cookbooks" ]
