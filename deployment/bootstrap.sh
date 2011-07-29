@@ -21,7 +21,7 @@ apt-get -yy update
 apt-get -yy upgrade
 
 # Install some useful stuff.
-apt-get -yy install wget screen zip unzip vim git
+apt-get -yy install wget screen zip unzip vim git build-essential
 
 #  Clone repo.
 cd /home/www-server
@@ -31,7 +31,7 @@ git clone git@github.com:onthelist/onthelist.git
 chown -R www-server:www /home/www-server/
 
 # Install Chef dependencies. Use Ruby 1.8 or Compass and Jade may cause problems.
-apt-get -yy install ruby1.8 ruby1.8-dev libopenssl-ruby rdoc ri irb build-essential wget ssl-cert
+apt-get -yy install ruby1.8 ruby1.8-dev libopenssl-ruby irb ssl-cert
 
 # Install RubyGems from source or Ubuntu will disable updates and cause random issues.
 cd /tmp
@@ -41,7 +41,7 @@ cd rubygems-1.3.7
 ruby setup.rb --no-format-executable
 
 # Install Chef: This takes a few minutes.
-gem install chef
+gem install chef --no-ri --no-rdoc
 
 # Chef-solo needs a configuration file for path variables so we'll make a symlink to our repo.
 ln -s /home/www-server/onthelist/deployment/chef/solo.rb /etc/chef/solo.rb
