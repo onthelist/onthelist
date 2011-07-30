@@ -12,6 +12,9 @@ while true; do
     esac
 done
 
+# Get rid of annoying welcome text
+rm /etc/update-motd.d/51_update-motd
+
 # Add www group and daemon users.
 groupadd www
 useradd -m www-server --home /home/www-server --shell /dev/null --group www

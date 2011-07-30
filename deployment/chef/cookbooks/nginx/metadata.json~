@@ -72,7 +72,7 @@
     "nginx/user": {
       "display_name": "Nginx User",
       "description": "User nginx will run as",
-      "default": "www-server",
+      "default": "www-data",
       "choice": [
 
       ],
