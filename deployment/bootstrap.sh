@@ -31,6 +31,7 @@ apt-get -yy install wget screen zip unzip vim git build-essential
 cd /home/www-server
 git clone git@github.com:onthelist/onthelist.git
 # Temporary fix, remove when merged with master.
+cd /home/www-server
 git checkout deployment
 
 # Fix file permissions now that everything is in place.
