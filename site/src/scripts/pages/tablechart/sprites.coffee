@@ -223,22 +223,29 @@ class $TC.Table extends $TC.Sprite
 
     @cxt.translate(x, y)
     if @opts.rotation
+      @opts.rotation %= 360
+
       # We want text to always remain upright, so we must correct
       # for the canvas rotation.
       rot = @opts.rotation / (180 / Math.PI)
       @cxt.rotate(-rot)
 
-      if scale_bbox
+      if scale_bbox and @opts.rotation != 180
         # We must adjust the bounding box after the rotation.
-        # We find the size of an upright box with the height / width ratio
-        # similar to that of the text.
-        hyp = max_width
-    
-        char_ratio = 3 / (text.length * 2.5)
 
-        ang = Math.atan(char_ratio)
-        max_height = Math.sin(ang) * hyp
-        max_width = Math.cos(ang) * hyp
+        if @opts.rotation % 90 == 0
+          [max_height, max_width] = [max_width, max_height]
+
+        else
+          # We find the size of an upright box with the height / width ratio
+          # similar to that of the text.
+          hyp = max_width
+      
+          char_ratio = 3 / (text.length * 2.5)
+
+          ang = Math.atan(char_ratio)
+          max_height = Math.sin(ang) * hyp
+          max_width = Math.cos(ang) * hyp
 
     if max_height < 30
       size = max_height * .8

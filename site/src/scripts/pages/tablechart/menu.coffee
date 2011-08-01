@@ -9,6 +9,8 @@ $ ->
 
     $add = $('a[href=#add-table]', $menu)
 
+    last_rotation = 0
+
     $add.bind 'vclick', ->
       num = parseInt $size.val()
       x = 500
@@ -23,11 +25,17 @@ $ ->
         x: x
         y: y
         shape: type
+        label: $label.val()
+        rotation: last_rotation
+
       spr = new $TC.MutableTable(opts)
       spr.draw()
       $(spr.canvas).trigger('select')
 
       window.spr = spr
+
+      do $label.focus
+      $label.caret 0, 10
 
       false
 
@@ -78,6 +86,8 @@ $ ->
           do sprite.refresh
 
         # Rotation
+        last_rotation = sprite.opts.rotation
+
         _add_handler 'rotation', $rots, 'vclick', (e) ->
           switch e.currentTarget.hash
             when '#left' then sprite.rotate(-90)
@@ -85,9 +95,13 @@ $ ->
 
           do sprite.refresh
 
+          last_rotation = sprite.opts.rotation
+
           false
 
       )
       .live('selectableunselected', (e, ui) ->
         do _remove_handlers
+
+        $label.val ''
       )
