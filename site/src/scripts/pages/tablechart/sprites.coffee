@@ -217,7 +217,7 @@ class $TC.Table extends $TC.Sprite
 
     do @cxt.restore
 
-  _draw_centered_text: (text, x, y, max_width, max_height) ->
+  _draw_centered_text: (text, x, y, max_width, max_height, scale_bbox=true) ->
     @cxt.textAlign = 'center'
     @cxt.textBaseline = 'middle'
 
@@ -228,10 +228,20 @@ class $TC.Table extends $TC.Sprite
       rot = @opts.rotation / (180 / Math.PI)
       @cxt.rotate(-rot)
 
-      # TODO: Scale down max width / height 
+      if scale_bbox
+        # We must adjust the bounding box after the rotation.
+        # We find the size of an upright box with the height / width ratio
+        # similar to that of the text.
+        hyp = max_width
+    
+        char_ratio = 3 / (text.length * 2.5)
+
+        ang = Math.atan(char_ratio)
+        max_height = Math.sin(ang) * hyp
+        max_width = Math.cos(ang) * hyp
 
     if max_height < 30
-      size = max_height - 4
+      size = max_height * .8
     else
       size = 30
 
@@ -249,10 +259,13 @@ class $TC.Table extends $TC.Sprite
 
     @cxt.fillText(text, left, top, w)
 
-  draw_label: (margin=[0,0,0,0], style='empty') ->
+  draw_label: (margin=[0,0,0,0], style='empty', scale_bbox=true) ->
     label = @opts.label
     if not label?
       return
+
+    if typeof label != 'string'
+      label = label.toString()
 
     do @cxt.save
     @_apply_text_style style, 'label'
@@ -266,7 +279,7 @@ class $TC.Table extends $TC.Sprite
       cx = width / 2 + margin[3]
       cy = height / 2 + margin[0]
 
-      @_draw_centered_text(label, cx, cy, width, height)
+      @_draw_centered_text(label, cx, cy, width, height, scale_bbox)
 
     do @cxt.restore
 
@@ -278,7 +291,7 @@ class $TC.RoundTable extends $TC.Table
     circ = @seats * (@seat_width + @seat_spacing)
     rad = circ / Math.PI / 2
 
-    rad = Math.max(rad, 8)
+    rad = Math.max(rad, 12)
 
     center = rad + @seat_depth
 
@@ -297,7 +310,7 @@ class $TC.RoundTable extends $TC.Table
 
     square = @w / 2 - rad / Math.sqrt(2)
 
-    @draw_label([square, square, square, square])
+    @draw_label([square, square, square, square], undefined, false)
 
 
 class $TC.RectTable extends $TC.Table
