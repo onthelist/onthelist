@@ -283,6 +283,10 @@ class $TC.Table extends $TC.Sprite
 
     do @cxt.restore
 
+  rotate: (delta) ->
+    @opts.rotation ?= 0
+    @opts.rotation += delta
+
 # Do NOT try to do anything in the constructor of the specific table
 # types, the constructor will not be called when the table's shape
 # is changed.
@@ -310,8 +314,9 @@ class $TC.RoundTable extends $TC.Table
 
     square = @w / 2 - rad / Math.sqrt(2)
 
-    @draw_label([square, square, square, square], undefined, false)
+    @draw_label([square, square, square, square], 'empty', false)
 
+  rotate: ->
 
 class $TC.RectTable extends $TC.Table
   width: 28
@@ -374,14 +379,20 @@ class $TC.RectTable extends $TC.Table
 
     @draw_label(margin)
 
-class $TC.MutableTable extends $TC.Table
+  rotate: (delta) ->
+    super(delta)
+
+    @opts.rotation %= 180
+
+class $TC.MutableTable
   constructor: (@opts) ->
     @shape = @opts.shape ? 'round'
+    
+    do @_extend
 
     obj = do @_get_obj
     obj.call(this, @opts)
 
-    do @_extend
 
   _get_obj: ->
     switch @shape
@@ -394,5 +405,7 @@ class $TC.MutableTable extends $TC.Table
   _extend: ->
     obj = do @_get_obj
 
-    $.extend(this.__proto__, obj.prototype)
+    if 'change_shape' not of obj.prototype
+      obj.prototype = $.extend({}, $TC.MutableTable.prototype, obj.prototype)
 
+    this.__proto__ = obj.prototype

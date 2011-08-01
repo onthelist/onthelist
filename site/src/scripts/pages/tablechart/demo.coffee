@@ -14,6 +14,5 @@ $ ->
           y: y
           shape: shape
           label: l=Math.floor(Math.random() * 100)
-          rotation: l
 
         (new $TC.MutableTable(opts)).draw()

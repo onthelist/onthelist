@@ -8,14 +8,24 @@
         div(data-role="fieldcontain")
           fieldset.form-radio(data-role="controlgroup", data-type="horizontal")
             legend Type
-            input#round(type="radio", name="table_type", value="round")
+            input#round(type="radio", name="type", value="round")
             label(for="round") Round
-            input#rect(type="radio", name="table_type", value="rect")
+            input#rect(type="radio", name="type", value="rect")
             label(for="rect") Rect
           
         div(data-role="fieldcontain")
           label(for="table-size") Size
-          input#table-size(type="range", name="table_size", value="4", min="1", max="8", data-key="size")
+          input#table-size(type="range", name="size", value="4", min="1", max="8", data-key="size")
+
+        div(data-role="fieldcontain")
+          fieldset#table-rotation(data-role="controlgroup", data-type="horizontal")
+            legend Rotate
+            a(href='#left', data-role="button", data-icon="back") Left
+            a(href='#right', data-role="button", data-icon="forward") Right
+
+        div(data-role="fieldcontain")
+          label(for="table-label") Label
+          input#table-label(name="label")
 
     .tc-container
       .tablechart
