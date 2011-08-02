@@ -2,6 +2,8 @@ $.extend $.Isotope.prototype,
   _timelineReset: ->
     @_timeline = {}
     
+    @element.addClass 'timeline'
+    
   _timelineLayout: ($elems) ->
     _t = @_timeline
 
@@ -25,7 +27,7 @@ $.extend $.Isotope.prototype,
 
       elem.setAttribute('data-order', order)
 
-    _t.width = @element.width()
+    _t.width = @element.outerWidth()
     _t.scale = (_t.width - _t.elem_width) / (max - min)
     _t.minimum = min
 
@@ -38,6 +40,7 @@ $.extend $.Isotope.prototype,
 
       order = parseFloat elem.getAttribute('data-order')
       x = _t.scale * (order - _t.minimum)
+
 
       width = $elem.outerWidth()
       height = $elem.outerHeight() + 2
@@ -63,6 +66,7 @@ $.extend $.Isotope.prototype,
         i = rows.length - 1
         row = rows[i]
 
+      $elem.css('z-index', 30 - i)
       y = i * height
 
       if y + height > _t.height

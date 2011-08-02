@@ -376,9 +376,12 @@
 
       // add isotope class first time around
       var instance = this;
-      setTimeout( function() {
+      /* setTimeout( function() {
         instance.element.addClass( instance.options.containerClass );
       }, 0 );
+      Adding class immediatly allows us to consider style changes applied by the isotope class when positioning.
+      */
+      instance.element.addClass( instance.options.containerClass );
       
       // bind resize method
       if ( this.options.resizable ) {
