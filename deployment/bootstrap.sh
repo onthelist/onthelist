@@ -53,6 +53,7 @@ gem install chef --no-ri --no-rdoc
 chef-solo -j /home/www-server/onthelist/deployment/chef/node.json -c /home/www-server/onthelist/deployment/chef/solo.rb
 
 # Now that Chef is done, install any unchefable software
+# Try "npm --force --registry http://registry.npmjs.org/ install *" if you're having trouble.
 npm install -g coffee-script
 npm install -g jade
 
