@@ -3,7 +3,7 @@ server {
   server_name  <%= node[:hostname] %>;
   access_log  <%= node[:nginx][:log_dir] %>/localhost.access.log;
 
-  root /home/www-server/onthelist/site/public/html;
+  root /home/www-server/onthelist/site/public;
   index index.html;
 
   server_name localhost;
@@ -22,7 +22,7 @@ server {
   }
 
   location /log/ {
-    proxy_pass http://localhost:7777/;
+    proxy_pass http://localhost:40404/;
   }
 }
 

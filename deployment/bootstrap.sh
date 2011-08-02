@@ -1,8 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 # SpeedyTable bootstrap
 # Installs all requirements for a SpeedyTable server
-
-USER=www-server
 
 # The script will fail without GitHub having the user's SSH key. You'll need root's SSH key if running as such.
 while true; do
@@ -19,7 +17,7 @@ rm /etc/update-motd.d/51_update-motd
 
 # Add www group and daemon users.
 groupadd www
-useradd -m $USER --home /home/$USER --shell /dev/null --group www
+useradd -m www-server --home /home/www-server --shell /dev/null --group www
 #...add users as necessary
 
 apt-get -yy update
@@ -29,14 +27,14 @@ apt-get -yy upgrade
 apt-get -yy install wget screen zip unzip vim git build-essential
 
 #  Clone repo.
-cd /home/$USER
+cd /home/www-server
 git clone git@github.com:onthelist/onthelist.git
 # Temporary fix, remove when merged with master.
-cd /home/$USER
+cd /home/www-server/onthelist
 git checkout deployment
 
 # Fix file permissions now that everything is in place.
-chown -R $USER:www /home/$USER/
+chown -R www-server:www /home/www-server/
 
 # Install Chef dependencies. Use Ruby 1.8 or Compass and Jade may cause problems.
 apt-get -yy install ruby1.8 ruby1.8-dev libopenssl-ruby irb ssl-cert
@@ -51,21 +49,16 @@ ruby setup.rb --no-format-executable
 # Install Chef: This takes a few minutes.
 gem install chef --no-ri --no-rdoc
 
-# Chef-solo needs a configuration file for path variables so we'll make a symlink to our repo.
-# !!! Danger Will Robinson! This link will be invalid if you don't checkout deployment.
-mkdir /etc/chef
-ln -s /home/$USER/onthelist/deployment/chef/solo.rb /etc/chef/solo.rb
-
 # We can let Chef-solo take over now. node.json lists all recipes Chef should install.
-chef-solo -j /home/$USER/onthelist/deployment/chef/node.json
+chef-solo -j /home/www-server/onthelist/deployment/chef/node.json -c /home/www-server/onthelist/deployment/chef/solo.rb
 
 # Now that Chef is done, install any unchefable software
-sudo npm install -g coffee-script
-sudo npm install -g jade
+npm install -g coffee-script
+npm install -g jade
 
 gem update --system
 gem install compass --no-ri --no-rdoc
 
-# Set Node path for jade compiler. This will not take effect until logout. We can take effect for the current sesssion with source.
+# Set Node path for jade compiler. This will not take effect until logout. We can take effect for the current sesssion with bash's '.'
 echo "NODE_PATH=/usr/local/lib/node_modules/jade/lib" >> /etc/environment
-source /etc/environment
+. /etc/environment

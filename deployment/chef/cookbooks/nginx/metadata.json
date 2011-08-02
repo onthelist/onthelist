@@ -71,7 +71,7 @@
     },
     "nginx/user": {
       "display_name": "Nginx User",
-      "description": "User nginx will run as",
+      "description": "User Nginx will run",
       "default": "www-server",
       "choice": [
 
