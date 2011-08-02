@@ -44,17 +44,33 @@
 .docked-right {
   width: 335px;
   height: 90%;
-
+  padding: 5px 20px 5px 5px;
+  
   position: absolute;
-  left: 0;
+  left: -340px;
   top: 5%;
 
   background-color: rgba(0, 0, 0, .8);
   z-index: 5;
 
   text-shadow: 0 0 0;
+  
+  -webkit-transition: left 0.3s ease-in;
+  -moz-transition: left 0.3s ease-in;
+
+  border-radius: 0 10px 10px 0;
 
   a {
     display: block;
+  }
+
+  &:hover, &.open, &.manual-open {
+    left: 0;
+  }
+}
+
+.editor {
+  label {
+    color: #DDD;
   }
 }

@@ -7,10 +7,13 @@ $ ->
     $label = $('[name=label]', $form)
     $rots = $('#table-rotation a', $form)
 
-    $add = $('a[href=#add-table]', $menu)
-
     last_rotation = 0
 
+    $menu.bind 'vclick', (e) ->
+      if e.target.tagName not in ['A', 'SPAN', 'BUTTON', 'INPUT']
+        $menu.toggleClass 'manual-open'
+
+    $add = $('a[href=#add-table]', $menu)
     $add.bind 'vclick', ->
       num = parseInt $size.val()
       x = 500
@@ -52,6 +55,12 @@ $ ->
     _remove_handlers = ->
       for own name, obj of _handlers
         obj.$elems.unbind obj.evt, obj.func
+    
+      _add_handler 'rotation', $rots, 'vclick', (e) ->
+        # Block default action
+        false
+
+    do _remove_handlers
 
     $('.tablechart-inner', this)
       .live('selectableselected', (e, ui) ->
@@ -59,6 +68,8 @@ $ ->
         sprite = $$(sel).sprite
 
         do _remove_handlers
+
+        $menu.addClass 'open'
 
         # Size
         $size.trigger('forceVal', [sprite.seats])
@@ -104,4 +115,6 @@ $ ->
         do _remove_handlers
 
         $label.val ''
+
+        $menu.removeClass 'open'
       )
