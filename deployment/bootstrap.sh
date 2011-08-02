@@ -19,7 +19,7 @@ rm /etc/update-motd.d/51_update-motd
 
 # Add www group and daemon users.
 groupadd www
-useradd -m $USERNAME --home /home/$USERNAME --shell /dev/null --group www
+useradd -m $USER --home /home/$USER --shell /dev/null --group www
 #...add users as necessary
 
 apt-get -yy update
@@ -29,14 +29,14 @@ apt-get -yy upgrade
 apt-get -yy install wget screen zip unzip vim git build-essential
 
 #  Clone repo.
-cd /home/$USERNAME
+cd /home/$USER
 git clone git@github.com:onthelist/onthelist.git
 # Temporary fix, remove when merged with master.
-cd /home/$USERNAME
+cd /home/$USER
 git checkout deployment
 
 # Fix file permissions now that everything is in place.
-chown -R $USERNAME:www /home/$USERNAME/
+chown -R $USER:www /home/$USER/
 
 # Install Chef dependencies. Use Ruby 1.8 or Compass and Jade may cause problems.
 apt-get -yy install ruby1.8 ruby1.8-dev libopenssl-ruby irb ssl-cert
@@ -54,10 +54,10 @@ gem install chef --no-ri --no-rdoc
 # Chef-solo needs a configuration file for path variables so we'll make a symlink to our repo.
 # !!! Danger Will Robinson! This link will be invalid if you don't checkout deployment.
 mkdir /etc/chef
-ln -s /home/$USERNAME/onthelist/deployment/chef/solo.rb /etc/chef/solo.rb
+ln -s /home/$USER/onthelist/deployment/chef/solo.rb /etc/chef/solo.rb
 
 # We can let Chef-solo take over now. node.json lists all recipes Chef should install.
-chef-solo -j /home/$USERNAME/onthelist/deployment/chef/node.json
+chef-solo -j /home/$USER/onthelist/deployment/chef/node.json
 
 # Now that Chef is done, install any unchefable software
 sudo npm install -g coffee-script
@@ -66,5 +66,6 @@ sudo npm install -g jade
 gem update --system
 gem install compass --no-ri --no-rdoc
 
-# Set Node path for jade compiler. This will not take effect until logout.
+# Set Node path for jade compiler. This will not take effect until logout. We can take effect for the current sesssion with source.
 echo "NODE_PATH=/usr/local/lib/node_modules/jade/lib" >> /etc/environment
+source /etc/environment
