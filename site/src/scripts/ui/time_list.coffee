@@ -54,7 +54,7 @@ class IsotopeList
     $elem = $ @elem
     $elem.isotope
       itemSelector: 'li:not(.ui-li-divider)'
-      layoutMode: 'sectionList'
+      layoutMode: 'timeline'
       groupBy: @groupBy ? 'lname'
       transformsEnabled: use_transforms()
       getSortData: sort_fields
