@@ -18,8 +18,10 @@ rm /etc/update-motd.d/51_update-motd
 # Add www group and daemon users.
 groupadd www
 useradd -m www-server --home /home/www-server --shell /dev/null --group www
-#...add users as necessary
 
+# Enable the multiverse. Used for Chef java cookbook.
+# The OpenJDK alternative has issues with jenkins.
+sed -i -e "s/# deb/deb/g" /etc/apt/sources.list
 apt-get -yy update
 apt-get -yy upgrade
 
@@ -60,6 +62,6 @@ npm install -g jade
 gem update --system
 gem install compass --no-ri --no-rdoc
 
-# Set Node path for jade compiler. This will not take effect until logout. We can take effect for the current sesssion with bash's '.'
+# Set Node path for jade compiler. This will not take effect until logout. We can take effect for the current sesssion with bash's source command.
 echo "NODE_PATH=/usr/local/lib/node_modules/jade/lib" >> /etc/environment
 . /etc/environment

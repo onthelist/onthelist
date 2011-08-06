@@ -19,12 +19,12 @@
 
 java_pkg = value_for_platform(
   [ "ubuntu", "debian" ] => {
-    "default" => "openjdk-6-jre-headless"
+    "default" => "sun-java6-jre"
   },
   [ "redhat", "centos", "fedora" ] => {
     "default" => "java-1.6.0-openjdk"
   },
-  "default" => "openjdk-6-jre-headless"
+  "default" => "sun-java6-jre"
 )
 
 package java_pkg do
