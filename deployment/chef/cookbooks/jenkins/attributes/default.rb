@@ -34,7 +34,7 @@ else
   default[:jenkins][:server][:group] = node[:jenkins][:server][:user]
 end
 
-default[:jenkins][:server][:port] = 7777
+default[:jenkins][:server][:port] = 8080
 default[:jenkins][:server][:host] = node[:fqdn]
 default[:jenkins][:server][:url]  = "http://#{node[:jenkins][:server][:host]}:#{node[:jenkins][:server][:port]}"
 
@@ -46,7 +46,7 @@ default[:jenkins][:server][:plugins] = []
 
 #working around: http://tickets.opscode.com/browse/CHEF-1848
 #set to true if you have the CHEF-1848 patch applied
-default[:jenkins][:server][:use_head] = false
+default[:jenkins][:server][:use_head] = true
 
 #See Jenkins >> Nodes >> $name >> Configure
 

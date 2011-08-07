@@ -2,7 +2,7 @@
 # SpeedyTable bootstrap
 # Installs all requirements for a SpeedyTable server
 
-# The script will fail without GitHub having the user's SSH key. You'll need root's SSH key if running as such.
+# The script will fail without GitHub having the onthelist/keys SSH key in root's .ssh directory.
 while true; do
     read -p "Did you copy this machine's SSH key to GitHub? (y/n) " yn
     case $yn in
@@ -26,7 +26,7 @@ apt-get -yy update
 apt-get -yy upgrade
 
 # Install some useful stuff.
-apt-get -yy install wget screen zip unzip vim git build-essential
+apt-get -yy install wget screen zip unzip vim htop git build-essential
 
 #  Clone repo.
 cd /home/www-server
@@ -56,8 +56,8 @@ chef-solo -j /home/www-server/onthelist/deployment/chef/node.json -c /home/www-s
 
 # Now that Chef is done, install any unchefable software
 # Try "npm --force --registry http://registry.npmjs.org/ install *" if you're having trouble.
-npm install -g coffee-script
-npm install -g jade
+npm --force --registry http://registry.npmjs.org/ install -g coffee-script
+npm --force --registry http://registry.npmjs.org/ install -g jade
 
 gem update --system
 gem install compass --no-ri --no-rdoc
