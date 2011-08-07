@@ -1,12 +1,9 @@
 #
+# Author:: Joe Williams (<j@boundary.com>)
 # Cookbook Name:: jenkins
-# Based on hudson
-# Resource:: cli
+# Resource:: default
 #
-# Author:: Doug MacEachern <dougm@vmware.com>
-# Author:: Fletcher Nichol <fnichol@nichol.ca>
-#
-# Copyright:: 2010, VMware, Inc.
+# Copyright 2011, Boundary
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,24 +18,9 @@
 # limitations under the License.
 #
 
-actions :run
+actions :create_job, :delete_job, :install_plugin, :reload_configuration
 
-attribute :url, :kind_of => String
-attribute :home, :kind_of => String
-attribute :command, :kind_of => String
-attribute :timeout, :kind_of => Integer
-attribute :block, :kind_of => Proc
-
-def initialize(name, run_context=nil)
-  super
-  @action = :run
-  @command = name
-end
-
-def block(&block)
-  if block_given? and block
-    @block = block
-  else
-    @block
-  end
-end
+attribute :name, :kind_of => String, :name_attribute => true, :required => true
+attribute :cli_jar, :kind_of => String, :required => true
+attribute :url, :kind_of => String, :required => true
+attribute :path, :kind_of => String, :required => true
