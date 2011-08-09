@@ -12,9 +12,9 @@ window.$TC ?= {}
 
 class $TC.Sprite
   constructor: (@opts) ->
-    self = this
 
-    @parent = @opts.parent
+  init: (@parent) ->
+    self = this
 
     @canvas = document.createElement 'canvas'
     @parent.appendChild @canvas
@@ -97,14 +97,39 @@ class $TC.Sprite
         #    top: offset.top + dt
         #    left: offset.left + dl
       )
+      .bind('dragstop', (e, ui) =>
+        do @_update_evt
+      )
 
     @w = @h = 0
 
-  refresh: ->
-    @cxt.clearRect(0, 0, @w, @h)
-    do @draw
+  package: ->
+    @opts.x = @x
+    @opts.y = @y
+    @opts.seats = @seats
 
-  draw: ->
+    return {opts: @opts}
+
+  destroy: ->
+    if @$canvas
+      do @$canvas.remove
+
+  _update_evt: ->
+    if @parent
+      $(@parent).trigger 'spriteUpdate', [this]
+
+  update: ->
+    do @_update_evt
+    do @refresh
+
+  refresh: ->
+    if @cxt and @parent
+      @cxt.clearRect(0, 0, @w, @h)
+      do @draw
+
+  draw: (parent) ->
+    if not @parent? or (parent? and @parent != parent)
+      @init parent
 
   _move: ->
     y = @y - @h / 2
@@ -132,9 +157,7 @@ class $TC.Table extends $TC.Sprite
     @y = opts.y ? 0
     @seats = @opts.seats
 
-    super(@opts)
-
-    do this._move
+    super @opts
 
   _apply_style: (name) ->
     @style = styles[name]
@@ -148,11 +171,14 @@ class $TC.Table extends $TC.Sprite
     @cxt.fillStyle = @text_style.fill_color
     @cxt.font = @text_style.font ? 'bold 1.6em sans-serif'
 
-  draw: ->
+  draw: (parent) ->
+    super parent
+
     rot = @opts.rotation ? 0
     @$canvas.css('-moz-transform', "rotate(#{rot}deg)")
     @$canvas.css('-moz-transform-origin', "middle center")
-
+    
+    do @_move
     do @_draw
 
   _draw_circle: (x, y, rad, style='empty') ->
@@ -390,29 +416,3 @@ class $TC.RectTable extends $TC.Table
     super(delta)
 
     @opts.rotation %= 180
-
-class $TC.MutableTable
-  constructor: (@opts) ->
-    @shape = @opts.shape ? 'round'
-    
-    do @_extend
-
-    obj = do @_get_obj
-    obj.call(this, @opts)
-
-
-  _get_obj: ->
-    switch @shape
-      when 'round' then $TC.RoundTable
-      when 'rect' then $TC.RectTable
-
-  change_shape: (@shape) ->
-    do @_extend
-
-  _extend: ->
-    obj = do @_get_obj
-
-    if 'change_shape' not of obj.prototype
-      obj.prototype = $.extend({}, $TC.MutableTable.prototype, obj.prototype)
-
-    this.__proto__ = obj.prototype

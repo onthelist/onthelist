@@ -6,12 +6,20 @@ BASE_WIDTH = 1280.0
 MIN_SCALE = 0.5
 
 $ ->
-  $('#tablechart').bind 'pageshow', ->
-    $this = $ this
-    $tc = $('.tablechart', this)
-    $tci = $('.tablechart-inner', this)
-    $contain = $('.tc-container', this)
+  $page = $('#tablechart')
+  $tc = $('.tablechart', $page)
+  $tci = $('.tablechart-inner', $page)
+  $contain = $('.tc-container', $page)
+  
+  $TC.chart = new $TC.Chart($tci[0])
+  $tci.bind 'spriteUpdate', ->
+    do $TC.chart.save
 
+  $page.bind 'pageshow', ->
+    $this = $ this
+
+    do $TC.chart.draw
+    
     update_size = =>
       # The JQM css sets page min-height based on the landscape and portrait 
       # classes.

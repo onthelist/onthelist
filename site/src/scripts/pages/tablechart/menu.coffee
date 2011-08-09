@@ -20,19 +20,19 @@ $ ->
       y = 250
       tci = $('.tablechart-inner')[0]
 
-      type = $types.filter(':checked').attr('value') ? 'round'
+      type = $types.filter(':checked').attr('value') ? 'RoundTable'
 
       opts =
-        parent: tci
         seats: num
         x: x
         y: y
-        shape: type
         label: $label.val()
         rotation: last_rotation
 
-      spr = new $TC.MutableTable(opts)
-      spr.draw()
+      spr = $TC.chart.add opts, type
+      do $TC.chart.save
+      do $TC.chart.draw
+
       $(spr.canvas).trigger('select')
 
       window.spr = spr
@@ -76,25 +76,26 @@ $ ->
 
         _add_handler 'size', $size, 'change', ->
           sprite.seats = this.value
-          do sprite.refresh
+          do sprite.update
 
         # Type
-        $types.filter("[value=#{sprite.shape}]").attr('checked', true)
-        $types.filter(":not([value=#{sprite.shape}])").attr('checked', false)
+        $types.attr('checked', false)
+        $types.filter("[value=#{sprite.__proto__.constructor.name}]").attr('checked', true)
         $types.checkboxradio('refresh')
 
         _add_handler 'types', $types, 'change', ->
           type = this.value
 
-          sprite.change_shape(type)
-          do sprite.refresh
+          sprite = $TC.chart.change_type sprite, type
+          $(sprite.canvas).trigger('selected').addClass('ui-selected')
+          do sprite.update
 
         # Label
         $label.val(sprite.opts.label)
 
-        _add_handler 'label', $label, 'change', ->
+        _add_handler 'label', $label, 'keyup', ->
           sprite.opts.label = this.value
-          do sprite.refresh
+          do sprite.update
 
         # Rotation
         last_rotation = sprite.opts.rotation
@@ -104,7 +105,7 @@ $ ->
             when '#left' then sprite.rotate(-90)
             when '#right' then sprite.rotate(90)
 
-          do sprite.refresh
+          do sprite.update
 
           last_rotation = sprite.opts.rotation
 
