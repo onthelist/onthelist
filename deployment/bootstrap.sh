@@ -60,7 +60,7 @@ gem install chef --no-ri --no-rdoc
 chef-solo -j /home/www-server/onthelist/deployment/chef/node.json -c /home/www-server/onthelist/deployment/chef/solo.rb
 
 # Now that Chef is done, install any unchefable software
-# Try "npm --force --registry http://registry.npmjs.org/ install *" if you're having trouble.
+# Node package manager has occasional issues with their HTTPS certificate, try "npm --force --registry http://registry.npmjs.org/ install *" if you're having trouble.
 npm --force --registry http://registry.npmjs.org/ install -g coffee-script
 npm --force --registry http://registry.npmjs.org/ install -g jade
 
@@ -71,7 +71,11 @@ gem install compass --no-ri --no-rdoc
 echo "NODE_PATH=/usr/local/lib/node_modules/jade/lib" >> /etc/environment
 . /etc/environment
 
-# Jenkins time
+# Jenkins time.
 apt-get -yy update
 apt-get -yy install jenkins
-#cp 
+
+cp /root/.ssh/id_rsa /var/lib/jenkins/.ssh/id_rsa
+cp /root/.ssh/id_rsa.pub /var/lib/jenkins/.ssh/id_rsa.pub
+chown -R jenkins /var/lib/jenkins/.ssh/
+chmod 600 /var/lib/jenkins/.ssh/id_rsa
