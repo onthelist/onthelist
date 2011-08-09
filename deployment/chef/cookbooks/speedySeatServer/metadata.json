@@ -3,7 +3,7 @@
   "description": "Installs all programs needed for a SpeedyTable server.",
   "long_description": "",
   "maintainer": "SpeedyTable Inc",
-  "maintainer_email": "contact@speedytable.com",
+  "maintainer_email": "contact@speedyseat.com",
   "license": "Proprietary",
   "platforms": {
     "fedora": ">= 0.0.0",

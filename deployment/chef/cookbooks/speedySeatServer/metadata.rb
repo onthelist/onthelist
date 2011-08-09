@@ -1,5 +1,5 @@
 maintainer        "SpeedyTable, Inc."
-maintainer_email  "contact@speedytable.com"
+maintainer_email  "contact@speedyseat.com"
 license           "Proprietary"
 description       "Installs all programs needed for a SpeedyTable server."
 version           "0.0.1"
