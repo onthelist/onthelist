@@ -93,7 +93,7 @@ $ ->
         # Label
         $label.val(sprite.opts.label)
 
-        _add_handler 'label', $label, 'change', ->
+        _add_handler 'label', $label, 'keyup', ->
           sprite.opts.label = this.value
           do sprite.update
 
