@@ -17,7 +17,7 @@ rm /etc/update-motd.d/51_update-motd
 
 # Add www group and daemon users.
 groupadd www
-useradd -m www-server --home /home/www-server --shell /dev/null --group www
+useradd -m www-server --home /home/www-server --shell /dev/null -g www
 
 # Enable the multiverse. Used for Chef java cookbook.
 # The OpenJDK alternative has issues with jenkins.
@@ -77,5 +77,8 @@ apt-get -yy install jenkins
 
 cp /root/.ssh/id_rsa /var/lib/jenkins/.ssh/id_rsa
 cp /root/.ssh/id_rsa.pub /var/lib/jenkins/.ssh/id_rsa.pub
+
 chown -R jenkins /var/lib/jenkins/.ssh/
 chmod 600 /var/lib/jenkins/.ssh/id_rsa
+
+usermod jenkins -g www
