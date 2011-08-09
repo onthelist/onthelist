@@ -2,21 +2,17 @@ $ ->
   $('#tablechart').live 'pagecreate', ->
     tci = $('.tablechart-inner', this)[0]
 
-    y = 100
-    x = 0
+    for [y, shape] in [[100, 'round'], [200, 'rect']]
+      x = 0
+      for size in [1, 2, 6, 12, 24]
+        x += 100
 
-    (new $TC.RoundTable(tci, 1, x += 100, y)).draw()
-    (new $TC.RoundTable(tci, 2, x += 100, y)).draw()
-    (new $TC.RoundTable(tci, 6, x += 100, y)).draw()
-    (new $TC.RoundTable(tci, 12, x += 100, y)).draw()
-    (new $TC.RoundTable(tci, 24, x += 100, y)).draw()
+        opts =
+          parent: tci
+          seats: size
+          x: x
+          y: y
+          shape: shape
+          label: l=Math.floor(Math.random() * 100)
 
-    y += 100
-    x = 0
-
-    (new $TC.RectTable(tci, 1, x += 100, y)).draw()
-    (new $TC.RectTable(tci, 2, x += 100, y)).draw()
-    (new $TC.RectTable(tci, 3, x += 100, y)).draw()
-    (new $TC.RectTable(tci, 4, x += 100, y)).draw()
-    (new $TC.RectTable(tci, 6, x += 100, y)).draw()
-    (new $TC.RectTable(tci, 9, x += 100, y)).draw()
+        (new $TC.MutableTable(opts)).draw()

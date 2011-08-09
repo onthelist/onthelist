@@ -2,6 +2,8 @@ styles =
   empty:
     fill_color: '#F9F9F9'
     line_color: '#555'
+    label:
+      fill_color: '#777'
   seat:
     fill_color: '#DDD'
     line_color: '#555'
@@ -9,12 +11,16 @@ styles =
 window.$TC ?= {}
 
 class $TC.Sprite
-  constructor: (@parent) ->
+  constructor: (@opts) ->
     self = this
+
+    @parent = @opts.parent
 
     @canvas = document.createElement 'canvas'
     @parent.appendChild @canvas
     @cxt = @canvas.getContext '2d'
+
+    @$canvas = $(@canvas)
 
     $$(@canvas).sprite = this
 
@@ -121,16 +127,33 @@ class $TC.Table extends $TC.Sprite
   seat_depth: 7
   seat_spacing: 3
 
-  constructor: (@parent, @seats, @x=0, @y=0) ->
-    super(@parent)
+  constructor: (@opts) ->
+    @x = opts.x ? 0
+    @y = opts.y ? 0
+    @seats = @opts.seats
+
+    super(@opts)
 
     do this._move
 
   _apply_style: (name) ->
-    style = styles[name]
+    @style = styles[name]
 
-    @cxt.fillStyle = style.fill_color
-    @cxt.strokeStyle = style.line_color
+    @cxt.fillStyle = @style.fill_color
+    @cxt.strokeStyle = @style.line_color
+
+  _apply_text_style: (name, elem) ->
+    @text_style = styles[name][elem]
+
+    @cxt.fillStyle = @text_style.fill_color
+    @cxt.font = @text_style.font ? 'bold 1.6em sans-serif'
+
+  draw: ->
+    rot = @opts.rotation ? 0
+    @$canvas.css('-moz-transform', "rotate(#{rot}deg)")
+    @$canvas.css('-moz-transform-origin', "middle center")
+
+    do @_draw
 
   _draw_circle: (x, y, rad, style='empty') ->
     this._apply_style style
@@ -194,12 +217,92 @@ class $TC.Table extends $TC.Sprite
 
     do @cxt.restore
 
+  _draw_centered_text: (text, x, y, max_width, max_height, scale_bbox=true) ->
+    @cxt.textAlign = 'center'
+    @cxt.textBaseline = 'middle'
+
+    @cxt.translate(x, y)
+    if @opts.rotation
+      @opts.rotation %= 360
+
+      # We want text to always remain upright, so we must correct
+      # for the canvas rotation.
+      rot = @opts.rotation / (180 / Math.PI)
+      @cxt.rotate(-rot)
+
+      if scale_bbox and @opts.rotation != 180
+        # We must adjust the bounding box after the rotation.
+
+        if @opts.rotation % 90 == 0
+          [max_height, max_width] = [max_width, max_height]
+
+        else
+          # We find the size of an upright box with the height / width ratio
+          # similar to that of the text.
+          hyp = max_width
+      
+          char_ratio = 3 / (text.length * 2.5)
+
+          ang = Math.atan(char_ratio)
+          max_height = Math.sin(ang) * hyp
+          max_width = Math.cos(ang) * hyp
+
+    if max_height < 30
+      size = max_height * .8
+    else
+      size = 30
+
+    @cxt.font = "bold #{size}px sans-serif"
+
+    @cxt.fillText(text, 0, 0, max_width)
+
+  _draw_fill_text: (text, top, left, w, h) ->
+    @cxt.textAlign = 'left'
+    @cxt.textBaseline = 'top'
+
+    # The height scaling is an approximation, there is no
+    # good way to get the font height.
+    @cxt.font = "bold #{h*1.3}px sans-serif"
+
+    @cxt.fillText(text, left, top, w)
+
+  draw_label: (margin=[0,0,0,0], style='empty', scale_bbox=true) ->
+    label = @opts.label
+    if not label?
+      return
+
+    if typeof label != 'string'
+      label = label.toString()
+
+    do @cxt.save
+    @_apply_text_style style, 'label'
+
+    width = @w - margin[1] - margin[3]
+    height = @h - margin[0] - margin[2]
+
+    if @text_style.text_fit == 'fill'
+      @_draw_fill_text(label, margin[0], margin[3], width, height)
+    else
+      cx = width / 2 + margin[3]
+      cy = height / 2 + margin[0]
+
+      @_draw_centered_text(label, cx, cy, width, height, scale_bbox)
+
+    do @cxt.restore
+
+  rotate: (delta) ->
+    @opts.rotation ?= 0
+    @opts.rotation += delta
+
+# Do NOT try to do anything in the constructor of the specific table
+# types, the constructor will not be called when the table's shape
+# is changed.
 class $TC.RoundTable extends $TC.Table
-  draw: ->
+  _draw: ->
     circ = @seats * (@seat_width + @seat_spacing)
     rad = circ / Math.PI / 2
 
-    rad = Math.max(rad, 8)
+    rad = Math.max(rad, 12)
 
     center = rad + @seat_depth
 
@@ -216,12 +319,17 @@ class $TC.RoundTable extends $TC.Table
 
     this._draw_circle center, center, rad
 
+    square = @w / 2 - rad / Math.sqrt(2)
+
+    @draw_label([square, square, square, square], 'empty', false)
+
+  rotate: ->
 
 class $TC.RectTable extends $TC.Table
   width: 28
   single_width: 20
 
-  draw: ->
+  _draw: ->
     width = if @seats > 1 then @width else @single_width
 
     side_seats = Math.floor(@seats / 2)
@@ -270,3 +378,41 @@ class $TC.RectTable extends $TC.Table
 
       this._draw_rect @seat_depth, 0, width, height
 
+    margin = [0, 0, 0, 0]
+    if @seats & 1
+      margin[2] = @seat_depth
+    if @seats > 1
+      margin[1] = margin[3] = @seat_depth
+
+    @draw_label(margin)
+
+  rotate: (delta) ->
+    super(delta)
+
+    @opts.rotation %= 180
+
+class $TC.MutableTable
+  constructor: (@opts) ->
+    @shape = @opts.shape ? 'round'
+    
+    do @_extend
+
+    obj = do @_get_obj
+    obj.call(this, @opts)
+
+
+  _get_obj: ->
+    switch @shape
+      when 'round' then $TC.RoundTable
+      when 'rect' then $TC.RectTable
+
+  change_shape: (@shape) ->
+    do @_extend
+
+  _extend: ->
+    obj = do @_get_obj
+
+    if 'change_shape' not of obj.prototype
+      obj.prototype = $.extend({}, $TC.MutableTable.prototype, obj.prototype)
+
+    this.__proto__ = obj.prototype
