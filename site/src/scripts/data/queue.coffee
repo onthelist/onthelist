@@ -1,24 +1,5 @@
-class Queue
-  constructor: ->
-    @evt = $({})
-
-    @ready = $.Deferred()
-    @initing = false
-
-  init: ->
-    if not @initing and not @ds?
-      @initing = true
-      
-      new Lawnchair 'queue', (ds) =>
-        @initing = false
-        @ds = ds
-        
-        @ready.resolve this
-
-        @ds.each (row) =>
-          @register_row row
-
-    return @ready.promise()
+class Queue extends $D._DataLoader
+  name: 'queue'
 
   add: (vals={}) ->
     '''
@@ -28,37 +9,8 @@ class Queue
     if typeof vals.add_time != 'string'
       vals.add_time = vals.add_time.toISOString()
 
-    @ds.save vals, (resp) =>
-      @register_row resp
-
-  remove: (row) ->
-    @ds.remove row, =>
-      @evt.trigger('rowRemove', row.key || row)
-
-  get: (args...) ->
-    return @ds.get(args...)
-
-  find: (filter, res) ->
-    #  Find isn't actually implemented in Lawnchair, so we fake it
-    out = []
-    @ds.all (rows) ->
-      res (row for row in rows when filter(row))
-
-  register_row: (row) ->
-    @evt.trigger('rowAdd', row)
-
-  live: (evt, func) ->
-    if @ds? and evt.indexOf 'row' == 0
-      # We call the func on all the existing rows with evt of false
-      # to allow the event to be bound after the data is initially loaded
-      @ds.each (row) ->
-        func(false, row)
-
-    @evt.bind(evt, func)
-
-  bind: (args...) ->
-    @evt.bind(args...)
-
+    super vals
+  
 $D.queue = new Queue
 $.when( $D.queue.init() ).then ->
   

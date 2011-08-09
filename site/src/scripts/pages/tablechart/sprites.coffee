@@ -12,9 +12,9 @@ window.$TC ?= {}
 
 class $TC.Sprite
   constructor: (@opts) ->
-    self = this
 
-    @parent = @opts.parent
+  init: (@parent) ->
+    self = this
 
     @canvas = document.createElement 'canvas'
     @parent.appendChild @canvas
@@ -100,11 +100,23 @@ class $TC.Sprite
 
     @w = @h = 0
 
-  refresh: ->
-    @cxt.clearRect(0, 0, @w, @h)
-    do @draw
+  package: ->
+    @opts.x = @x
+    @opts.y = @y
+    return @opts
 
-  draw: ->
+  destroy: ->
+    if @$canvas
+      do @$canvas.remove
+
+  refresh: ->
+    if @cxt and @parent
+      @cxt.clearRect(0, 0, @w, @h)
+      do @draw
+
+  draw: (parent) ->
+    if not @parent? or (parent? and @parent != parent)
+      @init parent
 
   _move: ->
     y = @y - @h / 2
@@ -132,9 +144,7 @@ class $TC.Table extends $TC.Sprite
     @y = opts.y ? 0
     @seats = @opts.seats
 
-    super(@opts)
-
-    do this._move
+    super @opts
 
   _apply_style: (name) ->
     @style = styles[name]
@@ -148,11 +158,14 @@ class $TC.Table extends $TC.Sprite
     @cxt.fillStyle = @text_style.fill_color
     @cxt.font = @text_style.font ? 'bold 1.6em sans-serif'
 
-  draw: ->
+  draw: (parent) ->
+    super parent
+
     rot = @opts.rotation ? 0
     @$canvas.css('-moz-transform', "rotate(#{rot}deg)")
     @$canvas.css('-moz-transform-origin', "middle center")
-
+    
+    do @_move
     do @_draw
 
   _draw_circle: (x, y, rad, style='empty') ->
