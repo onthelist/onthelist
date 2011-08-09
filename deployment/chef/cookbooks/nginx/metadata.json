@@ -248,7 +248,7 @@
   },
   "recipes": {
     "nginx": "Installs nginx package and sets up configuration with Debian apache style with sites-enabled/sites-available",
-    "nginx::source": "Installs nginx from source and sets up configuration with Debian apache style with sites-enabled/sites-available"
+    "nginx::default": "Installs from package."
   },
   "version": "0.99.0"
 }
