@@ -107,7 +107,8 @@ class $TC.Sprite
     @opts.x = @x
     @opts.y = @y
     @opts.seats = @seats
-    return @opts
+
+    return {opts: @opts}
 
   destroy: ->
     if @$canvas
@@ -415,29 +416,3 @@ class $TC.RectTable extends $TC.Table
     super(delta)
 
     @opts.rotation %= 180
-
-class $TC.MutableTable
-  constructor: (@opts) ->
-    @shape = @opts.shape ? 'round'
-    
-    do @_extend
-
-    obj = do @_get_obj
-    obj.call(this, @opts)
-
-
-  _get_obj: ->
-    switch @shape
-      when 'round' then $TC.RoundTable
-      when 'rect' then $TC.RectTable
-
-  change_shape: (@shape) ->
-    do @_extend
-
-  _extend: ->
-    obj = do @_get_obj
-
-    if 'change_shape' not of obj.prototype
-      obj.prototype = $.extend({}, $TC.MutableTable.prototype, obj.prototype)
-
-    this.__proto__ = obj.prototype

@@ -70,7 +70,7 @@
 }
 
 .editor {
-  label {
+  label.ui-input-text, .ui-controlgroup-label {
     color: #DDD;
   }
 }

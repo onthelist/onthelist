@@ -25,14 +25,45 @@ class $TC.Chart
     $.when( $D.charts.init() ).then =>
       $D.charts.add obj
 
-  add: (sprite) ->
+  add: (sprite, type) ->
+    if type?
+      props =
+        opts: sprite
+        type: type
+
+      sprite = @create props
+
     @sprites.push sprite
+
+    return sprite
 
   clear: ->
     for sprite in @sprites
       do sprite.destroy
 
     @sprites = []
+
+  _find: (sprite) ->
+    for s, i in @sprites
+      if s == sprite
+        return i
+
+    throw "Sprite not found"
+
+  change_type: (sprite, dest_type) ->
+    index = @_find sprite
+    
+    props = do sprite.package
+    props.type = dest_type
+
+    n_spr = @create props
+
+    do sprite.destroy
+    @sprites[index] = n_spr
+
+    do @draw
+
+    return n_spr
 
   draw: ->
     for sprite in @sprites
@@ -41,20 +72,27 @@ class $TC.Chart
   pack: ->
     out = []
     for sprite in @sprites
-      out.push
-        opts: sprite.package()
-        type: sprite.__proto__.constructor.name
+      obj = sprite.package()
+
+      if not obj.type
+        obj.type = sprite.__proto__.constructor.name
+
+      out.push obj
 
     return out
+
+  create: (entry) ->
+    # Note that sprites must be elements of $TC
+    cls = $TC[entry.type]
+    sprite = new cls(entry.opts)
+
+    return sprite
 
   unpack: (data) ->
     do @clear
 
     for entry in data
-      # Note that sprites must be elements of $TC
-      cls = $TC[entry.type]
-      sprite = new cls(entry.opts)
-
+      sprite = @create entry
       @add sprite
 
     do @draw
