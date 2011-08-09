@@ -23,7 +23,6 @@ $ ->
       type = $types.filter(':checked').attr('value') ? 'round'
 
       opts =
-        parent: tci
         seats: num
         x: x
         y: y
@@ -32,7 +31,10 @@ $ ->
         rotation: last_rotation
 
       spr = new $TC.MutableTable(opts)
-      spr.draw()
+      $TC.chart.add spr
+      do $TC.chart.save
+      do $TC.chart.draw
+
       $(spr.canvas).trigger('select')
 
       window.spr = spr
