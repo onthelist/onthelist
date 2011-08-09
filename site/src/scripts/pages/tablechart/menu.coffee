@@ -76,7 +76,7 @@ $ ->
 
         _add_handler 'size', $size, 'change', ->
           sprite.seats = this.value
-          do sprite.refresh
+          do sprite.update
 
         # Type
         $types.filter("[value=#{sprite.shape}]").attr('checked', true)
@@ -87,14 +87,14 @@ $ ->
           type = this.value
 
           sprite.change_shape(type)
-          do sprite.refresh
+          do sprite.update
 
         # Label
         $label.val(sprite.opts.label)
 
         _add_handler 'label', $label, 'change', ->
           sprite.opts.label = this.value
-          do sprite.refresh
+          do sprite.update
 
         # Rotation
         last_rotation = sprite.opts.rotation
@@ -104,7 +104,7 @@ $ ->
             when '#left' then sprite.rotate(-90)
             when '#right' then sprite.rotate(90)
 
-          do sprite.refresh
+          do sprite.update
 
           last_rotation = sprite.opts.rotation
 

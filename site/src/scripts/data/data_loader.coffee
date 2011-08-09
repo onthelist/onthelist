@@ -9,7 +9,11 @@ class $D._DataLoader
     if not @initing and not @ds?
       @initing = true
      
-      new Lawnchair @name, (ds) =>
+      opts =
+        name: @name
+        record: @name
+
+      new Lawnchair opts, (ds) =>
         @initing = false
         @ds = ds
         

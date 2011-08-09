@@ -1,8 +1,29 @@
 window.$TC ?= {}
 
 class $TC.Chart
-  constructor: (@cont) ->
+  constructor: (@cont, @opts={}) ->
     @sprites = []
+
+    if not @opts.name
+      @opts.name = 'Default Chart'
+
+    if not @opts.key
+      @opts.key = @opts.name.toLowerCase().remove(' ')
+  
+    do @load
+
+  load: ->
+    $.when( $D.charts.init() ).then =>
+      $D.charts.get @opts.key, (row) =>
+        if row
+          @unpack row.sprites
+
+  save: ->
+    obj = $.extend {}, @opts,
+      sprites: do @pack
+    
+    $.when( $D.charts.init() ).then =>
+      $D.charts.add obj
 
   add: (sprite) ->
     @sprites.push sprite
@@ -27,6 +48,8 @@ class $TC.Chart
     return out
 
   unpack: (data) ->
+    do @clear
+
     for entry in data
       # Note that sprites must be elements of $TC
       cls = $TC[entry.type]
@@ -34,3 +57,4 @@ class $TC.Chart
 
       @add sprite
 
+    do @draw

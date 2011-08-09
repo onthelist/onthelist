@@ -12,6 +12,8 @@ $ ->
   $contain = $('.tc-container', $page)
   
   $TC.chart = new $TC.Chart($tci[0])
+  $tci.bind 'spriteUpdate', ->
+    do $TC.chart.save
 
   $page.bind 'pageshow', ->
     $this = $ this

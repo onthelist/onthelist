@@ -97,17 +97,29 @@ class $TC.Sprite
         #    top: offset.top + dt
         #    left: offset.left + dl
       )
+      .bind('dragstop', (e, ui) =>
+        do @_update_evt
+      )
 
     @w = @h = 0
 
   package: ->
     @opts.x = @x
     @opts.y = @y
+    @opts.seats = @seats
     return @opts
 
   destroy: ->
     if @$canvas
       do @$canvas.remove
+
+  _update_evt: ->
+    if @parent
+      $(@parent).trigger 'spriteUpdate', [this]
+
+  update: ->
+    do @_update_evt
+    do @refresh
 
   refresh: ->
     if @cxt and @parent

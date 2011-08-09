@@ -16,7 +16,7 @@ $.when( $D.queue.init() ).then ->
   
   $D.queue.ds.each (row) ->
     # DOM adaptor doesn't seem to support find
-    if Date.get_elapsed(row.add_time) > 60 * 2
+    if row.add_time and Date.get_elapsed(row.add_time) > 60 * 2
       $D.queue.ds.remove row
 
   $D.queue.ds.all (rows) ->
