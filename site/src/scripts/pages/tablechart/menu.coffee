@@ -25,11 +25,19 @@ $ ->
 
       type = $types.filter(':checked').attr('value') ? 'RoundTable'
 
+      lbl = $label.val()
+      if parseInt(lbl) != NaN
+        lbl = (parseInt(lbl, 10) + 1)
+
+      if sprite
+        x = sprite.x + 40
+        y = sprite.y + 40
+
       opts =
         seats: num
         x: x
         y: y
-        label: $label.val()
+        label: lbl
         rotation: last_rotation
 
       spr = $TC.chart.add opts, type
@@ -65,6 +73,7 @@ $ ->
 
     do _remove_handlers
 
+    sprite = null
     $('.tablechart-inner', this)
       .live('selectableselected', (e, ui) ->
         sel = ui.selected
@@ -130,4 +139,6 @@ $ ->
         $del.button 'disable'
 
         $menu.removeClass 'open'
+
+        sprite = null
       )
