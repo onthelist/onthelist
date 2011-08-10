@@ -1,3 +1,5 @@
+@import "compass/css3/images";
+
 #tablechart {
   min-height: 0;
 
@@ -29,6 +31,7 @@
 
   canvas {
     position: absolute;
+    z-index: 3;
   }
 }
 
@@ -73,4 +76,16 @@
   label.ui-input-text, .ui-controlgroup-label {
     color: #DDD;
   }
+}
+
+.snap-guide {
+  z-index: 2;
+
+  -background-color: #999;
+  /*@include background(linear-gradient(top left, #DDD, #666, #DDD));*/
+  box-shadow: 0 0 1px #CCC;
+  
+  opacity: .7;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
 }

@@ -35,6 +35,8 @@ class $TC.Chart
 
     @sprites.push sprite
 
+    new $TC.DraggableSprite(sprite, this)
+
     return sprite
 
   clear: ->

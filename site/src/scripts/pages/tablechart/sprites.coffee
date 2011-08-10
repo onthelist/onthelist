@@ -12,6 +12,10 @@ window.$TC ?= {}
 
 class $TC.Sprite
   constructor: (@opts) ->
+    @ready = $.Deferred()
+
+  canvas_ready: ->
+    return @ready.promise()
 
   init: (@parent) ->
     @canvas = document.createElement 'canvas'
@@ -21,10 +25,10 @@ class $TC.Sprite
     @$canvas = $(@canvas)
 
     $$(@canvas).sprite = this
-
-    new $TC.DraggableSprite(@canvas, this)
     
     @w = @h = 0
+
+    @ready.resolve this
 
   package: ->
     @opts.x = @x
