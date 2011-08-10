@@ -58,6 +58,11 @@ class $TC.Sprite
     if not @parent? or (parent? and @parent != parent)
       @init parent
 
+  move: (x, y) ->
+    @y = y ? @y
+    @x = x ? @x
+    do @_move
+
   _move: ->
     y = @y - @h / 2
     x = @x - @w / 2

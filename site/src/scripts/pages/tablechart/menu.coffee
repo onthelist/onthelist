@@ -26,7 +26,7 @@ $ ->
       type = $types.filter(':checked').attr('value') ? 'RoundTable'
 
       lbl = $label.val()
-      if parseInt(lbl) != NaN
+      if parseInt(lbl, 10) != NaN
         lbl = (parseInt(lbl, 10) + 1)
 
       if sprite

@@ -86,31 +86,38 @@ class $TC.DraggableSprite
     if x_pos? or y_pos?
       x_min = x_max = c.left
       y_min = y_max = c.top
+      x_closest = y_closest = null
 
       for sprite in @chart.sprites
         if sprite == @sprite
           continue
 
-        if x_pos and Math.abs(sprite.x - x_pos) < 2
+        if x_pos and Math.abs(sprite.x - x_pos) < THRESHOLD
           if sprite.y < y_min
             y_min = sprite.y
           if sprite.y > y_max
             y_max = sprite.y
 
-        if y_pos and Math.abs(sprite.y - y_pos) < 2
+          if x_pos != sprite.x
+            sprite.move(x_pos, null)
+
+        if y_pos and Math.abs(sprite.y - y_pos) < THRESHOLD
           if sprite.x < x_min
             x_min = sprite.x
           if sprite.x > x_max
             x_max = sprite.x
 
+          if y_pos != sprite.y
+            sprite.move(null, y_pos)
+
       if x_pos
         p.left += x_pos - c.left
         _draw_line(x_pos, y_min, x_pos, y_max)
-
+      
       if y_pos
         p.top += y_pos - c.top
         _draw_line(x_min, y_pos, x_max, y_pos)
-
+        
   _correct_zoom: (ui) ->
     p = ui.position
     o = ui.originalPosition
