@@ -59,7 +59,7 @@ bash "compile_nginx_source" do
   code <<-EOH
     tar zxf nginx-#{nginx_version}.tar.gz
     cd nginx-#{nginx_version} && ./configure #{configure_flags}
-    make && make install
+    make -j4 && make install
   EOH
   creates node[:nginx][:src_binary]
 end
