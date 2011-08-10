@@ -65,11 +65,14 @@ class $TC.DraggableSprite
     @$canvas.bind 'dragstop', _clear_lines
 
     x_pos = y_pos = x_diff = y_diff = null
+    x_list = []
+    y_list = []
     for sprite in @chart.sprites
       if sprite == @sprite
         continue
 
       if sprite.x + THRESHOLD > c.left and sprite.x - THRESHOLD < c.left
+        x_list.push sprite.y - c.top
         diff = Math.abs(sprite.x - c.left)
 
         if not x_diff? or diff < x_diff
@@ -77,6 +80,7 @@ class $TC.DraggableSprite
           x_diff = diff
 
       if sprite.y + THRESHOLD > c.top and sprite.y - THRESHOLD < c.top
+        y_list.push sprite.x - c.left
         diff = Math.abs(sprite.y - c.top)
 
         if not y_diff? or diff < y_diff
@@ -110,13 +114,46 @@ class $TC.DraggableSprite
           if y_pos != sprite.y
             sprite.move(null, y_pos)
 
+      _find_closest_gap = (list) =>
+        list.sortBy Math.abs
+
+        closest = list[0]
+        second = null
+        for l in list.slice(1)
+          if (closest >= 0) == (l >= 0)
+            second = l
+            break
+
+        if not second?
+          return
+
+        return -((second - closest) - closest)
+
       if x_pos
         p.left += x_pos - c.left
         _draw_line(x_pos, y_min, x_pos, y_max)
+
+        if not y_pos
+          y_gap = _find_closest_gap x_list
+
+          if y_gap
+            _draw_line(x_pos - 8, c.top + y_gap, x_pos + 8, c.top + y_gap)
+
+           if Math.abs(y_gap) < THRESHOLD
+              p.top += y_gap
       
       if y_pos
         p.top += y_pos - c.top
         _draw_line(x_min, y_pos, x_max, y_pos)
+
+        if not x_pos
+          x_gap = _find_closest_gap y_list
+
+          if x_gap
+            _draw_line(c.left + x_gap, y_pos - 8, c.left + x_gap, y_pos + 8)
+
+            if Math.abs(x_gap) < THRESHOLD
+              p.left += x_gap
         
   _correct_zoom: (ui) ->
     p = ui.position
