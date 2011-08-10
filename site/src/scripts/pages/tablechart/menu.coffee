@@ -7,6 +7,9 @@ $ ->
     $label = $('[name=label]', $form)
     $rots = $('#table-rotation a', $form)
 
+    $del = $('[name=del-table]', $menu)
+    $del.button 'disable'
+
     last_rotation = 0
 
     $menu.bind 'vclick', (e) ->
@@ -111,11 +114,20 @@ $ ->
 
           false
 
+        # Delete
+        $del.button 'enable'
+        _add_handler 'delete', $del, 'vclick', (e) ->
+          $TC.chart.remove sprite
+
+          false
+
       )
-      .live('selectableunselected', (e, ui) ->
+      .live('selectableunselected spriteRemoved', (e, ui) ->
         do _remove_handlers
 
         $label.val ''
+
+        $del.button 'disable'
 
         $menu.removeClass 'open'
       )

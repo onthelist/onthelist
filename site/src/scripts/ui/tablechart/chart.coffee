@@ -50,6 +50,17 @@ class $TC.Chart
 
     throw "Sprite not found"
 
+  remove: (sprite) ->
+    index = @_find sprite
+
+    do sprite.destroy
+    @sprites.removeAt(index)
+
+    do @draw
+    do @save
+
+    $(@cont).trigger 'spriteRemoved', [sprite, this]
+
   change_type: (sprite, dest_type) ->
     index = @_find sprite
     
