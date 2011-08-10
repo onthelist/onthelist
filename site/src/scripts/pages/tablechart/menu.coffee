@@ -30,8 +30,8 @@ $ ->
         lbl = (parseInt(lbl, 10) + 1)
 
       if sprite
-        x = sprite.x + 40
-        y = sprite.y + 40
+        x = sprite.x + ($TC.gaps?.x ? 40)
+        y = sprite.y + ($TC.gaps?.y ? 40)
 
       opts =
         seats: num
@@ -99,7 +99,7 @@ $ ->
           type = this.value
 
           sprite = $TC.chart.change_type sprite, type
-          $(sprite.canvas).trigger('selected').addClass('ui-selected')
+          $(sprite.canvas).trigger('select')
           do sprite.update
 
         # Label

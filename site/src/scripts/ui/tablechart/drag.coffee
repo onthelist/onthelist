@@ -64,6 +64,8 @@ class $TC.DraggableSprite
 
     @$canvas.bind 'dragstop', _clear_lines
 
+    $TC.gaps = {}
+
     x_pos = y_pos = x_diff = y_diff = null
     x_list = []
     y_list = []
@@ -127,33 +129,42 @@ class $TC.DraggableSprite
         if not second?
           return
 
-        return -((second - closest) - closest)
+        gap = -(second - closest)
+        diff = -(-gap - closest)
+
+        return [gap, diff]
 
       if x_pos
         p.left += x_pos - c.left
         _draw_line(x_pos, y_min, x_pos, y_max)
 
         if not y_pos
-          y_gap = _find_closest_gap x_list
+          [y_gap, y_gap_diff] = _find_closest_gap x_list
 
           if y_gap
-            _draw_line(x_pos - 8, c.top + y_gap, x_pos + 8, c.top + y_gap)
+            $TC.gaps.y = y_gap
+            $TC.gaps.x = 0
 
-           if Math.abs(y_gap) < THRESHOLD
-              p.top += y_gap
+            _draw_line(x_pos - 8, c.top + y_gap_diff, x_pos + 8, c.top + y_gap_diff)
+
+           if Math.abs(y_gap_diff) < THRESHOLD
+              p.top += y_gap_diff
       
       if y_pos
         p.top += y_pos - c.top
         _draw_line(x_min, y_pos, x_max, y_pos)
 
         if not x_pos
-          x_gap = _find_closest_gap y_list
+          [x_gap, x_gap_diff] = _find_closest_gap y_list
 
           if x_gap
-            _draw_line(c.left + x_gap, y_pos - 8, c.left + x_gap, y_pos + 8)
+            $TC.gaps.x = x_gap
+            $TC.gaps.y = 0
 
-            if Math.abs(x_gap) < THRESHOLD
-              p.left += x_gap
+            _draw_line(c.left + x_gap_diff, y_pos - 8, c.left + x_gap_diff, y_pos + 8)
+
+            if Math.abs(x_gap_diff) < THRESHOLD
+              p.left += x_gap_diff
         
   _correct_zoom: (ui) ->
     p = ui.position
@@ -204,6 +215,9 @@ class $TC.DraggableSprite
     )
     .bind('drag', (e, ui) =>
       @_drag ui
+    )
+    .bind('dragstart', (e, ui) =>
+      @$canvas.trigger 'select'
     )
     .bind('dragstop', (e, ui) =>
       do @sprite._update_evt
