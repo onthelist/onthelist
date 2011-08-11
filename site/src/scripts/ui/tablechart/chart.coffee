@@ -1,7 +1,9 @@
 window.$TC ?= {}
 
-class $TC.Chart
+class $TC.Chart extends $U.Evented
   constructor: (@cont, @opts={}) ->
+    super
+
     @sprites = []
 
     if not @opts.name
@@ -36,13 +38,17 @@ class $TC.Chart
     @sprites.push sprite
 
     new $TC.DraggableSprite(sprite, this)
-
-    $(@cont).trigger('add', [sprite])
+    
+    @trigger('add', [sprite])
 
     return sprite
 
-  bind: (args...) ->
-    $(@cont).bind(args...)
+  live: (evt, func) ->
+    if evt == 'add'
+      for sprite in @sprites
+        func(false, sprite)
+
+    @bind(evt, func)
 
   clear: ->
     for sprite in @sprites
@@ -66,7 +72,7 @@ class $TC.Chart
     do @draw
     do @save
 
-    $(@cont).trigger 'spriteRemoved', [sprite, this]
+    @trigger 'remove', [sprite, this]
 
   change_type: (sprite, dest_type) ->
     index = @_find sprite

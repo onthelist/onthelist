@@ -8,6 +8,7 @@ class $TC.DraggableSprite
     @register_modifier @_correct_zoom
     @register_modifier @_shift_scroll
     @register_modifier @_snap
+    @register_modifier @_include_selected
 
   register_modifier: (func) ->
     @modifiers.push func
@@ -15,6 +16,22 @@ class $TC.DraggableSprite
   _drag: (ui) ->
     for m in @modifiers
       m.call(this, ui, @sprite.canvas)
+
+  _include_selected: (ui) ->
+    c = @$canvas.position()
+    p = ui.position
+    
+    sel = $('.ui-selected', @chart.cont)
+
+    for elem in sel
+      if elem != @sprite.canvas
+        top = parseInt(elem.style.top)
+        left = parseInt(elem.style.left)
+
+        top_delta = top - c.top
+        left_delta = left - c.left
+
+        $$(elem).sprite.move(p.left + left_delta, p.top + top_delta, true)
 
   _get_center: (ui) ->
     p = ui.position
@@ -217,7 +234,8 @@ class $TC.DraggableSprite
       @_drag ui
     )
     .bind('dragstart', (e, ui) =>
-      @$canvas.trigger 'select'
+      if not @$canvas.hasClass 'ui-selected'
+        @$canvas.trigger 'select'
     )
     .bind('dragstop', (e, ui) =>
       do @sprite._update_evt
