@@ -88,6 +88,8 @@ $ ->
 
     $('.tablechart-inner', this)
       .live('selectableselected', (e, ui) ->
+        init_sel = not sprites?
+
         $canvases = $('.ui-selected', this)
         sprites = ($$(s).sprite for s in $canvases)
 
@@ -103,7 +105,8 @@ $ ->
         setTimeout(-> $menu.addClass 'open', 0)
 
         # Size
-        $size.trigger('forceVal', [sprites[0].seats])
+        if init_sel
+          $size.trigger('forceVal', [sprites[0].seats])
 
         _add_handler 'size', $size, 'change', ->
           for sprite in sprites
@@ -111,9 +114,10 @@ $ ->
             do sprite.update
 
         # Type
-        $types.attr('checked', false)
-        $types.filter("[value=#{sprites[0].__proto__.constructor.name}]").attr('checked', true)
-        $types.checkboxradio('refresh')
+        if init_sel
+          $types.attr('checked', false)
+          $types.filter("[value=#{sprites[0].__proto__.constructor.name}]").attr('checked', true)
+          $types.checkboxradio('refresh')
 
         _add_handler 'types', $types, 'change', ->
           type = this.value
@@ -124,7 +128,8 @@ $ ->
             do sprite.update
 
         # Label
-        $label.val(sprites[0].opts.label)
+        if init_sel
+          $label.val(sprites[0].opts.label)
 
         _add_handler 'label', $label, 'keyup', ->
           for sprite in sprites
