@@ -62,6 +62,8 @@ $ ->
         $del.button 'disable'
 
         $menu.removeClass 'open'
+        $menu.removeClass 'docked-right'
+        $menu.addClass 'docked-left'
 
         sprites = null
 
@@ -92,7 +94,14 @@ $ ->
 
         do _remove_handlers
 
-        $menu.addClass 'open'
+        if $(sprites[0].canvas).position().left < $menu.width()
+          # The menu would cover the sprite
+          $menu.removeClass 'docked-left'
+          $menu.addClass 'docked-right'
+       
+        # We need to give the css time to add the right slide transition
+        # (only necessary when the menu has been moved to the right side).
+        setTimeout(-> $menu.addClass 'open', 0)
 
         # Size
         $size.trigger('forceVal', [sprites[0].seats])

@@ -50,13 +50,12 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
-.docked-right {
+.docked-right, .docked-left {
   width: 335px;
   height: 90%;
-  padding: 5px 20px 5px 5px;
+  padding: 5px 5px 5px 5px;
   
   position: absolute;
-  left: -340px;
   top: 5%;
 
   background-color: rgba(0, 0, 0, .8);
@@ -64,17 +63,36 @@
 
   text-shadow: 0 0 0;
   
-  -webkit-transition: left 0.3s ease-in;
-  -moz-transition: left 0.3s ease-in;
-
-  border-radius: 0 10px 10px 0;
-
   a {
     display: block;
   }
 
-  &:hover, &.open, &.manual-open {
-    left: 0;
+
+  &.docked-left {
+    padding-right: 20px;
+    left: -340px;
+
+    -webkit-transition: left 0.3s ease-in;
+    -moz-transition: left 0.3s ease-in;
+
+    border-radius: 0 10px 10px 0;
+  
+    &:hover, &.open, &.manual-open {
+      left: 0;
+    }
+  }
+  &.docked-right {
+    padding-left: 20px;
+    right: -340px;
+
+    -webkit-transition: right 0.3s ease-in;
+    -moz-transition: right 0.3s ease-in;
+
+    border-radius: 10px 0 0 10px;
+
+    &:hover, &.open, &.manual-open {
+      right: 0;
+    }
   }
 }
 
