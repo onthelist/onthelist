@@ -9,6 +9,7 @@ class $TC.DraggableSprite
     @register_modifier @_shift_scroll
     @register_modifier @_snap
     @register_modifier @_include_selected
+    @register_modifier @_move_menu
 
   register_modifier: (func) ->
     @modifiers.push func
@@ -16,6 +17,18 @@ class $TC.DraggableSprite
   _drag: (ui) ->
     for m in @modifiers
       m.call(this, ui, @sprite.canvas)
+
+  _move_menu: (ui) ->
+    $menu = $ '#tablechart .editor'
+    p = ui.position
+
+    if $menu.hasClass('docked-left') and p.left < $menu.width()
+      $menu.removeClass 'docked-left'
+      $menu.addClass 'docked-right'
+
+    else if $menu.hasClass('docked-right') and p.left > ($(document).width() - $menu.width())
+      $menu.removeClass 'docked-right'
+      $menu.addClass 'docked-left'
 
   _include_selected: (ui) ->
     c = @$canvas.position()
