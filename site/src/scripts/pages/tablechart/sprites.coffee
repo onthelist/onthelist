@@ -10,8 +10,10 @@ styles =
 
 window.$TC ?= {}
 
-class $TC.Sprite
+class $TC.Sprite extends $U.Evented
   constructor: (@opts) ->
+    super
+
     @ready = $.Deferred()
 
   canvas_ready: ->

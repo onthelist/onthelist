@@ -43,7 +43,6 @@ $ ->
       spr = $TC.chart.add opts, type
       do $TC.chart.save
       do $TC.chart.draw
-
       $(spr.canvas).trigger('select')
 
       window.spr = spr

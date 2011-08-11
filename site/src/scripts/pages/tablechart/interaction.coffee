@@ -16,11 +16,13 @@ $ ->
       do _disable
 
       $TC.chart.live 'add', (e, sprite) ->
-        $(sprite.canvas).bind 'select vclick', (e) ->
-          do _enable
-          sel._mouseStart e
-          sel._mouseStop e
-          do _disable
+        $.when( sprite.canvas_ready() ).then ->
+
+          $(sprite.canvas).bind 'select vclick', (e) ->
+            do _enable
+            sel._mouseStart e
+            sel._mouseStop e
+            do _disable
         
       $CTRL_KEYS.bind 'ctrldown', ->
         do _enable
