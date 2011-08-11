@@ -37,7 +37,12 @@ class $TC.Chart
 
     new $TC.DraggableSprite(sprite, this)
 
+    $(@cont).trigger('add', [sprite])
+
     return sprite
+
+  bind: (args...) ->
+    $(@cont).bind(args...)
 
   clear: ->
     for sprite in @sprites
