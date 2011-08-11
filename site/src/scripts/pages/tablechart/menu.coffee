@@ -29,9 +29,9 @@ $ ->
       if parseInt(lbl, 10) != NaN
         lbl = (parseInt(lbl, 10) + 1)
 
-      if sprite
-        x = sprite.x + ($TC.gaps?.x ? 40)
-        y = sprite.y + ($TC.gaps?.y ? 40)
+      if sprites and sprites[0]
+        x = sprites[0].x + ($TC.gaps?.x ? 40)
+        y = sprites[0].y + ($TC.gaps?.y ? 40)
 
       opts =
         seats: num
@@ -52,6 +52,18 @@ $ ->
       $label.caret 0, 10
 
       false
+    
+    sprites = null
+    _clear_selection = ->
+        do _remove_handlers
+
+        $label.val ''
+
+        $del.button 'disable'
+
+        $menu.removeClass 'open'
+
+        sprites = null
 
     _handlers = {}
 
@@ -73,72 +85,68 @@ $ ->
 
     do _remove_handlers
 
-    sprite = null
     $('.tablechart-inner', this)
       .live('selectableselected', (e, ui) ->
-        sel = ui.selected
-        sprite = $$(sel).sprite
+        $canvases = $('.ui-selected', this)
+        sprites = ($$(s).sprite for s in $canvases)
 
         do _remove_handlers
 
         $menu.addClass 'open'
 
         # Size
-        $size.trigger('forceVal', [sprite.seats])
+        $size.trigger('forceVal', [sprites[0].seats])
 
         _add_handler 'size', $size, 'change', ->
-          sprite.seats = this.value
-          do sprite.update
+          for sprite in sprites
+            sprite.seats = this.value
+            do sprite.update
 
         # Type
         $types.attr('checked', false)
-        $types.filter("[value=#{sprite.__proto__.constructor.name}]").attr('checked', true)
+        $types.filter("[value=#{sprites[0].__proto__.constructor.name}]").attr('checked', true)
         $types.checkboxradio('refresh')
 
         _add_handler 'types', $types, 'change', ->
           type = this.value
 
-          sprite = $TC.chart.change_type sprite, type
-          $(sprite.canvas).trigger('select')
-          do sprite.update
+          for sprite, i in sprites
+            sprites[i] = sprite = $TC.chart.change_type sprite, type
+            $(sprite.canvas).addClass 'ui-selected'
+            do sprite.update
 
         # Label
-        $label.val(sprite.opts.label)
+        $label.val(sprites[0].opts.label)
 
         _add_handler 'label', $label, 'keyup', ->
-          sprite.opts.label = this.value
-          do sprite.update
+          for sprite in sprites
+            sprite.opts.label = this.value
+            do sprite.update
 
         # Rotation
-        last_rotation = sprite.opts.rotation
+        last_rotation = sprites[0].opts.rotation
 
         _add_handler 'rotation', $rots, 'vclick', (e) ->
-          switch e.currentTarget.hash
-            when '#left' then sprite.rotate(-90)
-            when '#right' then sprite.rotate(90)
+          for sprite in sprites
+            switch e.currentTarget.hash
+              when '#left' then sprite.rotate(-90)
+              when '#right' then sprite.rotate(90)
 
-          do sprite.update
+            do sprite.update
 
-          last_rotation = sprite.opts.rotation
+          last_rotation = sprites[0].opts.rotation
 
           false
 
         # Delete
         $del.button 'enable'
         _add_handler 'delete', $del, 'vclick', (e) ->
-          $TC.chart.remove sprite
+          for sprite in sprites
+            $TC.chart.remove sprite
 
           false
 
       )
-      .live('selectableunselected spriteRemoved', (e, ui) ->
-        do _remove_handlers
+      .live('selectableunselected', _clear_selection)
 
-        $label.val ''
-
-        $del.button 'disable'
-
-        $menu.removeClass 'open'
-
-        sprite = null
-      )
+    $TC.chart.bind 'remove', _clear_selection

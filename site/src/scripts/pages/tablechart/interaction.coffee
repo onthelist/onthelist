@@ -31,4 +31,4 @@ $ ->
       $tci.bind 'vmousedown', (e) ->
         # vclick/click are blocked by the JUI widgets used for selection / dragging
         if e.target == $tci[0]
-          $tci.find('.ui-selected').removeClass('ui-selected')
+          $tci.find('.ui-selected').removeClass('ui-selected').trigger('selectableunselected')
