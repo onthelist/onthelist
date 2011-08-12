@@ -78,6 +78,10 @@ $ ->
           $TC.scroller.refresh()
           $TC.scroller.zoom(0, 0, fact, 0)
 
+          if center
+            # If we are centering, we have to remove any previous scrolling.
+		        $TC.scroller._resetPos(0)
+
           # End will force iscroll to update the positioning
           $TC.scroller._end({})
         , 0)
