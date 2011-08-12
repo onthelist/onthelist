@@ -38,7 +38,7 @@ $ ->
       #     tablechart-inner
       #       - set to 1280 x 720
       
-      [width, height] = $UI.get_page_space $this
+      [width, height] = $UI.get_page_space $page
 
       # All the chart coords are based on 1280 x 720
       x_fact = width / BASE_WIDTH
@@ -72,7 +72,7 @@ $ ->
       $tc.height BASE_HEIGHT + 'px'
       $tc.width BASE_WIDTH + 'px'
       
-      if $TC.scroller
+      if $TC.scroller?
         setTimeout(->
           # iScroll docs recommend using setTimeout 
           $TC.scroller.refresh()
@@ -92,7 +92,7 @@ $ ->
     $win.bind 'beforepageshow', ->
       $win.unbind 'resize', update_size
 
-    if not $TC.scroller
+    if not $TC.scroller?
       opts =
         lockDirection: false
         hScrollbar: true

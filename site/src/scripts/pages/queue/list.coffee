@@ -49,7 +49,7 @@ $ ->
       do list.add_dynamics
 
     q_elem.bind 'heightChange', ->
-      $.fixedToolbars.show()
+      $.fixedToolbars.show(true)
 
     $('#queue').bind 'optionChange', (e, name, val) ->
       switch name

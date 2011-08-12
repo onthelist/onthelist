@@ -37,9 +37,9 @@ class $TC.Chart extends $U.Evented
 
     @sprites.push sprite
 
-    new $TC.DraggableSprite(sprite, this)
+    $TC.draggable_sprite(sprite, this)
     
-    @trigger('add', [sprite])
+    @trigger 'add', [sprite]
 
     return sprite
 

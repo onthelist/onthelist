@@ -87,7 +87,7 @@ $ ->
     do _remove_handlers
 
     $('.tablechart-inner', this)
-      .live('selectableselected', (e, ui) ->
+      .bind('selectableselected', (e, ui) ->
         init_sel = not sprites?
 
         $canvases = $('.ui-selected', this)
@@ -160,6 +160,6 @@ $ ->
           false
 
       )
-      .live('selectableunselected', _clear_selection)
+      .bind('selectableunselected', _clear_selection)
 
     $TC.chart.bind 'remove', _clear_selection
