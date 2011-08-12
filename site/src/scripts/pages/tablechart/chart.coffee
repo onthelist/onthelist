@@ -103,3 +103,10 @@ $ ->
       $TC.scroller = new iScroll $contain[0], opts
 
       do update_size
+
+      $CTRL_KEYS.bind 'ctrldown', ->
+        $TC.scroller.enabled = false
+
+      $CTRL_KEYS.bind 'ctrlup', ->
+        $TC.scroller.enabled = true
+

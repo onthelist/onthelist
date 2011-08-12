@@ -4,8 +4,9 @@ $ ->
     $tci = $(chart.cont)
 
     if not $tci.hasClass('ui-selectable')
-      $tci.selectable()
-      chart.selection = sel = $tci.data().selectable
+      $tci.scaled_selectable()
+      
+      chart.selection = sel = $tci.data().scaled_selectable
 
       _enable = ->
         sel.options.disabled = false

@@ -244,16 +244,13 @@ class DraggableSprite
       true
     )
     .bind('drag', (e, ui) =>
-      $.log 'drag'
       @_drag ui
     )
     .bind('dragstart', (e, ui) =>
-      $.log 'dragstart'
       if not @$canvas.hasClass 'ui-selected'
         @$canvas.trigger 'select'
     )
     .bind('dragstop', (e, ui) =>
-      $.log 'stop'
       do @sprite._update_evt
     )
 

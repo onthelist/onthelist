@@ -14,3 +14,12 @@ window.$UI.get_page_space = ($page) ->
 
   return [width, height]
 
+window.$UI.get_content_margin = ($page) ->
+  $page ?= $ '.ui-page-active'
+
+  $content = $page.children(".ui-content")
+  hh = $page.children(".ui-header").outerHeight() ? 0
+  pt = parseFloat($content.css("padding-top"))
+
+  return hh + pt
+  
