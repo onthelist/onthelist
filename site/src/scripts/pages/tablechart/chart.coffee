@@ -60,9 +60,9 @@ $ ->
         # If the screen is large enough to show the chart at, at least, 50%
         # scale, we scale it to the larger dimention and center the other.
         if min_fact == y_fact
-          $tci.css('left', (width - fact * BASE_WIDTH) / 2.0 + 'px')
+          $tci.css('left', ((width - fact * BASE_WIDTH) / 2.0) * 1/fact + 'px')
         else
-          $tci.css('top', (height - fact * BASE_HEIGHT) / 2.0 + 'px')
+          $tci.css('top', ((height - fact * BASE_HEIGHT) / 2.0) * 1/fact + 'px')
 
       
       # The scaling will shrink the chart, but not the space allocated
@@ -80,7 +80,7 @@ $ ->
 
           if center
             # If we are centering, we have to remove any previous scrolling.
-		        $TC.scroller._resetPos(0)
+            $TC.scroller._resetPos(0)
 
           # End will force iscroll to update the positioning
           $TC.scroller._end({})
