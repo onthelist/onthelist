@@ -1,4 +1,4 @@
-class $TC.DraggableSprite
+class DraggableSprite
   constructor: (@sprite, @chart) ->
     @modifiers = []
 
@@ -253,3 +253,6 @@ class $TC.DraggableSprite
     .bind('dragstop', (e, ui) =>
       do @sprite._update_evt
     )
+
+$TC.draggable_sprite = (elem, cont) ->
+  $$(elem).draggable_sprite = new DraggableSprite(elem, cont)
