@@ -1,12 +1,38 @@
 styles =
-  empty:
-    fill_color: '#F9F9F9'
-    line_color: '#555'
+  default:
+    fill:
+      color: '#F9F9F9'
+    line:
+      color: '#555'
+      width: 2
     label:
-      fill_color: '#777'
+      color: '#777'
+    shadow:
+      x_offset: 0
+      y_offset: 0
+      blur: 0
+      color: 'white'
+  empty: {}
+  selected:
+    shadow:
+      blur: 10
+      color: 'rgba(250, 250, 0, 1)'
+  aligned:
+    shadow:
+      blur: 10
+      color: '#85BAE4'
   seat:
-    fill_color: '#DDD'
-    line_color: '#555'
+    fill:
+      color: '#DDD'
+    line:
+      color: '#555'
+
+for own name, style of styles
+  if name != 'default'
+    styles[name] = $.extend(true, {}, styles['default'], styles[name])
+
+get_style = (name) ->
+  return styles[name]
 
 window.$TC ?= {}
 
@@ -31,6 +57,21 @@ class $TC.Sprite extends $U.Evented
     @w = @h = 0
 
     @ready.resolve this
+
+    @style_name = 'default'
+
+  set_style: (name) ->
+    @style_stack ?= []
+    @style_stack.push(name)
+
+    @style_name = name
+    do @refresh
+
+  remove_style: ->
+    @style_stack.pop()
+
+    @style_name = @style_stack[@style_stack.length - 1]
+    do @refresh
 
   package: ->
     @opts.x = @x
@@ -98,15 +139,22 @@ class $TC.Table extends $TC.Sprite
     super @opts
 
   _apply_style: (name) ->
-    @style = styles[name]
+    @style = get_style(name)
 
-    @cxt.fillStyle = @style.fill_color
-    @cxt.strokeStyle = @style.line_color
+    @cxt.fillStyle = @style.fill.color
+    @cxt.strokeStyle = @style.line.color
+    @cxt.strokeWidth = @style.line.width
 
+    if @style.shadow?
+      @cxt.shadowOffsetX = @style.shadow.x_offset
+      @cxt.shadowOffsetY = @style.shadow.y_offset
+      @cxt.shadowBlur = @style.shadow.blur
+      @cxt.shadowColor = @style.shadow.color
+  
   _apply_text_style: (name, elem) ->
-    @text_style = styles[name][elem]
+    @text_style = get_style(name)[elem]
 
-    @cxt.fillStyle = @text_style.fill_color
+    @cxt.fillStyle = @text_style.color
     @cxt.font = @text_style.font ? 'bold 1.6em sans-serif'
 
   draw: (parent) ->
@@ -230,7 +278,7 @@ class $TC.Table extends $TC.Sprite
 
     @cxt.fillText(text, left, top, w)
 
-  draw_label: (margin=[0,0,0,0], style='empty', scale_bbox=true) ->
+  draw_label: (margin=[0,0,0,0], style='default', scale_bbox=true) ->
     label = @opts.label
     if not label?
       return
@@ -239,6 +287,7 @@ class $TC.Table extends $TC.Sprite
       label = label.toString()
 
     do @cxt.save
+    @_apply_style 'default'
     @_apply_text_style style, 'label'
 
     width = @w - margin[1] - margin[3]
@@ -281,11 +330,11 @@ class $TC.RoundTable extends $TC.Table
 
       this._draw_seat x, y, ang
 
-    this._draw_circle center, center, rad
+    this._draw_circle center, center, rad, @style_name
 
     square = @w / 2 - rad / Math.sqrt(2)
 
-    @draw_label([square, square, square, square], 'empty', false)
+    @draw_label([square, square, square, square], @style_name, false)
 
   rotate: ->
 
@@ -318,10 +367,9 @@ class $TC.RectTable extends $TC.Table
     if @seats <= 1
       # Single tables are smaller
       this._draw_seat (width / 2), height, Math.PI / 2
-      this._draw_rect 0, 0, width, height
+      this._draw_rect 0, 0, width, height, @style_name
 
     else
-
       seats_left = @seats
       x = @seat_depth
       y = @seat_spacing + @seat_width / 2
@@ -340,7 +388,7 @@ class $TC.RectTable extends $TC.Table
         # Put the extra seat at the head of the table
         this._draw_seat (@seat_depth + width / 2), height, Math.PI / 2
 
-      this._draw_rect @seat_depth, 0, width, height
+      this._draw_rect @seat_depth, 0, width, height, @style_name
 
     margin = [0, 0, 0, 0]
     if @seats & 1
@@ -348,7 +396,7 @@ class $TC.RectTable extends $TC.Table
     if @seats > 1
       margin[1] = margin[3] = @seat_depth
 
-    @draw_label(margin)
+    @draw_label(margin, @style_name)
 
   rotate: (delta) ->
     super(delta)

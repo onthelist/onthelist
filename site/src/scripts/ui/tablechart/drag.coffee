@@ -90,7 +90,15 @@ class DraggableSprite
 
       @_snap_lines = []
 
+      if @_snap_matched?
+        for sprite in @_snap_matched
+          do sprite.remove_style
+
+        @_snap_matched = []
+
     do _clear_lines
+    
+    @_snap_matched = []
 
     @$canvas.bind 'dragstop', _clear_lines
 
@@ -111,13 +119,27 @@ class DraggableSprite
           x_pos = sprite.x
           x_diff = diff
 
-      if sprite.y + THRESHOLD > c.top and sprite.y - THRESHOLD < c.top
+      else if sprite.y + THRESHOLD > c.top and sprite.y - THRESHOLD < c.top
         y_list.push sprite.x - c.left
         diff = Math.abs(sprite.y - c.top)
 
         if not y_diff? or diff < y_diff
           y_pos = sprite.y
           y_diff = diff
+
+      else
+        # Don't add the aligned style to sprites which didn't match either
+        # criteria.
+        continue
+
+      @_snap_matched.push sprite
+
+    if not @_snap_matched.length
+      return
+    
+    @_snap_matched.push @sprite
+    for sprite in @_snap_matched
+      sprite.set_style 'aligned'
 
     if x_pos? or y_pos?
       x_min = x_max = c.left

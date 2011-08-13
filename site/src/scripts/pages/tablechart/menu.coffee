@@ -64,6 +64,9 @@ $ ->
         $menu.removeClass 'docked-right'
         $menu.addClass 'docked-left'
 
+        for sprite in sprites
+          sprite.set_style 'default'
+        
         sprites = null
 
     _handlers = {}
@@ -92,6 +95,9 @@ $ ->
 
         $canvases = $('.ui-selected', this)
         sprites = ($$(s).sprite for s in $canvases)
+
+        for sprite in sprites
+          sprite.set_style 'selected'
 
         do _remove_handlers
 

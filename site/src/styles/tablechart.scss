@@ -38,7 +38,7 @@
 .ui-selectee {
 }
 .ui-selected {
-  background: #fcaf3e;
+  -background: #fcaf3e;
 }
 .ui-selecting {
   background: #8ae234;
@@ -105,8 +105,6 @@
 .snap-guide {
   z-index: 2;
 
-  -background-color: #999;
-  /*@include background(linear-gradient(top left, #DDD, #666, #DDD));*/
   box-shadow: 0 0 1px #CCC;
   
   opacity: .7;
