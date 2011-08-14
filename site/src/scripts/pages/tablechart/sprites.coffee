@@ -14,10 +14,14 @@ styles =
       color: 'white'
   empty: {}
   selected:
+    line:
+      color: 'gold'
     shadow:
       blur: 10
       color: 'rgba(250, 250, 0, 1)'
   aligned:
+    line:
+      color: '#5393C5'
     shadow:
       blur: 10
       color: '#85BAE4'
@@ -58,20 +62,22 @@ class $TC.Sprite extends $U.Evented
 
     @ready.resolve this
 
-    @style_name = 'default'
+    @style_stack = ['default']
+
+    @__defineGetter__ 'style_name', =>
+      return @style_stack[@style_stack.length - 1]
 
   push_style: (name) ->
-    @style_stack ?= []
-    @style_stack.push(name)
+    if @style_name != name
+      @style_stack.push(name)
 
-    @style_name = name
-    do @refresh
+      do @refresh
 
   pop_style: ->
-    @style_stack.pop()
+    if @style_stack.length > 1
+      @style_stack.pop()
 
-    @style_name = @style_stack[@style_stack.length - 1]
-    do @refresh
+      do @refresh
 
   package: ->
     @opts.x = @x

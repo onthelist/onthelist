@@ -63,7 +63,7 @@ $ ->
         $menu.removeClass 'open'
         $menu.removeClass 'docked-right'
         $menu.addClass 'docked-left'
-
+  
         if sprites?
           for sprite in sprites
             do sprite.pop_style
