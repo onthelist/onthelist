@@ -60,14 +60,14 @@ class $TC.Sprite extends $U.Evented
 
     @style_name = 'default'
 
-  set_style: (name) ->
+  push_style: (name) ->
     @style_stack ?= []
     @style_stack.push(name)
 
     @style_name = name
     do @refresh
 
-  remove_style: ->
+  pop_style: ->
     @style_stack.pop()
 
     @style_name = @style_stack[@style_stack.length - 1]

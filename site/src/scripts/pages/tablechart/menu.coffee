@@ -64,8 +64,9 @@ $ ->
         $menu.removeClass 'docked-right'
         $menu.addClass 'docked-left'
 
-        for sprite in sprites
-          sprite.set_style 'default'
+        if sprites?
+          for sprite in sprites
+            do sprite.pop_style
         
         sprites = null
 
@@ -97,7 +98,7 @@ $ ->
         sprites = ($$(s).sprite for s in $canvases)
 
         for sprite in sprites
-          sprite.set_style 'selected'
+          sprite.push_style 'selected'
 
         do _remove_handlers
 

@@ -18,6 +18,16 @@ class DraggableSprite
     for m in @modifiers
       m.call(this, ui, @sprite.canvas)
 
+  _start: (ui) ->
+    for name, prop of this
+      if name.startsWith('_start_')
+        prop.call(this, ui)
+
+  _stop: (ui) ->
+    for name, prop of this
+      if name.startsWith('_stop_')
+        prop.call(this, ui)
+
   _move_menu: (ui) ->
     $menu = $ '#tablechart .editor'
     p = ui.position
@@ -30,21 +40,29 @@ class DraggableSprite
       $menu.removeClass 'docked-right'
       $menu.addClass 'docked-left'
 
-  _include_selected: (ui) ->
+  _start_include_selected: ->
     c = @$canvas.position()
-    p = ui.position
     
     sel = $('.ui-selected', @chart.cont)
 
+    @_include_selected_selection = []
+
     for elem in sel
       if elem != @sprite.canvas
-        top = parseInt(elem.style.top)
-        left = parseInt(elem.style.left)
+        @_include_selected_selection.push
+          sprite: $$(elem).sprite
+          delta:
+            left: parseFloat(elem.style.left) - c.left
+            top: parseFloat(elem.style.top) - c.top
 
-        top_delta = top - c.top
-        left_delta = left - c.left
+  _stop_include_selected: ->
+    @_include_selected_selection = []
 
-        $$(elem).sprite.move(p.left + left_delta, p.top + top_delta, true)
+  _include_selected: (ui) ->
+    p = ui.position
+   
+    for rec in @_include_selected_selection
+      rec.sprite.move(p.left + rec.delta.left, p.top + rec.delta.top, true)
 
   _get_center: (ui) ->
     p = ui.position
@@ -92,7 +110,7 @@ class DraggableSprite
 
       if @_snap_matched?
         for sprite in @_snap_matched
-          do sprite.remove_style
+          do sprite.pop_style
 
         @_snap_matched = []
 
@@ -139,7 +157,7 @@ class DraggableSprite
     
     @_snap_matched.push @sprite
     for sprite in @_snap_matched
-      sprite.set_style 'aligned'
+      sprite.push_style 'aligned'
 
     if x_pos? or y_pos?
       x_min = x_max = c.left
@@ -271,9 +289,13 @@ class DraggableSprite
     .bind('dragstart', (e, ui) =>
       if not @$canvas.hasClass 'ui-selected'
         @$canvas.trigger 'select'
+
+      @_start ui
     )
     .bind('dragstop', (e, ui) =>
       do @sprite._update_evt
+
+      @_stop ui
     )
 
 $TC.draggable_sprite = (elem, cont) ->
