@@ -2,9 +2,6 @@ class Queue extends $D._DataLoader
   name: 'queue'
 
   add: (vals={}) ->
-    '''
-    Passed values: name, size, add_time, ...
-    '''
     vals.add_time ?= new Date
     if typeof vals.add_time != 'string'
       vals.add_time = vals.add_time.toISOString()

@@ -5,8 +5,18 @@ $ ->
         el.setAttribute('data-default', el.value)
 
   $('#add-party').bind 'pageshow', ->
-    $('.ui-input-text', this).each (i, el) ->
-      el.value = (el.getAttribute('data-default') ? '')
+    page = this
+    $pages = $('.ui-page').not(this)
+
+    # When another page is shown (this page has been hidden), clear
+    # the fields.  Doing it on close, rather than open, prevents
+    # conflicts with the editing data being loaded.
+    _clear = ->
+      $('.ui-input-text', page).each (i, el) ->
+        el.value = (el.getAttribute('data-default') ? '')
+
+      $pages.unbind 'pageshow', _clear
+    $pages.bind 'pageshow', _clear
 
     $('.ui-input-text', this).first().focus()
 
@@ -19,7 +29,11 @@ $ ->
 
       vals[$elem.attr('name')] = $elem.val()
 
-    $D.queue.add(vals)
+    key = $$('#queue-list').selected_key
+    if key
+      vals.key = key
+
+    $D.queue.save(vals)
 
     dia.dialog 'close'
 

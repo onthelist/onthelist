@@ -32,7 +32,7 @@ $ ->
 
     $phone = $('[name=phone]')
     activate_phone_opts.call $phone[0]
-    $phone.bind 'keyup change', activate_phone_opts
+    $phone.bind 'keyup change refresh', activate_phone_opts
 
 
     # Show extra alert method fields

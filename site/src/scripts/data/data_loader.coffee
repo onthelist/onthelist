@@ -32,6 +32,13 @@ class $D._DataLoader extends $U.Evented
     @ds.save vals, (resp) =>
       @register_row resp
 
+  save: (vals) ->
+    @get vals.key, (data) =>
+      if data
+        @remove vals
+
+      @add vals
+
   get: (args...) ->
     return @ds.get(args...)
 
