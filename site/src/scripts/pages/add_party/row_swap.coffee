@@ -1,7 +1,7 @@
 $ ->
   $('#add-party').bind 'pagecreate', ->
     $name = $('[name=name]', this)
-    $phone = $('[name=phone_number]', this)
+    $phone = $('[name=phone]', this)
 
     phone_first = true
     swap = ->

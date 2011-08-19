@@ -30,7 +30,7 @@ $ ->
       $sms_radio.checkboxradio 'refresh'
       $call_radio.checkboxradio 'refresh'
 
-    $phone = $('[name=phone_number]')
+    $phone = $('[name=phone]')
     activate_phone_opts.call $phone[0]
     $phone.bind 'keyup change', activate_phone_opts
 

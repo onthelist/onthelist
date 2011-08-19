@@ -48,6 +48,8 @@ $ ->
     $('#queue').bind 'pageshow', ->
       do list.add_dynamics
 
+      $$(q_elem).selected_key = undefined
+
     q_elem.bind 'heightChange', ->
       $.fixedToolbars.show(true)
 
