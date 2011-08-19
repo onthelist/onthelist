@@ -1,10 +1,10 @@
 express = require('express')
 
-db = require('../utils/lib/db')
-errors = require('../utils/lib/errors')
+#db = require('../utils/lib/db')
+#errors = require('../utils/lib/errors')
 
-auth_routes = require('../auth/lib/routes')
-authenticator = require('../auth/lib/middleware')
+#auth_routes = require('../auth/lib/routes')
+#authenticator = require('../auth/lib/middleware')
 
 messaging = require('../messaging/lib/auto')
 
@@ -21,14 +21,14 @@ app.configure ->
   app.use(express.methodOverride())
   app.use(express.cookieParser())
   
-  app.use(authenticator())
+  #app.use(authenticator())
   
   app.use(app.router)
   app.use(express.static(__dirname + '/public'))
 
 
-app.configure 'development', ->
-  db.use_test_dbs()
+#app.configure 'development', ->
+#  db.use_test_dbs()
 #  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }))
 
 app.configure 'production', ->
@@ -42,13 +42,13 @@ app.error (err, req, res, next) ->
 
 # Routes
 
-auth_routes.add_admin(app)
-auth_routes.add_auth(app)
+#auth_routes.add_admin(app)
+#auth_routes.add_auth(app)
   
 sms = new messaging.SMS()
 
 app.post '/send/sms', (req, res) ->
-  req.auth.require 'send-sms'
+  #req.auth.require 'send-sms'
 
   to = req.body.to
   body = req.body.body
