@@ -60,5 +60,22 @@ app.post '/send/sms', (req, res) ->
     res.send('ok': true)
   )
 
+phone = new messaging.Phone()
+
+app.post '/send/phone', (req, res) ->
+
+  to = req.body.to
+  body = req.body.body
+
+  if not to or not body
+    throw new errors.Client "'to' and 'body' params are required."
+
+  phone.call '2482425222', to, (convo) ->
+    convo.on 'answered', (params, resp) ->
+      resp.say body
+      do resp.send
+
+      res.send('ok': true)
+
 app.listen(5857)
 console.log("Express server listening on port %d", app.address().port)

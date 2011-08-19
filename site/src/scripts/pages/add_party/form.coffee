@@ -23,11 +23,16 @@ $ ->
   $('#add-party a[href=#add]').bind 'vclick', (e) ->
     dia = $ '#add-party'
 
-    vals = {}
+    vals = $$(dia).data ? {}
     $('#add-party input').each (i, elem) ->
       $elem = $ elem
 
-      vals[$elem.attr('name')] = $elem.val()
+      if $elem.filter('[type=checkbox], [type=radio]').length
+        if $elem.attr('checked') == 'checked'
+          vals[$elem.attr('name')] = $elem.val()
+
+      else
+        vals[$elem.attr('name')] = $elem.val()
 
     key = $$('#queue-list').selected_key
     if key
