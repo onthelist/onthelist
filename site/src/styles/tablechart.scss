@@ -1,3 +1,5 @@
+@import "compass/css3/images";
+
 #tablechart {
   min-height: 0;
 
@@ -17,7 +19,7 @@
   width: 1280px;
   height: 720px;
 
-  background: url(/images/grid_back_40.gif) repeat 0 0 #151515;
+  background: url(../images/grid_back_40.gif) repeat 0 0 #151515;
   border: 1px solid #333;
   border-width: 0 1px 1px 0;
 
@@ -29,25 +31,31 @@
 
   canvas {
     position: absolute;
+    z-index: 3;
   }
 }
 
 .ui-selectee {
 }
 .ui-selected {
-  background: #fcaf3e;
+  -background: #fcaf3e;
 }
 .ui-selecting {
   background: #8ae234;
 }
+.ui-selectable-helper { 
+  position: absolute; 
+  z-index: 100; 
+  border: 1px dotted black; 
+  background: rgba(255, 255, 255, 0.1);
+}
 
-.docked-right {
+.docked-right, .docked-left {
   width: 335px;
   height: 90%;
-  padding: 5px 20px 5px 5px;
+  padding: 5px 5px 5px 5px;
   
   position: absolute;
-  left: -340px;
   top: 5%;
 
   background-color: rgba(0, 0, 0, .8);
@@ -55,17 +63,36 @@
 
   text-shadow: 0 0 0;
   
-  -webkit-transition: left 0.3s ease-in;
-  -moz-transition: left 0.3s ease-in;
-
-  border-radius: 0 10px 10px 0;
-
   a {
     display: block;
   }
 
-  &:hover, &.open, &.manual-open {
-    left: 0;
+
+  &.docked-left {
+    padding-right: 20px;
+    left: -340px;
+
+    -webkit-transition: left 0.3s ease-in;
+    -moz-transition: left 0.3s ease-in;
+
+    border-radius: 0 10px 10px 0;
+  
+    &:hover, &.open, &.manual-open {
+      left: 0;
+    }
+  }
+  &.docked-right {
+    padding-left: 20px;
+    right: -340px;
+
+    -webkit-transition: right 0.3s ease-in;
+    -moz-transition: right 0.3s ease-in;
+
+    border-radius: 10px 0 0 10px;
+
+    &:hover, &.open, &.manual-open {
+      right: 0;
+    }
   }
 }
 
@@ -73,4 +100,14 @@
   label.ui-input-text, .ui-controlgroup-label {
     color: #DDD;
   }
+}
+
+.snap-guide {
+  z-index: 2;
+
+  box-shadow: 0 0 1px #CCC;
+  
+  opacity: .7;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
 }

@@ -1,10 +1,10 @@
 #add-party(data-role="dialog")
   header(data-role="header")
-    h1 Add a Party
+    h1 
   form.content(data-role="content")
     div(data-role="fieldcontain")
       label(for="party-phone-number") Phone Number
-      input#party-phone-number(type="tel", name="phone_number", value="", placeholder="Phone Number")
+      input#party-phone-number(type="tel", name="phone", value="", placeholder="Phone Number")
       
     div(data-role="fieldcontain")
       label(for="party-name") Name
@@ -12,18 +12,18 @@
         
     div(data-role="fieldcontain")
       label(for="party-size") Party Size
-      input#party-size(type="range", name="party_size", value="1", min="1", max="10")
+      input#party-size(type="range", name="size", value="1", min="1", max="10")
         
     div(data-role="fieldcontain")
       label(for="party-seating-preference") Seating Preference
-      select#party-seating-preference(name="seating_preference", data-native-menu="false")
+      select#party-seating-preference(name="seating_pref", data-native-menu="false")
         option(value="first_available") First available
         option(value="booth") Booth
         option(value="outside") Outside
 
     div(data-role="fieldcontain")
       label(for="party-wait-time") Quoted Wait Time
-      input#party-wait-time(type="range", name="wait_time", min="0", max="120", step="5", value="20")
+      input#party-wait-time(type="range", name="quoted_wait", min="0", max="120", step="5", value="20")
     
     div(data-role="fieldcontain")
       label(for="party-called-ahead") Called Ahead

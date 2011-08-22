@@ -38,7 +38,7 @@ $ ->
       #     tablechart-inner
       #       - set to 1280 x 720
       
-      [width, height] = $UI.get_page_space $this
+      [width, height] = $UI.get_page_space $page
 
       # All the chart coords are based on 1280 x 720
       x_fact = width / BASE_WIDTH
@@ -60,9 +60,9 @@ $ ->
         # If the screen is large enough to show the chart at, at least, 50%
         # scale, we scale it to the larger dimention and center the other.
         if min_fact == y_fact
-          $tci.css('left', (width - fact * BASE_WIDTH) / 2.0 + 'px')
+          $tci.css('left', ((width - fact * BASE_WIDTH) / 2.0) * 1/fact + 'px')
         else
-          $tci.css('top', (height - fact * BASE_HEIGHT) / 2.0 + 'px')
+          $tci.css('top', ((height - fact * BASE_HEIGHT) / 2.0) * 1/fact + 'px')
 
       
       # The scaling will shrink the chart, but not the space allocated
@@ -72,11 +72,18 @@ $ ->
       $tc.height BASE_HEIGHT + 'px'
       $tc.width BASE_WIDTH + 'px'
       
-      if $TC.scroller
+      if $TC.scroller?
         setTimeout(->
           # iScroll docs recommend using setTimeout 
           $TC.scroller.refresh()
           $TC.scroller.zoom(0, 0, fact, 0)
+
+          if center
+            # If we are centering, we have to remove any previous scrolling.
+            $TC.scroller._resetPos(0)
+
+          # End will force iscroll to update the positioning
+          $TC.scroller._end({})
         , 0)
 
       return fact
@@ -89,7 +96,7 @@ $ ->
     $win.bind 'beforepageshow', ->
       $win.unbind 'resize', update_size
 
-    if not $TC.scroller
+    if not $TC.scroller?
       opts =
         lockDirection: false
         hScrollbar: true
@@ -100,3 +107,10 @@ $ ->
       $TC.scroller = new iScroll $contain[0], opts
 
       do update_size
+
+      $CTRL_KEYS.bind 'ctrldown', ->
+        $TC.scroller.enabled = false
+
+      $CTRL_KEYS.bind 'ctrlup', ->
+        $TC.scroller.enabled = true
+

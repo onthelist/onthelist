@@ -1,7 +1,7 @@
-class $D._DataLoader
+class $D._DataLoader extends $U.Evented
   constructor: ->
-    @evt = $({})
-  
+    super
+
     @ready = $.Deferred()
     @initing = false
 
@@ -26,11 +26,18 @@ class $D._DataLoader
   
   remove: (row) ->
     @ds.remove row, =>
-      @evt.trigger('rowRemove', row.key || row)
+      @trigger('rowRemove', row.key || row)
 
   add: (vals={}) ->
     @ds.save vals, (resp) =>
       @register_row resp
+
+  save: (vals) ->
+    @get vals.key, (data) =>
+      if data
+        @remove vals
+
+      @add vals
 
   get: (args...) ->
     return @ds.get(args...)
@@ -42,7 +49,7 @@ class $D._DataLoader
       res (row for row in rows when filter(row))
 
   register_row: (row) ->
-    @evt.trigger('rowAdd', row)
+    @trigger('rowAdd', row)
 
   live: (evt, func) ->
     if @ds? and evt.indexOf 'row' == 0
@@ -51,9 +58,4 @@ class $D._DataLoader
       @ds.each (row) ->
         func(false, row)
 
-    @evt.bind(evt, func)
-
-  bind: (args...) ->
-    @evt.bind(args...)
-
-
+    @bind(evt, func)
