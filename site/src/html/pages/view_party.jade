@@ -1,7 +1,7 @@
 #view-party(data-role="dialog")
   header(data-role="header")
     h1 View Party
-    a(href="#modify-party", data-role="button", data-transition="none") Edit
+    a(href="#add-party", data-role="button", data-transition="none", data-rel="dialog") Edit
       
   div.content(data-role="content")
     div.pill
@@ -18,7 +18,7 @@
       h4(data-key="notes")
     
     div.action-select(data-role="controlgroup", data-type="horizontal")
-      a(href="#alert-party",data-role="button") Send Text Alert
+      a(name="alert_party", data-role="button") Send Text Alert
       div(data-role="fieldcontain")
         select#text-actions(data-native-menu="false")
           option(value="custom_sms") Compose Custom Text

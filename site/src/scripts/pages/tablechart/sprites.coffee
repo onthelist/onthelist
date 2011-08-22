@@ -1,21 +1,55 @@
 styles =
-  empty:
-    fill_color: '#F9F9F9'
-    line_color: '#555'
+  default:
+    fill:
+      color: '#F9F9F9'
+    line:
+      color: '#555'
+      width: 2
     label:
-      fill_color: '#777'
+      color: '#777'
+    shadow:
+      x_offset: 0
+      y_offset: 0
+      blur: 0
+      color: 'white'
+  empty: {}
+  selected:
+    line:
+      color: 'gold'
+    shadow:
+      blur: 10
+      color: 'rgba(250, 250, 0, 1)'
+  aligned:
+    line:
+      color: '#5393C5'
+    shadow:
+      blur: 10
+      color: '#85BAE4'
   seat:
-    fill_color: '#DDD'
-    line_color: '#555'
+    fill:
+      color: '#DDD'
+    line:
+      color: '#555'
+
+for own name, style of styles
+  if name != 'default'
+    styles[name] = $.extend(true, {}, styles['default'], styles[name])
+
+get_style = (name) ->
+  return styles[name]
 
 window.$TC ?= {}
 
-class $TC.Sprite
+class $TC.Sprite extends $U.Evented
   constructor: (@opts) ->
-    self = this
+    super
 
-    @parent = @opts.parent
+    @ready = $.Deferred()
 
+  canvas_ready: ->
+    return @ready.promise()
+
+  init: (@parent) ->
     @canvas = document.createElement 'canvas'
     @parent.appendChild @canvas
     @cxt = @canvas.getContext '2d'
@@ -23,88 +57,64 @@ class $TC.Sprite
     @$canvas = $(@canvas)
 
     $$(@canvas).sprite = this
-
-    offset =
-      top: 0
-      left: 0
-
-    selected = $([])
-
-    $(@canvas).draggable(
-      opacity: 0.5
-      containment: 'parent'
-    )
-      .bind('touchstart mousedown', ->
-        $TC.scroller.enabled = false
-        true
-      )
-      .bind('touchend mouseup mouseout', ->
-        $TC.scroller.enabled = true
-        true
-      )
-      .bind('drag', (e, ui) ->
-        # We have to correct for the zoom level.
-        p = ui.position
-        o = ui.originalPosition
-        p.top = o.top + (p.top - o.top) * 1/$TC.scroller.scale
-        p.left = o.left + (p.left - o.left) * 1/$TC.scroller.scale
-
-        # Shift the scroll area to keep the scrolled elem visible.
-        $content = $('.ui-page-active .ui-content')
-        [width, height] = [$content.width(), $content.height()]
-
-        s = $TC.scroller
-        x_shift = y_shift = 0
-        if -s.x > p.left
-          x_shift = -(p.left + s.x)
-        else if width - s.x < p.left
-          x_shift = -(p.left - (width - s.x))
-        
-        if -s.y > p.top
-          y_shift = -(p.top + s.y)
-        else if height - s.y < p.top
-          y_shift = -(p.top - (height - s.y))
-
-        if x_shift or y_shift
-          s.scrollTo(s.x + x_shift, s.y + y_shift, 0)
-
-        p.top -= y_shift * $TC.scroller.scale
-        p.left -= x_shift * $TC.scroller.scale
-
-        self._update_pos(p.left, p.top)
-      )
-      .bind('dragstart', (e, ui) ->
-        $this = $ this
-
-        #selected = $('.ui-selected').each ->
-        #  $el = $ this
-        #  $el.data 'offset', $el.offset()
-        
-        #if not $this.hasClass 'ui-selected'
-        #  $this.addClass 'ui-selected'
-
-        #offset = $this.offset()
-      )
-      .bind('drag', (e, ui) ->
-        dt = ui.position.top - offset.top
-        dl = ui.position.left - offset.left
-
-        selected.not(this).each ->
-          $el = $(this)
-          offset = $el.data("offset")
-
-        #  $el.css
-        #    top: offset.top + dt
-        #    left: offset.left + dl
-      )
-
+    
     @w = @h = 0
 
-  refresh: ->
-    @cxt.clearRect(0, 0, @w, @h)
-    do @draw
+    @ready.resolve this
 
-  draw: ->
+    @style_stack = ['default']
+
+    @__defineGetter__ 'style_name', =>
+      return @style_stack[@style_stack.length - 1]
+
+  push_style: (name) ->
+    if @style_name != name
+      @style_stack.push(name)
+
+      do @refresh
+
+  pop_style: ->
+    if @style_stack.length > 1
+      @style_stack.pop()
+
+      do @refresh
+
+  package: ->
+    @opts.x = @x
+    @opts.y = @y
+    @opts.seats = @seats
+
+    return {opts: @opts}
+
+  destroy: ->
+    if @$canvas
+      do @$canvas.remove
+
+  _update_evt: ->
+    if @parent
+      $(@parent).trigger 'spriteUpdate', [this]
+
+  update: ->
+    do @_update_evt
+    do @refresh
+
+  refresh: ->
+    if @cxt and @parent
+      @cxt.clearRect(0, 0, @w, @h)
+      do @draw
+
+  draw: (parent) ->
+    if not @parent? or (parent? and @parent != parent)
+      @init parent
+
+  move: (x, y, corner=false) ->
+    if corner
+      x = x + @w / 2
+      y = y + @h / 2
+
+    @y = y ? @y
+    @x = x ? @x
+    do @_move
 
   _move: ->
     y = @y - @h / 2
@@ -132,27 +142,35 @@ class $TC.Table extends $TC.Sprite
     @y = opts.y ? 0
     @seats = @opts.seats
 
-    super(@opts)
-
-    do this._move
+    super @opts
 
   _apply_style: (name) ->
-    @style = styles[name]
+    @style = get_style(name)
 
-    @cxt.fillStyle = @style.fill_color
-    @cxt.strokeStyle = @style.line_color
+    @cxt.fillStyle = @style.fill.color
+    @cxt.strokeStyle = @style.line.color
+    @cxt.strokeWidth = @style.line.width
 
+    if @style.shadow?
+      @cxt.shadowOffsetX = @style.shadow.x_offset
+      @cxt.shadowOffsetY = @style.shadow.y_offset
+      @cxt.shadowBlur = @style.shadow.blur
+      @cxt.shadowColor = @style.shadow.color
+  
   _apply_text_style: (name, elem) ->
-    @text_style = styles[name][elem]
+    @text_style = get_style(name)[elem]
 
-    @cxt.fillStyle = @text_style.fill_color
+    @cxt.fillStyle = @text_style.color
     @cxt.font = @text_style.font ? 'bold 1.6em sans-serif'
 
-  draw: ->
+  draw: (parent) ->
+    super parent
+
     rot = @opts.rotation ? 0
     @$canvas.css('-moz-transform', "rotate(#{rot}deg)")
     @$canvas.css('-moz-transform-origin', "middle center")
-
+    
+    do @_move
     do @_draw
 
   _draw_circle: (x, y, rad, style='empty') ->
@@ -266,7 +284,7 @@ class $TC.Table extends $TC.Sprite
 
     @cxt.fillText(text, left, top, w)
 
-  draw_label: (margin=[0,0,0,0], style='empty', scale_bbox=true) ->
+  draw_label: (margin=[0,0,0,0], style='default', scale_bbox=true) ->
     label = @opts.label
     if not label?
       return
@@ -275,6 +293,7 @@ class $TC.Table extends $TC.Sprite
       label = label.toString()
 
     do @cxt.save
+    @_apply_style 'default'
     @_apply_text_style style, 'label'
 
     width = @w - margin[1] - margin[3]
@@ -317,11 +336,11 @@ class $TC.RoundTable extends $TC.Table
 
       this._draw_seat x, y, ang
 
-    this._draw_circle center, center, rad
+    this._draw_circle center, center, rad, @style_name
 
     square = @w / 2 - rad / Math.sqrt(2)
 
-    @draw_label([square, square, square, square], 'empty', false)
+    @draw_label([square, square, square, square], @style_name, false)
 
   rotate: ->
 
@@ -354,10 +373,9 @@ class $TC.RectTable extends $TC.Table
     if @seats <= 1
       # Single tables are smaller
       this._draw_seat (width / 2), height, Math.PI / 2
-      this._draw_rect 0, 0, width, height
+      this._draw_rect 0, 0, width, height, @style_name
 
     else
-
       seats_left = @seats
       x = @seat_depth
       y = @seat_spacing + @seat_width / 2
@@ -376,7 +394,7 @@ class $TC.RectTable extends $TC.Table
         # Put the extra seat at the head of the table
         this._draw_seat (@seat_depth + width / 2), height, Math.PI / 2
 
-      this._draw_rect @seat_depth, 0, width, height
+      this._draw_rect @seat_depth, 0, width, height, @style_name
 
     margin = [0, 0, 0, 0]
     if @seats & 1
@@ -384,35 +402,9 @@ class $TC.RectTable extends $TC.Table
     if @seats > 1
       margin[1] = margin[3] = @seat_depth
 
-    @draw_label(margin)
+    @draw_label(margin, @style_name)
 
   rotate: (delta) ->
     super(delta)
 
     @opts.rotation %= 180
-
-class $TC.MutableTable
-  constructor: (@opts) ->
-    @shape = @opts.shape ? 'round'
-    
-    do @_extend
-
-    obj = do @_get_obj
-    obj.call(this, @opts)
-
-
-  _get_obj: ->
-    switch @shape
-      when 'round' then $TC.RoundTable
-      when 'rect' then $TC.RectTable
-
-  change_shape: (@shape) ->
-    do @_extend
-
-  _extend: ->
-    obj = do @_get_obj
-
-    if 'change_shape' not of obj.prototype
-      obj.prototype = $.extend({}, $TC.MutableTable.prototype, obj.prototype)
-
-    this.__proto__ = obj.prototype

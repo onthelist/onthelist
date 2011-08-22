@@ -2,15 +2,15 @@
   header(data-role="header")
     h1 The Steakhouse
   .content(data-role="content")
-    .editor.docked-right
+    .editor.docked-left
       a(href='#add-table', data-role="button") Add Table
       form.options
         div(data-role="fieldcontain")
           fieldset.form-radio(data-role="controlgroup", data-type="horizontal")
             legend Type
-            input#round(type="radio", name="type", value="round")
+            input#round(type="radio", name="type", value="RoundTable")
             label(for="round") Round
-            input#rect(type="radio", name="type", value="rect")
+            input#rect(type="radio", name="type", value="RectTable")
             label(for="rect") Rect
           
         div(data-role="fieldcontain")
@@ -26,6 +26,8 @@
         div(data-role="fieldcontain")
           label(for="table-label") Label
           input#table-label(name="label")
+
+      input(type="button", name='del-table', data-theme="f", value="Delete Table")
 
     .tc-container
       .tablechart

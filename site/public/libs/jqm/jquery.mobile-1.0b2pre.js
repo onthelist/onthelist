@@ -1,6 +1,6 @@
 /*!
  * jQuery Mobile v Git Build
- * Git Info SHA1: 5c6a37b06a7ad5e9decc618fbbaaf6de81c3c0bb Date: Thu Jul 21 16:19:44 2011 -0400
+ * Git Info SHA1: e5303b5147285889c167470a1184f4d25f4bbf06 Date: Thu Jul 14 19:01:00 2011 -0400
  * http://jquerymobile.com/
  *
  * Copyright 2010, jQuery Project
@@ -1717,9 +1717,9 @@ $.widget( "mobile.page", $.mobile.widget, {
 		backBtnTheme: null,
 		degradeInputs: {
 			color: false,
-			date: true,
-			datetime: true,
-			"datetime-local": true,
+			date: false,
+			datetime: false,
+			"datetime-local": false,
 			email: false,
 			month: false,
 			number: false,
@@ -3117,7 +3117,7 @@ $.widget( "mobile.page", $.mobile.widget, {
 			var link = findClosestLink( event.target );
 			if ( link ) {
 				if ( path.parseUrl( link.getAttribute( "href" ) || "#" ).hash !== "#" ) {
-					$( link ).closest( ".ui-btn:visible" ).not( ".ui-disabled" ).addClass( $.mobile.activeBtnClass );
+					$( link ).closest( ".ui-btn" ).not( ".ui-disabled" ).addClass( $.mobile.activeBtnClass );
 					$( "." + $.mobile.activePageClass + " .ui-btn" ).not( link ).blur();
 				}
 			}
@@ -3195,7 +3195,7 @@ $.widget( "mobile.page", $.mobile.widget, {
 				//     moved into more comprehensive isExternalLink
 				isExternal = useDefaultUrlHandling || ( path.isExternal( href ) && !isCrossDomainPageLoad );
 
-			$activeClickedLink = $link.closest( ".ui-btn:visible" );
+			$activeClickedLink = $link.closest( ".ui-btn" );
 
 			if( isExternal ) {
 				httpCleanup();
@@ -3271,12 +3271,6 @@ $.widget( "mobile.page", $.mobile.widget, {
 		$( window ).bind( "throttledresize", resetActivePageHeight );
 
 	};//_registerInternalEvents callback
-
-	$(function(){
-	  var loc = document.location.toString();
-	  if (loc.indexOf(dialogHashKey) != -1)
-  	  document.location = path.getFilePath(loc);
-	});
 
 })( jQuery );
 /*!
@@ -5690,26 +5684,21 @@ $( ":jqmData(role='listview')" ).live( "listviewcreate", function() {
 				// Show items, not marked to be hidden
 				listItems
 					.filter( ":not(.ui-filter-hidequeue)" )
-					.toggleClass( "ui-screen-highlight", true )
 					.toggleClass( "ui-screen-hidden", false );
 
 				// Hide items, marked to be hidden
 				listItems
 					.filter( ".ui-filter-hidequeue" )
-					.toggleClass( "ui-screen-highlight", false )
 					.toggleClass( "ui-screen-hidden", true )
 					.toggleClass( "ui-filter-hidequeue", false );
 
 			} else {
 
 				//filtervalue is empty => show all
-				listItems
-				  .toggleClass( "ui-screen-highlight", false )
-				  .toggleClass( "ui-screen-hidden", false );
-
+				listItems.toggleClass( "ui-screen-hidden", false );
 			}
 
-      list.trigger('filter', [val]);
+			list.trigger('filter', [val])
 		})
 		.appendTo( wrapper )
 		.textinput();
@@ -5719,6 +5708,7 @@ $( ":jqmData(role='listview')" ).live( "listviewcreate", function() {
 	}
 
 	wrapper.bind( "submit", function() {
+	  list.trigger('filterSubmit');
 		return false;
 	})
 	.insertBefore( list );

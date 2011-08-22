@@ -7,6 +7,9 @@ $ ->
     $label = $('[name=label]', $form)
     $rots = $('#table-rotation a', $form)
 
+    $del = $('[name=del-table]', $menu)
+    $del.button 'disable'
+
     last_rotation = 0
 
     $menu.bind 'vclick', (e) ->
@@ -20,19 +23,26 @@ $ ->
       y = 250
       tci = $('.tablechart-inner')[0]
 
-      type = $types.filter(':checked').attr('value') ? 'round'
+      type = $types.filter(':checked').attr('value') ? 'RoundTable'
+
+      lbl = $label.val()
+      if parseInt(lbl, 10) != NaN
+        lbl = (parseInt(lbl, 10) + 1)
+
+      if sprites and sprites[0]
+        x = sprites[0].x + ($TC.gaps?.x ? 40)
+        y = sprites[0].y + ($TC.gaps?.y ? 40)
 
       opts =
-        parent: tci
         seats: num
         x: x
         y: y
-        shape: type
-        label: $label.val()
+        label: lbl
         rotation: last_rotation
 
-      spr = new $TC.MutableTable(opts)
-      spr.draw()
+      spr = $TC.chart.add opts, type
+      do $TC.chart.save
+      do $TC.chart.draw
       $(spr.canvas).trigger('select')
 
       window.spr = spr
@@ -41,6 +51,24 @@ $ ->
       $label.caret 0, 10
 
       false
+    
+    sprites = null
+    _clear_selection = ->
+        do _remove_handlers
+
+        $label.val ''
+
+        $del.button 'disable'
+
+        $menu.removeClass 'open'
+        $menu.removeClass 'docked-right'
+        $menu.addClass 'docked-left'
+  
+        if sprites?
+          for sprite in sprites
+            do sprite.pop_style
+        
+        sprites = null
 
     _handlers = {}
 
@@ -63,58 +91,82 @@ $ ->
     do _remove_handlers
 
     $('.tablechart-inner', this)
-      .live('selectableselected', (e, ui) ->
-        sel = ui.selected
-        sprite = $$(sel).sprite
+      .bind('scaled_selectableselected', (e, ui) ->
+        init_sel = not sprites?
+
+        $canvases = $('.ui-selected', this)
+        sprites = ($$(s).sprite for s in $canvases)
+
+        for sprite in sprites
+          sprite.push_style 'selected'
 
         do _remove_handlers
 
-        $menu.addClass 'open'
+        if $(sprites[0].canvas).position().left < $menu.width()
+          # The menu would cover the sprite
+          $menu.removeClass 'docked-left'
+          $menu.addClass 'docked-right'
+       
+        # We need to give the css time to add the right slide transition
+        # (only necessary when the menu has been moved to the right side).
+        setTimeout(-> $menu.addClass 'open', 0)
 
         # Size
-        $size.trigger('forceVal', [sprite.seats])
+        if init_sel
+          $size.trigger('forceVal', [sprites[0].seats])
 
         _add_handler 'size', $size, 'change', ->
-          sprite.seats = this.value
-          do sprite.refresh
+          for sprite in sprites
+            sprite.seats = this.value
+            do sprite.update
 
         # Type
-        $types.filter("[value=#{sprite.shape}]").attr('checked', true)
-        $types.filter(":not([value=#{sprite.shape}])").attr('checked', false)
-        $types.checkboxradio('refresh')
+        if init_sel
+          $types.attr('checked', false)
+          $types.filter("[value=#{sprites[0].__proto__.constructor.name}]").attr('checked', true)
+          $types.checkboxradio('refresh')
 
         _add_handler 'types', $types, 'change', ->
           type = this.value
 
-          sprite.change_shape(type)
-          do sprite.refresh
+          for sprite, i in sprites
+            sprites[i] = sprite = $TC.chart.change_type sprite, type
+            $(sprite.canvas).addClass 'ui-selected'
+            do sprite.update
 
         # Label
-        $label.val(sprite.opts.label)
+        if init_sel
+          $label.val(sprites[0].opts.label)
 
-        _add_handler 'label', $label, 'change', ->
-          sprite.opts.label = this.value
-          do sprite.refresh
+        _add_handler 'label', $label, 'keyup', ->
+          for sprite in sprites
+            sprite.opts.label = this.value
+            do sprite.update
 
         # Rotation
-        last_rotation = sprite.opts.rotation
+        last_rotation = sprites[0].opts.rotation
 
         _add_handler 'rotation', $rots, 'vclick', (e) ->
-          switch e.currentTarget.hash
-            when '#left' then sprite.rotate(-90)
-            when '#right' then sprite.rotate(90)
+          for sprite in sprites
+            switch e.currentTarget.hash
+              when '#left' then sprite.rotate(-90)
+              when '#right' then sprite.rotate(90)
 
-          do sprite.refresh
+            do sprite.update
 
-          last_rotation = sprite.opts.rotation
+          last_rotation = sprites[0].opts.rotation
+
+          false
+
+        # Delete
+        $del.button 'enable'
+        _add_handler 'delete', $del, 'vclick', (e) ->
+          for sprite in sprites
+            $TC.chart.remove sprite
 
           false
 
       )
-      .live('selectableunselected', (e, ui) ->
-        do _remove_handlers
+      .bind('scaled_selectableunselected', _clear_selection)
 
-        $label.val ''
-
-        $menu.removeClass 'open'
-      )
+    $TC.chart.bind 'remove', _clear_selection

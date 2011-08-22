@@ -5,25 +5,40 @@ $ ->
         el.setAttribute('data-default', el.value)
 
   $('#add-party').bind 'pageshow', ->
-    $('.ui-input-text', this).each (i, el) ->
-      el.value = (el.getAttribute('data-default') ? '')
+    page = this
+    $pages = $('.ui-page').not(this)
+
+    # When another page is shown (this page has been hidden), clear
+    # the fields.  Doing it on close, rather than open, prevents
+    # conflicts with the editing data being loaded.
+    _clear = ->
+      $('.ui-input-text', page).each (i, el) ->
+        el.value = (el.getAttribute('data-default') ? '')
+
+      $pages.unbind 'pageshow', _clear
+    $pages.bind 'pageshow', _clear
 
     $('.ui-input-text', this).first().focus()
 
   $('#add-party a[href=#add]').bind 'vclick', (e) ->
     dia = $ '#add-party'
 
-    vals =
-      name: $('[name=name]', dia).val()
-      size: $('[name=party_size]', dia).val()
-      phone: $('[name=phone_number]', dia).val()
-      quoted_wait: $('[name=wait_time]', dia).val()
-      seating_pref: $('[name=seating_preference]', dia).val()
-      called_ahead: $('[name=called_ahead]', dia).val()
-      alert_method: $('[name=alert_method]', dia).val()
-      notes: $('[name=notes]', dia).val()
+    vals = $$(dia).data ? {}
+    $('#add-party input').each (i, elem) ->
+      $elem = $ elem
 
-    $D.queue.add(vals)
+      if $elem.filter('[type=checkbox], [type=radio]').length
+        if $elem.attr('checked') == 'checked'
+          vals[$elem.attr('name')] = $elem.val()
+
+      else
+        vals[$elem.attr('name')] = $elem.val()
+
+    key = $$('#queue-list').selected_key
+    if key
+      vals.key = key
+
+    $D.queue.save(vals)
 
     dia.dialog 'close'
 

@@ -11,6 +11,8 @@ $('#view-party').live 'pageshow', ->
       alert 'Record not found'
       return
 
+    $$(self).data = data
+
     $('[data-key=name]', self).text data.name
     $('[data-key=size]', self).text data.size
     $('[data-key=notes]', self).text data.notes

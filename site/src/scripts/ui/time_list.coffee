@@ -59,6 +59,7 @@ class IsotopeList
       transformsEnabled: use_transforms()
       getSortData: sort_fields
       sortBy: @sortBy ? 'remaining'
+      filter: ':not(.ui-screen-hidden)'
       animationOptions:
         complete: =>
           do @_height_changed
@@ -120,6 +121,14 @@ class IsotopeList
 
     $elem.bind 'filter', =>
       do @refresh
+
+    $elem.bind 'filterSubmit', =>
+      $items = $elem.find('.isotope-item:not(.ui-screen-hidden)')
+
+      if $items.length != 1
+        return
+
+      $items.find('a').trigger('vclick')
     
     # Isotope will set the height after the elements are added.  If their
     # are enough elements, the scroll bar will appear, shifting the els.
