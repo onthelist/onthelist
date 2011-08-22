@@ -107,6 +107,25 @@ class GuestSearchBox
       do @request.abort
       @request = null
 
+  _check_match: (row, val) ->
+    if not val? or not val.length
+      return false
+
+    indx = row[@opts.field]?.indexOf val
+
+    if indx == -1 or not indx?
+      return false
+    return @opts.match_anywhere or indx == 0
+
+  _match: (val) ->
+    do this._button_loading
+
+    @queue.find((r) =>
+      return this._check_match(r, val)
+    , (args...) =>
+      this._handle_match(args...)
+    )
+
   _handle_match: (resp) ->
     if resp.length == 0
       @match = null
