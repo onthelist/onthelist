@@ -1,0 +1,35 @@
+server {
+  listen *:80;
+  server_name  <%= node[:hostname] %>;
+  access_log  <%= node[:nginx][:log_dir] %>/localhost.access.log;
+
+  root /home/www-server/onthelist/site/public;
+  index index.html;
+
+  server_name localhost;
+  
+  location = / {
+    rewrite .* /html/index.html;
+    allow all;
+  }
+
+  location / {
+  allow all;
+  }
+
+  location /extern/ {
+    alias /home/www-server/onthelist/site/extern/;
+  }
+
+  location /log/ {
+    proxy_pass http://localhost:40404/;
+  }
+}
+
+
+##
+# Virtual Host Configs
+##
+
+include /etc/nginx/conf.d/*.conf;
+#include /etc/nginx/sites-enabled/*;
