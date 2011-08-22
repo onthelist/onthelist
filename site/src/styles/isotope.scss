@@ -10,6 +10,11 @@
   -webkit-transition-property: height, width;
      -moz-transition-property: height, width;
           transition-property: height, width;
+
+  .ui-screen-hidden {
+    /* We use isotope filtering to hide the items. */
+    display: block;
+  }
 }
 
 .isotope .isotope-item {
