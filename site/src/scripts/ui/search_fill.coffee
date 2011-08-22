@@ -54,7 +54,7 @@ class GuestSearchBox
   _strip_typed_ahead: (val, evt) ->
     # Keyup fires before the selected text has been cleared from the input,
     # so we have to strip what we already typed ahead.
-    if @typed_ahead? and val.indexOf(@typed_ahead) == val.length - @typed_ahead.length
+    if @typed_ahead? and val.length > @typed_ahead.length and val.indexOf(@typed_ahead) == val.length - @typed_ahead.length
       val = val.substring(0, val.length - @typed_ahead.length)
 
       if evt.keyCode? and evt.keyCode == @typed_ahead.charCodeAt(0)
@@ -66,6 +66,14 @@ class GuestSearchBox
     val = @$elem.val()
     @entered = val
 
+    if evt.keyCode == 8
+      # If they are backspacing, it will just remove the typed ahead text so
+      # we remove the char they actually intended on removing.
+      if @typed_ahead
+        val = val.substring(0, val.length - 1)
+        @$elem.val val
+        @typed_ahead = false
+
     if val == @last_val
       return true
 
@@ -74,12 +82,11 @@ class GuestSearchBox
     @last_val = val
 
     if @match and @_check_match(@match, val)
-#      # If this still matches the already-loaded match
-#      # just update the type ahead text.
-#      @entered = @_strip_typed_ahead(val, evt)
-#      do @_type_ahead
-#      return true
-      ''
+      # If this still matches the already-loaded match
+      # just update the type ahead text.
+      @entered = @_strip_typed_ahead(val, evt)
+      do @_type_ahead
+      return true
     else
       @match = null
     
