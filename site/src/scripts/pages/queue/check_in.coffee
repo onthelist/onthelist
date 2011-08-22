@@ -3,8 +3,6 @@ $ ->
   add_el = false
   cancel_el = false
 
-  $page = $('#queue')
-
   show_fake_page = (self) ->
     # Add Dummy List Element
     add_list = $ '<ul></ul>'
@@ -27,7 +25,7 @@ $ ->
     cancel_el.attr('href', '#queue')
     cancel_el.addClass 'ui-btn-left'
 
-    $('a[href=#add-party]', $page)
+    $('a[href=#add-party]')
       .hide()
       .before cancel_el
 

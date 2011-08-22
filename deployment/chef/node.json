@@ -1,4 +1,0 @@
-{ 
-  "recipes": [ "java", "nginx", "node", "jenkins" ]
-}
-
