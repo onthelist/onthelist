@@ -2,6 +2,7 @@ TwilioClient = require('twilio').Client
 Twiml = require('twilio').Twiml
 EventEmitter = require('events').EventEmitter
 sys = require('sys')
+os = require('os')
 
 notifiers = require('./base')
 
@@ -11,7 +12,7 @@ create_client = ->
     client_cache = new TwilioClient(
       'AC8589ab3c89de18b914412699b12c1181',
       'e1f5c6fe7688ff64b7c6d5737b4cbd2b',
-      'zackbloom.doesntexist.org'
+      'speed2.rdctd.com'
     )
 
   client_cache
@@ -25,7 +26,7 @@ class TwilioSMS extends notifiers.SMS
 
 wrap_resp = (resp) ->
   say: (msg) ->
-    resp.append(new Twiml.Say(msg))
+    resp.append(new Twiml.Say(msg, {loop: 0}))
 
   send: ->
     resp.send()
