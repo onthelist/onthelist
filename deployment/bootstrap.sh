@@ -40,7 +40,7 @@ cd /home/www-server/onthelist
 # Temporary fix, remove when merged with master.
 git checkout deployment
 
-# Add notifier to init.
+# Add notifier to Upstart.
 cp notify/conf/ss-notifier.conf /etc/init/
 
 # Fix file permissions now that everything is in place.
