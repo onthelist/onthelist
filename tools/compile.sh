@@ -8,4 +8,5 @@ cd ../src; mkdir -p ../public/html; ../../tools/jade.js --out ../public html
 cd ..; mkdir -p public/styles; compass compile
 
 # CoffeeScript
-mkdir -p public/scripts; coffee -c -o ../public/scripts ./src/scripts
+mkdir -p public/scripts; coffee -c -o ./public/scripts ./src/scripts
+
