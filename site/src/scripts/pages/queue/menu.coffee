@@ -18,25 +18,26 @@ $ ->
 
     opts =
       fields:
-        [
-          name: 'time_view'
-          default: 'remaining'
-          label: 'View'
-          options:
-            [_remaining_field, _elapsed_field]
-        ,
-          name: 'sort'
-          default: 'remaining'
-          label: 'Sorted By'
-          options:
-            [_remaining_field, _elapsed_field, _lname_field, _size_field]
-        ,
-          name: 'group'
-          default: 'lname'
-          label: 'Grouped By'
-          options:
-            [_remaining_field, _elapsed_field, _lname_field, _size_field]
-        ]
+        options:
+          [
+            name: 'time_view'
+            value: 'remaining'
+            label: 'Viewing'
+            options:
+              [_remaining_field, _elapsed_field]
+          ,
+            name: 'sort'
+            value: 'remaining'
+            label: 'Sorted By'
+            options:
+              [_remaining_field, _elapsed_field, _lname_field, _size_field]
+          ,
+            name: 'group'
+            value: 'lname'
+            label: 'Grouped By'
+            options:
+              [_remaining_field, _elapsed_field, _lname_field, _size_field]
+          ]
 
     $link = $('[href=#queue]', this)
     $li = $link.parent()

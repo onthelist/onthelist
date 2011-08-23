@@ -1,40 +1,48 @@
 class Menu
   constructor: (@$elem, @opts) ->
-    @fields = @_init_fields @opts.fields
+    @submenu = @fields = @opts.fields
 
     do @_create_select
     do @_init_menu
 
-  _init_fields: (fields) ->
-    for field in fields
-      field._order = []
-      field._labels = {}
-      for opt in field.options
-        field._order.push opt.name
-        field._labels[opt.name] = opt.label
+    @menu_stack = []
 
-    return fields
-
-  _get_field: (name) ->
-    for field in @fields
+  _get_field: (name, fields=@submenu) ->
+    for field in fields.options
       if field.name == name
         return field
 
-    throw "Field not found"
+    return null
 
   _create_select: ->
     @$sel = $('<select></select>')
     @$sel.addClass 'select-menu list-control'
+    @$elem.append @$sel
+
+    do @_create_options
+
+  _create_options: (fields=@fields) ->
+    @$sel.html ''
     @$sel.append $('<option></option>')
 
-    for field in @fields
+    if @submenu != @fields
+      $back = $('<option></option>')
+      $back.text '< Back'
+      $back.val '#back'
+      @$sel.append $back
+
+    for field in fields.options
       $opt = $('<option></option>')
       $opt.attr('value', field.name)
-      @_update_option($opt, field, field.default)
+      @_update_option($opt, field, fields.value)
 
       @$sel.append $opt
 
-    @$elem.append @$sel
+    if fields.value?
+      @$sel.val(fields.value)
+
+    if @menu?
+      @menu.refresh(true)
 
   _init_menu: ->
     @$sel.selectmenu
@@ -49,39 +57,80 @@ class Menu
       # Reset the val so the same button can be clicked more than once.
       @$sel.val(null)
 
-      @_increment(val)
+      if @submenu == @fields
+        @_show_submenu(val)
+      else if val == '#back'
+        do @_hide_submenu
+      else
+        @_set_val(val)
 
-  _update_option: ($opt, field, val) ->
-    $opt.text "#{field.label}: #{field._labels[val]}"
-    $opt.attr('data-key', val)
+  _update_option: ($opt, field, parent_val) ->
+    text = ''
 
-  _increment: (name) ->
-    field = @_get_field(name)
-    $opt = @$sel.find("option[value=#{name}]")
-    c_val = $opt.attr('data-key')
+    if field.value?
+      # It is a container entry
+      for opt in field.options
+        if field.value == opt.name
+          lbl = opt.label
 
-    index = field._order.indexOf(c_val)
-    index += 1
-    index %= field.options.length
-    n_val = field.options[index]
+      text = "#{field.label}: #{lbl}"
 
-    @_update_option($opt, field, n_val.name)
+    else
+      # It is a value entry
+      text = field.label
 
-    @$elem.trigger('optionChange', [name, n_val.name])
+      #if parent_val == field.name
+        #  text = '* ' + text
+
+    $opt.text text
+
+  _show_submenu: (name, push=true, show=true) ->
+    field = @_get_field(name) ? @fields
+
+    @submenu = field
+
+    @_create_options field
+
+    if name and push
+      @menu_stack.push(name)
+
+    if show
+      setTimeout(=>
+        do @show
+      , 0)
+
+  _set_val: (val) ->
+    @submenu.value = val
+    @$elem.trigger('optionChange', [@submenu.name, val])
+
+    @_hide_submenu true, false
+  
+  _hide_submenu: (to_root=false, show=true) ->
+    if to_root
+      @menu_stack = []
+    else
+      @menu_stack.pop()
+
+    name = @menu_stack.last() ? null
     
-    @menu.refresh(true)
+    @_show_submenu(name, false, show)
+    
+  show: ->
+    @$sel.selectmenu 'open'
+
+    top = @$elem.offset().top - @menu.listbox.height() - 14
+    @menu.listbox.css 'top', top
+
+    @menu.listbox.find('.ui-btn-active').removeClass('ui-btn-active')
+
+  hide: ->
+    @$sel.selectmenu 'close'
 
   toggle: ->
     if not @menu.isOpen
-      @$sel.selectmenu 'open'
-
-      top = @$elem.offset().top - @menu.listbox.height() - 14
-      @menu.listbox.css 'top', top
-
-      @menu.listbox.find('.ui-btn-active').removeClass('ui-btn-active')
-
+      do @show
     else
-      @$sel.selectmenu 'close'
+      do @hide
 
 $.fn.menu = (opts) ->
   if typeof opts == 'string'
