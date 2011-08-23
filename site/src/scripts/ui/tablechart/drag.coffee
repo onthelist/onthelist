@@ -6,7 +6,7 @@ class DraggableSprite
       do @init
 
     @register_modifier @_correct_zoom
-    @register_modifier @_shift_scroll
+    #@register_modifier @_shift_scroll
     @register_modifier @_snap
     @register_modifier @_include_selected
     @register_modifier @_move_menu
