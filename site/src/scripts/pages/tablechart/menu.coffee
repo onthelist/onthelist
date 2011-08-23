@@ -170,3 +170,14 @@ $ ->
       .bind('scaled_selectableunselected', _clear_selection)
 
     $TC.chart.bind 'remove', _clear_selection
+
+    if not $TC.chart.editable
+      $menu.hide()
+
+    $TC.chart.bind 'locked', ->
+      $menu.hide()
+    $TC.chart.bind 'unlocked', ->
+      $menu.show()
+
+
+

@@ -19,7 +19,7 @@ $ ->
       $TC.chart.live 'add', (e, sprite) ->
         $.when( sprite.canvas_ready() ).then ->
 
-          $(sprite.canvas).bind 'select vclick', (e) ->
+          $(sprite.canvas).bind 'select vmousedown', (e) ->
             do _enable
             sel._mouseStart e
             sel._mouseStop e

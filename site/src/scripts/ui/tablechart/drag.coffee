@@ -10,6 +10,7 @@ class DraggableSprite
     @register_modifier @_snap
     @register_modifier @_include_selected
     @register_modifier @_move_menu
+    @register_modifier @_update_pos
 
   register_modifier: (func) ->
     @modifiers.push func
@@ -266,7 +267,30 @@ class DraggableSprite
     p.top -= y_shift * $TC.scroller.scale
     p.left -= x_shift * $TC.scroller.scale
 
+  _update_pos: (ui) ->
+    p = ui.position
+
     @sprite._update_pos(p.left, p.top)
+
+  destroy: ->
+    @$canvas.draggable('destroy')
+      .unbind('drag', @_e_drag)
+      .unbind('dragstart', @_e_drag_start)
+      .unbind('dragstop', @_e_drag_stop)
+
+  _e_drag: (e, ui) =>
+    @_drag ui
+    
+  _e_drag_start: (e, ui) =>
+    if not @$canvas.hasClass 'ui-selected'
+      @$canvas.trigger 'select'
+
+    @_start ui
+    
+  _e_drag_stop: (e, ui) =>
+    do @sprite._update_evt
+
+    @_stop ui
 
   init: ->
     @$canvas = $ @sprite.canvas
@@ -283,20 +307,9 @@ class DraggableSprite
       $TC.scroller.enabled = true
       true
     )
-    .bind('drag', (e, ui) =>
-      @_drag ui
-    )
-    .bind('dragstart', (e, ui) =>
-      if not @$canvas.hasClass 'ui-selected'
-        @$canvas.trigger 'select'
-
-      @_start ui
-    )
-    .bind('dragstop', (e, ui) =>
-      do @sprite._update_evt
-
-      @_stop ui
-    )
+    .bind('drag', @_e_drag)
+    .bind('dragstart', @_e_drag_start)
+    .bind('dragstop', @_e_drag_stop)
 
 $TC.draggable_sprite = (elem, cont) ->
   $$(elem).draggable_sprite = new DraggableSprite(elem, cont)

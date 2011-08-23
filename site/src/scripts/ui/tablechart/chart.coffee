@@ -6,11 +6,10 @@ class $TC.Chart extends $U.Evented
 
     @sprites = []
 
-    if not @opts.name
-      @opts.name = 'Default Chart'
+    @opts.name ?= 'Default Chart'
+    @opts.key ?= @opts.name.toLowerCase().remove(' ')
 
-    if not @opts.key
-      @opts.key = @opts.name.toLowerCase().remove(' ')
+    @editable = @opts.editable ? false
   
     do @load
 
@@ -27,6 +26,19 @@ class $TC.Chart extends $U.Evented
     $.when( $D.charts.init() ).then =>
       $D.charts.add obj
 
+  set_editable: (editable=true) ->
+    if @editable == editable
+      return
+
+    @editable = editable
+    for sprite in @sprites
+      if @editable
+        $TC.draggable_sprite(sprite, this)
+        @trigger 'unlocked'
+      else
+        do $$(sprite).draggable_sprite.destroy
+        @trigger 'locked'
+
   add: (sprite, type) ->
     if type?
       props =
@@ -37,7 +49,8 @@ class $TC.Chart extends $U.Evented
 
     @sprites.push sprite
 
-    $TC.draggable_sprite(sprite, this)
+    if @editable
+      $TC.draggable_sprite(sprite, this)
     
     @trigger 'add', [sprite]
 
