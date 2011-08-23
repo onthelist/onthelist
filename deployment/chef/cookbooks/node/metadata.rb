@@ -10,4 +10,4 @@ recipe           "node-js", "Install node and npm"
 
 attribute "node-js/version",
   :display_name => "The version of node to install",
-  :default => "HEAD"
+  :default => "v0.4"

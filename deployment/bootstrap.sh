@@ -23,22 +23,25 @@ useradd -m www-server --home /home/www-server --shell /dev/null --group www
 # The OpenJDK alternative has issues with jenkins.
 sed -i -e "s/# deb/deb/g" /etc/apt/sources.list
 
+# Install some useful stuff.
+apt-get -yy update
+apt-get -yy upgrade
+apt-get -yy install wget screen zip unzip vim htop git build-essential
+
 # Add Jenkins package key and entry to sources.list
 wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
 echo "deb http://pkg.jenkins-ci.org/debian binary/" >> /etc/apt/sources.list
-
 apt-get -yy update
-apt-get -yy upgrade
-
-# Install some useful stuff.
-apt-get -yy install wget screen zip unzip vim htop git build-essential
 
 #  Clone repo.
 cd /home/www-server
 git clone git@github.com:onthelist/onthelist.git
-# Temporary fix, remove when merged with master.
 cd /home/www-server/onthelist
+# Temporary fix, remove when merged with master.
 git checkout deployment
+
+# Add notifier to init.
+cp notify/conf/ss-notifier.conf /etc/init/
 
 # Fix file permissions now that everything is in place.
 chown -R www-server:www /home/www-server/
@@ -72,7 +75,6 @@ echo "NODE_PATH=/usr/local/lib/node_modules/jade/lib" >> /etc/environment
 . /etc/environment
 
 # Jenkins time.
-apt-get -yy update
 apt-get -yy install jenkins
 
 cp /root/.ssh/id_rsa /var/lib/jenkins/.ssh/id_rsa
