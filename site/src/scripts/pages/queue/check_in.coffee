@@ -13,7 +13,7 @@ $ ->
       success: (table) =>
         $D.parties.get id, (data) =>
           data.status = 'seated'
-          data.seat_time = new Date
+          data.times.seated = new Date
 
           data.occupancy =
             table: table.opts.key

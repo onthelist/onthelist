@@ -15,10 +15,10 @@ add_list_row = (list, row) ->
 
   el.append link
 
-  elapsed = Date.get_elapsed row.add_time
+  elapsed = Date.get_elapsed row.times.add
   e_time = $ '<time>' + $F.date.format_elapsed(elapsed) + '</time>'
   e_time.attr('data-minutes', elapsed)
-  e_time.attr('datetime', row.add_time)
+  e_time.attr('datetime', row.times.add)
 
   if row.quoted_wait
     qw = parseInt row.quoted_wait
@@ -68,7 +68,7 @@ $ ->
       if row.status != 'waiting'
         return
 
-      elapsed = Date.get_elapsed row.add_time
+      elapsed = Date.get_elapsed row.times.add
 
       add_list_row(list, row)
 

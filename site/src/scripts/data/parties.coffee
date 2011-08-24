@@ -2,9 +2,13 @@ class Parties extends $D._DataLoader
   name: 'parties'
 
   add: (vals={}) ->
-    vals.add_time ?= new Date
-    if typeof vals.add_time != 'string'
-      vals.add_time = vals.add_time.toISOString()
+    vals.times ?= {}
+
+    vals.times.add ?= new Date
+
+    for own name, time of vals.times
+      if typeof time != 'string'
+        vals.times[name] = time.toISOString()
 
     super vals
   
@@ -13,7 +17,7 @@ $.when( $D.parties.init() ).then ->
   
   $D.parties.ds.each (row) ->
     # DOM adaptor doesn't seem to support find
-    if row.add_time and Date.get_elapsed(row.add_time) > 60 * 24
+    if not row.times?.add or Date.get_elapsed(row.times.add) > 60 * 24
       $D.parties.ds.remove row
 
   $D.parties.ds.all (rows) ->
@@ -35,7 +39,8 @@ $.when( $D.parties.init() ).then ->
         key: $D.parties.ds.uuid()
         name: name
         size: size
-        add_time: (new Date).add(-time).minutes()
+        times:
+          add: (new Date).add(-time).minutes()
         phone: '2482298031'
         quoted_wait: 60
         alert_method: 'sms'

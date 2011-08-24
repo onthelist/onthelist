@@ -20,7 +20,7 @@ $('#view-party').live 'pageshow', ->
     $('[data-key=status]', self).text $F.party.status data
 
     $('time.icon', self)
-      .attr('datetime', data.add_time)
+      .attr('datetime', data.times.add)
       .attr('data-target', data.quoted_wait)
       .time
         format: 'icon'
