@@ -1,15 +1,32 @@
 #!/bin/bash
-# SpeedySeat bootstrap
-# Installs server components for a SpeedySeat server
-#!!! This bootstrap file expects a SpeedySeat base server AMI.
-#!!! Not using the proper AMI will result in failure. Use newServerBootstrap.sh for a clean image. 
+# SpeedyTable bootstrap
+# Installs all requirements for a SpeedyTable server
 
-# Add www group and daemon users. Add to as needed.
+# The script will fail without GitHub having the onthelist/keys SSH key in root's .ssh directory.
+while true; do
+    read -p "Does this server have the Github SSH key copied to root's SSH directory?  (y/n) " yn
+    case $yn in
+        [Yy]* ) break;;
+        [Nn]* ) exit;;
+        * ) echo "y or n";;
+    esac
+done
+
+# Get rid of annoying welcome text
+rm /etc/update-motd.d/51_update-motd
+
+# Add www group and daemon users.
 groupadd www
 useradd -m www-server --home /home/www-server --shell /dev/null -g www
 
+# Enable the multiverse. Used for Chef java cookbook.
+# The OpenJDK alternative has issues with jenkins.
+sed -i -e "s/# deb/deb/g" /etc/apt/sources.list
+
+# Install some useful stuff.
 apt-get -yy update
 apt-get -yy upgrade
+apt-get -yy install wget screen zip unzip vim htop git build-essential
 
 #  Clone repo.
 cd /home/www-server
@@ -41,4 +58,3 @@ chef-solo -j /home/www-server/onthelist/deployment/chef/node.json -c /home/www-s
 # Set Node path for jade compiler. This will not take effect until logout. We can take effect for the current sesssion with bash's source command.
 echo "NODE_PATH=/usr/local/lib/node_modules/jade/lib" >> /etc/environment
 . /etc/environment
-
