@@ -46,6 +46,9 @@ class $TC.Sprite extends $U.Evented
 
     @ready = $.Deferred()
 
+    if not @opts.key?
+      @opts.key = Math.floor(Math.random() * 10000000000000)
+
   canvas_ready: ->
     return @ready.promise()
 
@@ -141,6 +144,7 @@ class $TC.Table extends $TC.Sprite
     @x = opts.x ? 0
     @y = opts.y ? 0
     @seats = @opts.seats
+    @occupancy = {}
 
     super @opts
 

@@ -4,8 +4,36 @@ $ ->
   cancel_el = false
 
   $page = $('#queue')
+  $list = $('#queue-list', $page)
+
+  window.$QUEUE ?= {}
+
+  $QUEUE.check_in = (id, success, failure) ->
+    $TC.choose_table
+      success: (table) =>
+        $D.queue.remove id
+
+        table.occupancy.occupant = id
+
+        success && success(table)
+
+  _bind_actions = ->
+    $links = $list.find('a[href=#view-party]')
+
+    $links.each (i, el) ->
+      $el = $ el
+
+      $el.bind 'vclick', ->
+        id = $el.attr 'data-id'
+
+        $P.queue.check_in id, ->
+          do hide_fake_page
+
+        false
 
   show_fake_page = (self) ->
+    do _bind_actions
+
     # Add Dummy List Element
     add_list = $ '<ul></ul>'
     add_list.addClass 'pseudo-list'
@@ -19,7 +47,7 @@ $ ->
     link.addClass "list-action"
     link.text "Check-In Without Queue"
   
-    $('#queue-list').before add_list
+    $list.before add_list
     add_list.listview()
 
     # Replace add button with back button

@@ -230,7 +230,7 @@ class QueueList extends ElapsedTimeList
     
     do this.refresh
 
-$.fn.queueList = (action) ->
+$.fn.queueList = (action, args...) ->
   if not action?
     return new QueueList(this)
-  return $$(this).time_list[action]()
+  return $$(this).time_list[action].call(this, args...)
