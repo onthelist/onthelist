@@ -59,7 +59,7 @@ class Menu
 
       field = @_get_field(val)
 
-      if field.type == 'toggle'
+      if field?.type == 'toggle'
         @_toggle_val(val)
       else if @submenu == @fields
         @_show_submenu(val)
