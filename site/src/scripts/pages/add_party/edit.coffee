@@ -14,7 +14,7 @@ $ ->
 
       $inputs = $('input, select', this)
       
-      $D.queue.get key, (data) =>
+      $D.parties.get key, (data) =>
         if not data
           alert 'Record not found'
           return

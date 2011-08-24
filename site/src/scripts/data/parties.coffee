@@ -1,5 +1,5 @@
-class Queue extends $D._DataLoader
-  name: 'queue'
+class Parties extends $D._DataLoader
+  name: 'parties'
 
   add: (vals={}) ->
     vals.add_time ?= new Date
@@ -8,15 +8,15 @@ class Queue extends $D._DataLoader
 
     super vals
   
-$D.queue = new Queue
-$.when( $D.queue.init() ).then ->
+$D.parties = new Parties
+$.when( $D.parties.init() ).then ->
   
-  $D.queue.ds.each (row) ->
+  $D.parties.ds.each (row) ->
     # DOM adaptor doesn't seem to support find
-    if row.add_time and Date.get_elapsed(row.add_time) > 60 * 2
-      $D.queue.ds.remove row
+    if row.add_time and Date.get_elapsed(row.add_time) > 60 * 24
+      $D.parties.ds.remove row
 
-  $D.queue.ds.all (rows) ->
+  $D.parties.ds.all (rows) ->
     len = rows.length
     while len++ < 12
       fnames = ['John', 'Jane', 'Zack', 'Marshall', 'Dick']
@@ -31,8 +31,8 @@ $.when( $D.queue.init() ).then ->
       notes = ['Requests a quiet table', 'Drink: Martini extra olives', '']
       note = notes[Math.floor(Math.random() * 3)]
 
-      $D.queue.add
-        key: $D.queue.ds.uuid()
+      $D.parties.add
+        key: $D.parties.ds.uuid()
         name: name
         size: size
         add_time: (new Date).add(-time).minutes()

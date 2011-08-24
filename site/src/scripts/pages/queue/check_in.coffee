@@ -11,11 +11,20 @@ $ ->
   $QUEUE.check_in = (id, success, failure) ->
     $TC.choose_table
       success: (table) =>
-        $D.queue.remove id
+        $D.parties.get id, (data) =>
+          data.status = 'seated'
+          data.seat_time = new Date
 
-        table.occupancy.occupant = id
+          data.occupancy =
+            table: table.opts.key
+            chart: $TC.chart.opts.key
 
-        success && success(table)
+          # The TC will be notified of the party change and will update
+          # the table.
+
+          $D.parties.save data
+
+          success && success(table)
 
   _bind_actions = ->
     $links = $list.find('a[href=#view-party]')
@@ -26,7 +35,7 @@ $ ->
       $el.bind 'vclick', ->
         id = $el.attr 'data-id'
 
-        $P.queue.check_in id, ->
+        $QUEUE.check_in id, ->
           do hide_fake_page
 
         false

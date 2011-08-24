@@ -38,7 +38,9 @@ $ ->
     if key
       vals.key = key
 
-    $D.queue.save(vals)
+    vals.status ?= 'waiting'
+
+    $D.parties.save(vals)
 
     dia.dialog 'close'
 

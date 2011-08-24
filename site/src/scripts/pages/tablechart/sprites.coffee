@@ -19,6 +19,9 @@ styles =
     shadow:
       blur: 10
       color: 'rgba(250, 250, 0, 1)'
+  occupied:
+    fill:
+      color: 'orange'
   aligned:
     line:
       color: '#5393C5'
@@ -147,6 +150,14 @@ class $TC.Table extends $TC.Sprite
     @occupancy = {}
 
     super @opts
+
+  occupy: (occupant) ->
+    @occupancy.occupant = occupant ? {}
+
+    if occupant
+      @occupancy.time = new Date
+  
+      @push_style 'occupied'
 
   _apply_style: (name) ->
     @style = get_style(name)

@@ -6,7 +6,7 @@ $('#view-party').live 'pageshow', ->
 
   $('[data-key]', self).text ''
 
-  $D.queue.get key, (data) ->
+  $D.parties.get key, (data) ->
     if not data
       alert 'Record not found'
       return
@@ -40,7 +40,7 @@ $('#view-party').live 'pageshow', ->
         return false
 
     do_delete = ->
-      $D.queue.remove data
+      $D.parties.remove data
 
       $(self).dialog 'close'
 

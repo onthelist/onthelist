@@ -36,3 +36,13 @@ $ ->
         if e.target == $tci[0]
           $tci.find('.ui-selected').removeClass('ui-selected')
           $tci.trigger('scaled_selectableunselected')
+
+      $tci.bind 'scaled_selectableselected', (e, sel) ->
+        if not $TC.chart.editable
+          table = $$(sel.selected).sprite
+
+          occupant = table.occupancy?.occupant
+          if not occupant
+            return
+  
+          $QUEUE.show_view_page occupant.key

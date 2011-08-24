@@ -1,3 +1,8 @@
+window.$QUEUE ?= {}
+$QUEUE.show_view_page = (key) ->
+  $$('#queue-list').selected_key = key
+  window.location = '#view-party'
+
 save_row_key = ->
   $$('#queue-list').selected_key = this.getAttribute 'data-id'
 
@@ -59,11 +64,14 @@ $ ->
         when 'group' then list.group val
         when 'time_view' then q_elem.find('time').time 'toggle_format'
 
-    $D.queue.live 'rowAdd', (e, row) ->
+    $D.parties.live 'rowAdd', (e, row) ->
+      if row.status != 'waiting'
+        return
+
       elapsed = Date.get_elapsed row.add_time
 
       add_list_row(list, row)
 
-    $D.queue.bind 'rowRemove', (e, key) ->
+    $D.parties.bind 'rowRemove', (e, key) ->
       list.remove($('a[data-id=' + key + ']', q_elem).parents('li').first())
     
