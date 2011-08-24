@@ -1,9 +1,14 @@
+get_elapsed = (time) ->
+  $F.date.format_elapsed(Date.get_elapsed(time), true)
+
 window.$F.party =
   status: (obj) ->
-    if not obj.status or obj.status == 'waiting'
+    switch obj.status
+      when 'waiting'
+        return "Waiting #{get_elapsed(obj.times.add)}"
 
-      wait_time = $F.date.format_elapsed(Date.get_elapsed(obj.add_time), true)
-      return "Waiting #{wait_time}"
+      when 'seated'
+        return "Seated #{get_elapsed(obj.times.seated)} ago"
 
     return ''
 

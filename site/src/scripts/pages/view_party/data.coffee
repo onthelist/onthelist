@@ -6,7 +6,7 @@ $('#view-party').live 'pageshow', ->
 
   $('[data-key]', self).text ''
 
-  $D.queue.get key, (data) ->
+  $D.parties.get key, (data) ->
     if not data
       alert 'Record not found'
       return
@@ -20,7 +20,7 @@ $('#view-party').live 'pageshow', ->
     $('[data-key=status]', self).text $F.party.status data
 
     $('time.icon', self)
-      .attr('datetime', data.add_time)
+      .attr('datetime', data.times.add)
       .attr('data-target', data.quoted_wait)
       .time
         format: 'icon'
@@ -40,7 +40,7 @@ $('#view-party').live 'pageshow', ->
         return false
 
     do_delete = ->
-      $D.queue.remove data
+      $D.parties.remove data
 
       $(self).dialog 'close'
 

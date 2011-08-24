@@ -12,7 +12,7 @@ class GuestSearchBox
     @request = null
     @wait_timer = null
     @match = null
-    @queue = $D.queue
+    @queue = $D.parties
 
     do this._add_button
 

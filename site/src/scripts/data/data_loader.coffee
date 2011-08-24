@@ -40,7 +40,16 @@ class $D._DataLoader extends $U.Evented
       @add vals
 
   get: (args...) ->
-    return @ds.get(args...)
+    return @_wrap_row(@ds.get(args...))
+
+  _wrap_row: (row) ->
+    if row? and typeof row == 'object'
+      row.update = (cb) =>
+        @get row.key, (data) =>
+          $.extend(true, row, data)
+          cb && cb(row)
+
+    return row
 
   find: (filter, res) ->
     #  Find isn't actually implemented in Lawnchair, so we fake it

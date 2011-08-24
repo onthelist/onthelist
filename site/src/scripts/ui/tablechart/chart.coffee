@@ -13,6 +13,29 @@ class $TC.Chart extends $U.Evented
   
     do @load
 
+    $.when( $D.parties.init() ).then =>
+      $D.parties.live 'rowAdd', (e, row) =>
+        if row.occupancy
+          if row.occupancy.chart == @opts.key
+            table = @get_sprite row.occupancy.table
+
+            table.occupy row
+
+      $D.parties.bind 'rowRemove', (e, row) =>
+        if row.occupancy
+          if row.occupancy.chart == @opts.key
+            table = @get_sprite row.occupancy.table
+
+            if table?
+              table.occupy null
+
+  get_sprite: (key) ->
+    for sprite in @sprites
+      if key == sprite.opts.key
+        return sprite
+
+    return null
+
   load: ->
     $.when( $D.charts.init() ).then =>
       $D.charts.get @opts.key, (row) =>
