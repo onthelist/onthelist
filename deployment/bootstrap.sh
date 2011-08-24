@@ -27,7 +27,8 @@ apt-get -yy install ruby1.8 ruby1.8-dev libopenssl-ruby irb ssl-cert
 # Install RubyGems from source or Ubuntu will disable updates and cause random issues.
 cd /tmp
 wget http://production.cf.rubygems.org/rubygems/rubygems-1.8.7.tgz
-cd rubygems-1.8.7 
+cd rubygems-1.8.7
+tar zxf rubygems-1.8.7.tgz 
 ruby setup.rb --no-format-executable
 
 gem update --system

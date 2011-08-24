@@ -35,6 +35,17 @@ remote_file "/tmp/jenkins-ci.org.key" do
   notifies :run, resources("execute[add jenkins apt key]"), :immediately
 end
 
+script "insert-jenkins-repo" do
+  interpreter "bash"
+  user "root"
+  cwd "/home/www-server/onthelist"
+  code <<-EOH
+  echo "deb http://pkg.jenkins-ci.org/debian binary/" >> /etc/apt/sources.list
+  apt-get -yy update
+  EOH
+end
+
+
 package "jenkins"
 
 service "jenkins" do

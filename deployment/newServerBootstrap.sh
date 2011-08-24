@@ -1,7 +1,7 @@
 #!/bin/bash
 # SpeedyTable bootstrap
 # Installs all requirements for a SpeedyTable server
-
+# Used for clean server creation
 # The script will fail without GitHub having the onthelist/keys SSH key in root's .ssh directory.
 while true; do
     read -p "Does this server have the Github SSH key copied to root's SSH directory?  (y/n) " yn
@@ -44,6 +44,7 @@ apt-get -yy install ruby1.8 ruby1.8-dev libopenssl-ruby irb ssl-cert
 # Install RubyGems from source or Ubuntu will disable updates and cause random issues.
 cd /tmp
 wget http://production.cf.rubygems.org/rubygems/rubygems-1.8.7.tgz
+tar zxf rubygems-1.8.7.tgz
 cd rubygems-1.8.7 
 ruby setup.rb --no-format-executable
 
