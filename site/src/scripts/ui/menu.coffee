@@ -57,7 +57,11 @@ class Menu
       # Reset the val so the same button can be clicked more than once.
       @$sel.val(null)
 
-      if @submenu == @fields
+      field = @_get_field(val)
+
+      if field.type == 'toggle'
+        @_toggle_val(val)
+      else if @submenu == @fields
         @_show_submenu(val)
       else if val == '#back'
         do @_hide_submenu
@@ -73,7 +77,10 @@ class Menu
         if field.value == opt.name
           lbl = opt.label
 
-      text = "#{field.label}: #{lbl}"
+      if field.label?
+        text = "#{field.label}: "
+
+      text += lbl
 
     else
       # It is a value entry
@@ -104,6 +111,18 @@ class Menu
     @$elem.trigger('optionChange', [@submenu.name, val])
 
     @_hide_submenu true, false
+
+  _toggle_val: (val) ->
+    field = @_get_field(val)
+
+    for opt in field.options
+      if opt.name != field.value
+        field.value = opt.name
+        @$elem.trigger('optionChange', [val, field.value])
+
+        @_create_options @submenu
+
+        break
   
   _hide_submenu: (to_root=false, show=true) ->
     if to_root
@@ -120,6 +139,9 @@ class Menu
 
     top = @$elem.offset().top - @menu.listbox.height() - 14
     @menu.listbox.css 'top', top
+
+    left = @$elem.offset().left + 30
+    @menu.listbox.css 'left', left
 
     @menu.listbox.find('.ui-btn-active').removeClass('ui-btn-active')
 

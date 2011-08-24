@@ -16,6 +16,10 @@ $ ->
   $tci.bind 'spriteUpdate', ->
     do $TC.chart.save
 
+  $page.bind 'optionChange', (e, field, val) ->
+    if field == 'edit'
+      $TC.chart.set_editable(val == 'unlocked')
+
   $page.bind 'pageshow', ->
     $this = $ this
 

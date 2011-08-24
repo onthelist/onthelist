@@ -74,6 +74,7 @@ class DraggableSprite
     }
 
   _snap: (ui) ->
+    # Snap dragged elements to align with other elements and even spacing.
     THRESHOLD = 5
 
     p = ui.position
@@ -277,6 +278,8 @@ class DraggableSprite
       .unbind('drag', @_e_drag)
       .unbind('dragstart', @_e_drag_start)
       .unbind('dragstop', @_e_drag_stop)
+      .unbind('touchstart mousedown', @_e_mouse_down)
+      .unbind('touchend mouseup mouseout', @_e_mouse_up)
 
   _e_drag: (e, ui) =>
     @_drag ui
@@ -292,6 +295,12 @@ class DraggableSprite
 
     @_stop ui
 
+  _e_mouse_down: ->
+    $TC.scroller.enabled = false
+
+  _e_mouse_up: ->
+    $TC.scroller.enabled = true
+
   init: ->
     @$canvas = $ @sprite.canvas
 
@@ -299,14 +308,8 @@ class DraggableSprite
       opacity: 0.5
       containment: 'parent'
     )
-    .bind('touchstart mousedown', ->
-      $TC.scroller.enabled = false
-      true
-    )
-    .bind('touchend mouseup mouseout', ->
-      $TC.scroller.enabled = true
-      true
-    )
+    .bind('touchstart mousedown', @_e_mouse_down)
+    .bind('touchend mouseup mouseout', @_e_mouse_up)
     .bind('drag', @_e_drag)
     .bind('dragstart', @_e_drag_start)
     .bind('dragstop', @_e_drag_stop)
