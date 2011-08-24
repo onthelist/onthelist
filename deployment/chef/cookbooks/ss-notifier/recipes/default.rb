@@ -20,5 +20,6 @@ template "/etc/init/ss-notifier.conf" do
 end
 
 service "ss-notifier" do
+  provider Chef::Provider::Service::Upstart
   action :start
 end
