@@ -32,12 +32,6 @@
         option(value="off") Yes
     
     div(data-role="fieldcontain")
-      label(for="reservation-table-number") Table
-      div(data-role="inline-center")
-        input#reservation-table-number.numeric-id.ui-corner-left(type="number", name="reservation_table_number")
-        a.inline-button.ui-btn-corner-right(href="#table-reservation", data-role="button", data-icon="grid") Chart
-          
-    div(data-role="fieldcontain")
       fieldset.form-radio(data-role="controlgroup", data-type="horizontal")
         legend Alert Method
         input#text-message(type="radio", name="alert_method", value="sms")
