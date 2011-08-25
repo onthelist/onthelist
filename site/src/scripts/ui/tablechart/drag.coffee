@@ -297,9 +297,11 @@ class DraggableSprite
 
   _e_mouse_down: ->
     $TC.scroller.enabled = false
+    true
 
   _e_mouse_up: ->
     $TC.scroller.enabled = true
+    true
 
   init: ->
     @$canvas = $ @sprite.canvas
