@@ -17,7 +17,7 @@ $.when( $D.parties.init() ).then ->
   
   $D.parties.ds.each (row) ->
     # DOM adaptor doesn't seem to support find
-    if not row.times?.add or Date.get_elapsed(row.times.add) > 60 * 24
+    if not row.times?.add or Date.get_elapsed(row.times.add) > 60 * 2
       $D.parties.ds.remove row
 
   $D.parties.ds.all (rows) ->
