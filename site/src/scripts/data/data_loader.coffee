@@ -25,8 +25,13 @@ class $D._DataLoader extends $U.Evented
     return @ready.promise()
   
   remove: (row) ->
+    if typeof row == 'string'
+      @ds.get row, (data) =>
+        @remove data
+      return
+
     @ds.remove row, =>
-      @trigger('rowRemove', row.key || row)
+      @trigger('rowRemove', row)
 
   add: (vals={}) ->
     @ds.save vals, (resp) =>
