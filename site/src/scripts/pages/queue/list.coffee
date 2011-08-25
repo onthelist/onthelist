@@ -43,6 +43,19 @@ add_list_row = (list, row) ->
   e_size.text size
   link.append e_size
 
+  link.swipe_menu
+    actions:
+      [
+        label: 'Alert'
+        theme: 'e'
+        cb: ->
+          $IO.alert row
+      ,
+        label: 'Check-In'
+        cb: ->
+          $QUEUE.check_in row.key
+      ]
+
   list.insert el, elapsed
 
 $ ->

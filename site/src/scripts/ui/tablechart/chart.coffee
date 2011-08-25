@@ -13,13 +13,19 @@ class $TC.Chart extends $U.Evented
   
     do @load
 
+  _load_occupancy: ->
     $.when( $D.parties.init() ).then =>
       $D.parties.live 'rowAdd', (e, row) =>
         if row.occupancy
           if row.occupancy.chart == @opts.key
             table = @get_sprite row.occupancy.table
 
-            table.occupy row
+            if table?
+              table.occupy row
+            else
+              $.log "No table"
+
+        true
 
       $D.parties.bind 'rowRemove', (e, row) =>
         if row.occupancy
@@ -28,6 +34,8 @@ class $TC.Chart extends $U.Evented
 
             if table?
               table.occupy null
+
+        true
 
   get_sprite: (key) ->
     for sprite in @sprites
@@ -41,6 +49,8 @@ class $TC.Chart extends $U.Evented
       $D.charts.get @opts.key, (row) =>
         if row
           @unpack row.sprites
+
+        do @_load_occupancy
 
   save: ->
     obj = $.extend {}, @opts,
