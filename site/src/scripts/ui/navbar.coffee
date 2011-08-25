@@ -1,4 +1,4 @@
-$('[data-role=page]').live 'pageshow', ->
+$('[data-role=page]').live 'pagebeforeshow', ->
   hash = '#' + this.getAttribute 'id'
 
   $('[data-role=navbar] a')
