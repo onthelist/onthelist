@@ -1,4 +1,3 @@
 { 
   "recipes": [ "java", "nginx", "node", "coffee-script", "jade", "compass", "ss-notifier" ]
 }
-
