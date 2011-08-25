@@ -43,12 +43,40 @@ script "insert-jenkins-repo" do
   echo "deb http://pkg.jenkins-ci.org/debian binary/" >> /etc/apt/sources.list
   apt-get -yy update
   EOH
+  not_if "cat /etc/apt/sources.list | grep 'deb http://pkg.jenkins-ci.org/debian binary/'"
 end
-
 
 package "jenkins"
 
 service "jenkins" do
   supports :status => true, :restart => true
   action [ :start, :enable ]
+end
+
+jenkins "git" do
+  action :install_plugin
+  cli_jar "/var/run/jenkins/war/WEB-INF/jenkins-cli.jar"
+  url "http://localhost:8080"
+  path "/var/lib/jenkins"
+end
+
+jenkins "github" do
+  action :install_plugin
+  cli_jar "/var/run/jenkins/war/WEB-INF/jenkins-cli.jar"
+  url "http://localhost:8080"
+  path "/var/lib/jenkins"
+end
+
+jenkins "github-oauth" do
+  action :install_plugin
+  cli_jar "/var/run/jenkins/war/WEB-INF/jenkins-cli.jar"
+  url "http://localhost:8080"
+  path "/var/lib/jenkins"
+end
+
+jenkins "reload config" do
+  action :reload_configuration
+  cli_jar "/var/run/jenkins/war/WEB-INF/jenkins-cli.jar"
+  url "http://localhost:8080"
+  path "/var/lib/jenkins"
 end

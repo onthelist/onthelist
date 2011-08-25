@@ -21,5 +21,5 @@ end
 
 service "ss-notifier" do
   provider Chef::Provider::Service::Upstart
-  action :start
+  action [ :start, :enable ]
 end
