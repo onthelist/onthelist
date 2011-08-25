@@ -3,6 +3,7 @@ class Menu
     @submenu = @fields = @opts.fields
 
     do @_create_select
+    do @_create_tab
     do @_init_menu
 
     @menu_stack = []
@@ -13,6 +14,12 @@ class Menu
         return field
 
     return null
+
+  _create_tab: ->
+    @$tab = $ '<div />'
+    @$tab.addClass 'menu-tab ui-bar-e'
+    @$tab.text '▲ Menu ▲'
+    @$elem.parent().prepend @$tab
 
   _create_select: ->
     @$sel = $('<select></select>')
