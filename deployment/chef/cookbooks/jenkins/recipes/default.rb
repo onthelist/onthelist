@@ -48,8 +48,8 @@ end
 
 package "jenkins"
 
-link "/var/lib/jenkins" do
-  to "/home/jenkins"
+link "/home/jenkins" do
+  to "/var/lib/jenkins"
 end
 
 service "jenkins" do
@@ -57,8 +57,13 @@ service "jenkins" do
   action [ :start, :enable ]
 end
 
-remote_file "/var/run/jenkins/war/WEB-INF/jenkins-cli.jar" do
-  source "localhost:8080/jnlpJars/jenkins-cli.jar"
+script "download-jenkins-cli" do
+  interpreter "bash"
+  user "root"
+  cwd "/var/run/jenkins/war/WEB-INF"
+  code <<-EOH
+  wget localhost:8080/jnlpJars/jenkins-cli.jar
+  EOH
 end
 
 jenkins "git" do
@@ -87,4 +92,9 @@ jenkins "reload config" do
   cli_jar "/var/run/jenkins/war/WEB-INF/jenkins-cli.jar"
   url "http://localhost:8080"
   path "/var/lib/jenkins"
+end
+
+service "jenkins" do
+  supports :status => true, :restart => true
+  action :restart
 end
