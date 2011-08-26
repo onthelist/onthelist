@@ -88,7 +88,7 @@ $ ->
             $TC.scroller._resetPos(0)
 
           # End will force iscroll to update the positioning
-          $TC.scroller._end({})
+          $TC.scroller._end({}, false)
         , 0)
 
       return fact

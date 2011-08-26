@@ -1,0 +1,22 @@
+.swipe-button-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  z-index: 100;
+  overflow: hidden;
+
+  .swipe-button-slide {
+    overflow: hidden;
+    width: 200px;
+  }
+
+  a {
+    float: right;
+    margin-top: 0.4em;
+
+    .ui-btn-inner {
+      padding: 0.25em 10px;
+    }
+  }
+}

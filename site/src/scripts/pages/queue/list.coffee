@@ -43,6 +43,19 @@ add_list_row = (list, row) ->
   e_size.text size
   link.append e_size
 
+  link.swipe_menu
+    actions:
+      [
+        label: 'Alert'
+        theme: 'e'
+        cb: ->
+          $IO.alert row
+      ,
+        label: 'Check-In'
+        cb: ->
+          $QUEUE.check_in row.key
+      ]
+
   list.insert el, elapsed
 
 $ ->
@@ -72,6 +85,7 @@ $ ->
 
       add_list_row(list, row)
 
-    $D.parties.bind 'rowRemove', (e, key) ->
-      list.remove($('a[data-id=' + key + ']', q_elem).parents('li').first())
+    $D.parties.bind 'rowRemove', (e, row) ->
+      if list
+        list.remove($('a[data-id=' + row.key + ']', q_elem).parents('li').first())
     

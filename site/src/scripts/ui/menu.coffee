@@ -7,12 +7,36 @@ class Menu
 
     @menu_stack = []
 
+    do @_update_menu_tab
+    $('.ui-page').bind 'pageshow', =>
+      do @_update_menu_tab
+
   _get_field: (name, fields=@submenu) ->
     for field in fields.options
       if field.name == name
         return field
 
     return null
+
+  _update_menu_tab: ->
+    if @$elem.find('a.ui-btn-icon-top').hasClass('ui-btn-active')
+      @_menu_tab false
+    else
+      @_menu_tab true
+
+  _menu_tab: (revert=false) ->
+    if not revert
+      if not @icon?
+        @icon = @$elem.find('a.ui-btn-icon-top').attr('data-icon')
+      if not @elem_text?
+        @elem_text = @$elem.find('.ui-btn-text').text()
+
+      @$elem.find('.ui-icon').removeClass("ui-icon-#{@icon}").addClass('ui-icon-arrow-u')
+      @$elem.find('.ui-btn-text').text("Page Menu")
+
+    else
+      @$elem.find('.ui-icon').removeClass('ui-icon-arrow-u').addClass("ui-icon-#{@icon}")
+      @$elem.find('.ui-btn-text').text(@elem_text)
 
   _create_select: ->
     @$sel = $('<select></select>')
