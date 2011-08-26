@@ -1,5 +1,9 @@
 @import "compass";
 
+// A
+$a-1: #444; // Dark Gray
+$a-2: darken($a-1, 28%);
+
 // B
 $b-1: #FDB243; // Orange
 $b-2: darken($b-1, 18%);
@@ -9,7 +13,7 @@ $b-hover-2: lighten($b-2, 4%);
 
 // C
 $c-1: #555; // Dark Gray
-$c-2: darken($c-1, 10%);
+$c-2: darken($c-1, 7%);
  
 $c-hover-1: lighten($c-1, 6%);
 $c-hover-2: lighten($c-2, 4%);
@@ -36,6 +40,16 @@ $f-hover-1: lighten($f-1, 4%);
 $f-hover-2: lighten($f-2, 3%);
 
 .dark-theme {
+  // A Theme
+  .ui-body-a {
+    font-weight: normal;
+    border: 1px solid #222;
+    background: $a-1;
+    @include background-image(linear-gradient($a-1, $a-2));
+    color: #DDD;
+    text-shadow: 0 -1px 0px #000;
+  }
+
   // B Theme
   .ui-bar-b {
     // Dark Gray
@@ -194,7 +208,7 @@ $f-hover-2: lighten($f-2, 3%);
     border-bottom-style: none;
   }
   .ui-btn-up-c {
-    border: 1px solid #555;
+    border: 1px solid #333;
     background: $c-1;
     @include background-image(linear-gradient($c-1, $c-2));
   }
