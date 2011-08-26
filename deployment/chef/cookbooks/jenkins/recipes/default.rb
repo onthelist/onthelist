@@ -48,9 +48,17 @@ end
 
 package "jenkins"
 
+link "/var/lib/jenkins" do
+  to "/home/jenkins"
+end
+
 service "jenkins" do
   supports :status => true, :restart => true
   action [ :start, :enable ]
+end
+
+remote_file "/var/run/jenkins/war/WEB-INF/jenkins-cli.jar" do
+  source "localhost:8080/jnlpJars/jenkins-cli.jar"
 end
 
 jenkins "git" do
