@@ -52,6 +52,6 @@ gem install chef --no-ri --no-rdoc
 
 # Fix file permissions now that everything is in place.
 chown -R www-server:www /home/www-server/
-chmod -R 775 /home/www-server/
+chmod -R ug+rw /home/www-server
 
 echo "Server bootstrap process complete. Run /home/www-server/onthelist/tools/startChefSolo.sh when ready."
