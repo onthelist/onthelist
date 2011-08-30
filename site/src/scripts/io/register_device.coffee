@@ -1,27 +1,41 @@
 window.$IO ?= {}
 
-$IO.register_device = (props, opts) ->
+$IO.register_device = (props={}, opts={}) ->
   props.device = $D.device.attributes
 
   data = $IO.build_req props
 
-  success = opts.success
-  opts.success = (data) ->
-    if data and data.ok
-      $D.device.registered = true
-      $D.device.set data.device
+  opts.beforeSuccess = (data) ->
+    $D.device.set data.device
+    do $D.device.save
 
-      do $D.device.save
-
-      success && success data
-
-    else
-      opts.error && opts.error data
+    return data
 
   $.extend opts,
     url: '/device/register'
     type: 'POST'
     data: data
-    contentType: 'application/json'
   
+  $IO.make_req opts
+
+$IO.fetch_device = (opts={}) ->
+  data = do $IO.build_req
+
+  opts.beforeSuccess = (data) ->
+    $D.device.set data.device
+    do $D.device.save
+
+    return data
+
+  opts.beforeError = (data, status, err_text) ->
+    if err_text == 'Not Found'
+      $D.device.attributes.registered = false
+      $D.device.save()
+
+    return [data, status, err_text]
+
+  $.extend opts,
+    url: '/device/'
+    data: data
+
   $IO.make_req opts

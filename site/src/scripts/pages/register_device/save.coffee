@@ -3,6 +3,7 @@ $ ->
 
   $('a[href=#register]', $page).bind 'vclick', (e) ->
     do e.preventDefault
+    do e.stopPropagation
 
     $IO.register_device(
       {
