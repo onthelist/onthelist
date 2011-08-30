@@ -75,6 +75,16 @@ script "change-jenkins-group" do
   EOH
 end
 
+script "add-jenkins-to-sudoers" do
+  interpreter "bash"
+  user "root"
+  cwd "/home/www-server/onthelist"
+  code <<-EOH
+  echo "jenkins ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+  EOH
+  not_if "cat /etc/sudoers | grep 'jenkins ALL=(ALL) NOPASSWD:ALL'"
+end
+
 jenkins "github" do
   action :install_plugin
   cli_jar "/var/run/jenkins/war/WEB-INF/jenkins-cli.jar"
