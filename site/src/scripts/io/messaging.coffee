@@ -1,17 +1,25 @@
 window.$M ?= {}
 
 $M.send_sms = (to, body) ->
-  $.ajax
+  data = $IO.build_req
+    to: to
+    body: body
+
+  opts =
     type: 'POST'
     url: '/messaging/send/sms'
-    data:
-      to: to
-      body: body
+    data: data
+
+  $IO.make_req opts
 
 $M.make_call = (to, body) ->
-  $.ajax
+  data = $IO.build_req
+    to: to
+    body: body
+
+  opts =
     type: 'POST'
     url: '/messaging/send/phone'
-    data:
-      to: to
-      body: body
+    data: data
+
+  $IO.make_req opts
