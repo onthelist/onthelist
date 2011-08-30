@@ -17,7 +17,17 @@ build_error('Unauthorized', 401);
 build_error('Client', 400);
 build_error('NotFound', 404);
 build_error('Server', 500);
+build_error('Unpaid', 402);
 
 module.exports.respond = function(res, err){
   res.send({'ok': false, 'error': err.msg}, err.code);
+};
+
+module.exports.catch_errors = function(app){
+  app.error(function(err, req, res, next){
+    if(err.code)
+      errors.respond(res, err)
+    else
+      next(err)
+  });
 };

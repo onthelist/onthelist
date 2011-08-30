@@ -16,11 +16,11 @@ if not $D.device.get 'created'
     settings: {}
     registered: false
     created: true
+  
+  $D.device.attributes.settings = $.extend(true, {}, $D.settings.default, $D.device.attributes.settings)
+  do $D.device.save
 
-$IO.fetch_device
-  'complete': ->
-    $D.device.attributes.settings = $.extend(true, {}, $D.settings.default, $D.device.attributes.settings)
-    do $D.device.save
+do $IO.fetch_device
 
 window.$S = $.extend({}, $D.device.get('settings'),
   save: ->

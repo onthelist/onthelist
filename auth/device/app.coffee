@@ -1,5 +1,8 @@
 express = require('express')
 
+errors = require('../../utils/lib/errors')
+store = require('../../utils/lib/redis_store').client
+
 app = module.exports = express.createServer()
 
 app.configure(->
@@ -19,7 +22,8 @@ app.configure('production', ->
   app.use(express.errorHandler())
 )
 
-DEVICES = {}
+errors.catch_errors app
+
 app.post '/register', (req, res) ->
   id = req.body.device_id
 
@@ -28,23 +32,31 @@ app.post '/register', (req, res) ->
   device.display_organization = 'Diablos'
   device.registered = true
 
-  DEVICES[id] = device
+  store.set("device:#{id}", JSON.stringify(device))
 
   res.send
     device: device
     ok: true
 
-
 app.get '/', (req, res) ->
   id = req.query.device_id
 
-  if DEVICES[id]?
-    res.send
-      device: DEVICES[id]
-      ok: true
+  store.get "device:#{id}", (err, data) ->
+    if not err? and data?
+      try
+        device = JSON.parse data
+      catch SyntaxError
+        errors.respond res, new errors.Server "Stored data syntax error"
+        return
 
-  else
-    res.send "Device not found", 404
+      res.send
+        device: device
+        ok: true
+
+    else if not err?
+      errors.respond res, new errors.NotFound "Device not found"
+    else
+      errors.respond res, new errors.Server "Storage error: #{err}"
 
 app.listen(4313)
 console.log("Express server listening on port %d", app.address().port)
