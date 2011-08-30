@@ -4,12 +4,12 @@ case platform
 when "debian","ubuntu"
   set[:nginx][:dir]     = "/etc/nginx"
   set[:nginx][:log_dir] = "/var/log/nginx"
-  set[:nginx][:user]    = "www-data"
+  set[:nginx][:user]    = "www-server www"
   set[:nginx][:binary]  = "/usr/sbin/nginx"
 else
   set[:nginx][:dir]     = "/etc/nginx"
   set[:nginx][:log_dir] = "/var/log/nginx"
-  set[:nginx][:user]    = "www-data"
+  set[:nginx][:user]    = "www-server www"
   set[:nginx][:binary]  = "/usr/sbin/nginx"
 end
 
@@ -19,7 +19,6 @@ default[:nginx][:gzip_comp_level] = "2"
 default[:nginx][:gzip_proxied] = "any"
 default[:nginx][:gzip_types] = [
   "text/plain",
-  "text/html",
   "text/css",
   "application/x-javascript",
   "text/xml",
