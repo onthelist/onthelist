@@ -19,6 +19,7 @@ add_list_row = (list, row) ->
   e_time = $ '<time>' + $F.date.format_elapsed(elapsed) + '</time>'
   e_time.attr('data-minutes', elapsed)
   e_time.attr('datetime', row.times.add)
+  e_time.attr('data-format', $S.queue.time_view)
 
   if row.quoted_wait
     qw = parseInt row.quoted_wait
@@ -61,7 +62,7 @@ add_list_row = (list, row) ->
 $ ->
     q_elem = $('#queue-list')
 
-    list = do q_elem.queueList
+    list = q_elem.queueList $S.queue
 
     $('#queue').bind 'pageshow', ->
       do list.add_dynamics
@@ -72,6 +73,9 @@ $ ->
       $.fixedToolbars.show(true)
 
     $('#queue').bind 'optionChange', (e, name, val) ->
+      $S.queue[name] = val
+      do $S.save
+
       switch name
         when 'sort' then list.sort val
         when 'group' then list.group val

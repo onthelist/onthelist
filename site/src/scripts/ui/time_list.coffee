@@ -1,5 +1,5 @@
 class IsotopeList
-  constructor: (@elem) ->
+  constructor: (@elem, @opts) ->
     @dynamics_added = false
 
   _height_changed: ->
@@ -55,10 +55,10 @@ class IsotopeList
     $elem.isotope
       itemSelector: 'li:not(.ui-li-divider)'
       layoutMode: 'sectionList'
-      groupBy: @groupBy ? 'lname'
+      groupBy: @groupBy ? @opts.group ? 'lname'
       transformsEnabled: use_transforms()
       getSortData: sort_fields
-      sortBy: @sortBy ? 'remaining'
+      sortBy: @sortBy ? @opts.sort ? 'remaining'
       filter: ':not(.ui-screen-hidden)'
       animationOptions:
         complete: =>
@@ -156,7 +156,7 @@ class IsotopeList
     $(@elem).isotope('remove', $elems)
       
 class TimeList extends IsotopeList
-  constructor: (@elem) ->
+  constructor: (@elem, @opts) ->
     super
 
     $$(@elem).time_list = this
@@ -168,8 +168,8 @@ class TimeList extends IsotopeList
     super
 
 class ElapsedTimeList extends TimeList
-  constructor: (@elem) ->
-    super @elem
+  constructor: (@elem, @opts) ->
+    super
 
     self = this
 
@@ -177,13 +177,9 @@ class ElapsedTimeList extends TimeList
       do self.update
     , 60000)
 
-  insert: (elem, elapsed=null) ->
-    if not elapsed
-      # We can pass in elapsed time to avoid having to parse it twice
-      elapsed = parseInt $('time', elem).attr 'data-minutes'
+  insert: (elem) ->
 
-    $('time', elem).time
-      format: 'remaining'
+    $('time', elem).time()
 
     $(@elem).append elem
 
@@ -231,6 +227,6 @@ class QueueList extends ElapsedTimeList
     do this.refresh
 
 $.fn.queueList = (action, args...) ->
-  if not action?
-    return new QueueList(this)
+  if not $$(this).time_list?
+    return new QueueList(this, action)
   return $$(this).time_list[action].call(this, args...)

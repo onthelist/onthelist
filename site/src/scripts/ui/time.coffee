@@ -2,7 +2,7 @@
 $.fn.time = (opts, args...) ->
   class TimeDisplay
     constructor: (@elem, @opts) ->
-      @format = @opts.format ? 'elapsed'
+      @format = @opts.format ? $(@elem).attr('data-format') ? 'elapsed'
 
       setInterval(=>
         do this.update

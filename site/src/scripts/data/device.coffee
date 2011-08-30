@@ -13,11 +13,12 @@ if not $D.device.get 'created'
   $.log 'unregistered device'
   $D.device.set
     create_time: new Date
-    settings: $D.settings.default
+    settings: {}
     registered: false
     created: true
 
-  do $D.device.save
+$D.device.attributes.settings = $.extend(true, {}, $D.settings.default, $D.device.attributes.settings)
+do $D.device.save
 
 window.$S = $.extend({}, $D.device.get('settings'),
   save: ->
