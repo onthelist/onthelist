@@ -66,6 +66,15 @@ script "download-jenkins-cli" do
   EOH
 end
 
+script "change-jenkins-group" do
+  interpreter "bash"
+  user "root"
+  cwd "/var/run/jenkins/war/WEB-INF"
+  code <<-EOH
+  usermod jenkins -g www
+  EOH
+end
+
 jenkins "github" do
   action :install_plugin
   cli_jar "/var/run/jenkins/war/WEB-INF/jenkins-cli.jar"
