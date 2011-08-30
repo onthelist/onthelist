@@ -1,0 +1,18 @@
+#register_device(data-role="dialog")
+  header(data-role="header")
+    h1 Register Device
+  form.content(data-role="content")
+    fieldset
+      div(data-role="fieldcontain")
+        label(for="rd-username") Account Username
+        input#rd-username(type="text", name="username", placeholder="Username")
+
+      div(data-role="fieldcontain")
+        label(for="rd-password") Account Password
+        input#rd-password(type="password", name="password", placeholder="Password")
+
+    div(data-role="fieldcontain")
+      label(for="rd-nickname") Device Nickname
+      input#rd-nickname(type="text", name="nickname", placeholder="Device Nickname")
+
+    a(href="#register", data-role="button") Register

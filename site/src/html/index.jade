@@ -43,6 +43,8 @@ html(lang="en")
 
     script(src="../libs/iscroll/iscroll.js")
       
+    script(src="../../extern/json2.js")
+
     script(src="../../extern/datejs/date-en-US.js")
     
     script(src="../../extern/underscore.js")
@@ -61,8 +63,10 @@ html(lang="en")
 
     script(src="../scripts/monitoring/logging.js")
 
+    script(src="../scripts/io/base.js")
     script(src="../scripts/io/messaging.js")
     script(src="../scripts/io/alert.js")
+    script(src="../scripts/io/register_device.js")
 
     script(src="../scripts/format/object.js")
     script(src="../scripts/format/date.js")
@@ -78,6 +82,7 @@ html(lang="en")
 
     script(src="../scripts/ui/hide_address_bar.js")
     script(src="../scripts/ui/navbar.js")
+    script(src="../scripts/ui/title.js")
     script(src="../scripts/ui/page_size.js")
     script(src="../scripts/ui/range.js")
     script(src="../scripts/ui/search_fill.js")
@@ -112,6 +117,8 @@ html(lang="en")
     script(src="../scripts/pages/tablechart/menu.js")
     script(src="../scripts/pages/tablechart/edit_menu.js")
     script(src="../scripts/pages/tablechart/demo.js")
+
+    script(src="../scripts/pages/register_device/save.js")
       
   body
     include_files(path="html/pages/", first="queue.jade"):
