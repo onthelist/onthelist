@@ -4,12 +4,14 @@ case platform
 when "debian","ubuntu"
   set[:nginx][:dir]     = "/etc/nginx"
   set[:nginx][:log_dir] = "/var/log/nginx"
-  set[:nginx][:user]    = "www-server www"
+  set[:nginx][:user]    = "www-server"
+  set[:nginx][:group]    = "www"
   set[:nginx][:binary]  = "/usr/sbin/nginx"
 else
   set[:nginx][:dir]     = "/etc/nginx"
   set[:nginx][:log_dir] = "/var/log/nginx"
-  set[:nginx][:user]    = "www-server www"
+  set[:nginx][:user]    = "www-server"
+  set[:nginx][:group]    = "www"
   set[:nginx][:binary]  = "/usr/sbin/nginx"
 end
 
