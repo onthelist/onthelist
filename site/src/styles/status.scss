@@ -1,0 +1,17 @@
+.status-standalone {
+  position: absolute;
+  top: 5px;
+  width: 95%;
+  left: 2.5%;
+  
+  background-color: #CCC;
+  border-radius: 10px;
+  padding: 5px 15px;
+
+  z-index: 1200;
+
+  time {
+    margin-right: 0;
+    width: auto;
+  }
+}

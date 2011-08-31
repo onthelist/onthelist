@@ -1,14 +1,28 @@
 # Display a time as elapsed minutes, remaining minutes or a graphical timer.
 $.fn.time = (opts, args...) ->
+  if not this.length
+    return
+
   class TimeDisplay
     constructor: (@elem, @opts) ->
       @format = @opts.format ? $(@elem).attr('data-format') ? 'elapsed'
 
-      setInterval(=>
-        do this.update
-      , 60000)
+      do @set_interval
 
-      do this.update
+      do @update
+
+    set_interval: (time=60000) ->
+      if @update_freq == time
+        return
+
+      @update_freq = time
+
+      if @interval?
+        clearInterval @interval
+
+      @interval = setInterval(=>
+        do @update
+      , time)
 
     toggle_format: ->
       @format = if @format is 'elapsed' then 'remaining' else 'elapsed'
@@ -21,7 +35,7 @@ $.fn.time = (opts, args...) ->
       @elapsed = Date.get_elapsed @elem.attr('datetime')
       @elem.attr 'data-minutes', @elapsed
 
-      @target = parseInt @elem.attr 'data-target'
+      @target = parseFloat @elem.attr 'data-target'
       if @target == NaN
         @target = null
 
@@ -36,17 +50,20 @@ $.fn.time = (opts, args...) ->
         return
 
       rem = @target - @elapsed
-    
-      str = ''
+   
       if rem < 0
         @elem.addClass 'overtime'
       else
-        str += '+'
         @elem.removeClass 'overtime'
 
-      str += rem + ' min'
+      str = $F.date.format_remaining rem, @opts.sign ? true
 
       @elem.text str
+
+      if 0 < rem < 1
+        @set_interval 200
+      else
+        @set_interval 60000
 
     _update_icon: ->
       if not @target?

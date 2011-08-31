@@ -37,4 +37,4 @@ Date.get_minutes = (date) ->
 Date.get_elapsed = (date) ->
   date = Date.get_minutes date
 
-  return Math.floor(((new Date).getTime() - date) / 60000.0)
+  return ((new Date).getTime() - date) / 60000.0
