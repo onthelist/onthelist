@@ -85,6 +85,16 @@ script "add-jenkins-to-sudoers" do
   not_if "cat /etc/sudoers | grep 'jenkins ALL=(ALL) NOPASSWD:ALL'"
 end
 
+script "fetch-SSH-keys" do
+  interpreter "bash"
+  user "root"
+  cwd "/home/jenkins"
+  code <<-EOH
+   cp -Rp /root/.ssh/ ./.ssh/
+   chown -R jenkins:www .ssh
+  EOH
+end
+
 jenkins "github" do
   action :install_plugin
   cli_jar "/var/run/jenkins/war/WEB-INF/jenkins-cli.jar"
@@ -97,6 +107,19 @@ jenkins "github-oauth" do
   cli_jar "/var/run/jenkins/war/WEB-INF/jenkins-cli.jar"
   url "http://localhost:8080"
   path "/var/lib/jenkins"
+end
+
+jenkins "SpeedySeatFetch" do
+  action :create_job
+  cli_jar "/var/run/jenkins/war/WEB-INF/jenkins-cli.jar"
+  url "http://localhost:8080"
+  path "/var/lib/jenkins"
+end
+
+template "/home/jenkins/jobs/SpeedySeatFetch/config.xml" do
+  source "SpeedySeatFetch"
+  group "www"
+  owner "jenkins"
 end
 
 jenkins "reload config" do
