@@ -38,6 +38,8 @@ class Action
         retry: =>
           do @do
 
+    @_add_cancel status
+
     if @status_on.error
       @status.update status
     else
@@ -50,7 +52,7 @@ class Action
         link: false
         text: "Retrying in <time data-target='#{delay / 60}' datetime='#{(new Date).toISOString()}' data-format='remaining'></time>, <a href='#do'>Retry Now</a>"
 
-      setTimeout(=>
+      timeout = setTimeout(=>
         @status.update_action 'retry',
           link: false
           text: 'Retrying Now'
@@ -59,16 +61,28 @@ class Action
         do @_do
       , delay * 1000)
 
+      @status.update_action 'cancel',
+        text: 'Cancel'
+        func: =>
+          clearTimeout timeout
+          do @status.hide
+
+  _add_cancel: (status) ->
+    if @cancel
+      status.actions ?= {}
+      status.actions.cancel =
+        func: =>
+          do @cancel
+        text: 'Cancel'
+        style: 'cancel'
+
   do: ->
     @attempts++
 
     status =
       msg: "#{@adverb} #{@noun}"
 
-    if @cancel?
-      status.actions =
-        cancel: =>
-          do @cancel
+    @_add_cancel status
 
     if @status_on.progress
       @status.update status
@@ -94,6 +108,8 @@ class AlertAction extends Action
     data.times.alerts.append new Date
 
     data.alerted = true
+
+  cancel: ->
 
   _do: ->
     opts =

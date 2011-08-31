@@ -31,10 +31,17 @@ class $UI.Status
       @$el.addClass 'status-standalone'
       $('body').append @$el
 
+    @$el.removeClass 'notice warning error success'
+    @$el.addClass (@opts.style ? 'notice')
+
     if @opts.msg
       @$el.text @opts.msg
 
     if @opts.actions
+      $act = $ '<div />'
+      $act.addClass 'actions'
+      @$el.append $act
+
       for own name, act of @opts.actions
         text = act.text ? name
 
@@ -45,24 +52,31 @@ class $UI.Status
 
         $a_el.html text
 
+        if act.style?
+          $a_el.addClass act.style
+
         $a_el.find('time').time
           format: 'remaining'
           sign: false
 
         self = this
-        $a_el.find('a[href=#do]')
+        $a_el.find('a[href=#do]').andSelf()
           .attr('data-action', name)
           .bind 'vclick', (e) ->
             do e.preventDefault
             do e.stopPropagation
 
             action = self.opts.actions[$(this).attr('data-action')]
-
+        
             do action.func
 
-        @$el.append $a_el
+            false
+
+        $act.append $a_el
 
   update_action: (name, opts) ->
+    @opts.actions[name] ?= {}
+
     $.extend @opts.actions[name], opts
 
     do @show

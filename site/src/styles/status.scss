@@ -1,15 +1,56 @@
+@import "compass/css3/images";
+
 .status-standalone {
   position: absolute;
   top: 5px;
-  width: 95%;
-  left: 2.5%;
+  width: 85%;
+  left: 7.5%;
   
-  background-color: #CCC;
+  font-family: Verdana, sans-serif;
+  text-shadow: 1px 1px 1px #EEE;
+  color: #444;
+
   border-radius: 10px;
-  padding: 5px 15px;
+  padding: 10px 5px 10px 20px;
+
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
 
   z-index: 1200;
+  
+  @include background(linear-gradient(top center, #CCC, #DDD));
 
+  &.error {
+    @include background(linear-gradient(top center, #C44, #D44));
+    text-shadow: 1px 1px 1px #222;
+    color: #EEE;
+  }
+
+  .actions {
+    float: right;
+  }
+  span, a {
+    padding: 0 4px;
+  }
+  a {
+    color: #EEE;
+    text-decoration: none;
+    @include background(linear-gradient(top center, #77C, #77D));
+    border: 1px solid #BBF;
+
+    padding: 3px 10px;
+    border-radius: 10px;
+
+    &:hover {
+      box-shadow: 0 0 2px #EEE;
+    }
+    &.cancel {
+      @include background(linear-gradient(top center, #DEE, #FDD));
+      color: #333;
+      text-shadow: 1px 1px 1px #EEE;
+      background-color: #EEE;
+    }
+  }
   time {
     margin-right: 0;
     width: auto;
