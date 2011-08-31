@@ -26,11 +26,17 @@ class $UI.Status
     do @show
 
   _render_standalone: ->
+    self = this
+
     if not @$el?
       @$el = $ '<div />'
       @$el.addClass 'status-standalone'
       $page = $('.ui-page-active')
       $page.find('.ui-content').prepend @$el
+
+      $('.ui-page').bind 'pageshow', ->
+        do self.$el.detach
+        $(this).find('.ui-content').prepend self.$el
 
     @$el.html ''
 
@@ -54,7 +60,9 @@ class $UI.Status
         if act.status?
           $st = $ '<span />'
           $st.addClass 'action-status'
-          $st.html act.status + ', '
+
+          $st.html act.status
+
           $act.append $st
           
           $st.find('time').time
@@ -71,7 +79,6 @@ class $UI.Status
         if act.style?
           $a_el.addClass act.style
 
-        self = this
         $a_el.find('a[href=#do]').andSelf()
           .attr('data-action', name)
           .bind 'vclick', (e) ->
