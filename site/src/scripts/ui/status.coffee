@@ -29,13 +29,19 @@ class $UI.Status
     if not @$el?
       @$el = $ '<div />'
       @$el.addClass 'status-standalone'
-      $('body').append @$el
+      $page = $('.ui-page-active')
+      $page.find('.ui-content').prepend @$el
+
+    @$el.html ''
 
     @$el.removeClass 'notice warning error success'
     @$el.addClass (@opts.style ? 'notice')
 
     if @opts.msg
-      @$el.text @opts.msg
+      $con = $ '<div />'
+      $con.addClass 'status-msg'
+      $con.html @opts.msg
+      @$el.append $con
 
     if @opts.actions
       $act = $ '<div />'
@@ -44,6 +50,16 @@ class $UI.Status
 
       for own name, act of @opts.actions
         text = act.text ? name
+
+        if act.status?
+          $st = $ '<span />'
+          $st.addClass 'action-status'
+          $st.html act.status + ', '
+          $act.append $st
+          
+          $st.find('time').time
+            format: 'remaining'
+            sign: false
 
         if act.link == false
           $a_el = $ '<span />'
@@ -54,10 +70,6 @@ class $UI.Status
 
         if act.style?
           $a_el.addClass act.style
-
-        $a_el.find('time').time
-          format: 'remaining'
-          sign: false
 
         self = this
         $a_el.find('a[href=#do]').andSelf()
@@ -73,6 +85,10 @@ class $UI.Status
             false
 
         $act.append $a_el
+
+    $clr = $ '<hr />'
+    $clr.addClass 'clear'
+    @$el.append $clr
 
   update_action: (name, opts) ->
     @opts.actions[name] ?= {}

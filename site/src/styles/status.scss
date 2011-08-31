@@ -1,17 +1,17 @@
 @import "compass/css3/images";
 
 .status-standalone {
-  position: absolute;
-  top: 5px;
-  width: 85%;
-  left: 7.5%;
+  margin: 0 1% 30px;
+  width: 98%;
   
   font-family: Verdana, sans-serif;
   text-shadow: 1px 1px 1px #EEE;
   color: #444;
+  height: 2.5em;
 
   border-radius: 10px;
-  padding: 10px 5px 10px 20px;
+  padding: .1em 5px .1em 20px;
+  box-shadow: 0px 0px 7px #CCC;
 
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -24,13 +24,17 @@
     @include background(linear-gradient(top center, #C44, #D44));
     text-shadow: 1px 1px 1px #222;
     color: #EEE;
+    box-shadow: 0px 0px 6px #D22;
   }
 
   .actions {
     float: right;
   }
-  span, a {
-    padding: 0 4px;
+  .action-status, .status-msg {
+    float: left;
+    display: block;
+    line-height: 2.3em;
+    margin-right: 3px;
   }
   a {
     color: #EEE;
@@ -38,15 +42,24 @@
     @include background(linear-gradient(top center, #77C, #77D));
     border: 1px solid #BBF;
 
-    padding: 3px 10px;
+    padding: .1em 10px;
     border-radius: 10px;
+    white-space: nowrap;
+    display: block;
+    float: left;
+    margin: .2em 2px;
+    height: 1.8em;
+    line-height: 1.5em;
+    
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 
     &:hover {
       box-shadow: 0 0 2px #EEE;
     }
     &.cancel {
       @include background(linear-gradient(top center, #DEE, #FDD));
-      color: #333;
+      color: #666;
       text-shadow: 1px 1px 1px #EEE;
       background-color: #EEE;
     }

@@ -49,11 +49,12 @@ class Action
       delay = Math.pow(2, @attempts - 1) * 5
 
       @status.update_action 'retry',
-        link: false
-        text: "Retrying in <time data-target='#{delay / 60}' datetime='#{(new Date).toISOString()}' data-format='remaining'></time>, <a href='#do'>Retry Now</a>"
+        status: "Retrying in <time data-target='#{delay / 60}' datetime='#{(new Date).toISOString()}' data-format='remaining'></time>"
+        text: 'Retry Now'
 
       timeout = setTimeout(=>
         @status.update_action 'retry',
+          status: null
           link: false
           text: 'Retrying Now'
 
