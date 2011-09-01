@@ -23,7 +23,7 @@ $ ->
   $('#add-party a[href=#add]').bind 'vclick', (e) ->
     dia = $ '#add-party'
 
-    vals = {}
+    vals = $$(dia).data ? {}
     $('#add-party input').each (i, elem) ->
       $elem = $ elem
 
@@ -34,10 +34,13 @@ $ ->
       else
         vals[$elem.attr('name')] = $elem.val()
 
-    if $$(dia).row?
-      $$(dia).row.update vals
-    else
-      $D.parties.create vals
+    key = $$('#queue-list').selected_key
+    if key
+      vals.key = key
+
+    vals.status ?= ['waiting']
+
+    $D.parties.save(vals)
 
     dia.dialog 'close'
 

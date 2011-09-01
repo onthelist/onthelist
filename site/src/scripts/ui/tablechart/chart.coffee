@@ -14,29 +14,28 @@ class $TC.Chart extends $U.Evented
     do @load
 
   _load_occupancy: ->
-    $D.parties.bindBack 'change:occupancy add', (row) =>
-      occ = row.get 'occupancy'
-      if occ?
-        if occ.chart == @opts.key
-          table = @get_sprite occ.table
+    $.when( $D.parties.init() ).then =>
+      $D.parties.live 'rowAdd', (e, row) =>
+        if row.occupancy
+          if row.occupancy.chart == @opts.key
+            table = @get_sprite row.occupancy.table
 
-          if table?
-            table.occupy row
-          else
-            $.log "No table"
+            if table?
+              table.occupy row
+            else
+              $.log "No table"
 
-      true
+        true
 
-    $D.parties.bind 'remove', (row) =>
-      occ = row.get 'occupancy'
-      if occ?
-        if occ.chart == @opts.key
-          table = @get_sprite occ.table
+      $D.parties.bind 'rowRemove', (e, row) =>
+        if row.occupancy
+          if row.occupancy.chart == @opts.key
+            table = @get_sprite row.occupancy.table
 
-          if table?
-            table.occupy null
+            if table?
+              table.occupy null
 
-      true
+        true
 
   get_sprite: (key) ->
     for sprite in @sprites

@@ -11,25 +11,20 @@ $ ->
   $QUEUE.check_in = (id, success, failure) ->
     $TC.choose_table
       success: (table) =>
-        $D.parties.getAsync id, (row) =>
-          data = row.attributes
+        $D.parties.get id, (data) =>
+          data.status.push 'seated'
+          data.status.remove 'waiting'
 
-          stat = data.status.clone()
-          stat.push 'seated'
-          stat.remove 'waiting'
+          data.times.seated = new Date
 
-          times = Object.clone(data.times)
-          times.seated = new Date
-
-          row.update
-            occupancy:
-              table: table.opts.key
-              chart: $TC.chart.opts.key
-            times: times
-            status: stat
+          data.occupancy =
+            table: table.opts.key
+            chart: $TC.chart.opts.key
 
           # The TC will be notified of the party change and will update
           # the table.
+
+          $D.parties.save data
 
           success && success(table)
 

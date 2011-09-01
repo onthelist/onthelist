@@ -45,4 +45,4 @@ $ ->
           if not occupant
             return
   
-          $QUEUE.show_view_page occupant.id
+          $QUEUE.show_view_page occupant.key
