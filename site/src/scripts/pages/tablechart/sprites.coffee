@@ -154,12 +154,14 @@ class $TC.Table extends $TC.Sprite
     super @opts
 
   occupy: (occupant) ->
-    @occupancy.occupant = occupant ? {}
+    @occupancy.occupant = occupant ? null
 
-    if occupant
+    if occupant?
       @occupancy.time = new Date
   
       @push_style 'occupied'
+    else
+      @pop_style 'occupied'
 
   _apply_style: (section) ->
     @style = {}

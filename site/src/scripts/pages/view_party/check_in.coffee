@@ -5,6 +5,6 @@ $ ->
 
       $(this).dialog 'close'
 
-      $QUEUE.check_in data.key
+      $QUEUE.check_in data.id
 
       false
