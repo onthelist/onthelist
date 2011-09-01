@@ -60,8 +60,9 @@ end
 script "download-jenkins-cli" do
   interpreter "bash"
   user "root"
-  cwd "/var/run/jenkins/war/WEB-INF"
+  cwd "/home/jenkins"
   code <<-EOH
+  mkdir -p /var/run/jenkins/war/WEB-INF
   wget localhost:8080/jnlpJars/jenkins-cli.jar
   EOH
 end

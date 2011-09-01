@@ -32,16 +32,17 @@ case node[:platform]
     package "libssl-dev"
 end
 
-bash "compile_nodejs_source" do
-  cwd "/tmp/"
-  code <<-EOH
-    git clone https://github.com/joyent/node.git
-    cd node
-    git checkout #{node[:node][:version]}
-    ./configure && make && make install
-  EOH
+template "/tmp/node_0.4_amd64.deb" do
+  source "node_0.4_amd64.deb"
 end
 
+bash "install_node_deb" do
+  user "root"
+  cwd "/tmp/"
+  code <<-EOH
+    dpkg -i node_0.4_amd64.deb
+  EOH
+end
 
 bash "install_npm" do
   user "root"
