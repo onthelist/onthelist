@@ -32,8 +32,9 @@ case node[:platform]
     package "libssl-dev"
 end
 
-template "/tmp/node_0.4_amd64.deb" do
+cookbook_file "/tmp/node_0.4_amd64.deb" do
   source "node_0.4_amd64.deb"
+  mode "0777"
 end
 
 bash "install_node_deb" do
