@@ -64,6 +64,7 @@ $.extend $.Isotope.prototype,
 
       # Expand the bounds into sections
       sections = []
+      e_bounds = []
       for bound, i in s_bounds
         start = bound
         if group.unboundedLeft and i == 0
@@ -77,20 +78,15 @@ $.extend $.Isotope.prototype,
           continue
         else
           st_bound = bound
-          en_bound = s_bounds[i + 1]
+          en_bound = @_shiftBound(s_bounds[i + 1], -1)
           
-          if i != 0
-            st_bound = @_shiftBound(st_bound)
-           if i + 1 == s_bounds.length - 1
-              # This is the last divider, the ending bound is one plus
-              # the actual end.
-              en_bound = @_shiftBound(en_bound, -1)
-
           if st_bound == en_bound
             # The start and end are the same (it's a single value)
             label = lbl_maker('single', st_bound)
           else
             label = lbl_maker('range', st_bound, en_bound)
+
+        e_bounds.push en_bound
 
         section =
           label: label

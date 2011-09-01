@@ -72,7 +72,7 @@ class IsotopeList
             lname = sort_fields.lname $(el)
             return lname.substring(0, 1).toUpperCase()
         size:
-          sectionBounds: [1, 2, 5]
+          sectionBounds: [1, 3, 5]
           unboundedRight: true
           parse: (el) ->
             return sort_fields.size $(el)
