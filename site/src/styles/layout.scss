@@ -111,6 +111,9 @@ time {
         display: block;
       }
     }
+    &.alerted {
+      background-color: orange;
+    }
   }
   
   .list-control {

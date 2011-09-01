@@ -105,10 +105,10 @@ class AlertAction extends Action
   success: (resp) ->
     super
 
-    data.times.alerts ?= []
-    data.times.alerts.append new Date
+    @data.times.alerts ?= []
+    @data.times.alerts.push new Date
 
-    data.alerted = true
+    @data.status.push 'alerted'
 
   cancel: ->
 

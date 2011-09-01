@@ -38,7 +38,7 @@ $ ->
     if key
       vals.key = key
 
-    vals.status ?= 'waiting'
+    vals.status ?= ['waiting']
 
     $D.parties.save(vals)
 

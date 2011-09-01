@@ -12,7 +12,9 @@ $ ->
     $TC.choose_table
       success: (table) =>
         $D.parties.get id, (data) =>
-          data.status = 'seated'
+          data.status.push 'seated'
+          data.status.remove 'waiting'
+
           data.times.seated = new Date
 
           data.occupancy =

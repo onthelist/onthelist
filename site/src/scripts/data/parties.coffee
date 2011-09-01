@@ -44,6 +44,6 @@ $.when( $D.parties.init() ).then ->
         phone: '2482298031'
         quoted_wait: 60
         alert_method: 'sms'
-        status: 'waiting'
+        status: ['waiting']
         notes: note
 

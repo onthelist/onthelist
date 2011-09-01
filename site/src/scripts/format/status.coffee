@@ -3,12 +3,11 @@ get_elapsed = (time) ->
 
 window.$F.party =
   status: (obj) ->
-    switch obj.status
-      when 'waiting'
-        return "Waiting #{get_elapsed(obj.times.add)}"
+    if obj.status.has 'waiting'
+      return "Waiting #{get_elapsed(obj.times.add)}"
 
-      when 'seated'
-        return "Seated #{get_elapsed(obj.times.seated)} ago"
+    if obj.status.has 'seated'
+      return "Seated #{get_elapsed(obj.times.seated)} ago"
 
     return ''
 

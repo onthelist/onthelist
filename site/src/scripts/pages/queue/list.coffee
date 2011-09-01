@@ -8,6 +8,8 @@ save_row_key = ->
 
 add_list_row = (list, row) ->
   el = $ '<li></li>'
+  el.addClass row.status.join(' ')
+
   link = $ '<a></a>'
   link.attr('href', '#view-party')
   link.attr('data-id', row.key)
@@ -82,7 +84,7 @@ $ ->
         when 'time_view' then q_elem.find('time').time 'toggle_format'
 
     $D.parties.live 'rowAdd', (e, row) ->
-      if row.status != 'waiting'
+      if not row.status.has 'waiting'
         return
 
       elapsed = Date.get_elapsed row.times.add
