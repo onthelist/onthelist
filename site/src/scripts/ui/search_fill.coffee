@@ -120,20 +120,16 @@ class GuestSearchBox
   _match: (val) ->
     do this._button_loading
 
-    @queue.find((r) =>
-      return this._check_match(r, val)
-    , (args...) =>
-      this._handle_match(args...)
-    )
+    match = @queue.find (r) =>
+      this._check_match(r.attributes, val)
+      
+    this._handle_match(match.attributes)
 
-  _handle_match: (resp) ->
-    if resp.length == 0
-      @match = null
+  _handle_match: (@match=null) ->
+    if not @match?
       do this._button_empty
       return
     
-    @match = resp[0]
-
     if @$elem.triggerHandler('match', [@match, this]) == false
       @match = null
       return
