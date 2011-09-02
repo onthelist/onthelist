@@ -16,13 +16,13 @@ window.$F.date =
 
     return out
 
-  format_remaining: (min, plus=true) ->
+  format_remaining: (min, plus=true, sec=false) ->
     str = ''
       
     if plus and min > 0
       str = '+'
 
-    if min < 1 and min > 0
+    if sec and min < 1 and min > 0
       return str + (Math.floor(min * 60) + 1) + ' sec'
     else
       return str + Math.floor(min) + ' min'

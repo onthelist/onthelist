@@ -114,6 +114,9 @@ time {
     &.alerted {
       background-color: orange;
     }
+    &.seated {
+      background-color: red;
+    }
   }
   
   .list-control {

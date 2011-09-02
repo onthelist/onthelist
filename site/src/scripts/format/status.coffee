@@ -3,6 +3,9 @@ get_elapsed = (time) ->
 
 window.$F.party =
   status: (obj) ->
+    if obj.status.has 'alerted'
+      return "Alerted #{get_elapsed(obj.times.alerts.last())} ago"
+
     if obj.status.has 'waiting'
       return "Waiting #{get_elapsed(obj.times.add)}"
 

@@ -2,14 +2,14 @@ window.$U ?= {}
 
 class $U.Evented
   constructor: ->
-    @evt = $({})
+    @_evt = $({})
 
   trigger: (args...) ->
-    @evt.trigger(args...)
+    @_evt.trigger(args...)
 
   live: (evt, func) ->
-    @evt.bind(evt, func)
+    @_evt.bind(evt, func)
 
   bind: (args...) ->
-    @evt.bind(args...)
+    @_evt.bind(args...)
 

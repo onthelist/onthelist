@@ -12,8 +12,7 @@ $ ->
     $TC.choose_table
       success: (table) =>
         $D.parties.get id, (data) =>
-          data.status.push 'seated'
-          data.status.remove 'waiting'
+          data.add_status 'seated'
 
           data.times.seated = new Date
 
@@ -24,7 +23,7 @@ $ ->
           # The TC will be notified of the party change and will update
           # the table.
 
-          $D.parties.save data
+          do data.save
 
           success && success(table)
 

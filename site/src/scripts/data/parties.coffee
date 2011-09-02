@@ -1,5 +1,20 @@
+class Party extends $D._DataRow
+  add_status: (name) ->
+    @status ?= []
+
+    if ['waiting', 'seated', 'left'].has name
+      @status.subtract ['waiting', 'seated', 'left']
+
+    if @status.has name
+      return
+
+    @status.push name
+
+    do @save
+
 class Parties extends $D._DataLoader
   name: 'parties'
+  model: Party
 
   add: (vals={}) ->
     vals.times ?= {}
@@ -11,7 +26,7 @@ class Parties extends $D._DataLoader
         vals.times[name] = time.toISOString()
 
     super vals
-  
+
 $D.parties = new Parties
 $.when( $D.parties.init() ).then ->
   

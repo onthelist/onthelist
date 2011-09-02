@@ -56,7 +56,7 @@ $.fn.time = (opts, args...) ->
       else
         @elem.removeClass 'overtime'
 
-      str = $F.date.format_remaining rem, @opts.sign ? true
+      str = $F.date.format_remaining rem, @opts.sign ? true, @opts.sec ? false
 
       @elem.text str
 

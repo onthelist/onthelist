@@ -68,6 +68,7 @@ class $UI.Status
           $st.find('time').time
             format: 'remaining'
             sign: false
+            sec: true
 
         if act.link == false
           $a_el = $ '<span />'

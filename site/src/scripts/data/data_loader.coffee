@@ -20,7 +20,7 @@ class $D._DataLoader extends $U.Evented
         @ready.resolve this
 
         @ds.each (row) =>
-          @register_row row
+          @register_row @_wrap_row row
 
     return @ready.promise()
   
@@ -31,36 +31,31 @@ class $D._DataLoader extends $U.Evented
       return
 
     @ds.remove row, =>
-      @trigger('rowRemove', row)
+      @trigger 'rowRemove', row
 
   add: (vals={}) ->
     @ds.save vals, (resp) =>
-      @register_row resp
+      @register_row @_wrap_row resp
 
   save: (vals) ->
-    @get vals.key, (data) =>
-      if data
-        @remove vals
+    if vals.save?
+      do vals.save
+    else
+      @get vals.key, (data) =>
+        if data
+          @remove vals
 
-      @add vals
+        @add vals
 
-  get: (args...) ->
-    return @_wrap_row(@ds.get(args...))
-
-  _wrap_row: (row) ->
-    if row? and typeof row == 'object'
-      row.update = (cb) =>
-        @get row.key, (data) =>
-          $.extend(true, row, data)
-          cb && cb(row)
-
-    return row
+  get: (id, func) ->
+    @ds.get id, (data) =>
+      func @_wrap_row data
 
   find: (filter, res) ->
     #  Find isn't actually implemented in Lawnchair, so we fake it
     out = []
-    @ds.all (rows) ->
-      res (row for row in rows when filter(row))
+    @ds.all (rows) =>
+      res (@_wrap_row(row) for row in rows when filter(row))
 
   register_row: (row) ->
     @trigger('rowAdd', row)
@@ -69,7 +64,37 @@ class $D._DataLoader extends $U.Evented
     if @ds? and evt.indexOf 'row' == 0
       # We call the func on all the existing rows with evt of false
       # to allow the event to be bound after the data is initially loaded
-      @ds.each (row) ->
-        func(false, row)
+      @ds.each (row) =>
+        func(false, @_wrap_row row)
 
     @bind(evt, func)
+
+  _wrap_row: (row) ->
+    if @model
+      return new @model row, @
+
+    return row
+
+class $D._DataRow extends $U.Evented
+  constructor: (data, @coll) ->
+    super
+
+    @_extend data
+
+  _extend: (data) ->
+    $.extend @, data
+
+  fetch: (cb) ->
+    @coll.get @key, (data) =>
+      @_extend data
+      cb && cb(@)
+
+  save: ->
+    data = {}
+    for own name, val of @
+      if name.substring(0, 1) != '_' and typeof val != 'function'
+        data[name] = val
+
+    @coll.remove data
+    @coll.add data
+
