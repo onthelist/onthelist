@@ -8,22 +8,18 @@ $ ->
     if not key?
       $title.text "Add a Party"
       $button.text "Add"
-
-      delete $$(this).row
     else
       $title.text "Edit Party"
       $button.text "Save"
 
       $inputs = $('input, select', this)
       
-      $D.parties.getAsync key, (row) =>
-        if not row
+      $D.parties.get key, (data) =>
+        if not data
           alert 'Record not found'
           return
 
-        $$(this).row = row
-
-        data = row.attributes
+        $$(this).data = data
 
         for own name, val of data
           $inp = $inputs.filter("[name=#{name}]")

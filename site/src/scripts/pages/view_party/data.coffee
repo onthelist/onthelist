@@ -6,15 +6,12 @@ $('#view-party').live 'pageshow', ->
 
   $('[data-key]', self).text ''
 
-  $D.parties.getAsync key, (row) ->
-    if not row?
+  $D.parties.get key, (data) ->
+    if not data
       alert 'Record not found'
       return
 
-    data = row.attributes
-
     $$(self).data = data
-    $$(self).row = row
 
     $('[data-key=name]', self).text data.name
     $('[data-key=size]', self).text data.size
@@ -43,7 +40,7 @@ $('#view-party').live 'pageshow', ->
         return false
 
     do_delete = ->
-      $D.parties.remove row
+      $D.parties.remove data
 
       $(self).dialog 'close'
 
