@@ -30,6 +30,14 @@ class Action
       do @status.hide
 
   error: (resp, status, msg) ->
+    if @attempts < 2 and @elapsed < 3
+      # Nothing is an error until it has happened twice.
+      setTimeout(=>
+        @attempts++
+        do @_do
+      , 2000)
+      return
+
     status =
       msg: "Error #{@adverb} #{@noun}"
       style: 'error'
@@ -38,7 +46,6 @@ class Action
         retry: =>
           do @do
 
-    $.log @
     @_add_cancel status
 
     if @status_on.error
@@ -80,6 +87,10 @@ class Action
 
   do: ->
     @attempts++
+
+    start = new Date
+    @__defineGetter__ 'elapsed', ->
+      (new Date).secondsSince start
 
     status =
       msg: "#{@adverb} #{@noun}"
