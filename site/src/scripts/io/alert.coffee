@@ -38,6 +38,7 @@ class Action
         retry: =>
           do @do
 
+    $.log @
     @_add_cancel status
 
     if @status_on.error
@@ -69,7 +70,7 @@ class Action
           do @status.hide
 
   _add_cancel: (status) ->
-    if @cancel
+    if @cancel?
       status.actions ?= {}
       status.actions.cancel =
         func: =>
@@ -97,10 +98,22 @@ class AlertAction extends Action
   post_verb: "Alerted"
   noun: "Guest"
 
-  constructor: (@data) ->
+  constructor: (@data, opts={}) ->
     super
 
     @noun = @data.name
+
+    # opts override the properties of the object, but we must be
+    # careful not to modify any objects in place, lest we change
+    # the class's defaults.
+    for name, val of @
+      if not opts[name]?
+        continue
+
+      if Object.isObject val
+        @[name] = $.extend(true, {}, val, opts[name])
+      else
+        @[name] = opts[name]
 
   success: (resp) ->
     super
@@ -108,11 +121,24 @@ class AlertAction extends Action
     @data.times.alerts ?= []
     @data.times.alerts.push new Date
 
-    @data.status.push 'alerted'
+    @data.remove_status 'alerting'
+    @data.add_status 'alerted'
+    @data.save false
+
+  error: ->
+    @data.remove_status 'alerting'
+    @data.save false
+
+    super
 
   cancel: ->
+    @data.remove_status 'alerting'
+    @data.save false
 
   _do: ->
+    @data.add_status 'alerting'
+    @data.save false
+
     opts =
       success: (args...) =>
         @success(args...)
@@ -124,5 +150,5 @@ class AlertAction extends Action
     else if @data.alert_method == 'call'
       $M.make_call(@data.phone, 'Your table is ready! Please visit the host stand to be seated.', opts)
 
-$IO.alert = (data) ->
-  (new AlertAction(data)).do()
+$IO.alert = (args...) ->
+  (new AlertAction(args...)).do()

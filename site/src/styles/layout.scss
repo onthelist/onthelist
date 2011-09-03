@@ -92,6 +92,15 @@ time {
   margin-bottom: 15px;
 }
 
+@-webkit-keyframes pulse {
+  from {
+    background-color: rgba(0, 0, 0, .4);
+  }
+  to { 
+    background-color: orange;
+  }
+}
+
 
 #queue-list {
   li {
@@ -111,8 +120,17 @@ time {
         display: block;
       }
     }
+    &.alerting {
+      .ui-icon-shadow {
+        background-color: orange;
+        -webkit-animation-name: pulse; 
+        -webkit-animation-duration: 5s; 
+      }
+    }
     &.alerted {
-      background-color: orange;
+      .ui-icon-shadow {
+        background-color: orange;
+      }
     }
     &.seated {
       background-color: red;

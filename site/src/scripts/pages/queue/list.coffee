@@ -8,7 +8,11 @@ save_row_key = ->
 
 add_list_row = (list, row) ->
   el = $ '<li></li>'
+
   el.addClass row.status.join(' ')
+  row.bind 'status:change', (e, status, prev) ->
+    el.removeClass prev.join(' ')
+    el.addClass status.join(' ')
 
   link = $ '<a></a>'
   link.attr('href', '#view-party')
@@ -52,7 +56,10 @@ add_list_row = (list, row) ->
         label: 'Alert'
         theme: 'e'
         cb: ->
-          $IO.alert row
+          $IO.alert row,
+            status_on:
+              success: false
+              progress: false
       ,
         label: 'Check-In'
         cb: ->

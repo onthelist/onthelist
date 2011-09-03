@@ -4,6 +4,7 @@ class $D._DataLoader extends $U.Evented
 
     @ready = $.Deferred()
     @initing = false
+    @cache = {}
 
   init: ->
     if not @initing and not @ds?
@@ -36,6 +37,9 @@ class $D._DataLoader extends $U.Evented
   add: (vals={}) ->
     @ds.save vals, (resp) =>
       @register_row @_wrap_row resp
+
+  update: (vals) ->
+    @ds.save vals
 
   save: (vals) ->
     if vals.save?
@@ -70,13 +74,18 @@ class $D._DataLoader extends $U.Evented
     @bind(evt, func)
 
   _wrap_row: (row) ->
-    if @model
-      return new @model row, @
+    if not @model
+      return row
 
-    return row
+    if row.key of @cache
+      @cache[row.key]._extend row
+    else
+      @cache[row.key] = new @model row, @
+
+    return @cache[row.key]
 
 class $D._DataRow extends $U.Evented
-  constructor: (data, @coll) ->
+  constructor: (data, @_coll) ->
     super
 
     @_extend data
@@ -85,16 +94,19 @@ class $D._DataRow extends $U.Evented
     $.extend @, data
 
   fetch: (cb) ->
-    @coll.get @key, (data) =>
+    @_coll.get @key, (data) =>
       @_extend data
       cb && cb(@)
 
-  save: ->
+  save: (replace=true) ->
     data = {}
     for own name, val of @
       if name.substring(0, 1) != '_' and typeof val != 'function'
         data[name] = val
 
-    @coll.remove data
-    @coll.add data
+    if replace
+      @_coll.remove data
+      @_coll.add data
+    else
+      @_coll.update data
 

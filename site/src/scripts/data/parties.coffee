@@ -1,17 +1,29 @@
 class Party extends $D._DataRow
   add_status: (name) ->
     @status ?= []
+    prev = @status.clone()
 
     if ['waiting', 'seated', 'left'].has name
-      @status.subtract ['waiting', 'seated', 'left']
+      @status = @status.subtract ['waiting', 'seated', 'left']
 
     if @status.has name
       return
 
     @status.push name
 
-    do @save
+    @trigger 'status:change', [@status, prev]
 
+  remove_status: (name) ->
+    @status ?= []
+    prev = @status.clone()
+
+    if not @status.has name
+      return
+
+    @status.remove name
+
+    @trigger 'status:change', [@status, prev]
+ 
 class Parties extends $D._DataLoader
   name: 'parties'
   model: Party
@@ -21,9 +33,14 @@ class Parties extends $D._DataLoader
 
     vals.times.add ?= new Date
 
-    for own name, time of vals.times
-      if typeof time != 'string'
-        vals.times[name] = time.toISOString()
+    _convert_times = (times) ->
+      for own name, time of times
+        if Object.isDate time
+          times[name] = time.toISOString()
+        else if Object.isObject time or Object.isArray time
+          _convert_times time
+
+    _convert_times vals.times
 
     super vals
 
