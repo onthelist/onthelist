@@ -7,11 +7,10 @@
 # All rights reserved - Do Not Redistribute
 #
 # Node package manager has occasional issues with their HTTPS certificate, try "npm --force --registry http://registry.npmjs.org/ install *" if you're having trouble.
-script "jade-install" do
-  interpreter "bash"
-  user "root"
-  cwd "/home/www-server/onthelist"
-  code <<-EOH
-  npm install -g coffee-script
-  EOH
+
+include_recipe "node"
+
+node_npm "coffee-script" do
+  action :install
 end
+

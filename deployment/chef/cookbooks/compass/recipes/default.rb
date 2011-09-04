@@ -2,15 +2,12 @@
 # Cookbook Name:: compass
 # Recipe:: default
 #
-# Copyright 2011, YOUR_COMPANY_NAME
+# Copyright 2011, SpeedySeat
 #
 # All rights reserved - Do Not Redistribute
 #
-script "jade-install" do
-  interpreter "bash"
-  user "root"
-  cwd "/home/www-server/onthelist"
-  code <<-EOH
-  gem install compass --no-ri --no-rdoc
-  EOH
+
+package "compass" do
+  Chef::Provider::Package::Rubygems
+  options "--no-ri --no-rdoc"
 end
