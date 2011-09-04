@@ -7,7 +7,6 @@
 # All rights reserved - Do Not Redistribute
 #
 
-package "compass" do
-  Chef::Provider::Package::Rubygems
+gem_package "compass" do
   options "--no-ri --no-rdoc"
 end
