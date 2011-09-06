@@ -25,9 +25,8 @@ $('#view-party').live 'pageshow', ->
       .time
         format: 'icon'
 
-    $('#text-actions', self)
-      .change ->
-        $.log $(this).val()
+    $alert_lbl = $('[name=alert_party] .ui-btn-text', self)
+    $alert_lbl.text $F.party.alert_btn data
 
     fmt_phone = $F.phone data.phone
     $('#text-actions-menu li[tabindex=-1] a')

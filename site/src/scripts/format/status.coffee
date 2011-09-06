@@ -14,3 +14,7 @@ window.$F.party =
 
     return ''
 
+  alert_btn: (obj) ->
+    if obj.status.has 'alerted'
+      return "Alert Again"
+    return "Alert"
