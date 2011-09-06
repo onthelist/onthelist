@@ -1,0 +1,153 @@
+/* line 3, ../../src/styles/view.scss */
+.clear {
+  clear: both;
+  display: block;
+  height: 0;
+  font-size: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+/* line 12, ../../src/styles/view.scss */
+.major-details {
+  display: block;
+}
+
+/* line 16, ../../src/styles/view.scss */
+.overtime {
+  color: #D44;
+  /* Red */
+}
+
+/* line 20, ../../src/styles/view.scss */
+.pill {
+  margin: -15px -15px 14px -15px;
+  position: relative;
+  height: 76px;
+  font-size: 1.5em;
+}
+/* line 26, ../../src/styles/view.scss */
+.pill > div {
+  float: left;
+  margin: 0;
+  z-index: 2;
+  -moz-box-shadow: #555555 -1px 0 5px;
+  -webkit-box-shadow: #555555 -1px 0 5px;
+  -o-box-shadow: #555555 -1px 0 5px;
+  box-shadow: #555555 -1px 0 5px;
+  position: absolute;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+/* line 43, ../../src/styles/view.scss */
+.pill .major {
+  height: 42px;
+  padding: 5px;
+  width: 100%;
+  padding-right: 85px;
+  left: 0;
+  -color: #444;
+  padding-left: 10px;
+  font-weight: bold;
+}
+/* line 55, ../../src/styles/view.scss */
+.pill .minor {
+  font-size: 1.5em;
+  width: 85px;
+  height: 100%;
+  top: 0;
+  right: 0;
+  color: #FFF;
+  text-align: center;
+  padding: 19px 0;
+}
+/* line 66, ../../src/styles/view.scss */
+.pill .minor .subtext {
+  font-variant: small-caps;
+  color: #FFF;
+  font-size: 12px;
+  position: absolute;
+  top: 8px;
+  text-align: center;
+  width: 100%;
+  opacity: 0.5;
+}
+/* line 78, ../../src/styles/view.scss */
+.pill .lower {
+  padding: 7px 0 0 8px;
+  height: 34px;
+  bottom: 0;
+  font-size: .6em;
+  z-index: 1;
+  color: #FAFAFA;
+  text-shadow: 0 1px 1px #888;
+}
+/* line 89, ../../src/styles/view.scss */
+.pill .lower .icon {
+  position: absolute;
+  right: 80px;
+  top: 5px;
+}
+/* line 96, ../../src/styles/view.scss */
+.pill .upper {
+  height: 42px;
+  top: 0;
+}
+
+/* line 102, ../../src/styles/view.scss */
+.action-select {
+  /* Necessary to fix height on FF */
+  line-height: 0;
+  margin: 0.5em 5px;
+  line-height: 0;
+  position: relative;
+  border-radius: 1em 1em 1em 1em;
+  -moz-border-radius: 1em 1em 1em 1em;
+  -webkit-border-radius: 1em 1em 1em 1em;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+/* line 118, ../../src/styles/view.scss */
+.action-select * {
+  line-height: 1.4em;
+}
+/* line 122, ../../src/styles/view.scss */
+.action-select .ui-corner-left {
+  width: 98%;
+  border-radius: 1em;
+}
+/* line 126, ../../src/styles/view.scss */
+.action-select .ui-corner-right {
+  min-width: 17px;
+  border-radius: 0 1em 1em 0;
+}
+/* line 131, ../../src/styles/view.scss */
+.action-select .ui-body {
+  display: inline-block;
+  clear: none;
+}
+/* line 136, ../../src/styles/view.scss */
+.action-select .ui-field-contain {
+  position: absolute;
+  top: 0;
+  right: -2px;
+  margin: 0;
+  padding: 0;
+  border-width: 0;
+}
+/* line 145, ../../src/styles/view.scss */
+.action-select .ui-select .ui-btn-icon-right .ui-btn-inner {
+  padding-right: 20px;
+  text-indent: -9999px;
+}
+
+/* line 151, ../../src/styles/view.scss */
+.ui-li .ui-btn-inner a.ui-link-inherit {
+  padding-right: 12px;
+}

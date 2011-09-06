@@ -1,0 +1,113 @@
+/* line 3, ../../src/styles/tablechart.scss */
+#tablechart {
+  min-height: 0;
+}
+/* line 6, ../../src/styles/tablechart.scss */
+#tablechart .ui-content {
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  background-color: #111;
+}
+
+/* line 14, ../../src/styles/tablechart.scss */
+.tablechart {
+  -overflow: hidden;
+}
+
+/* line 18, ../../src/styles/tablechart.scss */
+.tablechart-inner {
+  width: 1280px;
+  height: 720px;
+  background: url(../images/grid_back_40.gif) repeat 0 0 #151515;
+  border: 1px solid #333;
+  border-width: 0 1px 1px 0;
+  overflow: hidden;
+  position: relative;
+  -webkit-transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+}
+/* line 32, ../../src/styles/tablechart.scss */
+.tablechart-inner canvas {
+  position: absolute;
+  z-index: 3;
+}
+
+/* line 40, ../../src/styles/tablechart.scss */
+.ui-selected {
+  -background: #fcaf3e;
+}
+
+/* line 43, ../../src/styles/tablechart.scss */
+.ui-selecting {
+  background: #8ae234;
+}
+
+/* line 46, ../../src/styles/tablechart.scss */
+.ui-selectable-helper {
+  position: absolute;
+  z-index: 100;
+  border: 1px dotted black;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* line 53, ../../src/styles/tablechart.scss */
+.docked-right, .docked-left {
+  width: 335px;
+  height: 90%;
+  padding: 5px 5px 5px 5px;
+  position: absolute;
+  top: 5%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 5;
+  text-shadow: 0 0 0;
+}
+/* line 66, ../../src/styles/tablechart.scss */
+.docked-right a, .docked-left a {
+  display: block;
+}
+/* line 71, ../../src/styles/tablechart.scss */
+.docked-right.docked-left, .docked-left.docked-left {
+  padding-right: 20px;
+  left: -340px;
+  -webkit-transition: left 0.3s ease-in;
+  -moz-transition: left 0.3s ease-in;
+  border-radius: 0 10px 10px 0;
+}
+/* line 80, ../../src/styles/tablechart.scss */
+.docked-right.docked-left:hover, .docked-right.docked-left.open, .docked-right.docked-left.manual-open, .docked-left.docked-left:hover, .docked-left.docked-left.open, .docked-left.docked-left.manual-open {
+  left: 0;
+}
+/* line 84, ../../src/styles/tablechart.scss */
+.docked-right.docked-right, .docked-left.docked-right {
+  padding-left: 20px;
+  right: -340px;
+  -webkit-transition: right 0.3s ease-in;
+  -moz-transition: right 0.3s ease-in;
+  border-radius: 10px 0 0 10px;
+}
+/* line 93, ../../src/styles/tablechart.scss */
+.docked-right.docked-right:hover, .docked-right.docked-right.open, .docked-right.docked-right.manual-open, .docked-left.docked-right:hover, .docked-left.docked-right.open, .docked-left.docked-right.manual-open {
+  right: 0;
+}
+
+/* line 100, ../../src/styles/tablechart.scss */
+.editor label.ui-input-text, .editor .ui-controlgroup-label {
+  color: #DDD;
+}
+/* line 104, ../../src/styles/tablechart.scss */
+.editor .bottom {
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+}
+
+/* line 112, ../../src/styles/tablechart.scss */
+.snap-guide {
+  z-index: 2;
+  box-shadow: 0 0 1px #CCC;
+  opacity: .7;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}

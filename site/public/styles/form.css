@@ -1,0 +1,244 @@
+/* line 2, ../../src/styles/form.scss */
+[data-bound-value] {
+  display: none;
+  border: 0;
+  margin-left: 22%;
+  width: 60%;
+}
+
+/* line 12, ../../src/styles/form.scss */
+[data-role=dialog] form.ui-content {
+  padding-top: 0;
+}
+
+/* line 18, ../../src/styles/form.scss */
+[data-role=fieldcontain] fieldset {
+  margin: 2px auto;
+}
+/* line 23, ../../src/styles/form.scss */
+[data-role=fieldcontain] form.content .ui-input-text {
+  font-weight: bold;
+  font-size: 90%;
+  color: #444;
+}
+/* line 30, ../../src/styles/form.scss */
+[data-role=fieldcontain] label {
+  font-weight: bold;
+}
+
+/* line 35, ../../src/styles/form.scss */
+[data-role=fieldcontain] .short-code {
+  text-align: center;
+  font-size: 1.2em;
+  width: 5em;
+  display: block;
+  margin: 0 auto;
+}
+/* line 43, ../../src/styles/form.scss */
+[data-role=fieldcontain] .short-code:-moz-placeholder {
+  text-indent: 0;
+}
+
+/* line 48, ../../src/styles/form.scss */
+[data-role=inline-center] {
+  display: inline-block;
+  margin: 0 auto;
+  text-align: center;
+  width: 60%;
+}
+
+/* line 55, ../../src/styles/form.scss */
+div.ui-slider-switch {
+  margin-left: 7.5%;
+  margin-right: 7.5%;
+}
+
+/* line 62, ../../src/styles/form.scss */
+form.content header {
+  width: 100%;
+  font-size: 1.2em;
+  margin: 10px -16px 5px;
+  padding: 5px 15px;
+}
+/* line 68, ../../src/styles/form.scss */
+form.content header:first-child {
+  margin-top: -15px;
+}
+
+/* line 73, ../../src/styles/form.scss */
+label, .ui-controlgroup-label {
+  -font-size: 90%;
+  font-weight: bold;
+}
+
+/* line 78, ../../src/styles/form.scss */
+input::-moz-outer-spin-button, input::-moz-inner-spin-button {
+  -moz-appearance: none;
+  margin: 0;
+}
+
+/* line 83, ../../src/styles/form.scss */
+input.ui-input-text {
+  margin: 0;
+}
+
+/* line 87, ../../src/styles/form.scss */
+input.ui-slider-input {
+  width: 30px;
+  font-weight: bold;
+}
+
+/* line 92, ../../src/styles/form.scss */
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* line 98, ../../src/styles/form.scss */
+.form-radio .ui-btn {
+  top: 2px;
+}
+
+/* line 104, ../../src/styles/form.scss */
+.infield-button {
+  position: absolute;
+  top: 0;
+  left: 80.6%;
+  height: 22px;
+  width: 25px;
+  margin: 0;
+  padding: 0.4em 5px 0.4em 0;
+  font-size: 16px;
+  line-height: 1.3;
+  color: #999;
+  -webkit-box-shadow: 0 0 0;
+  -moz-box-shadow: 0 0 0;
+  box-shadow: 0 0 0;
+}
+/* line 121, ../../src/styles/form.scss */
+.infield-button.loading {
+  background: url("../images/loading.gif") center center no-repeat;
+  color: transparent;
+}
+/* line 125, ../../src/styles/form.scss */
+.infield-button.empty {
+  display: none;
+}
+
+/* line 130, ../../src/styles/form.scss */
+.numeric-id.ui-input-text {
+  display: inline-block;
+  font-size: 1.3em;
+  margin: 0 -9px -1px;
+  text-align: center;
+  vertical-align: middle;
+  width: 53px;
+  height: 26px;
+}
+
+/* line 141, ../../src/styles/form.scss */
+.inline-button {
+  color: #666;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0;
+}
+
+/* line 149, ../../src/styles/form.scss */
+.inline-button .ui-btn-inner {
+  padding: 0.6em 11px 0.7em 33px;
+}
+
+/* line 154, ../../src/styles/form.scss */
+.inline-button.ui-btn-icon-left .ui-icon {
+  left: 8px;
+}
+
+/* line 159, ../../src/styles/form.scss */
+.ui-controlgroup-controls {
+  margin: 2px auto;
+  text-align: center;
+}
+
+/* line 167, ../../src/styles/form.scss */
+.ui-controlgroup-horizontal .ui-checkbox .ui-btn,
+.ui-controlgroup-horizontal .ui-radio .ui-btn,
+.ui-controlgroup-horizontal .ui-checkbox:last-child,
+.ui-controlgroup-horizontal .ui-radio:last-child {
+  margin-right: 4px;
+}
+
+@media all and (max-width: 450px) {
+  /* line 176, ../../src/styles/form.scss */
+  .date-time .ui-btn {
+    top: -4px;
+  }
+
+  /* line 183, ../../src/styles/form.scss */
+  .infield-button {
+    right: -1px;
+    top: 7px;
+    left: auto;
+  }
+
+  /* line 189, ../../src/styles/form.scss */
+  div.ui-slider-switch {
+    margin-left: 17%;
+    margin-right: 17%;
+  }
+
+  /* line 196, ../../src/styles/form.scss */
+  form.content .ui-field-contain {
+    padding: 7px 0;
+  }
+  /* line 201, ../../src/styles/form.scss */
+  form.content label, form.content .ui-controlgroup-label {
+    text-align: center;
+  }
+  /* line 206, ../../src/styles/form.scss */
+  form.content label.ui-input-text {
+    display: none;
+  }
+  /* line 210, ../../src/styles/form.scss */
+  form.content label.ui-slider {
+    display: block;
+  }
+
+  /* line 217, ../../src/styles/form.scss */
+  [data-role=controlgroup] .ui-btn-inner {
+    padding: 0.7em 14px;
+  }
+
+  /* line 223, ../../src/styles/form.scss */
+  [data-role=inline-center] {
+    width: 100%;
+  }
+}
+@media all and (max-width: 600px) {
+  /* line 232, ../../src/styles/form.scss */
+  [data-role=controlgroup] .ui-btn-inner {
+    padding: 0.7em 12px;
+  }
+
+  /* line 240, ../../src/styles/form.scss */
+  .ui-controlgroup-horizontal .ui-checkbox .ui-btn,
+  .ui-controlgroup-horizontal .ui-radio .ui-btn,
+  .ui-controlgroup-horizontal .ui-checkbox:last-child,
+  .ui-controlgroup-horizontal .ui-radio:last-child {
+    margin-right: 4px;
+  }
+}
+@media all and (min-width: 451px) {
+  /* line 251, ../../src/styles/form.scss */
+  form.content .ui-controlgroup-label, form.content label {
+    text-align: right;
+  }
+  /* line 256, ../../src/styles/form.scss */
+  form.content :-moz-placeholder {
+    text-indent: -9999px;
+  }
+  /* line 260, ../../src/styles/form.scss */
+  form.content ::-webkit-input-placeholder {
+    text-indent: -9999px;
+  }
+}

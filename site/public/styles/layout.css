@@ -1,0 +1,158 @@
+/* line 4, ../../src/styles/layout.scss */
+footer {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=94)";
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=94);
+  opacity: 0.94;
+}
+
+/* line 9, ../../src/styles/layout.scss */
+h1 a {
+  color: #CCC;
+}
+
+/* line 13, ../../src/styles/layout.scss */
+:-moz-placeholder {
+  font-style: italic;
+  font-weight: normal;
+  color: #444;
+}
+
+/* line 19, ../../src/styles/layout.scss */
+time {
+  text-align: right;
+  color: #A5A5A5;
+  width: 70px;
+  margin-right: 12px;
+  display: inline-block;
+}
+/* line 27, ../../src/styles/layout.scss */
+time.icon canvas {
+  background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 12, color-stop(0%, #f9f9f9), color-stop(100%, rgba(0, 0, 0, 0)));
+  background: -webkit-radial-gradient(#f9f9f9 0%, rgba(0, 0, 0, 0) 12px);
+  background: -moz-radial-gradient(#f9f9f9 0%, rgba(0, 0, 0, 0) 12px);
+  background: -o-radial-gradient(#f9f9f9 0%, rgba(0, 0, 0, 0) 12px);
+  background: -ms-radial-gradient(#f9f9f9 0%, rgba(0, 0, 0, 0) 12px);
+  background: radial-gradient(#f9f9f9 0%, rgba(0, 0, 0, 0) 12px);
+  background-origin: border-box;
+  background-clip: border-box;
+  background-repeat: no-repeat;
+  border: 2px solid transparent;
+  border-radius: 20px;
+}
+
+/* line 38, ../../src/styles/layout.scss */
+::-webkit-input-placeholder {
+  font-style: italic;
+  font-weight: normal;
+  color: #444;
+}
+
+/* line 44, ../../src/styles/layout.scss */
+.center-wrapper {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+}
+
+/* line 51, ../../src/styles/layout.scss */
+.date {
+  font-family: "Trebuchet MS", "Verdana", "FreeSans", sans-serif;
+  text-align: right;
+  font-weight: bold;
+  float: right;
+  color: #E8F3FF;
+  display: inline-block;
+}
+
+/* line 60, ../../src/styles/layout.scss */
+.ui-li-count {
+  width: 25px;
+  text-align: center;
+  padding-left: 0;
+  padding-right: 0;
+  box-shadow: -1px 1px 1px #dddddd;
+  -moz-box-shadow: -1px 1px 1px #dddddd;
+  -webkit-box-shadow: -1px 1px 1px #dddddd;
+  background: no-repeat scroll 0 0 #DFDFDF;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #dfdfdf));
+  background: -webkit-linear-gradient(center top, #ffffff, #dfdfdf);
+  background: -moz-linear-gradient(center top, #ffffff, #dfdfdf);
+  background: -o-linear-gradient(center top, #ffffff, #dfdfdf);
+  background: -ms-linear-gradient(center top, #ffffff, #dfdfdf);
+  background: linear-gradient(center top, #ffffff, #dfdfdf);
+}
+/* line 73, ../../src/styles/layout.scss */
+.ui-li-count.slice {
+  border-color: #F9F9F9;
+}
+
+/* line 78, ../../src/styles/layout.scss */
+.ui-li.ui-btn a.list-action {
+  margin-right: -60px;
+  text-align: center;
+}
+
+/* line 83, ../../src/styles/layout.scss */
+.year {
+  text-align: right;
+  font-weight: normal;
+  float: right;
+  color: #EAEAEA;
+  display: inline-block;
+}
+
+/* line 91, ../../src/styles/layout.scss */
+.ui-content .pseudo-list {
+  margin-bottom: 15px;
+}
+
+@-webkit-keyframes pulse {
+  /* line 96, ../../src/styles/layout.scss */
+  from {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  /* line 99, ../../src/styles/layout.scss */
+  to {
+    background-color: orange;
+  }
+}
+
+/* line 106, ../../src/styles/layout.scss */
+#queue-list li {
+  height: 2.9em;
+  border-width: 1px 0;
+}
+/* line 107, ../../src/styles/layout.scss */
+#queue-list li.ui-li:last-child, #queue-list li.ui-li.ui-field-contain:last-child {
+  border-bottom-width: 1px;
+}
+/* line 114, ../../src/styles/layout.scss */
+#queue-list li.ui-li-divider {
+  padding: 0;
+  height: auto;
+}
+/* line 118, ../../src/styles/layout.scss */
+#queue-list li.ui-li-divider .ui-li-divider-inner {
+  padding: 0.5em 15px;
+  display: block;
+}
+/* line 124, ../../src/styles/layout.scss */
+#queue-list li.alerting .ui-icon-shadow {
+  background-color: orange;
+  -webkit-animation-name: pulse;
+  -webkit-animation-duration: 2s;
+}
+/* line 131, ../../src/styles/layout.scss */
+#queue-list li.alerted .ui-icon-shadow {
+  background-color: orange;
+}
+/* line 135, ../../src/styles/layout.scss */
+#queue-list li.seated {
+  background-color: red;
+}
+/* line 140, ../../src/styles/layout.scss */
+#queue-list .list-control {
+  z-index: 1001 !important;
+}

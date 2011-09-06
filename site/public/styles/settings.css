@@ -1,0 +1,5 @@
+/* line 2, ../../src/styles/settings.scss */
+[data-role=settings] label, [data-role=settings] legend, [data-role=settings] .ui-controlgroup-label {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

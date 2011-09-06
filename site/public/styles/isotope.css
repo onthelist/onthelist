@@ -1,0 +1,27 @@
+/* line 2, ../../src/styles/isotope.scss */
+.isotope,
+.isotope .isotope-item {
+  /* change duration value to whatever you like */
+  -webkit-transition-duration: 0.8s;
+  -moz-transition-duration: 0.8s;
+  transition-duration: 0.8s;
+}
+
+/* line 9, ../../src/styles/isotope.scss */
+.isotope {
+  -webkit-transition-property: height, width;
+  -moz-transition-property: height, width;
+  transition-property: height, width;
+}
+/* line 14, ../../src/styles/isotope.scss */
+.isotope .ui-screen-hidden {
+  /* We use isotope filtering to hide the items. */
+  display: block;
+}
+
+/* line 20, ../../src/styles/isotope.scss */
+.isotope .isotope-item {
+  -webkit-transition-property: -webkit-transform, top, left, opacity;
+  -moz-transition-property: -moz-transform, top, left, opacity;
+  transition-property: transform, top, left, opacity;
+}

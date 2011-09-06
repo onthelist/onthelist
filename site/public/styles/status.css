@@ -1,0 +1,89 @@
+/* line 3, ../../src/styles/status.scss */
+.status-standalone {
+  margin: 0 0.25% 30px;
+  width: 99.5%;
+  overflow: hidden;
+  display: none;
+  font-family: Verdana, sans-serif;
+  text-shadow: 1px 1px 1px #EEE;
+  color: #444;
+  height: 2.5em;
+  border-radius: 10px;
+  padding: .1em 5px .1em 20px;
+  box-shadow: 0px 0px 7px #CCC;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  z-index: 1200;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #cccccc), color-stop(100%, #dddddd));
+  background: -webkit-linear-gradient(top center, #cccccc, #dddddd);
+  background: -moz-linear-gradient(top center, #cccccc, #dddddd);
+  background: -o-linear-gradient(top center, #cccccc, #dddddd);
+  background: -ms-linear-gradient(top center, #cccccc, #dddddd);
+  background: linear-gradient(top center, #cccccc, #dddddd);
+}
+/* line 25, ../../src/styles/status.scss */
+.status-standalone.error {
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #cc4444), color-stop(100%, #dd4444));
+  background: -webkit-linear-gradient(top center, #cc4444, #dd4444);
+  background: -moz-linear-gradient(top center, #cc4444, #dd4444);
+  background: -o-linear-gradient(top center, #cc4444, #dd4444);
+  background: -ms-linear-gradient(top center, #cc4444, #dd4444);
+  background: linear-gradient(top center, #cc4444, #dd4444);
+  text-shadow: 1px 1px 1px #222;
+  color: #EEE;
+  box-shadow: 0px 0px 6px #D22;
+}
+/* line 32, ../../src/styles/status.scss */
+.status-standalone .actions {
+  float: right;
+}
+/* line 35, ../../src/styles/status.scss */
+.status-standalone .action-status, .status-standalone .status-msg {
+  float: left;
+  display: block;
+  line-height: 2.3em;
+  margin-right: 3px;
+}
+/* line 41, ../../src/styles/status.scss */
+.status-standalone a {
+  color: #EEE;
+  text-decoration: none;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #7777cc), color-stop(100%, #7777dd));
+  background: -webkit-linear-gradient(top center, #7777cc, #7777dd);
+  background: -moz-linear-gradient(top center, #7777cc, #7777dd);
+  background: -o-linear-gradient(top center, #7777cc, #7777dd);
+  background: -ms-linear-gradient(top center, #7777cc, #7777dd);
+  background: linear-gradient(top center, #7777cc, #7777dd);
+  border: 1px solid #BBF;
+  padding: .1em 10px;
+  border-radius: 10px;
+  white-space: nowrap;
+  display: block;
+  float: left;
+  margin: .2em 2px;
+  height: 1.8em;
+  line-height: 1.5em;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+/* line 59, ../../src/styles/status.scss */
+.status-standalone a:hover {
+  box-shadow: 0 0 2px #EEE;
+}
+/* line 62, ../../src/styles/status.scss */
+.status-standalone a.cancel {
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ddeeee), color-stop(100%, #ffdddd));
+  background: -webkit-linear-gradient(top center, #ddeeee, #ffdddd);
+  background: -moz-linear-gradient(top center, #ddeeee, #ffdddd);
+  background: -o-linear-gradient(top center, #ddeeee, #ffdddd);
+  background: -ms-linear-gradient(top center, #ddeeee, #ffdddd);
+  background: linear-gradient(top center, #ddeeee, #ffdddd);
+  color: #666;
+  text-shadow: 1px 1px 1px #EEE;
+  background-color: #EEE;
+}
+/* line 69, ../../src/styles/status.scss */
+.status-standalone time {
+  margin-right: 0;
+  width: auto;
+}

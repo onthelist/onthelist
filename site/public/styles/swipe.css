@@ -1,0 +1,23 @@
+/* line 1, ../../src/styles/swipe.scss */
+.swipe-button-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  z-index: 100;
+  overflow: hidden;
+}
+/* line 9, ../../src/styles/swipe.scss */
+.swipe-button-container .swipe-button-slide {
+  overflow: hidden;
+  width: 200px;
+}
+/* line 14, ../../src/styles/swipe.scss */
+.swipe-button-container a {
+  float: right;
+  margin-top: 0.4em;
+}
+/* line 18, ../../src/styles/swipe.scss */
+.swipe-button-container a .ui-btn-inner {
+  padding: 0.25em 10px;
+}
