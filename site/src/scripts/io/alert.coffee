@@ -156,10 +156,19 @@ class AlertAction extends Action
       error: (args...) =>
         @error(args...)
 
-    if @data.alert_method == 'sms'
-      $M.send_sms(@data.phone, 'Your table is ready! Please visit the host stand to be seated.', opts)
-    else if @data.alert_method == 'call'
-      $M.make_call(@data.phone, 'Your table is ready! Please visit the host stand to be seated.', opts)
+    switch @data.alert_method
+      when 'sms'
+        $M.send_sms(@data.phone, 'Your table is ready! Please visit the host stand to be seated.', opts)
+      when 'call'
+        $M.make_call(@data.phone, 'Your table is ready! Please visit the host stand to be seated.', opts)
+      when 'wait'
+        alert "Please call waiting guest #{@data.name}"
+        @success
+          ok: true
+      when 'page'
+        alert "Please page ##{@data.pager_number}"
+        @success
+          ok: true
 
 $IO.alert = (args...) ->
   (new AlertAction(args...)).do()
