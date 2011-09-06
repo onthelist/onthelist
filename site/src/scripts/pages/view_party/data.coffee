@@ -26,7 +26,14 @@ $('#view-party').live 'pageshow', ->
         format: 'icon'
 
     $alert_lbl = $('[name=alert_party] .ui-btn-text', self)
-    $alert_lbl.text $F.party.alert_btn data
+    _update_button = =>
+      $alert_lbl.text $F.party.alert_btn data
+
+    data.bind 'status:change', _update_button
+    $(self).bind 'pagehide', ->
+      data.unbind 'status:change', _update_button
+
+    do _update_button
 
     fmt_phone = $F.phone data.phone
     $('#text-actions-menu li[tabindex=-1] a')

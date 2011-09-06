@@ -2,8 +2,8 @@ window.$IO ?= {}
 
 class Action
   status_on:
-    progress: true
-    success: true
+    progress: false
+    success: false
     error: true
 
   auto_retry: true

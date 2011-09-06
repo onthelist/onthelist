@@ -112,10 +112,11 @@ class $UI.Status
   hide: ->
     @shown = false
     if @$el?
+      @$el.stop true
       do @$el.slideUp
 
   show: ->
-    timeout = @opts.ttl ? 5
+    timeout = @opts.ttl ? 500
 
     if @show_timeout?
       clearTimeout @show_timeout
@@ -129,4 +130,5 @@ class $UI.Status
 
     do @render
 
+#    @$el.stop true
     do @$el.slideDown

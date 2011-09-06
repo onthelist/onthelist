@@ -13,3 +13,5 @@ class $U.Evented
   bind: (args...) ->
     @_evt.bind(args...)
 
+  unbind: (args...) ->
+    @_evt.unbind(args...)
