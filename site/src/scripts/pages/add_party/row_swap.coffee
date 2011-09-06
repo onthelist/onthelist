@@ -26,6 +26,12 @@ $ ->
     $phone.keyup (e) ->
       val = $phone.val()
 
+      c = val.charCodeAt val.length - 1
+      if not (97 <= c <= 122 or 65 <= c <= 90 or 48 <= c <= 57)
+        # Get rid of special chars.
+        $phone.val val.substring(0, val.length - 2)
+        return false
+
       if val.length != 1
         return
 
