@@ -25,14 +25,14 @@ class $D._DataLoader extends $U.Evented
 
     return @ready.promise()
   
-  remove: (row) ->
+  remove: (row, prev_row) ->
     if typeof row == 'string'
       @ds.get row, (data) =>
         @remove data
       return
 
     @ds.remove row, =>
-      @trigger 'rowRemove', row
+      @trigger 'rowRemove', [row, prev_row ? row]
 
   add: (vals={}) ->
     @ds.save vals, (resp) =>
@@ -96,6 +96,8 @@ class $D._DataRow extends $U.Evented
   fetch: (cb) ->
     @_coll.get @key, (data) =>
       @_extend data
+      @_prev_data = data
+
       cb && cb(@)
 
   save: (replace=true) ->
@@ -105,8 +107,9 @@ class $D._DataRow extends $U.Evented
         data[name] = val
 
     if replace
-      @_coll.remove data
-      @_coll.add data
+      @_coll.remove data, @_prev_data
+      @_coll.add data, @_prev_data
     else
-      @_coll.update data
+      @_coll.update data, @_prev_data
 
+    @_prev_data = data

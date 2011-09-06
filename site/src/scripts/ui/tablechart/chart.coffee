@@ -27,10 +27,10 @@ class $TC.Chart extends $U.Evented
 
         true
 
-      $D.parties.bind 'rowRemove', (e, row) =>
-        if row.occupancy
-          if row.occupancy.chart == @opts.key
-            table = @get_sprite row.occupancy.table
+      $D.parties.bind 'rowRemove', (e, row, prev_row) =>
+        if prev_row.occupancy
+          if prev_row.occupancy.chart == @opts.key
+            table = @get_sprite prev_row.occupancy.table
 
             if table?
               table.occupy null

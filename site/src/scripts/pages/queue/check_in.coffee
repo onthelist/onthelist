@@ -8,6 +8,21 @@ $ ->
 
   window.$QUEUE ?= {}
 
+  $QUEUE.check_out = (id, success, failure) ->
+    $D.parties.get id, (data) =>
+      if not data?.occupancy?
+        failure && do failure
+        return
+
+      data.add_status 'left'
+      data.times.left = new Date
+
+      data.occupancy = null
+
+      do data.save
+
+      success && do success
+
   $QUEUE.check_in = (id, success, failure) ->
     $TC.choose_table
       success: (table) =>

@@ -42,7 +42,7 @@ $ ->
           table = $$(sel.selected).sprite
 
           occupant = table.occupancy?.occupant
-          if not occupant
+          if not occupant?
             return
   
           $QUEUE.show_view_page occupant.key

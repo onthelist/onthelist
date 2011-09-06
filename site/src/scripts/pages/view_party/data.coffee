@@ -25,6 +25,7 @@ $('#view-party').live 'pageshow', ->
       .time
         format: 'icon'
 
+    # Alert Button
     $alert_lbl = $('[name=alert_party] .ui-btn-text', self)
     _update_button = =>
       $alert_lbl.text $F.party.alert_btn data
@@ -35,6 +36,15 @@ $('#view-party').live 'pageshow', ->
 
     do _update_button
 
+    # Clear Button
+    if data.status.has 'seated'
+      do $('[name=check_in]', self).hide
+      do $('[name=clear_table]', self).show
+    else
+      do $('[name=check_in]', self).show
+      do $('[name=clear_table]', self).hide
+
+    # Call Action
     fmt_phone = $F.phone data.phone
     $('#text-actions-menu li[tabindex=-1] a')
       .text("Call Guest at #{fmt_phone}")
