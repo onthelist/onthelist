@@ -19,8 +19,8 @@ script "insert-node-path" do
   user "root"
   cwd "/home/www-server"
   code <<-EOH
-  echo "NODE_PATH=$NODE_PATH:/usr/local/lib/node_modules/jade/lib >> /etc/environment
+  echo "NODE_PATH=$NODE_PATH:/usr/local/lib/node_modules/jade/lib" >> /etc/environment
   . /etc/environment
   EOH
-  not_if "cat /etc/environment | grep 'NODE_PATH=$NODE_PATH:/usr/local/lib/node_modules/jade/lib'"
+  not_if "grep '/usr/local/lib/node_modules/jade/lib' /etc/environment"
 end
