@@ -37,8 +37,6 @@ app.post '/send/sms', (req, res) ->
   if not id
     throw new errors.Client "'device_id' param is required."
 
-  store.setnx "device:#{id}:remaining_sms_tokens", 10000
-
   store.decr "device:#{id}:remaining_sms_tokens", (err, count) ->
     if err?
       errors.respond(res, new errors.Server "Error fetching count: #{err}")
@@ -63,8 +61,6 @@ app.post '/send/phone', (req, res) ->
   id = req.body.device_id
   if not id
     throw new errors.Client "'device_id' param is required."
-
-  store.setnx "device:#{id}:remaining_phone_tokens", 10000
 
   store.decr "device:#{id}:remaining_phone_tokens", (err, count) ->
     if err?

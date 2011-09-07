@@ -35,7 +35,9 @@ app.post '/register', (req, res) ->
   device.display_organization = 'Diablos'
   device.registered = true
 
-  store.set("device:#{id}", JSON.stringify(device))
+  store.set "device:#{id}", JSON.stringify(device)
+  store.set "device:#{id}:remaining_sms_tokens", 10000
+  store.set "device:#{id}:remaining_phone_tokens", 10000
 
   res.send
     device: device

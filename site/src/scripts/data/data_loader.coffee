@@ -77,6 +77,9 @@ class $D._DataLoader extends $U.Evented
     if not @model
       return row
 
+    if not row?
+      return row
+
     if row.key of @cache
       @cache[row.key]._extend row
     else
