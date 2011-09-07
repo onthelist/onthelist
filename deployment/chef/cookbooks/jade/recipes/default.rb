@@ -10,14 +10,14 @@
 
 include_recipe "node"
 
-node_npm "jade" do
+node_npm "jade@0.14.2"" do
   action :install
 end
 
 script "insert-node-path" do
   interpreter "bash"
   user "root"
-  cwd "/home/www-server/onthelist"
+  cwd "/home/www-server"
   code <<-EOH
   echo "NODE_PATH=/usr/local/lib/node_modules/jade/lib" >> /etc/environment
   . /etc/environment
