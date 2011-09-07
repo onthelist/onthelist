@@ -10,12 +10,11 @@
 
 include_recipe "node"
 
-node_npm "jade@0.14.2"" do
+node_npm "jade@0.14.2" do
   action :install
 end
 
-script "insert-node-path" do
-  interpreter "bash"
+bash "insert-node-path" do
   user "root"
   cwd "/home/www-server"
   code <<-EOH
