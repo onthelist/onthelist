@@ -26,6 +26,9 @@ errors.catch_errors app
 
 app.post '/register', (req, res) ->
   id = req.body.device_id
+  if req.body.auth.username != 'diablos' or req.body.auth.password != 'diablos'
+    errors.respond res, new errors.NotFound "Credentials Invalid"
+    return
 
   device = req.body.device
 
