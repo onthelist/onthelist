@@ -5,11 +5,11 @@ $IO.register_device = (props={}, opts={}) ->
 
   data = $IO.build_req props
 
-  opts.beforeSuccess = (data) ->
-    $D.device.set data.device
+  opts.beforeSuccess = (d) ->
+    $D.device.set d.device
     do $D.device.save
 
-    return data
+    return d
 
   $.extend opts,
     url: '/device/register'

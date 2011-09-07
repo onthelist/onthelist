@@ -8,9 +8,9 @@ $ ->
     $IO.register_device(
       {
         auth:
-          username: $page.filter('input[name=username]').val()
-          password: $page.filter('input[name=password]').val()
-        nickname: $page.filter('input[name=nickname]').val()
+          username: $page.find('input[name=username]').val()
+          password: $page.find('input[name=password]').val()
+        nickname: $page.find('input[name=nickname]').val()
       },
       {
         success: ->
