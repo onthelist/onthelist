@@ -78,6 +78,17 @@ $ ->
 
       $$(q_elem).selected_key = undefined
 
+      # DEMO
+      $('.ui-input-search input').bind 'keyup', ->
+        if $(this).val() == 'DEMO'
+          do $D.parties.demo
+        else if $(this).val() == 'CLEAR'
+          do $D.parties.clear
+        else
+          return
+
+        $(this).val ''
+
     q_elem.bind 'heightChange', ->
       $.fixedToolbars.show(true)
 

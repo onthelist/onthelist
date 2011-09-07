@@ -161,8 +161,9 @@ $ ->
         # Delete
         $del.button 'enable'
         _add_handler 'delete', $del, 'vclick', (e) ->
-          for sprite in sprites
-            $TC.chart.remove sprite
+          if sprites?
+            for sprite in sprites
+              $TC.chart.remove sprite
 
           false
 

@@ -87,6 +87,10 @@ class $D._DataLoader extends $U.Evented
 
     return @cache[row.key]
 
+  clear: ->
+    @ds.each (row) ->
+      @remove row
+
 class $D._DataRow extends $U.Evented
   constructor: (data, @_coll) ->
     super
