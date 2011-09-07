@@ -1,7 +1,5 @@
 exec /usr/local/bin/coffee /home/www-server/onthelist/notify/app.coffee
 
 respawn
-start on started network-services
-stop on stopping network-services
-
-
+start on runlevel [2345]
+stop on runlevel [016]

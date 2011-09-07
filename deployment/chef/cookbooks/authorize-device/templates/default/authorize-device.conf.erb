@@ -1,0 +1,5 @@
+exec /usr/local/bin/coffee /home/www-server/onthelist/auth/device/app.coffee
+
+respawn
+start on runlevel [2345]
+stop on runlevel [016]
