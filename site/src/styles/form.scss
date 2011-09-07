@@ -94,11 +94,8 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-.form-radio {
-  .ui-btn {
-    // Properly hide radio buttons behind jQuery Mobile labels. Cause: shortened dialog boxes
-    top: 2px;
-  }
+.ui-checkbox input, .ui-radio input {
+  margin-top: -13px;
 }
 
 .infield-button {
