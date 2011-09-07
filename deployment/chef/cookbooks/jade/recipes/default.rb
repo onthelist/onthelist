@@ -23,3 +23,4 @@ bash "insert-node-path" do
   EOH
   not_if "grep '/usr/local/lib/node_modules/jade/lib' /etc/environment"
 end
+
