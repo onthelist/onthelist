@@ -1,6 +1,6 @@
 /*!
  * jQuery Mobile v Git Build
- * Git Info SHA1: 575de22cb81d218256349e853f255a488ff9af82 Date: Mon Aug 22 17:22:54 2011 -0400
+ * Git Info SHA1: 87dca7ccab573a66c2b07bccb5f0415b7a26d1fd Date: Tue Sep 6 20:03:22 2011 -0400
  * http://jquerymobile.com/
  *
  * Copyright 2010, jQuery Project
@@ -687,7 +687,7 @@ a.ui-link-inherit {
 .ui-icon {
 	background: 						#666;
 	background: 						rgba(0,0,0,.4);
-	background-image: url(/extern/jquerymobile/images/icons-18-white.png);
+	background-image: url(../../../extern/jquerymobile/images/icons-18-white.png);
 	background-repeat: no-repeat;
 	-moz-border-radius: 				9px;
 	-webkit-border-radius: 				9px;
@@ -701,7 +701,7 @@ a.ui-link-inherit {
 .ui-icon-alt {
 	background: 						#fff;
 	background: 						rgba(255,255,255,.3);
-	background-image: url(/extern/jquerymobile/images/icons-18-black.png);
+	background-image: url(../../../extern/jquerymobile/images/icons-18-black.png);
 	background-repeat: no-repeat;
 }
 
@@ -717,14 +717,14 @@ a.ui-link-inherit {
 	.ui-icon-gear, .ui-icon-refresh, .ui-icon-forward, .ui-icon-back,
 	.ui-icon-grid, .ui-icon-star, .ui-icon-alert, .ui-icon-info, .ui-icon-home, .ui-icon-search, 
 	.ui-icon-checkbox-off, .ui-icon-checkbox-on, .ui-icon-radio-off, .ui-icon-radio-on {
-		background-image: url(/extern/jquerymobile/images/icons-36-white.png);
+		background-image: url(../../../extern/jquerymobile/images/icons-36-white.png);
 		-moz-background-size: 776px 18px;
 		-o-background-size: 776px 18px;
 		-webkit-background-size: 776px 18px;
 		background-size: 776px 18px;
 	}
 	.ui-icon-alt {
-		background-image: url(/extern/jquerymobile/images/icons-36-black.png);
+		background-image: url(../../../extern/jquerymobile/images/icons-36-black.png);
 	}
 }
 
@@ -818,13 +818,13 @@ a.ui-link-inherit {
 	background-color: #4596ce; /* NOTE: this hex should match the active state color. It's repeated here for cascade */
 }
 .ui-icon-searchfield {
-	background-image: url(/extern/jquerymobile/images/icon-search-black.png);
+	background-image: url(../../../extern/jquerymobile/images/icon-search-black.png);
 	background-size: 16px 16px;
 }
 
 /* loading icon */
 .ui-icon-loading {
-	background-image: url(/extern/jquerymobile/images/ajax-loader.png);
+	background-image: url(../../../extern/jquerymobile/images/ajax-loader.png);
 	width: 40px;
 	height: 40px;
 	-moz-border-radius: 20px;

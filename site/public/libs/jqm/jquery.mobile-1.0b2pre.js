@@ -1,6 +1,6 @@
 /*!
  * jQuery Mobile v Git Build
- * Git Info SHA1: 575de22cb81d218256349e853f255a488ff9af82 Date: Mon Aug 22 17:22:54 2011 -0400
+ * Git Info SHA1: 87dca7ccab573a66c2b07bccb5f0415b7a26d1fd Date: Tue Sep 6 20:03:22 2011 -0400
  * http://jquerymobile.com/
  *
  * Copyright 2010, jQuery Project
