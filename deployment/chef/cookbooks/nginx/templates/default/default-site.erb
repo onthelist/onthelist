@@ -24,6 +24,10 @@ server {
   location /messaging/ {
     proxy_pass http://localhost:5857/;
   }
+  
+  location /device/ {
+    proxy_pass http://localhost:4313/;
+  }
 
   location /log/ {
     proxy_pass http://localhost:40404/;
