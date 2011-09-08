@@ -14,31 +14,39 @@ $ ->
       _disable = ->
         sel.options.disabled = true
 
-      do _disable
-
       $TC.chart.live 'add', (e, sprite) ->
         $.when( sprite.canvas_ready() ).then ->
+          $cvs = $ sprite.canvas
 
-          $(sprite.canvas).bind 'select vmousedown', (e) ->
-            if $(this).hasClass 'ui-selected'
+          is_drag = false
+          drag_TO = null
+          $cvs.bind 'vmousedown', ->
+            if drag_TO?
+              clearTimeout drag_TO
+
+            is_drag = false
+            drag_TO = setTimeout(->
+              is_drag = true
+            , 150)
+
+          $cvs.bind 'select vmouseup', (e) ->
+            if is_drag and $cvs.hasClass 'ui-selected'
+              # It was a drag, so we want the selection to still include
+              # the other elements dragged.  If the downtime is less than
+              # 150ms, we consider it a click, which will reset the sel
+              # to just the clicked element.
               return
 
-            do _enable
-            sel._mouseStart e
+            sel._mouseStart e, true
             sel._mouseStop e
-            do _disable
         
-      $CTRL_KEYS.bind 'ctrldown', ->
-        do _enable
-
-      $CTRL_KEYS.bind 'ctrlup', ->
-        do _disable
-
       $tci.bind 'vmousedown', (e) ->
         # vclick/click are blocked by the JUI widgets used for selection / dragging
         if e.target == $tci[0]
           $tci.find('.ui-selected').removeClass('ui-selected')
           $tci.trigger('scaled_selectableunselected')
+
+        true
 
       $tci.bind 'scaled_selectableselected', (e, sel) ->
         if not $TC.chart.editable

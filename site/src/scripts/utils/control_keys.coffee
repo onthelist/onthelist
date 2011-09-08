@@ -11,8 +11,12 @@ $(document).keydown (e) ->
     $CTRL_KEYS[name] = true
     $CTRL_KEYS.trigger("#{name}down")
 
+  true
+
 $(document).keyup (e) ->
   name = codes[e.keyCode]
   if name
     $CTRL_KEYS[name] = false
     $CTRL_KEYS.trigger("#{name}up")
+
+  true

@@ -53,12 +53,18 @@ $TC.scale_rel_coords = (x, y) ->
 
 $.widget "ui.scaled_selectable", $.ui.selectable,
   options: $.ui.selectable.prototype.options
-  _mouseStart: (evt) ->
+  _mouseStart: (evt, force=false) ->
+    if evt? and not evt.ctrlKey and not force
+      return true
+
     [evt.pageX, evt.pageY] = $TC.scale_page_coords(evt.pageX, evt.pageY)
 
     return $.ui.selectable.prototype._mouseStart.call(this, evt)
 
   _mouseDrag: (evt) ->
+    if evt? and not evt.ctrlKey
+      return true
+
     [evt.pageX, evt.pageY] = $TC.scale_page_coords(evt.pageX, evt.pageY)
     
     [x1, y1] = this.opos

@@ -64,13 +64,14 @@ class $TC.Chart extends $U.Evented
       return
 
     @editable = editable
+
+    @trigger if @editable then 'unlocked' else 'locked'
+
     for sprite in @sprites
       if @editable
         $TC.draggable_sprite(sprite, this)
-        @trigger 'unlocked'
       else
         do $$(sprite).draggable_sprite.destroy
-        @trigger 'locked'
 
   add: (sprite, type) ->
     if type?

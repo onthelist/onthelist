@@ -26,7 +26,7 @@ $ ->
       type = $types.filter(':checked').attr('value') ? 'RoundTable'
 
       lbl = $label.val()
-      if parseInt(lbl, 10) != NaN
+      if not isNaN(parseInt(lbl, 10))
         lbl = (parseInt(lbl, 10) + 1)
 
       if sprites and sprites[0]
@@ -181,6 +181,4 @@ $ ->
       $menu.hide()
     $TC.chart.bind 'unlocked', ->
       $menu.show()
-
-
 
