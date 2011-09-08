@@ -33,11 +33,11 @@ class DraggableSprite
     $menu = $ '#tablechart .editor'
     p = ui.position
 
-    if $menu.hasClass('docked-left') and p.left < $menu.width()
+    if $menu.hasClass('docked-left') and p.left * $TC.scroller.scale < $menu.width()
       $menu.removeClass 'docked-left'
       $menu.addClass 'docked-right'
 
-    else if $menu.hasClass('docked-right') and p.left > ($(document).width() - $menu.width())
+    else if $menu.hasClass('docked-right') and p.left * $TC.scroller.scale > ($(document).width() - $menu.width())
       $menu.removeClass 'docked-right'
       $menu.addClass 'docked-left'
 

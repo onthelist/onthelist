@@ -102,7 +102,7 @@ $ ->
 
         do _remove_handlers
 
-        if $(sprites[0].canvas).position().left < $menu.width()
+        if $(sprites[0].canvas).position().left * $TC.scroller.scale < $menu.width()
           # The menu would cover the sprite
           $menu.removeClass 'docked-left'
           $menu.addClass 'docked-right'
@@ -162,7 +162,9 @@ $ ->
         $del.button 'enable'
         _add_handler 'delete', $del, 'vclick', (e) ->
           if sprites?
-            for sprite in sprites
+            # sprites has to be cloned, as it will be cleared
+            # when the first sprite is removed.
+            for sprite in sprites.clone()
               $TC.chart.remove sprite
 
           false
