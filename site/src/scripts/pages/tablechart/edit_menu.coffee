@@ -66,7 +66,7 @@ $ ->
   
         if sprites?
           for sprite in sprites
-            do sprite.pop_style
+            sprite.pop_style 'selected'
         
         sprites = null
 
