@@ -20,6 +20,9 @@ $ ->
         $.when( sprite.canvas_ready() ).then ->
 
           $(sprite.canvas).bind 'select vmousedown', (e) ->
+            if $(this).hasClass 'ui-selected'
+              return
+
             do _enable
             sel._mouseStart e
             sel._mouseStop e
