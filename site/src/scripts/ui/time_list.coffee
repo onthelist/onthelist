@@ -154,6 +154,7 @@ class IsotopeList
 
   remove: ($elems) ->
     $(@elem).isotope('remove', $elems)
+    $(@elem).isotope('reLayout')
       
 class TimeList extends IsotopeList
   constructor: (@elem, @opts) ->
