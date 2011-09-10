@@ -1,8 +1,8 @@
 #!/bin/sh
-cd /home/www-server/onthelist/site/conf
+cd /home/www-server/onthelist/site
 
 # Jade
-cd ../src; mkdir -p ../public/html; ../../tools/jade.js --out ../public html
+mkdir -p ./public/html; cd ./src; ../../tools/jade.js --out ../public html
 
 # Compass
 cd ..; mkdir -p public/styles; compass compile

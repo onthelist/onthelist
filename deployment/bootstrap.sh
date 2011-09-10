@@ -54,4 +54,4 @@ gem install chef --no-ri --no-rdoc
 chown -R www-server:www /home/www-server/
 chmod -R ug+rw /home/www-server
 
-echo "Server bootstrap process complete. Run /home/www-server/onthelist/tools/startChefSolo.sh when ready."
+echo "Server bootstrap process complete. Run /home/www-server/onthelist/deployment/startChefSolo.sh when ready."
