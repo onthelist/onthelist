@@ -35,8 +35,6 @@ apt-get -yy install ruby1.8 ruby1.8-dev libopenssl-ruby irb ssl-cert
 cd /home/www-server
 git clone git@github.com:onthelist/onthelist.git
 cd /home/www-server/onthelist
-# Temporary fix, remove when merged with master.
-git checkout development
 
 # Install RubyGems from source or Ubuntu will disable updates and cause random issues.
 cd /tmp
