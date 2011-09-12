@@ -6,11 +6,23 @@ $ ->
     $types = $('[name=type]', $form)
     $label = $('[name=label]', $form)
     $rots = $('#table-rotation a', $form)
+    $section = $('#table-section', $form)
 
     $del = $('[name=del-table]', $menu)
     $del.button 'disable'
 
     last_rotation = 0
+
+    _build_section_list = ->
+      $section.html ''
+      $section.append $ '<option value="false">No Section</option>'
+      
+      for own key, section of $TC.chart.sections
+        $section.append $ "<option value='#{key}'>#{section.opts.label}</option>"
+
+      $section.append $ "<option value='add'>New Section</option>"
+
+      $section.selectmenu()
 
     $menu.bind 'vclick', (e) ->
       if e.target.tagName not in ['A', 'SPAN', 'BUTTON', 'INPUT']
@@ -157,6 +169,37 @@ $ ->
           last_rotation = sprites[0].opts.rotation
 
           false
+
+        # Sections
+        do _build_section_list
+
+        section = $TC.chart.get_section sprites[0]
+        if section?
+          $section.val section.opts.key
+        else
+          $section.val false
+        $section.selectmenu 'refresh'
+
+        _add_handler 'change', $section, 'change', (e) ->
+          val = $section.val()
+
+          if val == 'add'
+            name = prompt("New Section Name")
+            sec = new $TC.Section
+              label: name
+
+            $TC.chart.add sec
+
+            do _build_section_list
+
+          else if val
+            sec = $TC.chart.get_sprite val
+
+          for sprite in sprites
+            # TODO: remove from old sec
+            sec.add_table sprite
+          
+          do $TC.chart.save
 
         # Delete
         $del.button 'enable'

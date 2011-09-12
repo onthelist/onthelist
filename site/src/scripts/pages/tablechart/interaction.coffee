@@ -15,6 +15,9 @@ $ ->
         sel.options.disabled = true
 
       $TC.chart.live 'add', (e, sprite) ->
+        if sprite.selectable == false
+          return
+
         $.when( sprite.canvas_ready() ).then ->
           $cvs = $ sprite.canvas
 
