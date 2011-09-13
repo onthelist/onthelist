@@ -4,7 +4,8 @@ $ ->
     $tci = $(chart.cont)
 
     if not $tci.hasClass('ui-selectable')
-      $tci.scaled_selectable()
+      $tci.scaled_selectable
+        filter: ':not(.section)'
       
       chart.selection = sel = $tci.data().scaled_selectable
 
@@ -45,7 +46,7 @@ $ ->
         
       $tci.bind 'vmousedown', (e) ->
         # vclick/click are blocked by the JUI widgets used for selection / dragging
-        if e.target == $tci[0]
+        if e.target == $tci[0] or $(e.target).hasClass 'section'
           $tci.find('.ui-selected').removeClass('ui-selected')
           $tci.trigger('scaled_selectableunselected')
 

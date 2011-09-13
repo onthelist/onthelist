@@ -268,10 +268,17 @@ class DraggableSprite
     p.top -= y_shift * $TC.scroller.scale
     p.left -= x_shift * $TC.scroller.scale
 
+  _start_update_pos: ->
+    @sprite.trigger 'moveStart'
+
   _update_pos: (ui) ->
     p = ui.position
 
     @sprite._update_pos(p.left, p.top)
+
+  _stop_update_pos: (ui) ->
+    # Allow the sprite's move evt to fire
+    do @sprite.move
 
   destroy: ->
     @$canvas.draggable('destroy')

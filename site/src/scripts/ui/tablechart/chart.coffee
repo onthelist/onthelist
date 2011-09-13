@@ -129,6 +129,10 @@ class $TC.Chart extends $U.Evented
 
     return arr[0][0]
 
+  refresh_sections: ->
+    for own key, section of @sections
+      do section.refresh
+
   live: (evt, func) ->
     if evt == 'add'
       for sprite in @sprites
