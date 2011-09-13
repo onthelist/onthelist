@@ -1,5 +1,6 @@
 express = require('express')
-store = require('../utils/lib/redis_store').client
+store = require('../utils/lib/simpledb_store').client
+sdb = require('../utils/lib/simpledb_helpers')
 
 errors = require('../utils/lib/errors')
 messaging = require('../messaging/lib/auto')
@@ -19,7 +20,6 @@ app.configure ->
   
   app.use(app.router)
 
-
 app.configure 'development', ->
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }))
 
@@ -37,14 +37,15 @@ app.post '/send/sms', (req, res) ->
   if not id
     throw new errors.Client "'device_id' param is required."
 
-  store.decr "device:#{id}:remaining_sms_tokens", (err, count) ->
-    if err?
-      errors.respond(res, new errors.Server "Error fetching count: #{err}")
+  sdb.get_org_from_device res, id, (org, device) ->
+    if org.tokens <= 0
+      errors.respond(res, new errors.Unpaid "NO_TOKENS")
+      return
 
-    else if count < 0
-      errors.respond(res, new errors.Unpaid "NO_SMS_TOKENS")
-
-    else
+    org.tokens -= 1
+    # This is a race condition, we could use Expect with retries
+    # to avoid it.
+    sdb.put_org res, org, ->
       to = req.body.to
       body = req.body.body
 
@@ -52,7 +53,9 @@ app.post '/send/sms', (req, res) ->
         errors.respond(res, new errors.Client "'to' and 'body' params are required.")
       
       sms.send('2482425222', to, body, ->
-        res.send('ok': true)
+        res.send
+          ok: true
+          tokens_remaining: org.tokens
       )
 
 phone = new messaging.Phone()
@@ -62,14 +65,14 @@ app.post '/send/phone', (req, res) ->
   if not id
     throw new errors.Client "'device_id' param is required."
 
-  store.decr "device:#{id}:remaining_phone_tokens", (err, count) ->
-    if err?
-      errors.respond(res, new errors.Server "Error fetching count: #{err}")
+  sdb.get_org_from_device res, id, (org, device) ->
+    if org.tokens <= 0
+      errors.respond(res, new errors.Unpaid "NO_TOKENS")
+      return
 
-    else if count < 0
-      errors.respond(res, new errors.Unpaid "NO_PHONE_TOKENS")
-
-    else
+    org.tokens -= 1
+    
+    sdb.put_org res, org, ->
       to = req.body.to
       body = req.body.body
 
@@ -78,10 +81,13 @@ app.post '/send/phone', (req, res) ->
 
       phone.call '2482425222', to, (convo) ->
         convo.on 'answered', (params, resp) ->
-          resp.say body
+          resp.say body,
+            loop: 0
           do resp.send
 
-          res.send('ok': true)
+          res.send
+            ok: true
+            tokens_remaining: org.tokens
 
 app.listen(5857)
 console.log("Express server listening on port %d", app.address().port)
