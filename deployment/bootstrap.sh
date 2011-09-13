@@ -18,7 +18,7 @@ rm /etc/update-motd.d/51_update-motd
 # Add www group and users.
 groupadd www
 useradd -m www-server --home /home/www-server --shell /dev/null -g www
-useradd -m www-developer --home /home/www-server --shell /bin/bash -g www
+useradd -m www-developer --home /home/www-developer --shell /bin/bash -g www
 
 echo "www-developer  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
@@ -54,4 +54,5 @@ gem install chef --no-ri --no-rdoc
 chown -R www-server:www /home/www-server/
 chmod -R ug+rw /home/www-server
 
+cd /home/www-server/onthelist/deployment
 echo "Server bootstrap process complete. Run /home/www-server/onthelist/deployment/startChefSolo.sh when ready."
