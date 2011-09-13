@@ -11,7 +11,7 @@ script "notifier-deps-install" do
   user "root"
   cwd "/home/www-server/onthelist/notify"
   code <<-EOH
-  npm install -d
+  npm install -d -g
   EOH
 end
 
