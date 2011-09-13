@@ -154,6 +154,21 @@ class $TC.Sprite extends $U.Evented
 
     do this._move
 
+  bounding_points: (pad=0) ->
+    return [
+      x: @x - @w / 2 - pad
+      y: @y - @h / 2 - pad
+    ,
+      x: @x - @w / 2 - pad
+      y: @y + @h / 2 + pad
+    ,
+      x: @x + @w / 2 + pad
+      y: @y + @h / 2 + pad
+    ,
+      x: @x + @w / 2 + pad
+      y: @y - @h / 2 - pad
+    ]
+
 class $TC.DrawnSprite extends $TC.Sprite
   _apply_style: (section) ->
     @style = {}
@@ -336,21 +351,9 @@ class $TC.Section extends $TC.DrawnSprite
     points = []
     PAD = 5
     for table in tables
-      points.push
-        x: table.x - table.w/2 - PAD
-        y: table.y - table.h/2 - PAD
+      bnds = table.bounding_points PAD
 
-      points.push
-        x: table.x + table.w/2 + PAD
-        y: table.y - table.h/2 - PAD
-
-      points.push
-        x: table.x + table.w/2 + PAD
-        y: table.y + table.h/2 + PAD
-
-      points.push
-        x: table.x - table.w/2 - PAD
-        y: table.y + table.h/2 + PAD
+      points.add bnds
     
     @_draw_hull points
 
@@ -478,6 +481,7 @@ class $TC.RoundTable extends $TC.Table
     rad = circ / Math.PI / 2
 
     rad = Math.max(rad, 12)
+    @radius = rad
 
     center = rad + @seat_depth
 
@@ -499,6 +503,20 @@ class $TC.RoundTable extends $TC.Table
     @draw_label([square, square, square, square], false)
 
   rotate: ->
+
+  bounding_points: (pad=0) ->
+    pnts = []
+    num = 8
+    rad = @radius + @seat_depth + pad + 2
+
+    for i in [0...num]
+      ang = i * 2*Math.PI / num
+
+      pnts.push
+        x: @x + Math.cos(ang) * rad
+        y: @y + Math.sin(ang) * rad
+
+    return pnts
 
 class $TC.RectTable extends $TC.Table
   width: 28
