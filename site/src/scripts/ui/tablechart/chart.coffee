@@ -116,6 +116,19 @@ class $TC.Chart extends $U.Evented
 
     return sprite
 
+  next_section_color: ->
+    cnts = {}
+    for color in Object.keys($TC.Section.prototype.colors)
+      cnts[color] = 0
+    for own key, section of @sections
+      cnts[section.opts.color] += 1
+
+    arr = ([col, cnt] for own col, cnt of cnts)
+    arr.sortBy (c) ->
+      c[1]
+
+    return arr[0][0]
+
   live: (evt, func) ->
     if evt == 'add'
       for sprite in @sprites

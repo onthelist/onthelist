@@ -187,6 +187,7 @@ $ ->
             name = prompt("New Section Name")
             sec = new $TC.Section
               label: name
+              color: do $TC.chart.next_section_color
 
             $TC.chart.add sec
 

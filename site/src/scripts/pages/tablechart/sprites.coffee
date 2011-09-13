@@ -21,7 +21,7 @@ styles =
     section:
       line:
         color: '#EEE'
-        width: 5
+        width: 3
       fill:
         color: 'rgba(60, 60, 250, .1)'
   selected:
@@ -299,9 +299,14 @@ class $TC.Section extends $TC.DrawnSprite
   selectable: false
   draggable: false
   class_name: 'section'
+  colors:
+    blue: [0, 0, 255]
+    red: [255, 0, 0]
+    green: [0, 255, 0]
 
   constructor: (@opts) ->
     @tables = opts.tables ? []
+    @opts.color ?= 'blue'
 
     super @opts
 
@@ -334,6 +339,14 @@ class $TC.Section extends $TC.DrawnSprite
         h: table.h
         
     @_draw_rounded_poly points
+
+  _apply_style: ->
+    super
+
+    c = @colors[@opts.color]
+
+    @cxt.strokeStyle = "rgba(#{c.join ','}, 0.4)"
+    @cxt.fillStyle = "rgba(#{c.join ','}, 0.1)"
 
   _draw_rounded_poly: (points) ->
     if not points.length
@@ -378,19 +391,17 @@ class $TC.Section extends $TC.DrawnSprite
     do @cxt.save
     @_apply_style 'section'
 
-    x_min = (points.min 'x').first().x
-    x_max = (points.max 'x').first().x
-    y_min = (points.min 'y').first().y
-    y_max = (points.max 'y').first().y
+    PAD = 5
+    x_min = (points.min 'x').first().x - PAD
+    x_max = (points.max 'x').first().x + PAD
+    y_min = (points.min 'y').first().y - PAD
+    y_max = (points.max 'y').first().y + PAD
 
     do @cxt.beginPath
     @cxt.lineTo x_min, y_min
     @cxt.lineTo x_min, y_max
     @cxt.lineTo x_max, y_max
     @cxt.lineTo x_max, y_min
-
-#    for point in points
-#      @cxt.lineTo point.x, point.y
     do @cxt.closePath
 
     do @cxt.fill
