@@ -371,15 +371,12 @@ class $TC.Section extends $TC.DrawnSprite
       p.x * 1000000 + p.y
 
     hull = []
-    $.log chainHull_2D(points, hull), hull
+    chainHull_2D(points, hull)
 
     do @cxt.save
     @_apply_style 'section'
 
-    do @cxt.beginPath
-    for point in hull
-      @cxt.lineTo point.x, point.y
-    do @cxt.closePath
+    $DRAW.rounded_poly @cxt, hull
 
     do @cxt.fill
     do @cxt.stroke
