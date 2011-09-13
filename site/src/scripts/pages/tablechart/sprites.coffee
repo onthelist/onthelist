@@ -372,6 +372,8 @@ class $TC.Section extends $TC.DrawnSprite
 
     hull = []
     chainHull_2D(points, hull)
+    # chainHull adds the start point at the end as well.
+    hull.pop()
 
     do @cxt.save
     @_apply_style 'section'
