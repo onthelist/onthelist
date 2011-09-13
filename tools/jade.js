@@ -46,6 +46,9 @@ var dest;
 var watchers;
 
 
+var PROD_ROOT = '//static.speedyseat.us/'
+var SCRIPT_ROOT = process.env.HOME + '/onthelist/site/public/html'
+
 /**
  * Usage information.
  */
@@ -67,7 +70,8 @@ var usage = ''
 // Parse arguments
 
 var arg
-  , files = [];
+  , files = []
+  , PROD = false;
 while (args.length) {
   arg = args.shift();
   switch (arg) {
@@ -79,6 +83,10 @@ while (args.length) {
     case '--version':
       console.log(jade.version);
       process.exit(1);
+    case '-p':
+    case '--prod':
+      PROD = true;
+      break;
     case '-o':
     case '--options':
       var str = args.shift();
@@ -132,6 +140,88 @@ var add_dep = function(file){
 var strip_quotes = function(s){
   return s.substring(1, s.length - 1);
 };
+
+var concat_files = function(paths, cb){
+  var files = {};
+  var cnt = 0;
+  var all_started = false;
+
+  var check_done = function(){
+    if (cnt == 0 && all_started){
+      var out = "";
+      for (var i=0; i < paths.length; i++){
+        out += "\n" + files[paths[i]];
+      }
+      cb(out);
+    }
+  }
+
+  for (var i=0; i < paths.length; i++){
+    var path = paths[i];
+
+    cnt++;
+    (function(path){
+      fs.readFile(path, function(err, data){
+        if (err){
+          console.log("Error loading file: " + path);
+          return;
+        }
+    
+        files[path] = data;
+        cnt--;
+
+        check_done();
+      });
+    })(path);
+  }
+  
+  all_started = true;
+  check_done();
+};
+
+jade.filters.prod = function(block, compiler, opts){
+  var Visitor = function(node, opts) {
+    this.node = node;
+    this.opts = opts;
+  }
+  Visitor.prototype.__proto__ = Compiler.prototype;
+
+  Visitor.prototype.visitBlock = function(block) {
+    if (!PROD)
+      return Compiler.prototype.visitBlock.call(this, block);
+
+    var paths = [];
+    for (var j=0; j < block.nodes.length; j++){
+      var node = block.nodes[j];
+
+      if (node.name != 'script'){
+        Compiler.prototype.visit.call(this, node);
+        return;
+      }
+
+      var attrs = {}
+      for (var i=0; i < node.attrs.length; i++){
+        var attr = node.attrs[i];
+        attrs[attr.name] = attr.val;
+      }
+
+      if (!attrs.src)
+        continue;
+
+      var src = attrs.src.substring(1, attrs.src.length - 1);
+      src = path.join(SCRIPT_ROOT, src);
+      
+      paths.push(src);
+    }
+    
+    concat_files(paths, function(data){
+      console.log(data.length);
+    });
+  }
+
+  return new Visitor(block, opts).compile();
+}
+
 
 jade.filters.include_files = function(block, compiler, opts){
   var Visitor = function(node, opts) {
@@ -240,6 +330,7 @@ function processFile(path) {
  * Render jade
  */
 
+CFILE = null;
 function renderJade(jadefile) {
   // Updated by filters
   dependencies = [];
@@ -290,7 +381,6 @@ function writeFile(src, html, deps) {
       console.log('  \033[90mcompiled\033[0m %s', path);
       watch(src, renderJade);
 
-      console.log(deps);
       if (deps){
         for (var i=0; i < deps.length; i++){
           watch(deps[i], renderJade, src);
