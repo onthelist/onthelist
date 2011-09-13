@@ -58,5 +58,6 @@ bash "add_node_path" do
   cwd "/tmp/"
   code <<-EOH
     echo "NODE_PATH=/usr/local/lib/node_modules" >> /etc/environment
+    . /etc/environment
   EOH
 end
