@@ -183,6 +183,7 @@ $ ->
         _add_handler 'change', $section, 'change', (e) ->
           val = $section.val()
 
+          sec = null
           if val == 'add'
             name = prompt("New Section Name")
             sec = new $TC.Section
@@ -193,12 +194,19 @@ $ ->
 
             do _build_section_list
 
+            $section.val sec.opts.key
+            $section.selectmenu 'refresh'
+
           else if val
             sec = $TC.chart.get_sprite val
 
           for sprite in sprites
-            # TODO: remove from old sec
-            sec.add_table sprite
+            old_sec = $TC.chart.get_section sprite
+            if old_sec?
+              old_sec.remove_table sprite
+
+            if sec?
+              sec.add_table sprite
           
           do $TC.chart.save
 

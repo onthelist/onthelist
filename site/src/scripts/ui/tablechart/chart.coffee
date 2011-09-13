@@ -133,6 +133,13 @@ class $TC.Chart extends $U.Evented
     for own key, section of @sections
       do section.refresh
 
+  get_section: (sprite) ->
+    for own key, section of @sections
+      if sprite.opts.key in section.tables
+        return section
+
+    return null
+
   live: (evt, func) ->
     if evt == 'add'
       for sprite in @sprites

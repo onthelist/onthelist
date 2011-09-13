@@ -423,6 +423,8 @@ class $TC.Section extends $TC.DrawnSprite
 
     @tables.remove table
 
+    do @refresh
+
 class $TC.Table extends $TC.DrawnSprite
   seat_width: 10
   seat_depth: 7
