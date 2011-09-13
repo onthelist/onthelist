@@ -112,7 +112,7 @@ class $UI.Status
   hide: ->
     @shown = false
     if @$el?
-      @$el.stop true
+      @$el.stop true, true
       do @$el.slideUp
 
   show: ->
@@ -130,5 +130,4 @@ class $UI.Status
 
     do @render
 
-#    @$el.stop true
     do @$el.slideDown
