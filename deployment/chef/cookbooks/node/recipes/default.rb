@@ -60,4 +60,5 @@ bash "add_node_path" do
     echo "NODE_PATH=/usr/local/lib/node_modules" >> /etc/environment
     . /etc/environment
   EOH
+  not_if "grep '/usr/local/lib/node_modules' /etc/environment"
 end
