@@ -366,45 +366,19 @@ class $TC.Section extends $TC.DrawnSprite
     if not points.length
       return
 
-    # Get a center point
-    sum =
-      x: 0
-      y: 0
+    # Req'd by chainHull:
+    points.sortBy (p) ->
+      p.x * 1000000 + p.y
 
-    for point in points
-      sum.x += point.x
-      sum.y += point.y
-
-    center =
-      x: sum.x / points.length
-      y: sum.y / points.length
-
-    for p in points
-      ang = Math.atan((center.y - p.y) / (p.x - center.x))
-
-      if p.x < center.x
-        ang += Math.PI
-      else if p.y > center.y
-        ang += 2*Math.PI
-
-      p.ang = ang
-      p.rad = Math.sqrt(Math.pow(p.x - center.x, 2) + Math.pow(center.y - p.y, 2))
-  
-    points.sortBy 'ang'
+    hull = []
+    $.log chainHull_2D(points, hull), hull
 
     do @cxt.save
     @_apply_style 'section'
 
-    x_min = (points.min 'x').first().x
-    x_max = (points.max 'x').first().x
-    y_min = (points.min 'y').first().y
-    y_max = (points.max 'y').first().y
-
     do @cxt.beginPath
-    @cxt.lineTo x_min, y_min
-    @cxt.lineTo x_min, y_max
-    @cxt.lineTo x_max, y_max
-    @cxt.lineTo x_max, y_min
+    for point in hull
+      @cxt.lineTo point.x, point.y
     do @cxt.closePath
 
     do @cxt.fill

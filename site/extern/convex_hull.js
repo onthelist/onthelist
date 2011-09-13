@@ -5,6 +5,8 @@
 // liable for any real or imagined damage resulting from its use.
 // Users of this code must verify correctness for their application.
 // http://softsurfer.com/Archive/algorithm_0203/algorithm_0203.htm
+//
+// https://github.com/mgomes/ConvexHull
 
 // Assume that a class is already given for the object:
 //    Point with coordinates {float x, y;}
@@ -31,11 +33,11 @@ function isLeft(P0, P1, P2)
 // 
 //     Input:  P[] = an array of 2D points 
 //                   presorted by increasing x- and y-coordinates
-//             n = the number of points in P[]
 //     Output: H[] = an array of the convex hull vertices (max is n)
 //     Return: the number of points in H[]
-function chainHull_2D(P, n, H)
+function chainHull_2D(P, H)
 {
+    var n = P.length;
     // the output array H[] will be used as the stack
     var    bot=0, top=(-1);  // indices for bottom and top of the stack
     var    i;                // array scan index
