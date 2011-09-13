@@ -12,13 +12,15 @@ while true; do
     esac
 done
 
-# Get rid of annoying welcome text
+# Get rid of annoying er  welcome text
 rm /etc/update-motd.d/51_update-motd
 
-# Add www group and daemon users. Add to as needed.
+# Add www group and users.
 groupadd www
 useradd -m www-server --home /home/www-server --shell /dev/null -g www
 useradd -m www-developer --home /home/www-server --shell /bin/bash -g www
+
+echo "www-developer  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # Enable the multiverse. Used for Chef java cookbook.
 # The OpenJDK alternative has issues with jenkins.
