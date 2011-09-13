@@ -49,25 +49,7 @@ $DRAW.rounded_poly = (cxt, points, radius=15) ->
     c = segments[i]
     n = segments[(i + 1) % segments.length]
 
-    [ang, rad] = $DRAW.cart_to_polar c
-
-    if rad < radius * 2
-      cxt.lineTo c.x2, c.y2
-    else
-      cnt_x = (c.x2 + c.x1) / 2
-      cnt_y = (c.y2 + c.y1) / 2
-
-      if Math.abs(c.x2 - c.x1) < Math.abs(c.y2 - c.y1)
-        cnt_y = Math.max(c.y2, c.y1)
-      else
-        cnt_x = Math.max(c.x2, c.x1)
-
-      norm = ang + Math.PI / 2
-#      cnt_x -= Math.cos(norm) * rad / 10
-#      cnt_y -= Math.sin(norm) * rad / 10
-
-      cxt.quadraticCurveTo cnt_x, cnt_y, c.x2, c.y2
-
+    cxt.lineTo c.x2, c.y2
     cxt.quadraticCurveTo e.x2, e.y2, n.x1, n.y1
 
   do cxt.closePath
