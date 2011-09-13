@@ -18,6 +18,7 @@ rm /etc/update-motd.d/51_update-motd
 # Add www group and daemon users. Add to as needed.
 groupadd www
 useradd -m www-server --home /home/www-server --shell /dev/null -g www
+useradd -m www-developer --home /home/www-server --shell /bin/bash -g www
 
 # Enable the multiverse. Used for Chef java cookbook.
 # The OpenJDK alternative has issues with jenkins.
@@ -28,7 +29,6 @@ apt-get -yy update
 apt-get -yy upgrade
 apt-get -yy install wget screen zip unzip vim htop git build-essential
 
-# Install Chef dependencies. Use Ruby 1.8 or Compass and Jade may cause problems.
 apt-get -yy install ruby1.8 ruby1.8-dev libopenssl-ruby irb ssl-cert
 
 #  Clone repo.
