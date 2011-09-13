@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-include_recipe "git"
-
 [ "curl"].each do |pkg|
   package pkg do
     action :install

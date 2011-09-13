@@ -8,8 +8,6 @@
 #
 # Node package manager has occasional issues with their HTTPS certificate, try "npm --force --registry http://registry.npmjs.org/ install *" if you're having trouble.
 
-include_recipe "node"
-
 node_npm "jade@0.14.2" do
   action :install
 end
