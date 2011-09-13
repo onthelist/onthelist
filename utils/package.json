@@ -5,6 +5,7 @@
   , "dependencies": {
       "connect-redis": ""
     , "mongoose": ""
+    , "simpledb": ""
   }
   , "devDependencies": {
       "nodeunit": ">= 0.5.1"

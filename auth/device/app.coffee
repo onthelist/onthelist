@@ -1,7 +1,8 @@
 express = require('express')
 
 errors = require('../../utils/lib/errors')
-store = require('../../utils/lib/redis_store').client
+store = require('../../utils/lib/simpledb_store').client
+sdb = require('../../utils/lib/simpledb_helpers')
 
 app = module.exports = express.createServer()
 
@@ -31,25 +32,30 @@ app.post '/register', (req, res) ->
     return
 
   device = req.body.device
+  org_name = 'diablos'
 
-  device.display_organization = 'Diablos'
-  device.registered = true
+  sdb.get_org res, org_name, (org) ->
+    device.display_organization = org.display_name
+    device.registered = true
+    device.organization = org_name
+    device.id = id
 
-  store.set "device:#{id}", JSON.stringify(device)
-  store.set "device:#{id}:remaining_sms_tokens", 10000
-  store.set "device:#{id}:remaining_phone_tokens", 10000
+    store.putItem 'devices', device.id, device, (err) ->
+      if err
+        errors.respond res, new errors.Server "Device Save Error #{err}"
+        return
 
-  res.send
-    device: device
-    ok: true
+      res.send
+        device: device
+        ok: true
 
 app.get '/', (req, res) ->
   id = req.query.device_id
 
-  store.get "device:#{id}", (err, data) ->
+  store.getItem 'devices', id, (err, data) ->
     if not err? and data?
       try
-        device = JSON.parse data
+        device = data
       catch SyntaxError
         errors.respond res, new errors.Server "Stored data syntax error"
         return
