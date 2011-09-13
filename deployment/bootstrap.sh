@@ -21,6 +21,8 @@ useradd -m www-server --home /home/www-server --shell /dev/null -g www
 useradd -m www-developer --home /home/www-developer --shell /bin/bash -g www
 
 echo "www-developer  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+cp -R /root/.ssh/ /home/www-developer/.ssh/
+chown -R www-developer:www /home/www-developer/.ssh/
 
 # Enable the multiverse. Used for Chef java cookbook.
 # The OpenJDK alternative has issues with jenkins.
