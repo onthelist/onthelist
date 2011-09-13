@@ -326,19 +326,33 @@ class $TC.Section extends $TC.DrawnSprite
 
   _draw: ->
     tables = do @_get_tables
+    # One or more tables may not be loaded yet, or may have been removed.
+    tables = tables.filter (t) ->
+      t?
 
     @size 1280, 720
     @move 0, 0, true
 
     points = []
+    PAD = 5
     for table in tables
       points.push
-        x: table.x
-        y: table.y
-        w: table.w
-        h: table.h
-        
-    @_draw_rounded_poly points
+        x: table.x - table.w/2 - PAD
+        y: table.y - table.h/2 - PAD
+
+      points.push
+        x: table.x + table.w/2 + PAD
+        y: table.y - table.h/2 - PAD
+
+      points.push
+        x: table.x + table.w/2 + PAD
+        y: table.y + table.h/2 + PAD
+
+      points.push
+        x: table.x - table.w/2 - PAD
+        y: table.y + table.h/2 + PAD
+    
+    @_draw_hull points
 
   _apply_style: ->
     super
@@ -348,7 +362,7 @@ class $TC.Section extends $TC.DrawnSprite
     @cxt.strokeStyle = "rgba(#{c.join ','}, 0.4)"
     @cxt.fillStyle = "rgba(#{c.join ','}, 0.1)"
 
-  _draw_rounded_poly: (points) ->
+  _draw_hull: (points) ->
     if not points.length
       return
 
@@ -376,26 +390,15 @@ class $TC.Section extends $TC.DrawnSprite
       p.ang = ang
       p.rad = Math.sqrt(Math.pow(p.x - center.x, 2) + Math.pow(center.y - p.y, 2))
   
-      if p.x > center.x
-        p.x += p.w / 2
-      else
-        p.x -= p.w / 2
-
-      if p.y > center.y
-        p.y += p.h / 2
-      else
-        p.y -= p.h / 2
-
     points.sortBy 'ang'
 
     do @cxt.save
     @_apply_style 'section'
 
-    PAD = 5
-    x_min = (points.min 'x').first().x - PAD
-    x_max = (points.max 'x').first().x + PAD
-    y_min = (points.min 'y').first().y - PAD
-    y_max = (points.max 'y').first().y + PAD
+    x_min = (points.min 'x').first().x
+    x_max = (points.max 'x').first().x
+    y_min = (points.min 'y').first().y
+    y_max = (points.max 'y').first().y
 
     do @cxt.beginPath
     @cxt.lineTo x_min, y_min
