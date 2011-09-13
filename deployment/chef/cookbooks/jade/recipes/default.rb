@@ -11,4 +11,3 @@
 node_npm "jade@0.14.2" do
   action :install
 end
-

@@ -8,3 +8,7 @@
 #
 
 package "redis-server"
+
+node_npm "redis" do
+  action :install
+end
