@@ -4,7 +4,7 @@ styles =
       color: '#F9F9F9'
     line:
       color: '#555'
-      width: 2
+      width: 1
     label:
       fill:
         color: '#777'
@@ -18,6 +18,12 @@ styles =
         color: '#DDD'
       line:
         color: '#555'
+    section:
+      line:
+        color: '#EEE'
+        width: 3
+      fill:
+        color: 'rgba(60, 60, 250, .1)'
   selected:
     line:
       color: 'gold'
@@ -43,13 +49,18 @@ get_style = (name) ->
 window.$TC ?= {}
 
 class $TC.Sprite extends $U.Evented
+  class_name: 'sprite'
+
   constructor: (@opts) ->
     super
 
     @ready = $.Deferred()
 
     if not @opts.key?
-      @opts.key = Math.floor(Math.random() * 10000000000000)
+      @opts.key = Math.floor(Math.random() * 10000000000000).toString()
+
+    if typeof @opts.key == 'number'
+      @opts.key = @opts.key.toString()
 
   canvas_ready: ->
     return @ready.promise()
@@ -60,6 +71,8 @@ class $TC.Sprite extends $U.Evented
     @cxt = @canvas.getContext '2d'
 
     @$canvas = $(@canvas)
+
+    @$canvas.addClass @class_name
 
     $$(@canvas).sprite = this
     
@@ -90,7 +103,6 @@ class $TC.Sprite extends $U.Evented
   package: ->
     @opts.x = @x
     @opts.y = @y
-    @opts.seats = @seats
 
     return {opts: @opts}
 
@@ -124,6 +136,8 @@ class $TC.Sprite extends $U.Evented
     @x = x ? @x
     do @_move
 
+    @trigger 'move'
+
   _move: ->
     y = @y - @h / 2
     x = @x - @w / 2
@@ -140,29 +154,22 @@ class $TC.Sprite extends $U.Evented
 
     do this._move
 
-class $TC.Table extends $TC.Sprite
-  seat_width: 10
-  seat_depth: 7
-  seat_spacing: 3
+  bounding_points: (pad=0) ->
+    return [
+      x: @x - @w / 2 - pad
+      y: @y - @h / 2 - pad
+    ,
+      x: @x - @w / 2 - pad
+      y: @y + @h / 2 + pad
+    ,
+      x: @x + @w / 2 + pad
+      y: @y + @h / 2 + pad
+    ,
+      x: @x + @w / 2 + pad
+      y: @y - @h / 2 - pad
+    ]
 
-  constructor: (@opts) ->
-    @x = opts.x ? 0
-    @y = opts.y ? 0
-    @seats = @opts.seats
-    @occupancy = {}
-
-    super @opts
-
-  occupy: (occupant) ->
-    @occupancy.occupant = occupant ? null
-
-    if occupant
-      @occupancy.time = new Date
-  
-      @push_style 'occupied'
-    else
-      @pop_style 'occupied'
-
+class $TC.DrawnSprite extends $TC.Sprite
   _apply_style: (section) ->
     @style = {}
     for style in @style_stack
@@ -176,7 +183,8 @@ class $TC.Table extends $TC.Sprite
 
     @cxt.fillStyle = @style.fill.color
     @cxt.strokeStyle = @style.line.color
-    @cxt.strokeWidth = @style.line.width
+    @cxt.lineWidth = @style.line.width
+    @cxt.lineJoin = @style.line.join ? 'round'
     @cxt.font = @style.font ? 'bold 1.6em sans-serif'
 
     if @style.shadow?
@@ -184,6 +192,7 @@ class $TC.Table extends $TC.Sprite
       @cxt.shadowOffsetY = @style.shadow.y_offset
       @cxt.shadowBlur = @style.shadow.blur
       @cxt.shadowColor = @style.shadow.color
+
   
   draw: (parent) ->
     super parent
@@ -196,7 +205,7 @@ class $TC.Table extends $TC.Sprite
     do @_draw
 
   _draw_circle: (x, y, rad, style) ->
-    this._apply_style style
+    @_apply_style style
 
     do @cxt.beginPath
     @cxt.arc x, y, rad, 0, Math.PI*2, true
@@ -205,43 +214,9 @@ class $TC.Table extends $TC.Sprite
     do @cxt.fill
     do @cxt.stroke
 
-  _draw_seat: (x, y, rot=0) ->
-    # The coords represent the middle of the lower straight line.
-    do @cxt.save
-    this._apply_style 'seat'
-
-    @cxt.translate x, y
-    @cxt.rotate rot + Math.PI / 2
-
-    pan_depth = @seat_depth - @seat_width / 2
-    
-    do @cxt.beginPath
-    
-    # Move to upper left corner
-    @cxt.moveTo (-@seat_width / 2), (-pan_depth)
-
-    # Lower left
-    @cxt.lineTo (-@seat_width / 2), 0
-
-    # Lower right
-    @cxt.lineTo (@seat_width / 2), 0
-
-    # Upper right
-    @cxt.lineTo (@seat_width / 2), (-pan_depth)
-
-    # Arc to form back
-    @cxt.arc 0, (-pan_depth), (@seat_width / 2), 0, Math.PI, true
-
-    do @cxt.closePath
-
-    do @cxt.fill
-    do @cxt.stroke
-
-    do @cxt.restore
-
   _draw_rect: (x, y, w, h, style) ->
     do @cxt.save
-    this._apply_style style
+    @_apply_style style
 
     do @cxt.beginPath
 
@@ -334,6 +309,169 @@ class $TC.Table extends $TC.Sprite
     @opts.rotation ?= 0
     @opts.rotation += delta
 
+class $TC.Section extends $TC.DrawnSprite
+  is_section: true
+  selectable: false
+  draggable: false
+  class_name: 'section'
+  colors:
+    blue: [0, 0, 255]
+    red: [255, 0, 0]
+    green: [0, 255, 0]
+
+  constructor: (@opts) ->
+    @tables = opts.tables ? []
+    @opts.color ?= 'blue'
+
+    super @opts
+
+  _get_table: (key) ->
+    return $TC.Table.prototype.registry[key]
+
+  _get_tables: ->
+    return @tables.map (key) =>
+      @_get_table key
+
+  package: ->
+    super
+
+    @opts.tables = @tables
+
+    return {opts: @opts}
+
+  _draw: ->
+    tables = do @_get_tables
+    # One or more tables may not be loaded yet, or may have been removed.
+    tables = tables.filter (t) ->
+      t?
+
+    @size 1280, 720
+    @move 0, 0, true
+
+    points = []
+    PAD = 5
+    for table in tables
+      bnds = table.bounding_points PAD
+
+      points.add bnds
+    
+    @_draw_hull points
+
+  _apply_style: ->
+    super
+
+    c = @colors[@opts.color]
+
+    @cxt.strokeStyle = "rgba(#{c.join ','}, 0.4)"
+    @cxt.fillStyle = "rgba(#{c.join ','}, 0.1)"
+
+  _draw_hull: (points) ->
+    if not points.length
+      return
+
+    # Req'd by chainHull:
+    points.sortBy (p) ->
+      p.x * 1000000 + p.y
+
+    hull = []
+    chainHull_2D(points, hull)
+    # chainHull adds the start point at the end as well.
+    hull.pop()
+
+    do @cxt.save
+    @_apply_style 'section'
+
+    $DRAW.rounded_poly @cxt, hull
+
+    do @cxt.fill
+    do @cxt.stroke
+
+    do @cxt.restore
+
+  add_table: (table) ->
+    if not Object.isString table
+      table = table.opts.key
+
+    @tables.push table
+
+    do @refresh
+
+  remove_table: (table) ->
+    if not Object.isString table
+      table = table.opts.key
+
+    @tables.remove table
+
+    do @refresh
+
+class $TC.Table extends $TC.DrawnSprite
+  seat_width: 10
+  seat_depth: 7
+  seat_spacing: 3
+  registry: {}
+
+  constructor: (@opts) ->
+    @x = opts.x ? 0
+    @y = opts.y ? 0
+    @seats = @opts.seats
+    @occupancy = null
+
+    super @opts
+
+    @registry[@opts.key] = this
+
+  package: ->
+    super
+    
+    @opts.seats = @seats
+
+    return {opts: @opts}
+
+  occupy: (occupant) ->
+    @occupancy.occupant = occupant ? null
+
+    if occupant
+      @occupancy.time = new Date
+  
+      @push_style 'occupied'
+    else
+      @pop_style 'occupied'
+
+  _draw_seat: (x, y, rot=0) ->
+    # The coords represent the middle of the lower straight line.
+    do @cxt.save
+    this._apply_style 'seat'
+
+    @cxt.translate x, y
+    @cxt.rotate rot + Math.PI / 2
+
+    pan_depth = @seat_depth - @seat_width / 2
+    
+    do @cxt.beginPath
+    
+    # Move to upper left corner
+    @cxt.moveTo (-@seat_width / 2), (-pan_depth)
+
+    # Lower left
+    @cxt.lineTo (-@seat_width / 2), 0
+
+    # Lower right
+    @cxt.lineTo (@seat_width / 2), 0
+
+    # Upper right
+    @cxt.lineTo (@seat_width / 2), (-pan_depth)
+
+    # Arc to form back
+    @cxt.arc 0, (-pan_depth), (@seat_width / 2), 0, Math.PI, true
+
+    do @cxt.closePath
+
+    do @cxt.fill
+    do @cxt.stroke
+
+    do @cxt.restore
+
+
 # Do NOT try to do anything in the constructor of the specific table
 # types, the constructor will not be called when the table's shape
 # is changed.
@@ -343,6 +481,7 @@ class $TC.RoundTable extends $TC.Table
     rad = circ / Math.PI / 2
 
     rad = Math.max(rad, 12)
+    @radius = rad
 
     center = rad + @seat_depth
 
@@ -364,6 +503,20 @@ class $TC.RoundTable extends $TC.Table
     @draw_label([square, square, square, square], false)
 
   rotate: ->
+
+  bounding_points: (pad=0) ->
+    pnts = []
+    num = 8
+    rad = @radius + @seat_depth + pad + 2
+
+    for i in [0...num]
+      ang = i * 2*Math.PI / num
+
+      pnts.push
+        x: @x + Math.cos(ang) * rad
+        y: @y + Math.sin(ang) * rad
+
+    return pnts
 
 class $TC.RectTable extends $TC.Table
   width: 28

@@ -32,6 +32,10 @@
   canvas {
     position: absolute;
     z-index: 3;
+
+    &.section {
+      z-index: 2;
+    }
   }
 }
 

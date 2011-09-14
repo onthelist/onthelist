@@ -6,6 +6,16 @@ class $TC.Chart extends $U.Evented
 
     @sprites = []
 
+    @section_sets = {}
+    @current_section_set = 'default'
+    
+    @__defineGetter__ "sections", =>
+      return @section_sets[@current_section_set]
+    @__defineSetter__ "sections", (val) =>
+      @section_sets[@current_section_set] = val
+
+    @sections = {}
+
     @opts.name ?= 'Default Chart'
     @opts.key ?= @opts.name.toLowerCase().remove(' ')
 
@@ -44,6 +54,15 @@ class $TC.Chart extends $U.Evented
 
     return null
 
+  get_section: (sprite) ->
+    key = sprite.opts.key ? sprite
+
+    for own k, sec of @sections
+      if key in sec.tables
+        return sec
+
+    return null
+
   load: ->
     $.when( $D.charts.init() ).then =>
       $D.charts.get @opts.key, (row) =>
@@ -68,6 +87,9 @@ class $TC.Chart extends $U.Evented
     @trigger if @editable then 'unlocked' else 'locked'
 
     for sprite in @sprites
+      if sprite.draggable == false
+        continue
+
       if @editable
         $TC.draggable_sprite(sprite, this)
       else
@@ -82,13 +104,41 @@ class $TC.Chart extends $U.Evented
       sprite = @create props
 
     @sprites.push sprite
+    if sprite.is_section
+      @sections[sprite.opts.key] = sprite
 
-    if @editable
+    if @editable and sprite.draggable != false
       $TC.draggable_sprite(sprite, this)
     
     @trigger 'add', [sprite]
 
+    sprite.draw @cont
+
     return sprite
+
+  next_section_color: ->
+    cnts = {}
+    for color in Object.keys($TC.Section.prototype.colors)
+      cnts[color] = 0
+    for own key, section of @sections
+      cnts[section.opts.color] += 1
+
+    arr = ([col, cnt] for own col, cnt of cnts)
+    arr.sortBy (c) ->
+      c[1]
+
+    return arr[0][0]
+
+  refresh_sections: ->
+    for own key, section of @sections
+      do section.refresh
+
+  get_section: (sprite) ->
+    for own key, section of @sections
+      if sprite.opts.key in section.tables
+        return section
+
+    return null
 
   live: (evt, func) ->
     if evt == 'add'
@@ -139,6 +189,8 @@ class $TC.Chart extends $U.Evented
   draw: ->
     for sprite in @sprites
       sprite.draw @cont
+
+    @trigger 'draw'
 
   pack: ->
     out = []

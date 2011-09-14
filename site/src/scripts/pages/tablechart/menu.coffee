@@ -15,6 +15,15 @@ $ ->
                 name: 'unlocked'
                 label: 'Stop Editing'
               ]
+          ,
+            name: 'sections'
+            value: 'default'
+            label: 'Section Layout'
+            options:
+              [
+                name: 'default'
+                label: 'Default'
+              ]
           ]
     
     $link = $('[href=#tablechart]', this)
