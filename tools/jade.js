@@ -11,6 +11,12 @@ var fs = require('fs')
   , resolve = path.resolve
   , basename = path.basename
   , dirname = path.dirname
+  , uglify = require('uglify-js')
+  , compress = require('compress-buffer').compress
+  , hashlib = require('hashlib')
+  , knox = require('knox')
+  , aws_key = require('./aws_key')
+  , upload_file = require('./s3_push').upload_file
   , jade;
 
 try {
@@ -46,6 +52,10 @@ var dest;
 var watchers;
 
 
+//var PROD_ROOT = '//s3.amazonaws.com/speedyseat-files/'
+var PROD_ROOT = '//cf.speedyseat.us/'
+var SCRIPT_ROOT = process.env.HOME + '/onthelist/site/public/html'
+
 /**
  * Usage information.
  */
@@ -67,7 +77,9 @@ var usage = ''
 // Parse arguments
 
 var arg
-  , files = [];
+  , files = []
+  , PROD = false
+  , UGLIFY = true;
 while (args.length) {
   arg = args.shift();
   switch (arg) {
@@ -79,6 +91,14 @@ while (args.length) {
     case '--version':
       console.log(jade.version);
       process.exit(1);
+    case '-p':
+    case '--prod':
+      PROD = true;
+      break;
+    case '-nu':
+    case '--no-uglify': 
+      UGLIFY = false;
+      break;
     case '-o':
     case '--options':
       var str = args.shift();
@@ -132,6 +152,124 @@ var add_dep = function(file){
 var strip_quotes = function(s){
   return s.substring(1, s.length - 1);
 };
+
+var concat_files = function(paths){
+  out = "";
+  for (var i=0; i < paths.length; i++){
+    var path = paths[i];
+
+    data = fs.readFileSync(path);
+    out += data + "\n";
+  }
+  return out;
+};
+
+var uglify_script = function(code){
+  try {
+    var ast = uglify.parser.parse(code);
+    ast = uglify.uglify.ast_mangle(ast);
+    ast = uglify.uglify.ast_squeeze(ast);
+    return uglify.uglify.gen_code(ast, {'ascii_only': true});
+  } catch (e) {
+    console.log("Script parsing error");
+    console.log(e);
+    
+    console.log(code.substring(e.pos - 20, e.pos + 20));
+  }
+};
+
+var hash_data = function(data){
+  return hashlib.sha1(data);
+};
+
+
+jade.filters.prod = function(block, compiler, opts){
+  var Visitor = function(node, opts) {
+    this.node = node;
+    this.opts = opts;
+  }
+  Visitor.prototype.__proto__ = Compiler.prototype;
+
+  Visitor.prototype.visitBlock = function(block) {
+    var self = this;
+
+    if (!PROD || !block.nodes.length)
+      return Compiler.prototype.visitBlock.call(this, block);
+
+    var paths = {};
+    // TODO: Add support for stylesheet media attr.
+    for (var j=0; j < block.nodes.length; j++){
+      var node = block.nodes[j];
+
+      if (node.name != 'script' && (node.name != 'link' || node.getAttribute('rel') != '"stylesheet"')){
+        Compiler.prototype.visit.call(this, node);
+        continue;
+      }
+
+      var src = node.getAttribute('src') || node.getAttribute('href');
+
+      if (!src)
+        continue;
+
+      src = src.substring(1, src.length - 1);
+      src = path.join(SCRIPT_ROOT, src);
+      
+      if (!paths[node.name])
+        paths[node.name] = [];
+      paths[node.name].push(src);
+    }
+    
+    var props = {
+      'script': {
+        'ext': 'js',
+        'mime': 'text/javascript'
+      },
+      'link': {
+        'ext': 'css',
+        'mime': 'text/css'
+      }
+    };
+
+    for (var type in paths){
+      var pths = paths[type];
+      var prop = props[type];
+
+      var data = concat_files(pths);
+      var raw_len = data.length;
+
+      if (UGLIFY && type == 'script')
+        data = uglify_script(data);
+      var ug_len = data.length;
+
+      data = compress(data);
+      var com_len = data.length;
+      
+      console.log(raw_len + " / " + ug_len + " / " + com_len);
+
+      var hash = hash_data(data);
+
+      var fname = hash + '.' + prop.ext;
+
+      console.log(fname);
+
+      upload_file(fname, data, {
+        "Content-Type": prop.mime,
+        "Content-Encoding": "gzip"
+      });
+
+      var url = PROD_ROOT + fname;
+      
+      // TODO: Create nodes
+      if (type == 'script')
+        self.buffer('<script src="' + url + '" type="text/javascript"></script>');
+      else
+        self.buffer('<link rel="stylesheet" href="' + url + '" />');
+    }
+  }
+
+  return new Visitor(block, opts).compile();
+}
+
 
 jade.filters.include_files = function(block, compiler, opts){
   var Visitor = function(node, opts) {
@@ -240,6 +378,7 @@ function processFile(path) {
  * Render jade
  */
 
+CFILE = null;
 function renderJade(jadefile) {
   // Updated by filters
   dependencies = [];
@@ -290,7 +429,6 @@ function writeFile(src, html, deps) {
       console.log('  \033[90mcompiled\033[0m %s', path);
       watch(src, renderJade);
 
-      console.log(deps);
       if (deps){
         for (var i=0; i < deps.length; i++){
           watch(deps[i], renderJade, src);
