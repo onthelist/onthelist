@@ -16,6 +16,9 @@ module.exports =
         errors.respond res, new errors.Server "Device Load Error #{err}"
         return
 
+      if device?._settings_str?
+        device.settings = JSON.parse device._settings_str
+
       cb device, meta
 
   get_org_from_device: (res, id, cb) ->
@@ -27,6 +30,17 @@ module.exports =
     store.putItem 'orgs', org.name, org, (err) ->
       if err
         errors.respond res, new errors.Server "Error Saving Org #{err}"
+        return
+
+      do cb
+
+  put_device: (res, device, cb) ->
+    if device?.settings?
+      device._settings_str = JSON.stringify device.settings
+
+    store.putItem 'devices', device.id, device, (err) ->
+      if err
+        errors.respond res, new errors.Server "Error Saving Device #{err}"
         return
 
       do cb

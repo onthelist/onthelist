@@ -5,7 +5,7 @@
     fieldset
       div(data-role="fieldcontain")
         label(for="rd-username") Account Username
-        input#rd-username(type="text", name="username", placeholder="Username")
+        input#rd-username(type="text", name="username", placeholder="Username", autofocus)
 
       div(data-role="fieldcontain")
         label(for="rd-password") Account Password
@@ -15,4 +15,4 @@
       label(for="rd-nickname") Device Nickname
       input#rd-nickname(type="text", name="nickname", placeholder="Device Nickname")
 
-    a(href="#register", data-role="button") Register
+    input(type="submit", data-role="button", value="Register")

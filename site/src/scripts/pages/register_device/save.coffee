@@ -1,7 +1,10 @@
 $ ->
   $page = $('#register_device')
 
-  $('a[href=#register]', $page).bind 'vclick', (e) ->
+  $page.bind 'pageshow', ->
+    $page.find('[autofocus]').focus()
+
+  $('form', $page).bind 'submit', (e) ->
     do e.preventDefault
     do e.stopPropagation
 

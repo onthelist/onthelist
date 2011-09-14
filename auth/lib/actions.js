@@ -1,12 +1,9 @@
-var mongoose = require('mongoose');
 var uuid = require("uuid");
 var hashlib = require("hashlib");
 
 var utils = require('../../utils/lib/utils');
 var errors = require('../../utils/lib/errors');
-var store = require('../../utils/lib/store');
-
-var schema = require('./schema');
+var store = require('../../utils/lib/simpledb_store').client;
 
 var SESSION_TTL = 3600; // In sec
 
@@ -43,14 +40,14 @@ module.exports.createAccount = function(username, password, doc, cb){
   var salt = uuid.generate();
   var passhash = hashPassword(password, salt);
 
-  var account = new schema.Account();
+  var account = {};
   account.username = username;
   account.passhash = passhash;
   account.salt = salt;
 
   utils.extend(account, doc);
 
-  account.save(function(err){
+  store.putItem('users', username, account, function(err){
     if (err)
       return cb(new errors.Server(err));
 
@@ -65,7 +62,7 @@ module.exports.createAccount = function(username, password, doc, cb){
  * @param {function} cb Called with user doc.
  */
 module.exports.getUser = function(username, cb){
-  schema.Account.findOne({'username': username}, function(err, doc){
+  store.getItem('users', username, function(err, doc){
     if (err)
       return cb(new errors.Server("Error loading user doc"));
     if (!doc)
@@ -85,7 +82,7 @@ module.exports.getUser = function(username, cb){
  * Loaded sessions will contain the user's username.
  */
 module.exports.getSession = function(token, cb){
-  store.get(token, function(err, sess){
+  store.getItem('sessions', token, function(err, sess){
     if (err || !sess)
       return cb(new errors.Unauthorized('Unable to load authentication session.'));
 
@@ -115,7 +112,7 @@ module.exports.getSessionUser = function(token, cb){
  * Delete the session details, logging user out.
  */
 module.exports.logout = function(token, cb){
-  store.destroy(token, function(err){
+  store.deleteItem(token, function(err){
     if (err)
       return cb(new errors.Server(err));
     
@@ -123,21 +120,12 @@ module.exports.logout = function(token, cb){
   });
 };
 
-/**
- * Authenticate a user.
- *
- * This will NOT end existing sessions the user may have.
- *
- * @param {string} username
- * @param {string} password
- * @param {function} cb
- */
-module.exports.login = function(username, password, cb){
+module.exports.checkLogin = function(username, password, cb){
   if (!username || !password){
     return cb(new errors.Client('Username and password must be provided.'));
   }
 
-  schema.Account.findOne({'username': username}, function(err, doc){
+  store.getItem('users', username, function(err, doc){
     if (err)
       return cb(new errors.Server("Error loading user doc"));
     if (!doc)
@@ -155,18 +143,34 @@ module.exports.login = function(username, password, cb){
       return cb(new errors.NotFound("Username or password not found"));
     }
 
+    doc.salt = undefined;
+    doc.hash = undefined;
+
+    cb(undefined, doc);
+  });
+};
+
+/**
+ * Authenticate a user.
+ *
+ * This will NOT end existing sessions the user may have.
+ *
+ * @param {string} username
+ * @param {string} password
+ * @param {function} cb
+ */
+module.exports.login = function(username, password, cb){
+  module.exports.checkLogin(username, password, function(err, username){
+    if (err)
+      return cb(err);
+
     var token = uuid.generate();
 
-    // We create a fake session so we can use existing Connect session
-    // storage libs.  See session.js.
-    var fake_session = {
-      'cookie': {
-        'maxAge': SESSION_TTL * 1000
-      },
-      'username': username
+    var session = {
+      'username': username,
+      'start_time': (new Date).getTime()
     };
-
-    store.set(token, fake_session, function(err){
+    store.putItem('sessions', token, session, function(err){
       if (err)
         return cb(new errors.Server(err));
 

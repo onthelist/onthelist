@@ -21,20 +21,21 @@ $IO.register_device = (props={}, opts={}) ->
 $IO.fetch_device = (opts={}) ->
   data = do $IO.build_req
 
-  opts.beforeSuccess = (data) ->
-    $D.device.set data.device
+  opts.beforeSuccess = (d) ->
+    $D.device.set d.device
     do $D.device.save
 
-    return data
+    return d
 
-  opts.beforeError = (data, status, err_text) ->
+  opts.beforeError = (d, status, err_text) ->
     if err_text == 'Not Found'
       $D.device.attributes.registered = false
       $D.device.save()
 
-    return [data, status, err_text]
+    return [d, status, err_text]
 
   $.extend opts,
+    type: 'POST'
     url: '/device/'
     data: data
 
