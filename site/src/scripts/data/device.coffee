@@ -1,4 +1,4 @@
-window.$ID = localStorage.DEVICE_ID ? Math.floor(Math.random() * 100000000000000)
+window.$ID = localStorage.DEVICE_ID ? Math.floor(Math.random() * 100000000000000).toString()
 localStorage.DEVICE_ID = $ID
 
 class Device extends Backbone.Model

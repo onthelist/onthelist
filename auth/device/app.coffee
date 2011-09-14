@@ -1,7 +1,9 @@
 express = require('express')
 
 errors = require('../../utils/lib/errors')
-store = require('../../utils/lib/redis_store').client
+auth = require('../lib/actions')
+store = require('../../utils/lib/simpledb_store').client
+sdb = require('../../utils/lib/simpledb_helpers')
 
 app = module.exports = express.createServer()
 
@@ -26,42 +28,44 @@ errors.catch_errors app
 
 app.post '/register', (req, res) ->
   id = req.body.device_id
-  if req.body.auth.username != 'diablos' or req.body.auth.password != 'diablos'
-    errors.respond res, new errors.NotFound "Credentials Invalid"
+  auth.checkLogin req.body.auth.username, req.body.auth.password, (err, user) ->
+    if err?
+      errors.respond res, err
+      return
+
+    org_name = user.organization
+    device = req.body.device
+
+    sdb.get_org res, org_name, (org) ->
+      device.display_organization = org.display_name
+      device.registered = true
+      device.organization = org_name
+      device.nickname = req.body.nickname
+      device.id = id
+
+      sdb.put_device res, device, ->
+        res.send
+          device: device
+          ok: true
+
+# Post so the device id is not in the URL
+app.post '/', (req, res) ->
+  id = req.body.device_id
+  if not id?
+    errors.respond res, new errors.Client "You must provide a device id"
     return
 
-  device = req.body.device
+  if typeof id == 'number'
+    id = id.toString()
 
-  device.display_organization = 'Diablos'
-  device.registered = true
-
-  store.set "device:#{id}", JSON.stringify(device)
-  store.set "device:#{id}:remaining_sms_tokens", 10000
-  store.set "device:#{id}:remaining_phone_tokens", 10000
-
-  res.send
-    device: device
-    ok: true
-
-app.get '/', (req, res) ->
-  id = req.query.device_id
-
-  store.get "device:#{id}", (err, data) ->
-    if not err? and data?
-      try
-        device = JSON.parse data
-      catch SyntaxError
-        errors.respond res, new errors.Server "Stored data syntax error"
-        return
-
+  sdb.get_device res, id, (device) ->
+    if device?
       res.send
         device: device
         ok: true
 
-    else if not err?
-      errors.respond res, new errors.NotFound "Device not found"
     else
-      errors.respond res, new errors.Server "Storage error: #{err}"
+      errors.respond res, new errors.NotFound "Device not found"
 
 app.listen(4313)
 console.log("Express server listening on port %d", app.address().port)
