@@ -21,6 +21,10 @@ server {
     alias /home/www-server/onthelist/site/extern/;
   }
 
+  location /init/ {
+    alias /home/www-server/init/;
+  }
+
   location /messaging/ {
     proxy_pass http://localhost:5857/;
   }

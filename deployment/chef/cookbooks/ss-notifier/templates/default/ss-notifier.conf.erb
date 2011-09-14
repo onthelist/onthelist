@@ -1,5 +1,13 @@
-exec /usr/local/bin/coffee /home/www-server/onthelist/notify/app.coffee
+#!upstart
+description "ss-notifier service"
+author      "SpeedySeat"
 
 respawn
 start on runlevel [2345]
 stop on runlevel [016]
+
+script
+    export NODE_PATH=/usr/local/lib/node_modules
+
+    exec /usr/local/bin/coffee /home/www-server/onthelist/notify/app.coffee 2>&1 >> /var/log/ss-notifier.log
+end script

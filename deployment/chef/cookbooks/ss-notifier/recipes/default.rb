@@ -11,7 +11,7 @@ script "notifier-deps-install" do
   user "root"
   cwd "/home/www-server/onthelist/notify"
   code <<-EOH
-  npm install -d
+  npm install -d -g
   EOH
 end
 
@@ -22,13 +22,4 @@ end
 service "ss-notifier" do
   provider Chef::Provider::Service::Upstart
   action [ :start, :enable ]
-end
-
-bash "insert-node-path" do
-  user "root"
-  cwd "/home/www-server"
-  code <<-EOH
-    echo "NODE_PATH=$NODE_PATH:/usr/local/lib/node_modules" >> /etc/environment
-      . /etc/environment
-      EOH
 end

@@ -12,12 +12,17 @@ while true; do
     esac
 done
 
-# Get rid of annoying welcome text
+# Get rid of annoying er  welcome text
 rm /etc/update-motd.d/51_update-motd
 
-# Add www group and daemon users. Add to as needed.
+# Add www group and users.
 groupadd www
 useradd -m www-server --home /home/www-server --shell /dev/null -g www
+useradd -m www-developer --home /home/www-developer --shell /bin/bash -g www
+
+echo "www-developer  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+cp -R /root/.ssh/ /home/www-developer/.ssh/
+chown -R www-developer:www /home/www-developer/.ssh/
 
 # Enable the multiverse. Used for Chef java cookbook.
 # The OpenJDK alternative has issues with jenkins.
@@ -28,15 +33,12 @@ apt-get -yy update
 apt-get -yy upgrade
 apt-get -yy install wget screen zip unzip vim htop git build-essential
 
-# Install Chef dependencies. Use Ruby 1.8 or Compass and Jade may cause problems.
 apt-get -yy install ruby1.8 ruby1.8-dev libopenssl-ruby irb ssl-cert
 
 #  Clone repo.
 cd /home/www-server
 git clone git@github.com:onthelist/onthelist.git
 cd /home/www-server/onthelist
-# Temporary fix, remove when merged with master.
-git checkout development
 
 # Install RubyGems from source or Ubuntu will disable updates and cause random issues.
 cd /tmp
@@ -54,4 +56,5 @@ gem install chef --no-ri --no-rdoc
 chown -R www-server:www /home/www-server/
 chmod -R ug+rw /home/www-server
 
-echo "Server bootstrap process complete. Run /home/www-server/onthelist/tools/startChefSolo.sh when ready."
+cd /home/www-server/onthelist/deployment
+echo "Server bootstrap process complete. Run /home/www-server/onthelist/deployment/startChefSolo.sh when ready."

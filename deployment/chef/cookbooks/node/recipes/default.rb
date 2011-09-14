@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-include_recipe "git"
-
 [ "curl"].each do |pkg|
   package pkg do
     action :install
@@ -49,7 +47,16 @@ bash "install_npm" do
   user "root"
     cwd "/tmp/"
     code <<-EOH
-    curl http://npmjs.org/install.sh | clean=no sh
+      curl http://npmjs.org/install.sh | clean=no sh
     EOH
 end
 
+bash "add_node_path" do
+  user "root"
+  cwd "/tmp/"
+  code <<-EOH
+    echo "NODE_PATH=/usr/local/lib/node_modules" >> /etc/environment
+    . /etc/environment
+  EOH
+  not_if "grep '/usr/local/lib/node_modules' /etc/environment"
+end
