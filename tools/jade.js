@@ -192,6 +192,8 @@ var upload_file = function(name, data, headers){
 
   headers = headers || {};
   headers['Content-Length'] = data.length;
+  headers['Expires'] = 'Wed, 14 Sep 2022 03:29:41 GMT'
+  headers['Cache-Control'] = 'Public, s-maxage=99999999'
 
   var req = client.put(name, headers);
   req.on('response', function(res){
@@ -219,55 +221,75 @@ jade.filters.prod = function(block, compiler, opts){
     if (!PROD || !block.nodes.length)
       return Compiler.prototype.visitBlock.call(this, block);
 
-    var paths = [];
+    var paths = {};
+    // TODO: Add support for stylesheet media attr.
     for (var j=0; j < block.nodes.length; j++){
       var node = block.nodes[j];
 
-      if (node.name != 'script' || node.getAttribute('data-compiled')){
+      if (node.name != 'script' && (node.name != 'link' || node.getAttribute('rel') != '"stylesheet"')){
         Compiler.prototype.visit.call(this, node);
-        return;
+        continue;
       }
 
-      var attrs = {}
-      for (var i=0; i < node.attrs.length; i++){
-        var attr = node.attrs[i];
-        attrs[attr.name] = attr.val;
-      }
+      var src = node.getAttribute('src') || node.getAttribute('href');
 
-      if (!attrs.src)
+      if (!src)
         continue;
 
-      var src = attrs.src.substring(1, attrs.src.length - 1);
+      src = src.substring(1, src.length - 1);
       src = path.join(SCRIPT_ROOT, src);
       
-      paths.push(src);
+      if (!paths[node.name])
+        paths[node.name] = [];
+      paths[node.name].push(src);
     }
     
-    var data = concat_files(paths);
-    var raw_len = data.length;
+    var props = {
+      'script': {
+        'ext': 'js',
+        'mime': 'text/javascript'
+      },
+      'link': {
+        'ext': 'css',
+        'mime': 'text/css'
+      }
+    };
 
-    if (UGLIFY)
-      data = uglify_script(data);
-    var ug_len = data.length;
+    for (var type in paths){
+      var pths = paths[type];
+      var prop = props[type];
 
-    data = compress(data);
-    var com_len = data.length;
-    
-    console.log(raw_len + " / " + ug_len + " / " + com_len);
+      var data = concat_files(pths);
+      var raw_len = data.length;
 
-    var hash = hash_data(data);
-    console.log(hash)
+      if (UGLIFY && type == 'script')
+        data = uglify_script(data);
+      var ug_len = data.length;
 
-    var fname = hash + '.js';
+      data = compress(data);
+      var com_len = data.length;
+      
+      console.log(raw_len + " / " + ug_len + " / " + com_len);
 
-    upload_file(fname, data, {
-      "Content-Type": "text/javascript",
-      "Content-Encoding": "gzip"
-    });
+      var hash = hash_data(data);
 
-    var url = PROD_ROOT + fname;
-    
-    self.buffer('<script src="' + url + '" type="text/javascript"></script>');
+      var fname = hash + '.' + prop.ext;
+
+      console.log(fname);
+
+      upload_file(fname, data, {
+        "Content-Type": prop.mime,
+        "Content-Encoding": "gzip"
+      });
+
+      var url = PROD_ROOT + fname;
+      
+      // TODO: Create nodes
+      if (type == 'script')
+        self.buffer('<script src="' + url + '" type="text/javascript"></script>');
+      else
+        self.buffer('<link rel="stylesheet" href="' + url + '" />');
+    }
   }
 
   return new Visitor(block, opts).compile();
