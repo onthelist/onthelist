@@ -16,6 +16,7 @@ var fs = require('fs')
   , hashlib = require('hashlib')
   , knox = require('knox')
   , aws_key = require('./aws_key')
+  , upload_file = require('./s3_push').upload_file
   , jade;
 
 try {
@@ -51,7 +52,8 @@ var dest;
 var watchers;
 
 
-var PROD_ROOT = '//s3.amazonaws.com/speedyseat-files/'
+//var PROD_ROOT = '//s3.amazonaws.com/speedyseat-files/'
+var PROD_ROOT = '//cf.speedyseat.us/'
 var SCRIPT_ROOT = process.env.HOME + '/onthelist/site/public/html'
 
 /**
@@ -180,33 +182,6 @@ var hash_data = function(data){
   return hashlib.sha1(data);
 };
 
-var client = null;
-var upload_file = function(name, data, headers){
-  if (!client){
-    client = knox.createClient({
-      key: aws_key.access,
-      secret: aws_key.secret,
-      bucket: 'speedyseat-files'
-    });
-  }
-
-  headers = headers || {};
-  headers['Content-Length'] = data.length;
-  headers['Expires'] = 'Wed, 14 Sep 2022 03:29:41 GMT'
-  headers['Cache-Control'] = 'Public, s-maxage=99999999'
-
-  var req = client.put(name, headers);
-  req.on('response', function(res){
-    if (res.statusCode == 200){
-      console.log('Saved Successfully');
-    } else {
-      console.log('Error Saving');
-      console.log(res);
-    }
-  });
-    
-  req.end(data);
-};
 
 jade.filters.prod = function(block, compiler, opts){
   var Visitor = function(node, opts) {
