@@ -20,5 +20,3 @@ console.log out_file
 upload_file out_file, data,
   "Content-Type": "text/html"
   "Content-Encoding": "gzip"
-
-console.log "Uploaded Successfully"
