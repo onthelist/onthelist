@@ -11,6 +11,11 @@ var fs = require('fs')
   , resolve = path.resolve
   , basename = path.basename
   , dirname = path.dirname
+  , uglify = require('uglify-js')
+  , compress = require('compress-buffer').compress
+  , hashlib = require('hashlib')
+  , knox = require('knox')
+  , aws_key = require('./aws_key')
   , jade;
 
 try {
@@ -46,7 +51,7 @@ var dest;
 var watchers;
 
 
-var PROD_ROOT = '//static.speedyseat.us/'
+var PROD_ROOT = '//s3.amazonaws.com/speedyseat-files/'
 var SCRIPT_ROOT = process.env.HOME + '/onthelist/site/public/html'
 
 /**
@@ -71,7 +76,8 @@ var usage = ''
 
 var arg
   , files = []
-  , PROD = false;
+  , PROD = false
+  , UGLIFY = true;
 while (args.length) {
   arg = args.shift();
   switch (arg) {
@@ -86,6 +92,10 @@ while (args.length) {
     case '-p':
     case '--prod':
       PROD = true;
+      break;
+    case '-nu':
+    case '--no-uglify': 
+      UGLIFY = false;
       break;
     case '-o':
     case '--options':
@@ -141,42 +151,59 @@ var strip_quotes = function(s){
   return s.substring(1, s.length - 1);
 };
 
-var concat_files = function(paths, cb){
-  var files = {};
-  var cnt = 0;
-  var all_started = false;
-
-  var check_done = function(){
-    if (cnt == 0 && all_started){
-      var out = "";
-      for (var i=0; i < paths.length; i++){
-        out += "\n" + files[paths[i]];
-      }
-      cb(out);
-    }
-  }
-
+var concat_files = function(paths){
+  out = "";
   for (var i=0; i < paths.length; i++){
     var path = paths[i];
 
-    cnt++;
-    (function(path){
-      fs.readFile(path, function(err, data){
-        if (err){
-          console.log("Error loading file: " + path);
-          return;
-        }
-    
-        files[path] = data;
-        cnt--;
-
-        check_done();
-      });
-    })(path);
+    data = fs.readFileSync(path);
+    out += data + "\n";
   }
-  
-  all_started = true;
-  check_done();
+  return out;
+};
+
+var uglify_script = function(code){
+  try {
+    var ast = uglify.parser.parse(code);
+    ast = uglify.uglify.ast_mangle(ast);
+    ast = uglify.uglify.ast_squeeze(ast);
+    return uglify.uglify.gen_code(ast, {'ascii_only': true});
+  } catch (e) {
+    console.log("Script parsing error");
+    console.log(e);
+    
+    console.log(code.substring(e.pos - 20, e.pos + 20));
+  }
+};
+
+var hash_data = function(data){
+  return hashlib.sha1(data);
+};
+
+var client = null;
+var upload_file = function(name, data, headers){
+  if (!client){
+    client = knox.createClient({
+      key: aws_key.access,
+      secret: aws_key.secret,
+      bucket: 'speedyseat-files'
+    });
+  }
+
+  headers = headers || {};
+  headers['Content-Length'] = data.length;
+
+  var req = client.put(name, headers);
+  req.on('response', function(res){
+    if (res.statusCode == 200){
+      console.log('Saved Successfully');
+    } else {
+      console.log('Error Saving');
+      console.log(res);
+    }
+  });
+    
+  req.end(data);
 };
 
 jade.filters.prod = function(block, compiler, opts){
@@ -187,14 +214,16 @@ jade.filters.prod = function(block, compiler, opts){
   Visitor.prototype.__proto__ = Compiler.prototype;
 
   Visitor.prototype.visitBlock = function(block) {
-    if (!PROD)
+    var self = this;
+
+    if (!PROD || !block.nodes.length)
       return Compiler.prototype.visitBlock.call(this, block);
 
     var paths = [];
     for (var j=0; j < block.nodes.length; j++){
       var node = block.nodes[j];
 
-      if (node.name != 'script'){
+      if (node.name != 'script' || node.getAttribute('data-compiled')){
         Compiler.prototype.visit.call(this, node);
         return;
       }
@@ -214,9 +243,31 @@ jade.filters.prod = function(block, compiler, opts){
       paths.push(src);
     }
     
-    concat_files(paths, function(data){
-      console.log(data.length);
+    var data = concat_files(paths);
+    var raw_len = data.length;
+
+    if (UGLIFY)
+      data = uglify_script(data);
+    var ug_len = data.length;
+
+    data = compress(data);
+    var com_len = data.length;
+    
+    console.log(raw_len + " / " + ug_len + " / " + com_len);
+
+    var hash = hash_data(data);
+    console.log(hash)
+
+    var fname = hash + '.js';
+
+    upload_file(fname, data, {
+      "Content-Type": "text/javascript",
+      "Content-Encoding": "gzip"
     });
+
+    var url = PROD_ROOT + fname;
+    
+    self.buffer('<script src="' + url + '" type="text/javascript"></script>');
   }
 
   return new Visitor(block, opts).compile();

@@ -8,5 +8,9 @@
   }
   , "devDependencies": {
       "nodeunit": ">= 0.5.1"
+    , "uglify-js": ""
+    , "compress-buffer": ""
+    , "hashlib": ""
+    , "knox": ""
   }
 }
