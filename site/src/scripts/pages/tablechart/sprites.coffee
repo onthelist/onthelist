@@ -111,6 +111,8 @@ class $TC.Sprite extends $U.Evented
       do @$canvas.remove
 
   _update_evt: ->
+    @trigger 'spriteUpdate', [this]
+
     if @parent
       $(@parent).trigger 'spriteUpdate', [this]
 
@@ -155,7 +157,7 @@ class $TC.Sprite extends $U.Evented
     do this._move
 
   bounding_points: (pad=0) ->
-    return [
+    pnts = [
       x: @x - @w / 2 - pad
       y: @y - @h / 2 - pad
     ,
@@ -168,6 +170,21 @@ class $TC.Sprite extends $U.Evented
       x: @x + @w / 2 + pad
       y: @y - @h / 2 - pad
     ]
+    
+    if @opts.rotation
+      rot = @opts.rotation * (Math.PI * 2) / 360
+
+      for pnt in pnts
+        pnt.x -= @x
+        pnt.y -= @y
+
+        x = pnt.x * Math.cos(rot) - pnt.y * Math.sin(rot)
+        y = pnt.x * Math.sin(rot) + pnt.y * Math.cos(rot)
+
+        pnt.x = x + @x
+        pnt.y = y + @y
+
+    return pnts
 
 class $TC.DrawnSprite extends $TC.Sprite
   _apply_style: (section) ->
@@ -324,6 +341,13 @@ class $TC.Section extends $TC.DrawnSprite
     @opts.color ?= 'blue'
 
     super @opts
+
+  init: (args...) ->
+    super args...
+
+    $(@parent).bind 'spriteUpdate', (e, sprite) =>
+      if sprite.opts.key in @tables
+        do @refresh
 
   _get_table: (key) ->
     return $TC.Table.prototype.registry[key]
