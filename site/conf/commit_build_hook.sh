@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd ~/onthelist/site/conf
+cd site/conf
 
 if git branch | grep \* | grep -q master ; then
   ./build.sh
