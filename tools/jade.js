@@ -71,6 +71,8 @@ var usage = ''
   + '    -h, --help           Output help information\n'
   + '    -w, --watch          Watch file(s) or folder(s) for changes and re-compile\n'
   + '    -v, --version        Output jade version\n'
+  + '    -p, --prod           Merge script and stylesheets and push to S3\n'
+  + '    -nu, --no-uglify     Don\'t uglify script files in prod mode\n'
   + '    --out <dir>          Output the compiled html to <dir>\n';
   + '\n';
 
