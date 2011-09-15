@@ -4,6 +4,8 @@ worker_processes  <%= node[:nginx][:worker_processes] %>;
 daemon off;
 <% end -%>
 
+proxy_cache_path /var/index-cache levels=1 keys_zone=index:10m;
+
 error_log  <%= node[:nginx][:log_dir] %>/error.log;
 pid        /var/run/nginx.pid;
 

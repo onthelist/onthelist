@@ -9,12 +9,19 @@ server {
   server_name localhost;
   
   location = / {
-    rewrite .* /html/index.html;
+    proxy_pass http://cf.speedyseat.us/<%=`git rev-parse HEAD`%>.html;
+
+    proxy_cache index;
+    proxy_cache_key "$request_uri";
+    
+    proxy_cache_valid 200 302 301 1h;
+    proxy_cache_valid any 5s;
+  
     allow all;
   }
 
   location / {
-  allow all;
+    allow all;
   }
 
   location /extern/ {
