@@ -1,7 +1,11 @@
 #!/bin/bash
 
-cd site/conf
-
-if git branch | grep \* | grep -q master ; then
+echo a
+if git branch | grep \* | grep -q master
+then
+  echo b
+  cd site/conf
+  echo c
   ./build.sh
+  echo d
 fi
