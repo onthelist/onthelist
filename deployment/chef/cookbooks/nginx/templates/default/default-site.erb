@@ -9,7 +9,7 @@ server {
   server_name localhost;
   
   location = / {
-    proxy_pass http://cf.speedyseat.us/<%=`git rev-parse HEAD`%>.html;
+    proxy_pass http://cf.speedyseat.us/<%=`/bin/bash -c "GIT_DIR=/home/www-server/onthelist/.git git rev-parse HEAD"`.strip%>.html;
 
     proxy_cache index;
     proxy_cache_key "$request_uri";
