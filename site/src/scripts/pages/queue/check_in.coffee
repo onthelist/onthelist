@@ -71,6 +71,18 @@ $ ->
 
     link.addClass "list-action"
     link.text "Check-In Without Queue"
+    link.attr 'href', '#'
+    link.bind 'vclick', (e) ->
+      do e.stopPropagation
+      do e.preventDefault
+
+      party =
+        'status': ['waiting']
+        'name': 'Quick Check In'
+
+      key = $D.parties.add(party)
+      $QUEUE.check_in key, ->
+        do hide_fake_page
   
     $list.before add_list
     add_list.listview()

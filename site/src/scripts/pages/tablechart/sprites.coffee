@@ -428,6 +428,7 @@ class $TC.Table extends $TC.DrawnSprite
     return {opts: @opts}
 
   occupy: (occupant) ->
+    @occupancy ?= {}
     @occupancy.occupant = occupant ? null
 
     if occupant

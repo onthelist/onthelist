@@ -7,7 +7,7 @@ window.$TC.choose_table = (opts) ->
   _selection = (e, sel) ->
     sprite = $$(sel.selected).sprite
 
-    if not sprite.occupancy?
+    if sprite.occupancy == undefined
       # Not selectable
       return
     

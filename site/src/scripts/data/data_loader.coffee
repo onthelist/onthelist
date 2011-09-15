@@ -38,18 +38,22 @@ class $D._DataLoader extends $U.Evented
     @ds.save vals, (resp) =>
       @register_row @_wrap_row resp
 
+    return vals.key
+
   update: (vals) ->
     @ds.save vals
 
   save: (vals) ->
     if vals.save?
-      do vals.save
+      return do vals.save
     else
       @get vals.key, (data) =>
         if data
           @remove vals
 
         @add vals
+
+      return vals.key
 
   get: (id, func) ->
     @ds.get id, (data) =>
@@ -69,7 +73,10 @@ class $D._DataLoader extends $U.Evented
       # We call the func on all the existing rows with evt of false
       # to allow the event to be bound after the data is initially loaded
       @ds.each (row) =>
-        func(false, @_wrap_row row)
+        try
+          func(false, @_wrap_row row)
+        catch e
+          console.log "Error with row", row, e
 
     @bind(evt, func)
 
@@ -120,3 +127,5 @@ class $D._DataRow extends $U.Evented
       @_coll.update data, @_prev_data
 
     @_prev_data = data
+
+    return data.key
