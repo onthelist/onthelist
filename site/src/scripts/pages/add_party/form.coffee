@@ -24,7 +24,7 @@ $ ->
     dia = $ '#add-party'
 
     vals = $$(dia).data ? {}
-    $('#add-party input').each (i, elem) ->
+    $('#add-party').find('input, select').each (i, elem) ->
       $elem = $ elem
 
       if $elem.filter('[type=checkbox], [type=radio]').length
@@ -39,6 +39,8 @@ $ ->
       vals.key = key
 
     vals.status ?= ['waiting']
+    if vals.called_ahead
+      vals.status.push 'called_ahead'
 
     $D.parties.save(vals)
 

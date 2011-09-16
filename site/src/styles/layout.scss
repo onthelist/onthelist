@@ -133,7 +133,14 @@ time {
       }
     }
     &.seated {
-      background-color: red;
+      .ui-icon-shadow {
+        background-color: blue;
+      }
+    }
+    &.called_ahead {
+      .ui-icon-shadow {
+        background-color: green;
+      }
     }
   }
   
