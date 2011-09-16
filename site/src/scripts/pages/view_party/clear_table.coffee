@@ -5,6 +5,8 @@ $ ->
 
       $(this).dialog 'close'
 
+      $TRACK.track 'view-page-clear-table'
+
       $QUEUE.check_out data.key
 
       false

@@ -16,3 +16,5 @@ $ ->
       $('[name=seating_preference]', this).val row.seating_preference
 
       $('[name=size]', this).focus()
+
+      $TRACK.track 'add-party-fill'

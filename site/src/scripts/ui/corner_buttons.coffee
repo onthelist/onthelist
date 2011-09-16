@@ -15,6 +15,11 @@ $ ->
       if not side
         return
 
+      $TRACK.track 'corner-button',
+        side: side
+        x: e.clientX
+        y: e.clientY
+
       $link = $(".ui-page-active .ui-header .ui-btn-#{side}:visible")
 
       $link.trigger('vclick', [e])

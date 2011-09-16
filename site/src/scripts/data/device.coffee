@@ -5,6 +5,12 @@ class Device extends Backbone.Model
   localStorage: new Store 'device'
   id: $ID
 
+  save: ->
+    if $D.device.get('registered')
+      $TRACK.name_tag $D.device.get('display_organization')
+
+    super
+
 $D.device = new Device
 
 $D.device.fetch()

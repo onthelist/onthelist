@@ -46,6 +46,8 @@ $ ->
     $link.bind 'vclick', ->
       if $link.hasClass 'ui-btn-active'
         $li.menu 'toggle'
+
+        $TRACK.track 'toggle-queue-menu'
         return false
 
       return true

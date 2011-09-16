@@ -15,6 +15,7 @@ class Action
 
   success: (resp) ->
     if not resp or not resp.ok
+      $TRACK.track 'alert-bad-resp'
       @error resp
       return
 
@@ -30,6 +31,12 @@ class Action
       do @status.hide
 
   error: (resp, status, msg) ->
+    $TRACK.track 'alert-error',
+      status: status
+      msg: msg
+      attempt: @attempts
+      elapsed: @elapsed
+
     if @attempts < 2 and @elapsed < 3
       # Nothing is an error until it has happened twice.
       setTimeout(=>
@@ -81,6 +88,7 @@ class Action
       status.actions ?= {}
       status.actions.cancel =
         func: =>
+          $TRACK.track 'alert-cancel'
           do @cancel
         text: 'Cancel'
         style: 'cancel'
@@ -158,14 +166,18 @@ class AlertAction extends Action
 
     switch @data.alert_method
       when 'sms'
+        $TRACK.track 'alert-sms'
         $M.send_sms(@data.phone, 'Your table is ready! Please visit the host stand to be seated.', opts)
       when 'call'
+        $TRACK.track 'alert-call'
         $M.make_call(@data.phone, 'Your table is ready! Please visit the host stand to be seated.', opts)
       when 'wait'
+        $TRACK.track 'alert-wait'
         alert "Please call waiting guest #{@data.name}"
         @success
           ok: true
       when 'page'
+        $TRACK.track 'alert-page'
         alert "Please page ##{@data.pager_number}"
         @success
           ok: true

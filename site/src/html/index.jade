@@ -125,7 +125,9 @@ html(lang="en")
       script(src="../scripts/pages/tablechart/sections.js")
 
       script(src="../scripts/pages/register_device/save.js")
-      
+
+      script(src="../../extern/mixpanel.js")
+
   body
     include_files(path="html/pages/", first="queue.jade"):
       - each file in files

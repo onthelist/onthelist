@@ -121,12 +121,16 @@ class IsotopeList
 
     $elem.bind 'filter', =>
       do @refresh
+      $TRACK.track 'tl-filter'
 
     $elem.bind 'filterSubmit', =>
       $items = $elem.find('.isotope-item:not(.ui-screen-hidden)')
 
       if $items.length != 1
         return
+
+      $TRACK.track 'tl-filter-submit',
+        sel_items: $items.length
 
       $items.find('a').trigger('vclick')
     

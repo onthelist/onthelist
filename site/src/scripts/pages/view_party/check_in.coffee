@@ -5,6 +5,8 @@ $ ->
 
       $(this).dialog 'close'
 
+      $TRACK.track 'view-page-check-in'
+
       $QUEUE.check_in data.key
 
       false

@@ -39,13 +39,19 @@ $ ->
         self = $(this)
         speed = def_speed
         step = parseInt(self.attr('step') || '1')
-        
+
         set_timeout = (s=speed) ->
           timeout = setTimeout(up, s)
+
+        tracked = false
 
         up = ->
           if mousedown and self.val() == self.attr('max')
             # We have to test that val == max again, so they can slide back down
+            
+            if not tracked
+              $TRACK.track 'range-scale'
+              tracked = true
             
             speed -= speed / speed_scale
             speed = Math.max(speed, 10)

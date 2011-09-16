@@ -8,6 +8,8 @@ $ ->
     do e.preventDefault
     do e.stopPropagation
 
+    $TRACK.track 'register-device'
+
     $IO.register_device(
       {
         auth:

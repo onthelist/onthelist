@@ -45,6 +45,10 @@ $ ->
       
       [width, height] = $UI.get_page_space $page
 
+      $TRACK.track 'update-tc-size',
+        width: width
+        height: height
+
       # All the chart coords are based on 1280 x 720
       x_fact = width / BASE_WIDTH
       y_fact = height / BASE_HEIGHT
