@@ -16,11 +16,11 @@ $ ->
     _build_section_list = ->
       $section.html ''
       $section.append $ '<option value="false">No Section</option>'
+      $section.append $ "<option value='add'>New Section</option>"
+      $section.append $ '<option value="false">----------</option>'
       
       for own key, section of $TC.chart.sections
         $section.append $ "<option value='#{key}'>#{section.opts.label}</option>"
-
-      $section.append $ "<option value='add'>New Section</option>"
 
       $section.selectmenu()
 
@@ -185,10 +185,12 @@ $ ->
 
           sec = null
           if val == 'add'
-            name = prompt("New Section Name")
+            col = do $TC.chart.next_section_color
+            name = col.capitalize true
+
             sec = new $TC.Section
               label: name
-              color: do $TC.chart.next_section_color
+              color: col
 
             $TC.chart.add sec
 
