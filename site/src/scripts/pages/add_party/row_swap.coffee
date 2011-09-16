@@ -23,6 +23,8 @@ $ ->
 
       phone_first = !phone_first
 
+      $TRACK.track 'add-party-row-swap', phone_first
+
     $phone.keyup (e) ->
       val = $phone.val()
 

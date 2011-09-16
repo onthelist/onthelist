@@ -42,6 +42,7 @@ $ ->
     if vals.called_ahead
       vals.status.push 'called_ahead'
 
+    $TRACK.track('add-party', vals)
     $D.parties.save(vals)
 
     dia.dialog 'close'

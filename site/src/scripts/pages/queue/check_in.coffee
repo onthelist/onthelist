@@ -14,6 +14,8 @@ $ ->
         failure && do failure
         return
 
+      $TRACK.track 'check-out', data
+
       data.add_status 'left'
       data.times.left = new Date
 
@@ -27,6 +29,8 @@ $ ->
     $TC.choose_table
       success: (table) =>
         $D.parties.get id, (data) =>
+          $TRACK.track 'check-in', data
+
           data.add_status 'seated'
 
           data.times.seated = new Date
@@ -50,6 +54,8 @@ $ ->
 
       $el.bind 'vclick', ->
         id = $el.attr 'data-id'
+
+        $TRACK.track 'check-in-from-queue'
 
         $QUEUE.check_in id, ->
           do hide_fake_page
@@ -79,6 +85,8 @@ $ ->
       party =
         'status': ['waiting']
         'name': 'Quick Check In'
+
+      $TRACK.track 'check-in-wo-party'
 
       key = $D.parties.add(party)
       $QUEUE.check_in key, ->
@@ -119,6 +127,8 @@ $ ->
 
   $('a[href=#check-in]').bind 'vclick', (e) ->
     do e.preventDefault
+
+    $TRACK.track 'queue-check-in-click'
 
     if last_title
       hide_fake_page this

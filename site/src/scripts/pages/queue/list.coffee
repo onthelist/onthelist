@@ -1,5 +1,7 @@
 window.$QUEUE ?= {}
 $QUEUE.show_view_page = (key) ->
+  $TRACK.track 'view-party-from-queue'
+
   $$('#queue-list').selected_key = key
   window.location = '#view-party'
 
@@ -56,6 +58,7 @@ add_list_row = (list, row) ->
         label: 'Alert'
         theme: 'e'
         cb: ->
+          $TRACK.track 'swipe-alert'
           $IO.alert row,
             status_on:
               success: false
@@ -63,6 +66,7 @@ add_list_row = (list, row) ->
       ,
         label: 'Check-In'
         cb: ->
+          $TRACK.track 'swipe-check-in'
           $QUEUE.check_in row.key
       ]
 
@@ -95,6 +99,10 @@ $ ->
     $('#queue').bind 'optionChange', (e, name, val) ->
       $S.queue[name] = val
       do $S.save
+
+      $TRACK.track 'queue-option-change',
+        name: name
+        val: val
 
       switch name
         when 'sort' then list.sort val

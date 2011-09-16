@@ -54,6 +54,9 @@ $TC.scale_rel_coords = (x, y) ->
 $.widget "ui.scaled_selectable", $.ui.selectable,
   options: $.ui.selectable.prototype.options
   _mouseStart: (evt, force=false) ->
+    if evt.ctrlKey
+      $TRACK.track 'ctrl-selection'
+
     if evt? and not evt.ctrlKey and not force
       return true
 
