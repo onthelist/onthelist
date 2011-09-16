@@ -171,7 +171,7 @@ var uglify_script = function(code){
     var ast = uglify.parser.parse(code);
     ast = uglify.uglify.ast_mangle(ast);
     ast = uglify.uglify.ast_squeeze(ast);
-    return uglify.uglify.gen_code(ast, {'ascii_only': true});
+    return uglify.uglify.gen_code(ast, {'ascii_only': true, 'beautify': true});
   } catch (e) {
     console.log("Script parsing error");
     console.log(e);
