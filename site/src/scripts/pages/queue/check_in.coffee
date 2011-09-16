@@ -14,7 +14,7 @@ $ ->
         failure && do failure
         return
 
-      $TRACK.track 'check-out', data
+      $TRACK.track 'check-out'
 
       data.add_status 'left'
       data.times.left = new Date
@@ -29,7 +29,7 @@ $ ->
     $TC.choose_table
       success: (table) =>
         $D.parties.get id, (data) =>
-          $TRACK.track 'check-in', data
+          $TRACK.track 'check-in'
 
           data.add_status 'seated'
 
