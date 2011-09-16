@@ -331,6 +331,7 @@ class $TC.Section extends $TC.DrawnSprite
   selectable: false
   draggable: false
   class_name: 'section'
+  proto: 'Section'
   colors:
     blue: [0, 0, 255]
     red: [255, 0, 0]
@@ -506,6 +507,7 @@ class $TC.Table extends $TC.DrawnSprite
 # types, the constructor will not be called when the table's shape
 # is changed.
 class $TC.RoundTable extends $TC.Table
+  proto: 'RoundTable'
   _draw: ->
     circ = @seats * (@seat_width + @seat_spacing)
     rad = circ / Math.PI / 2
@@ -551,6 +553,7 @@ class $TC.RoundTable extends $TC.Table
 class $TC.RectTable extends $TC.Table
   width: 28
   single_width: 20
+  proto: 'RectTable'
 
   _draw: ->
     width = if @seats > 1 then @width else @single_width

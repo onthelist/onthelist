@@ -198,7 +198,7 @@ class $TC.Chart extends $U.Evented
       obj = sprite.package()
 
       if not obj.type
-        obj.type = sprite.__proto__.constructor.name
+        obj.type = sprite.proto
 
       out.push obj
 

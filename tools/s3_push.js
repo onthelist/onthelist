@@ -15,6 +15,7 @@ module.exports.upload_file = function(name, data, headers){
   headers['Content-Length'] = data.length;
   headers['Expires'] = 'Wed, 14 Sep 2022 03:29:41 GMT'
   headers['Cache-Control'] = 'Public, s-maxage=99999999'
+  headers['Vary'] = 'Accept-Encoding'
 
   var req = client.put(name, headers);
   req.on('response', function(res){
