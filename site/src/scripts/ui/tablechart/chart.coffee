@@ -78,6 +78,15 @@ class $TC.Chart extends $U.Evented
     $.when( $D.charts.init() ).then =>
       $D.charts.add obj
 
+  _set_sprite_editable: (sprite) ->
+    if sprite.draggable == false
+      return
+
+    if @editable
+      $TC.draggable_sprite(sprite, this)
+    else
+      do $$(sprite).draggable_sprite.destroy
+
   set_editable: (editable=true) ->
     if @editable == editable
       return
@@ -87,13 +96,7 @@ class $TC.Chart extends $U.Evented
     @trigger if @editable then 'unlocked' else 'locked'
 
     for sprite in @sprites
-      if sprite.draggable == false
-        continue
-
-      if @editable
-        $TC.draggable_sprite(sprite, this)
-      else
-        do $$(sprite).draggable_sprite.destroy
+      @_set_sprite_editable sprite
 
   add: (sprite, type) ->
     if type?
@@ -183,6 +186,9 @@ class $TC.Chart extends $U.Evented
     @sprites[index] = n_spr
 
     do @draw
+
+    @_set_sprite_editable n_spr
+    @trigger 'add', n_spr
 
     return n_spr
 

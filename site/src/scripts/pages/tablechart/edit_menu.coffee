@@ -135,7 +135,7 @@ $ ->
         # Type
         if init_sel
           $types.attr('checked', false)
-          $types.filter("[value=#{sprites[0].__proto__.constructor.name}]").attr('checked', true)
+          $types.filter("[value=#{sprites[0].proto}]").attr('checked', true)
           $types.checkboxradio('refresh')
 
         _add_handler 'types', $types, 'change', ->
@@ -151,6 +151,9 @@ $ ->
           $label.val(sprites[0].opts.label)
 
         _add_handler 'label', $label, 'keyup', ->
+          if sprites.length > 1
+            return
+
           for sprite in sprites
             sprite.opts.label = this.value
             do sprite.update
