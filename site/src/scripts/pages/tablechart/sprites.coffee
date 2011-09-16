@@ -335,6 +335,11 @@ class $TC.Section extends $TC.DrawnSprite
     blue: [0, 0, 255]
     red: [255, 0, 0]
     green: [0, 255, 0]
+    orange: [255, 128, 0]
+    teal: [0, 255, 255]
+    yellow: [255, 255, 0]
+    pink: [255, 0, 255]
+    purple: [200, 0, 255]
 
   constructor: (@opts) ->
     @tables = opts.tables ? []

@@ -215,7 +215,10 @@ class $TC.Chart extends $U.Evented
     do @clear
 
     for entry in data
-      sprite = @create entry
-      @add sprite
+      try
+        sprite = @create entry
+        @add sprite
+      catch e
+        console.log "Error loading sprite", data, e
 
     do @draw
