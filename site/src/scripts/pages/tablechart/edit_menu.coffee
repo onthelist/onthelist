@@ -176,7 +176,16 @@ $ ->
         # Sections
         do _build_section_list
 
-        section = $TC.chart.get_section sprites[0]
+        section = null
+        for sprite in sprites
+          s = $TC.chart.get_section sprite
+
+          if section? and s != section
+            section = null
+            break
+
+          section = s
+
         if section?
           $section.val section.opts.key
         else
