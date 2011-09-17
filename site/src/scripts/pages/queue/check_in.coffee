@@ -46,23 +46,31 @@ $ ->
 
           success && success(table)
 
+  _action = ->
+    $el = $ this
+
+    id = $el.attr 'data-id'
+
+    $TRACK.track 'check-in-from-queue'
+
+    $QUEUE.check_in id, ->
+      do hide_fake_page
+
+    false
+
   _bind_actions = ->
     $links = $list.find('a[href=#view-party]')
 
     $links.each (i, el) ->
-      $el = $ el
+      $(el).bind 'vclick', _action
 
-      $el.bind 'vclick', ->
-        id = $el.attr 'data-id'
+  _unbind_actions = ->
+    $links = $list.find('a[href=#view-party]')
 
-        $TRACK.track 'check-in-from-queue'
+    $links.each (i, el) ->
+      $(el).unbind 'vclick', _action
 
-        $QUEUE.check_in id, ->
-          do hide_fake_page
-
-        false
-
-  show_fake_page = (self) ->
+  show_fake_page = ->
     do _bind_actions
 
     # Add Dummy List Element
@@ -109,30 +117,34 @@ $ ->
       iconpos: 'notext'
 
     cancel_el.bind 'vclick', ->
-      hide_fake_page self
+      do hide_fake_page
 
-    do $(self).hide
+    do $(CHECK_IN_BTN).hide
 
     last_title = $('.ui-title:visible').text()
     $('.ui-title:visible').text 'Choose a Party'
 
-  hide_fake_page = (self) ->
+  hide_fake_page = ->
     do $('a[href=#add-party]').show
     do cancel_el.remove
     do add_el.remove
-    do $(self).show
+    do $(CHECK_IN_BTN).show
+
+    do _unbind_actions
 
     $('.ui-title:visible').text last_title
     last_title = false
 
+  CHECK_IN_BTN = null
   $('a[href=#check-in]').bind 'vclick', (e) ->
     do e.preventDefault
 
     $TRACK.track 'queue-check-in-click'
 
+    CHECK_IN_BTN = this
     if last_title
-      hide_fake_page this
-    show_fake_page this
+      do hide_fake_page
+    do show_fake_page
     
     false
 
