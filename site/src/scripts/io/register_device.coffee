@@ -22,6 +22,9 @@ $IO.fetch_device = (opts={}) ->
   data = do $IO.build_req
 
   opts.beforeSuccess = (d) ->
+    if typeof d.device.settings? != 'object'
+      d.device.settings = {}
+
     $D.device.set d.device
     do $D.device.save
 
