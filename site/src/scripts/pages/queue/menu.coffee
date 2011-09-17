@@ -21,19 +21,19 @@ $ ->
         options:
           [
             name: 'time_view'
-            value: $S.queue.time_view
+            value: $S?.queue?.time_view ? 'remaining'
             label: 'Viewing'
             options:
               [_remaining_field, _elapsed_field]
           ,
             name: 'sort'
-            value: $S.queue.sort
+            value: $S?.queue?.sort ? 'remaining'
             label: 'Sorted By'
             options:
               [_remaining_field, _elapsed_field, _lname_field, _size_field]
           ,
             name: 'group'
-            value: $S.queue.group
+            value: $S?.queue?.group ? 'lname'
             label: 'Grouped By'
             options:
               [_remaining_field, _elapsed_field, _lname_field, _size_field]

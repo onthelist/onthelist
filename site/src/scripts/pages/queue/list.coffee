@@ -27,7 +27,7 @@ add_list_row = (list, row) ->
   e_time = $ '<time>' + $F.date.format_elapsed(elapsed) + '</time>'
   e_time.attr('data-minutes', elapsed)
   e_time.attr('datetime', row.times.add)
-  e_time.attr('data-format', $S.queue.time_view)
+  e_time.attr('data-format', $S?.queue?.time_view ? 'remaining')
 
   if row.quoted_wait
     qw = parseInt row.quoted_wait
