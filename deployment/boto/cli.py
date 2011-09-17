@@ -137,12 +137,33 @@ def remove_old_from_lb():
   insts = get_elb_conn().deregister_instances(LB_NAME, old_insts)
   print "Removed old instances"
 
+termed_old = False
+def term_old():
+  global old_insts, termed_old, added_to_lb
+
+  if not added_to_lb:
+    print "Can't kill the old ones until you have added the new ones."
+    return
+
+  if not old_insts:
+    print "Remove the old ones before terminating them."
+    return
+
+  get_conn().terminate_instances(old_insts)
+  termed_old = True
+
+  print "Terminated Old Instances"
+
 def revert_lb():
-  global added_to_lb, old_insts
+  global added_to_lb, old_insts, termed_old
   
+  if termed_old:
+    print "Too late, already terminated old instances."
+    return False
+
   if not added_to_lb:
     print "Never Added Instances, Nothing to Revert"
-    return
+    return True
 
   if old_insts:
     added = get_elb_conn().register_instances(LB_NAME, old_insts)
@@ -168,12 +189,18 @@ def revert_lb():
   added_to_lb = False
   
   print "New instances removed from LB"
+  return True
 
 def term():
-  global added_to_lb
+  global added_to_lb, termed_old
+
+  if termed_old:
+    print "You can't terminate both the old and new instances."
+    return
   
   if added_to_lb:
-    revert_lb()
+    if not revert_lb():
+      return
 
   for instance in instances:
     instance.terminate()
@@ -187,13 +214,14 @@ def action_loop():
  
   if not inp or inp == 'help':
     print "[term] Terminate Newly Created Instances"
+    print "[term_old] Terminate Old Instances"
     print "[add] Add Newly Created Instances to LB"
     print "[remove] Remove Old Instances from LB"
     print "[status] Get LB Status"
     print "[revert] Revert LB to Original Instances"
     print "[quit] Quit"
     print ""
-    print "General Pattern: [add] -> [remove] -> [quit]"
+    print "General Pattern: [add] -> [remove] -> [term_old] -> [quit]"
 
   elif inp == 'quit':
     sys.exit(0)
@@ -201,6 +229,9 @@ def action_loop():
   elif inp == 'term':
     term()
 
+  elif inp == 'term_old':
+    term_old()
+  
   elif inp == 'revert':
     revert_lb()
 
