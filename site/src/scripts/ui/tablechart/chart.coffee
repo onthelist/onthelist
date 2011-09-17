@@ -74,9 +74,31 @@ class $TC.Chart extends $U.Evented
   save: ->
     obj = $.extend {}, @opts,
       sprites: do @pack
-    
+
     $.when( $D.charts.init() ).then =>
-      $D.charts.add obj
+      $D.charts.update obj
+
+    do @_push
+
+  _push: ->
+    do_push = =>
+      obj = $.extend {}, @opts,
+        sprites: do @pack
+
+      props = $IO.build_req
+        chart: obj
+
+      req =
+        data: JSON.stringify props
+        type: 'POST'
+        url: '/sync/chart'
+
+      $IO.make_req req
+
+    if @_push_to?
+      clearTimeout @_push_to
+
+    @_push_to = setTimeout do_push, 5000
 
   _set_sprite_editable: (sprite) ->
     if sprite.draggable == false

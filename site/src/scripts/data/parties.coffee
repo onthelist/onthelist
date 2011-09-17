@@ -46,11 +46,14 @@ class Parties extends $D._DataLoader
 
 $D.parties = new Parties
 $.when( $D.parties.init() ).then ->
-  
-  $D.parties.ds.each (row) ->
-    # DOM adaptor doesn't seem to support find
-    if not row.times?.add or Date.get_elapsed(row.times.add) > 60 * 12
-      $D.parties.ds.remove row
+
+  clear = ->
+    $D.parties.ds.each (row) ->
+      if not row.times?.add or Date.get_elapsed(row.times.add) > 60 * 12
+        $D.parties.ds.remove row
+
+  do clear
+  setInterval(clear, 60*60)
 
   $D.parties.demo = ->
     $D.parties.ds.all (rows) ->
