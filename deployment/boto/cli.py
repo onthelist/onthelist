@@ -8,9 +8,9 @@ import urllib2
 
 from connection import *
 
-INST_CNT = 4
+INST_CNT = 1
 LB_NAME = 'NoSSL-LB'
-MIN_OK = 4
+MIN_OK = 1
 ZONES = ['b', 'd']
 
 def status_tick():
@@ -35,6 +35,19 @@ for zone in ZONES:
     placement='us-east-1%s' % zone,
     security_groups=['General'],
     key_name='speedykey.pem',
+    user_data="""#!/bin/bash
+        export NODE_PATH=/usr/local/lib/node_modules    
+        
+        cd /home/www-server/
+        /usr/lib/git-core/git-clone git@github.com:onthelist/onthelist.git 2>&1 >> /var/log/speedy-deployment-git.log
+        
+        /usr/bin/chef-solo -j /home/www-server/onthelist/deployment/chef/node.json -c /home/www-server/onthelist/deployment/chef/solo.rb 2>&1 >> /var/log/speedy-deployment-chef.log
+        
+        mkdir /home/www-server/init
+        touch /home/www-server/init/cloned
+        chown -R www-server:www /home/www-server/
+        chmod -R ug+rw /home/www-server
+        """,
     monitoring_enabled=True)
 
   instances += rsvn.instances
