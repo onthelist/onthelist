@@ -346,11 +346,11 @@ $.extend $.Isotope.prototype,
     do @_sectionListGetPos
     do @_sectionListPlace
     
-    $TRACK.track 'isotope-layout',
-      group: @options.groupBy
-      sort: @options.sortBy
-      col_width: @sectionList.colWidth
-      num_cols: @sectionList.numCols
+    #$TRACK.track 'isotope-layout',
+    #  group: @options.groupBy
+    #  sort: @options.sortBy
+    #  col_width: @sectionList.colWidth
+    #  num_cols: @sectionList.numCols
 
   _sectionListGetContainerSize: ->
     max_height = 0
