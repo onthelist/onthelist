@@ -157,8 +157,9 @@ class IsotopeList
     $(@elem).isotope({groupBy: key})
 
   remove: ($elems) ->
-    $(@elem).isotope('remove', $elems)
-    $(@elem).isotope('reLayout')
+    if @dynamics_added
+      $(@elem).isotope('remove', $elems)
+      $(@elem).isotope('reLayout')
       
 class TimeList extends IsotopeList
   constructor: (@elem, @opts) ->
