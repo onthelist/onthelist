@@ -1,5 +1,5 @@
 class IsotopeList
-  constructor: (@elem, @opts) ->
+  constructor: (@elem, @opts={}) ->
     @dynamics_added = false
 
   _height_changed: ->
