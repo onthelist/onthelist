@@ -8,6 +8,7 @@ $ ->
     if not key?
       $title.text "Add a Party"
       $button.text "Add"
+      $$(this).data = {}
     else
       $title.text "Edit Party"
       $button.text "Save"

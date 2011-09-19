@@ -1,5 +1,7 @@
 $ ->
   $('#add-party').bind 'pagecreate', ->
+    return
+
     $name = $('[name=name]', this)
     $phone = $('[name=phone]', this)
 

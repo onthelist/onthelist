@@ -30,6 +30,9 @@ $ ->
     $('#add-party').find('input:not([type=submit]), select').each (i, elem) ->
       $elem = $ elem
 
+      if $elem.attr('type') == 'submit'
+        return
+
       if $elem.filter('[type=checkbox], [type=radio]').length
         if $elem.attr('checked') == 'checked'
           vals[$elem.attr('name')] = $elem.val()
@@ -40,6 +43,11 @@ $ ->
     key = $$('#queue-list').selected_key
     if key
       vals.key = key
+    else
+      vals.key = undefined
+
+    vals.alert_method ?= 'sms'
+    $.log vals
 
     vals.status ?= ['waiting']
     if vals.called_ahead and vals.called_ahead != 'false'
