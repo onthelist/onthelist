@@ -3,7 +3,7 @@ $ ->
     key = $$('#queue-list').selected_key
     
     $title = $('.ui-title', this)
-    $button = $('[href=#add] .ui-btn-text', this)
+    $button = $('#add-party-submit', this).parent().children('.ui-btn-inner').children('.ui-btn-text')
 
     if not key?
       $title.text "Add a Party"

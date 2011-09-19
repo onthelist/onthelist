@@ -20,11 +20,14 @@ $ ->
 
     $('.ui-input-text', this).first().focus()
 
-  $('#add-party a[href=#add]').bind 'vclick', (e) ->
+  $('#add-party form.content').bind 'submit', (e) ->
+    do e.stopPropagation
+    do e.preventDefault
+
     dia = $ '#add-party'
 
     vals = $$(dia).data ? {}
-    $('#add-party').find('input, select').each (i, elem) ->
+    $('#add-party').find('input:not([type=submit]), select').each (i, elem) ->
       $elem = $ elem
 
       if $elem.filter('[type=checkbox], [type=radio]').length
@@ -39,7 +42,7 @@ $ ->
       vals.key = key
 
     vals.status ?= ['waiting']
-    if vals.called_ahead
+    if vals.called_ahead and vals.called_ahead != 'false'
       vals.status.push 'called_ahead'
 
     $TRACK.track('add-party', vals)
