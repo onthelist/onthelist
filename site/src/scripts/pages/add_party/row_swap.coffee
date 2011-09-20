@@ -1,7 +1,5 @@
 $ ->
   $('#add-party').bind 'pagecreate', ->
-    return
-
     $name = $('[name=name]', this)
     $phone = $('[name=phone]', this)
 
@@ -43,6 +41,6 @@ $ ->
       if 97 <= code <= 122 or 65 <= code <= 90
         do swap
 
-    $(this).bind 'pageshow', ->
+    $(this).bind 'pagehide', ->
       if not phone_first
         do swap
