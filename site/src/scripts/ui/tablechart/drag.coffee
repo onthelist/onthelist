@@ -15,19 +15,19 @@ class DraggableSprite
   register_modifier: (func) ->
     @modifiers.push func
 
-  _drag: (ui) ->
+  _drag: (ui, e) ->
     for m in @modifiers
-      m.call(this, ui, @sprite.canvas)
+      m.call(this, ui, @sprite.canvas, e)
 
-  _start: (ui) ->
+  _start: (ui, e) ->
     for name, prop of this
       if name.startsWith('_start_')
-        prop.call(this, ui)
+        prop.call(this, ui, @sprite.canvas, e)
 
-  _stop: (ui) ->
+  _stop: (ui, e) ->
     for name, prop of this
       if name.startsWith('_stop_')
-        prop.call(this, ui)
+        prop.call(this, ui, @sprite.canvas, e)
 
   _move_menu: (ui) ->
     $menu = $ '#tablechart .editor'
@@ -237,12 +237,27 @@ class DraggableSprite
 
             if Math.abs(x_gap_diff) < THRESHOLD
               p.left += x_gap_diff
-        
+
+  _start_correct_zoom: (ui, cvs, evt) ->
+    p = ui.position
+    o = ui.originalPosition
+
+    $tci = $('.tablechart-inner')
+    tci = $tci[0]
+
+    @_cz_offset = parseFloat(tci.style.left) - $tci.position().left
+
   _correct_zoom: (ui) ->
     p = ui.position
     o = ui.originalPosition
     p.top = o.top + (p.top - o.top) * 1/$TC.scroller.scale
     p.left = o.left + (p.left - o.left) * 1/$TC.scroller.scale
+
+    if Math.abs(@_cz_offset) > 1
+      # Some devices (webkit) scale the inner box's position when reporting
+      # coords, we use the offset to detect that, and adjust the positioning.
+      p.left += o.left * $TC.scroller.scale
+      p.top += o.top * $TC.scroller.scale
 
   _shift_scroll: (ui) ->
     p = ui.position
@@ -289,18 +304,18 @@ class DraggableSprite
       .unbind('touchend mouseup mouseout', @_e_mouse_up)
 
   _e_drag: (e, ui) =>
-    @_drag ui
+    @_drag ui, e
     
   _e_drag_start: (e, ui) =>
     if not @$canvas.hasClass 'ui-selected'
       @$canvas.trigger 'select'
 
-    @_start ui
+    @_start ui, e
     
   _e_drag_stop: (e, ui) =>
     do @sprite._update_evt
 
-    @_stop ui
+    @_stop ui, e
 
   _e_mouse_down: ->
     $TC.scroller.enabled = false
