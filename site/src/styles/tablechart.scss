@@ -71,6 +71,9 @@
     display: block;
   }
 
+  &.hidden {
+    display: none;
+  }
 
   &.docked-left {
     padding-right: 20px;
@@ -110,6 +113,12 @@
     bottom: 5px;
     left: 0;
     width: 100%;
+  }
+}
+
+@media all and (max-width: 450px) {
+  .editor {
+    display: none;
   }
 }
 

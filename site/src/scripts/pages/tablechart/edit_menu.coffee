@@ -241,10 +241,10 @@ $ ->
     $TC.chart.bind 'remove', _clear_selection
 
     if not $TC.chart.editable
-      $menu.hide()
+      $menu.addClass 'hidden'
 
     $TC.chart.bind 'locked', ->
-      $menu.hide()
+      $menu.addClass 'hidden'
     $TC.chart.bind 'unlocked', ->
-      $menu.show()
+      $menu.removeClass 'hidden'
 
