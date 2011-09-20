@@ -85,15 +85,7 @@ class $TC.Chart extends $U.Evented
       obj = $.extend {}, @opts,
         sprites: do @pack
 
-      props = $IO.build_req
-        chart: obj
-
-      req =
-        data: JSON.stringify props
-        type: 'POST'
-        url: '/sync/chart'
-
-      $IO.make_req req
+      $IO.sync.push 'chart', obj
 
     if @_push_to?
       clearTimeout @_push_to

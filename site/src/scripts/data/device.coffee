@@ -14,24 +14,14 @@ class Device extends Backbone.Model
 $D.device = new Device
 
 $D.device.fetch()
-if typeof $D.device.attributes.settings != 'object'
-  $D.device.attributes.settings = {}
-
 if not $D.device.get 'created'
   # New device
   $.log 'unregistered device'
   $D.device.set
     create_time: new Date
-    settings: {}
     registered: false
     created: true
  
-  $D.device.attributes.settings = $.extend(true, {}, $D.settings.default, $D.device.attributes.settings)
   do $D.device.save
 
 do $IO.fetch_device
-
-window.$S = $.extend({}, $D.device.get('settings'),
-  save: ->
-    do $D.device.save
-)

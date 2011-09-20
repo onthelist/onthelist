@@ -31,6 +31,8 @@ class $D._DataLoader extends $U.Evented
         @remove data
       return
 
+    $IO.sync.del 'party', row.key
+
     @ds.remove row, =>
       @trigger 'rowRemove', [row, prev_row ? row]
 
@@ -38,9 +40,13 @@ class $D._DataLoader extends $U.Evented
     @ds.save vals, (resp) =>
       @register_row @_wrap_row resp
 
+    $IO.sync.push 'party', vals
+
     return vals.key
 
   update: (vals) ->
+    $IO.sync.push 'party', vals
+
     @ds.save vals
 
   save: (vals) ->

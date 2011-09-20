@@ -1,7 +1,30 @@
 errors = require('./errors')
 store = require('./simpledb_store').client
 
+wrap_json = (obj) ->
+  for own name, val of obj
+    if typeof val == 'object'
+      obj[name] = 'json:' + JSON.stringify(val)
+
+strip_json = (obj) ->
+  for own name, val of obj
+    if typeof val == 'string' and val.substring(0, 4) == 'json:'
+      val = val.substring(5)
+      obj[name] = JSON.parse(val)
+
 module.exports =
+  get: (domain, id, cb) ->
+    store.getItem domain, id, (err, data) ->
+      if data?
+        strip_json data
+
+      cb err, data
+
+  put: (domain, id, data, cb) ->
+    wrap_json data
+
+    store.putItem domain, id, data, cb
+
   get_org: (res, name, cb) ->
     store.getItem 'orgs', name, (err, org, meta) ->
       if err
