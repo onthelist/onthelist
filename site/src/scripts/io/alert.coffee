@@ -2,7 +2,7 @@ window.$IO ?= {}
 
 class Action
   status_on:
-    progress: false
+    progress: true
     success: false
     error: true
 
