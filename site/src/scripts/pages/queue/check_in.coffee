@@ -10,6 +10,7 @@ $ ->
 
   $QUEUE.check_out = (id, success, failure) ->
     $D.parties.get id, (data) =>
+      $.log 'party', data
       if not data?.occupancy?
         failure && do failure
         return
@@ -21,6 +22,7 @@ $ ->
 
       data.occupancy = null
 
+      $.log 'save', data
       do data.save
 
       success && do success
