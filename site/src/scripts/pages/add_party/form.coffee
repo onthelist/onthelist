@@ -18,6 +18,9 @@ $ ->
       $pages.unbind 'pageshow', _clear
     $pages.bind 'pageshow', _clear
 
+    $('#party-called-ahead').val('false')
+    $('#party-called-ahead').slider('refresh')
+
     $('.ui-input-text', this).first().focus()
 
   $('#add-party form.content').bind 'submit', (e) ->
