@@ -1,3 +1,4 @@
+/*
 var uvOptions = {};
 if (window.innerWidth > 900){
   (function() {
@@ -6,3 +7,4 @@ if (window.innerWidth > 900){
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
   })();
 }
+*/
