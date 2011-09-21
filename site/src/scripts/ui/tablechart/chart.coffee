@@ -40,7 +40,7 @@ class $TC.Chart extends $U.Evented
       $D.parties.bind 'rowRemove', (e, row, prev_row) =>
         for sprite in @sprites
           occ = sprite?.occupancy
-          if occ? and occ.occupant.key == row.key
+          if occ? and occ.occupant? and occ.occupant.key == row.key
             sprite.occupy null
 
         true
