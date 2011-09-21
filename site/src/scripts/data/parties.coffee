@@ -53,7 +53,11 @@ $.when( $D.parties.init() ).then ->
         $D.parties.ds.remove row
 
   do clear
-  setInterval(clear, 60*60)
+
+  setTimeout(->
+    do clear
+    document.location.reload()
+  , (new Date).add(1).day().set({'hour': 4, 'minute': 30}).millisecondsFromNow())
 
   $D.parties.demo = ->
     $D.parties.ds.all (rows) ->

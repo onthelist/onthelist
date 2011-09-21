@@ -31,6 +31,10 @@ $ ->
     $TC.choose_table
       success: (table) =>
         $D.parties.get id, (data) =>
+          if not data?
+            $.log 'Party being checked in not found', id
+            return
+
           $TRACK.track 'check-in'
 
           data.add_status 'seated'
