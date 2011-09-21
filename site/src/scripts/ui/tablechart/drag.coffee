@@ -128,7 +128,7 @@ class DraggableSprite
     x_list = []
     y_list = []
     for sprite in @chart.sprites
-      if sprite == @sprite
+      if sprite == @sprite or sprite.snap == false
         continue
 
       if sprite.x + THRESHOLD > c.left and sprite.x - THRESHOLD < c.left
