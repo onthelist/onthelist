@@ -43,6 +43,9 @@ $ ->
       else
         vals[$elem.attr('name')] = $elem.val()
 
+    if not vals.name or vals.name == ''
+      return false
+
     key = $$('#queue-list').selected_key
     if key
       vals.key = key
