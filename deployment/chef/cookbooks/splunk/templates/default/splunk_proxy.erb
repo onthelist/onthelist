@@ -1,0 +1,23 @@
+<VirtualHost *:80>
+  ServerAlias <%= node[:fqdn] %>
+
+  ProxyPass / http://127.0.0.1:8000/
+  ProxyPassReverse / http://127.0.0.1:8000/
+
+  ErrorLog <%= node[:apache][:log_dir] %>/error.log
+  CustomLog <%= node[:apache][:log_dir] %>/access.log common
+</VirtualHost>
+
+<Proxy http://127.0.0.1:8000/*>
+  Order deny,allow
+  Deny from all
+  Allow from all
+  AuthName "<%= node[:fqdn] %>"
+  AuthType Basic
+<% if node[:splunk][:alt_htpasswd] %>
+  AuthUserFile <%= node[:splunk][:alt_htpasswd] %>
+<% else %>
+  AuthUserFile <%= node[:splunk][:root] %>/.htpasswd
+<% end %>
+  Require valid-user
+</Proxy>
