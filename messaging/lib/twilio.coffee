@@ -5,24 +5,32 @@ sys = require('sys')
 os = require('os')
 
 notifiers = require('./base')
+get_hostname = require('../../utils/lib/hostname').get_hostname
 
 client_cache = null
-create_client = ->
-  if not client_cache
+create_client = (cb) ->
+  if client_cache?
+    cb client_cache
+    return
+
+  get_hostname (err, hostname) ->
+    if err?
+      console.log "Error loading hostname"
+      console.log err
+      sys.exit(1)
+
     client_cache = new TwilioClient(
       'AC8589ab3c89de18b914412699b12c1181',
       'e1f5c6fe7688ff64b7c6d5737b4cbd2b',
-      'speed2.rdctd.com'
+      hostname
     )
 
-  client_cache
+    cb client_cache
 
 class TwilioSMS extends notifiers.SMS
-  constructor: (@name) ->
-    @client = create_client()
-
   send: (from, to, msg, cb) ->
-    @client.simpleSendSms(from, to, msg, {}, cb)
+    create_client (client) ->
+      client.simpleSendSms(from, to, msg, {}, cb)
 
 wrap_resp = (resp) ->
   say: (msg) ->
@@ -34,17 +42,15 @@ wrap_resp = (resp) ->
 class TwilioConversation extends EventEmitter
   constructor: (@call) ->
     @call.on 'answered', (params, resp) =>
-      console.log 'answered'
       this.emit('answered', params, wrap_resp(resp))
 
 class TwilioPhone extends notifiers.Phone
-  constructor: (@name) ->
-    @client = create_client()
-
   call: (from, to, cb) ->
-    call = @client.makeCall(from, to, {})
-    call.setup (c) ->
-      cb(new TwilioConversation(c))
+
+    create_client (client) ->
+      call = client.makeCall(from, to, {})
+      call.setup (c) ->
+        cb(new TwilioConversation(c))
 
 module.exports =
   SMS: TwilioSMS
