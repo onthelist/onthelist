@@ -53,6 +53,6 @@ end
 bash "configure" do
   user "root"
   code <<-EOH
-  #{node[:splunk][:fwd_root]}/bin/splunk add forward-server log.speedyseat.us:9997
+  #{node[:splunk][:fwd_root]}/bin/splunk add forward-server log.speedyseat.us:9997 -auth admin:changeme
   EOH
 end
