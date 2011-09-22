@@ -24,7 +24,7 @@ dpkg_package "splunkforwarder" do
   source "/usr/src/splunkforwarder-#{node[:splunk][:version]}-linux-2.6-#{pkg_arch}.deb"
 end
 
-template "#{node[:splunk][:root]}/etc/system/local/inputs.conf" do
+template "#{node[:splunk][:fwd_root]}/etc/system/local/inputs.conf" do
   source "inputs.erb"
   owner "root"
   group "root"
@@ -33,10 +33,10 @@ end
 
 service "splunk" do
   supports :status => true, :restart => true, :reload => false
-  start_command "#{node[:splunk][:root]}/bin/splunk start --accept-license"
-  stop_command "#{node[:splunk][:root]}/bin/splunk stop"
-  restart_command "#{node[:splunk][:root]}/bin/splunk restart --accept-license"
-  status_command "#{node[:splunk][:root]}/bin/splunk status"
+  start_command "#{node[:splunk][:fwd_root]}/bin/splunk start --accept-license"
+  stop_command "#{node[:splunk][:fwd_root]}/bin/splunk stop"
+  restart_command "#{node[:splunk][:fwd_root]}/bin/splunk restart --accept-license"
+  status_command "#{node[:splunk][:fwd_root]}/bin/splunk status"
   action [ :start ]
   running true
 end
@@ -44,8 +44,8 @@ end
 bash "enable_boot" do
   user "root"
   code <<-EOH
-  #{node[:splunk][:root]}/bin/splunk start --accept-license
-  #{node[:splunk][:root]}/bin/splunk enable boot-start
+  #{node[:splunk][:fwd_root]}/bin/splunk start --accept-license
+  #{node[:splunk][:fwd_root]}/bin/splunk enable boot-start
   EOH
   not_if{File.exists?("/etc/init.d/splunk")}
 end
@@ -53,6 +53,6 @@ end
 bash "configure" do
   user "root"
   code <<-EOH
-  #{node[:splunk][:root]}/bin/splunk add forward-server log.speedyseat.us:9997 -auth admin:changeme
+  #{node[:splunk][:fwd_root]}/bin/splunk add forward-server log.speedyseat.us:9997 -auth admin:changeme
   EOH
 end
