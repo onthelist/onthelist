@@ -24,8 +24,7 @@ dpkg_package "splunkforwarder" do
   source "/usr/src/splunkforwarder-#{node[:splunk][:version]}-linux-2.6-#{pkg_arch}.deb"
 end
 
-template "inputs.conf" do
-  path "#{node[:splunk][:root]}/etc/system/local/inputs.conf"
+template "#{node[:splunk][:root]}/etc/system/local/inputs.conf" do
   source "inputs.erb"
   owner "root"
   group "root"
