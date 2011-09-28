@@ -1,7 +1,15 @@
-comfy = require 'comfy'
+cradle = require 'cradle'
 
-couch = comfy.init
-  url: 'https://speedyseat:9*3Hbu!9U@speedyseat.cloudant.com'
+conn = new(cradle.Connection)(
+  host: 'speedyseat.cloudant.com'
+  port: 443
+  cache: true
+  raw: false
+  secure: true
+  auth:
+    username: 'speedyseat'
+    password: '9*3Hbu!9U'
+)
 
 module.exports =
-  client: couch
+  client: conn

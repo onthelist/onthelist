@@ -33,12 +33,15 @@ class Syncer
     $IO.make_req req
 
   _del: (type, key) ->
-    props = $IO.build_req {}
+    props = $IO.build_req
+      _method: 'delete'
 
     req =
+      type: 'POST'
       data: props
-      type: 'DELETE'
       url: "/sync/#{type}/#{key}"
+
+    $IO.make_req req
 
   push: (attrs...) ->
     @queue.push ['push', attrs]

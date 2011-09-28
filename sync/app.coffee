@@ -25,35 +25,9 @@ app.configure 'production', ->
 
 errors.catch_errors app
 
-# Routes
-  
-app.post '/:type/:name?', (req, res) ->
-  id = req.body.device_id
-  if not id
-    throw new errors.Client "'device_id' param is required."
-
-  type = req.params.type
-  data = req.body[type]
-
-  if not type? or not data
-    throw new errors.Client "Parameters missing."
-
-  name = req.params.name ? data.key ? "default#{type}"
-
-  sdb.get_org_from_device res, id, (org, device) ->
-    data._id = org.name + ':' + name
-
-    couch.put data, (err) ->
-      if err
-        errors.respond res, new errors.Server "Error Saving."
-        return
-
-      res.send
-        ok: true
-
-app.get '/:type/:name?', (req, res) ->
-  id = req.query.device_id
-  if not id
+init_req = (req) ->
+  dev_id = req.query?.device_id ? req.body.device_id
+  if not dev_id
     throw new errors.Client "'device_id' param is required."
 
   type = req.params.type
@@ -62,24 +36,75 @@ app.get '/:type/:name?', (req, res) ->
 
   name = req.params.name ? "default#{type}"
 
-  sdb.get_org_from_device res, id, (org, device) ->
-    couch.get
-      db: 'sync_' + type
-      _id: org.name + ':' + name
-    
-    , (err, data) ->
+  return [dev_id, type, name]
+  
+app.post '/:type/:name?', (req, res) ->
+  [id, type, name] = init_req req
+  
+  data = req.body[type]
 
-      console.log(data)
-      if err or not data?
-        errors.respond res, new errors.Server "Error Loading #{err}."
+  if not data?
+    throw new errors.Client "Data missing."
+
+  sdb.get_org_from_device res, id, (org, device) ->
+    couch.database("sync_#{type}").save org.name + ':' + name, data, (err) ->
+      if err
+        console.log err
+        errors.respond res, new errors.Server "Error Saving."
         return
 
-      ret =
+      res.send
         ok: true
 
-      ret[type] = data
+app.get '/:type/:name?', (req, res) ->
+  [id, type, name] = init_req req
 
-      res.send ret
+  sdb.get_org_from_device res, id, (org, device) ->
+    couch.database("sync_#{type}").get org.name + ':' + name,
+      (err, data) ->
+        if err?.reason == 'missing'
+          errors.respond res, new errors.NotFound
+          return
+
+        if err or not data?
+          errors.respond res, new errors.Server "Error Loading #{err?.message}."
+          return
+
+        ret =
+          ok: true
+
+        ret[type] = data
+
+        res.send ret
+
+
+app.delete '/:type/:name?', (req, res) ->
+  [id, type, name] = init_req req
+
+  sdb.get_org_from_device res, id, (org, device) ->
+    db = couch.database "sync_#{type}"
+    did = org.name + ':' + name
+
+    db.get did,
+      (err, data) ->
+        if err?.reason == 'missing'
+          errors.respond res, new errors.NotFound
+          return
+
+        if err or not data?
+          console.log err
+          errors.respond res, new errors.Server "Error Loading #{err?.message}."
+          return
+
+        data.deleted = true
+
+        db.put did, data, (err) ->
+          if err
+            errors.respond res, new errors.Server "Error Deleting."
+            return
+
+          res.send
+            ok: true
 
 app.listen(6996)
 console.log("Express server listening on port %d", app.address().port)

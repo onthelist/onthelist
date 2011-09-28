@@ -4,6 +4,7 @@
   , "private": true
   , "dependencies": {
       "simpledb": ""
+    , "cradle": ""
   }
   , "devDependencies": {
       "nodeunit": ">= 0.5.1"
