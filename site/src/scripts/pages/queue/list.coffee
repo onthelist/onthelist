@@ -97,8 +97,9 @@ $ ->
       $.fixedToolbars.show(true)
 
     $('#queue').bind 'optionChange', (e, name, val) ->
-      $S.queue[name] = val
-      do $S.save
+      if $S?.queue?
+        $S.queue[name] = val
+        do $S.save
 
       $TRACK.track 'queue-option-change',
         name: name

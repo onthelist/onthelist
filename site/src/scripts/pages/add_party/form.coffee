@@ -18,6 +18,11 @@ $ ->
       $pages.unbind 'pageshow', _clear
     $pages.bind 'pageshow', _clear
 
+    $('#party-called-ahead').val('false')
+    $('#party-called-ahead').slider('refresh')
+
+    $('.ui-slider-input').slider('refresh')
+
     $('.ui-input-text', this).first().focus()
 
   $('#add-party form.content').bind 'submit', (e) ->
@@ -39,6 +44,9 @@ $ ->
 
       else
         vals[$elem.attr('name')] = $elem.val()
+
+    if not vals.name or vals.name == ''
+      return false
 
     key = $$('#queue-list').selected_key
     if key

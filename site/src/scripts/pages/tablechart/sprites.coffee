@@ -330,6 +330,7 @@ class $TC.Section extends $TC.DrawnSprite
   is_section: true
   selectable: false
   draggable: false
+  snap: false
   class_name: 'section'
   proto: 'Section'
   colors:

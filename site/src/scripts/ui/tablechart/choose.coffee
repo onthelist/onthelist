@@ -7,8 +7,8 @@ window.$TC.choose_table = (opts) ->
   _selection = (e, sel) ->
     sprite = $$(sel.selected).sprite
 
-    if sprite.occupancy == undefined
-      # Not selectable
+    if sprite.occupancy == undefined or sprite.occupancy?.occupant
+      # Not selectable or already occupied
       return
     
     window.location = prev_loc

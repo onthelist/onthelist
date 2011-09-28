@@ -8,7 +8,8 @@ $('#view-party').live 'pageshow', ->
 
   $D.parties.get key, (data) ->
     if not data
-      alert 'Record not found'
+      $.log 'Record not found'
+      document.location = '#'
       return
 
     $$(self).data = data

@@ -1,6 +1,8 @@
 $ ->
   created = false
   $('#add-party').bind 'pageshow', ->
+    return
+
     if created
       # We need to bind to pageshow for the input to have the proper
       # width.
