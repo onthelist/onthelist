@@ -17,7 +17,7 @@ module.exports.get_hostname = (cb) ->
       data += chunk
 
     resp.on 'end', ->
-      data = data.strip()
+      data = data.toString()
 
       if data
         cb null, data
