@@ -5,7 +5,7 @@ $D.settings.default =
     theme: 'light'
   queue:
     sort: 'remaining'
-    group: 'lname'
+    group: 'elapsed'
     time_view: 'remaining'
 
 window.$S = $D.settings.default
