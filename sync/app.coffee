@@ -37,10 +37,8 @@ init_req = (req) ->
   name = req.params.name ? "default#{type}"
 
   return [dev_id, type, name]
-  
-app.post '/:type/:name?', (req, res) ->
-  [id, type, name] = init_req req
-  
+
+_save = (req, res, id, type, name) ->
   data = req.body[type]
 
   if not data?
@@ -55,6 +53,41 @@ app.post '/:type/:name?', (req, res) ->
 
       res.send
         ok: true
+  [id, type, name] = init_req req
+
+_del = (req, res, id, type, name) ->
+  sdb.get_org_from_device res, id, (org, device) ->
+    db = couch.database "sync_#{type}"
+    did = org.name + ':' + name
+
+    db.get did,
+      (err, data) ->
+        if err?.reason == 'missing'
+          errors.respond res, new errors.NotFound
+          return
+
+        if err or not data?
+          console.log err
+          errors.respond res, new errors.Server "Error Loading #{err?.message}."
+          return
+
+        db.remove did, data._rev, (err) ->
+          if err
+            errors.respond res, new errors.Server "Error Deleting."
+            return
+
+          res.send
+            ok: true
+
+app.post '/:type?/:name?', (req, res) ->
+  [id, type, name] = init_req req
+
+  _save req, res, id, type, name
+
+app.delete '/:type/:name?', (req, res) ->
+  [id, type, name] = init_req req
+
+  _del req, res, id, type, name
 
 app.get '/:type/:name?', (req, res) ->
   [id, type, name] = init_req req
@@ -77,34 +110,6 @@ app.get '/:type/:name?', (req, res) ->
 
         res.send ret
 
-
-app.delete '/:type/:name?', (req, res) ->
-  [id, type, name] = init_req req
-
-  sdb.get_org_from_device res, id, (org, device) ->
-    db = couch.database "sync_#{type}"
-    did = org.name + ':' + name
-
-    db.get did,
-      (err, data) ->
-        if err?.reason == 'missing'
-          errors.respond res, new errors.NotFound
-          return
-
-        if err or not data?
-          console.log err
-          errors.respond res, new errors.Server "Error Loading #{err?.message}."
-          return
-
-        data.deleted = true
-
-        db.put did, data, (err) ->
-          if err
-            errors.respond res, new errors.Server "Error Deleting."
-            return
-
-          res.send
-            ok: true
 
 app.listen(6996)
 console.log("Express server listening on port %d", app.address().port)

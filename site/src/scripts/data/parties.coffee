@@ -1,4 +1,6 @@
 class Party extends $D._DataRow
+  name: 'party'
+
   add_status: (name) ->
     @status ?= []
     prev = @status.clone()

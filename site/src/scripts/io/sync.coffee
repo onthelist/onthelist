@@ -3,7 +3,9 @@ class Syncer
   constructor: ->
     @queue = []
 
-  _push: (type, data, key=data.key) ->
+  _push: (type, data, key=data.key ? "default#{type}") ->
+    type = type.toLowerCase()
+
     props = {}
     props[type] = data
 
@@ -17,6 +19,8 @@ class Syncer
     $IO.make_req req
 
   pull: (type, key="", cb=->) ->
+    type = type.toLowerCase()
+
     props = $IO.build_req {}
 
     req =
@@ -33,6 +37,8 @@ class Syncer
     $IO.make_req req
 
   _del: (type, key) ->
+    type = type.toLowerCase()
+
     props = $IO.build_req
       _method: 'delete'
 
@@ -54,7 +60,7 @@ class Syncer
   process_queue: ->
     # Process the queue when the active process is done.
     if not @to?
-      @to = setTimeout(@_process_queue, 200)
+      @to = setTimeout(@_process_queue, 1000)
 
   _process_queue: =>
     @to = null
