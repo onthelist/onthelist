@@ -8,10 +8,10 @@ import urllib2
 
 from connection import *
 
-INST_CNT = 1
+INST_CNT = 4
 LB_NAME = 'NoSSL-LB'
 MIN_OK = 4
-ZONES = ['b']
+ZONES = ['b', 'd']
 
 def status_tick():
   sys.stdout.write('.')
