@@ -1,9 +1,9 @@
 $IO ?= {}
 class Syncer
   constructor: ->
-    @queue = []
+    @queue = {}
 
-  _push: (type, data, key=data.key ? "default#{type}") ->
+  _push: (type, key, data) ->
     type = type.toLowerCase()
 
     props = {}
@@ -49,12 +49,12 @@ class Syncer
 
     $IO.make_req req
 
-  push: (attrs...) ->
-    @queue.push ['push', attrs]
+  push: (type, data, key=data.key) ->
+    @queue[type + '::' + key] = data
     do @process_queue
 
-  del: (attrs...) ->
-    @queue.push ['del', attrs]
+  del: (type, key) ->
+    @queue[type + '::' + key] = null
     do @process_queue
 
   process_queue: ->
@@ -65,11 +65,15 @@ class Syncer
   _process_queue: =>
     @to = null
 
-    for act in @queue
-      task = act[0]
-      args = act[1]
+    for own lbl, data of @queue
+      if data is null
+        task = 'del'
+      else
+        task = 'push'
 
-      @["_#{task}"].call(this, args...)
+      [type, key] = lbl.split '::'
+
+      @["_#{task}"].call(this, type, key, data)
 
     @queue = []
 
