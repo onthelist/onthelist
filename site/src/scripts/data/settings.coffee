@@ -4,9 +4,9 @@ $D.settings.default =
   look:
     theme: 'light'
   queue:
-    sort: 'remaining'
+    sort: 'elapsed'
     group: 'elapsed'
-    time_view: 'remaining'
+    time_view: 'elapsed'
 
 window.$S = $D.settings.default
 if localStorage.settings
