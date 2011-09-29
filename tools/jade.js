@@ -243,7 +243,7 @@ jade.filters.prod = function(block, compiler, opts){
         data = uglify_script(data);
       var ug_len = data.length;
 
-      data = compress(data);
+      data = compress(new Buffer(data));
       var com_len = data.length;
       
       console.log(raw_len + " / " + ug_len + " / " + com_len);
