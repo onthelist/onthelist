@@ -43,6 +43,10 @@ server {
   location /log/ {
     proxy_pass http://localhost:40404/;
   }
+
+  location /sync/ {
+    proxy_pass http://localhost:6996/;
+  }
 }
 
 
