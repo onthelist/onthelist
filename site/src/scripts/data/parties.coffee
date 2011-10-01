@@ -54,7 +54,7 @@ $.when( $D.parties.init() ).then ->
       if not row.times?.add or Date.get_elapsed(row.times.add) > 60 * 12
         $D.parties.ds.remove row
 
-  do clear
+  #do clear
 
   #setTimeout(->
   #  do clear

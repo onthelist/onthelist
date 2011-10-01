@@ -8,7 +8,7 @@ import urllib2
 
 from connection import *
 
-INST_CNT = 4
+INST_CNT = 2
 LB_NAME = 'NoSSL-LB'
 MIN_OK = 4
 ZONES = ['b', 'd']
