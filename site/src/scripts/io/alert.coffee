@@ -167,6 +167,7 @@ class AlertAction extends Action
     switch @data.alert_method
       when 'sms'
         $TRACK.track 'alert-sms'
+        $.log @data.phone, @data
         $M.send_sms(@data.phone, 'Your table is ready! Please visit the host stand to be seated.', opts)
       when 'call'
         $TRACK.track 'alert-call'

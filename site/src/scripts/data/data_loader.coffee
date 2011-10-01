@@ -78,7 +78,12 @@ class $D._DataLoader extends $U.Evented
     if @ds? and evt.indexOf 'row' == 0
       # We call the func on all the existing rows with evt of false
       # to allow the event to be bound after the data is initially loaded
+      ids = []
       @ds.each (row) =>
+        if row.key in ids
+          return
+
+        ids.push row.key
         try
           func(false, @_wrap_row row)
         catch e

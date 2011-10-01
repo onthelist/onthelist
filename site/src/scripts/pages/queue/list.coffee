@@ -77,6 +77,7 @@ $ ->
 
     list = q_elem.queueList $S.queue
 
+    init_loaded = false
     $('#queue').bind 'pageshow', ->
       do list.add_dynamics
 
@@ -110,15 +111,17 @@ $ ->
         when 'group' then list.group val
         when 'time_view' then q_elem.find('time').time 'toggle_format'
 
-    $D.parties.live 'rowAdd', (e, row) ->
-      if not row.status.has 'waiting'
-        return
+    if not init_loaded
+      $D.parties.live 'rowAdd', (e, row) ->
+        init_loaded = true
+        if not row.status.has 'waiting'
+          return
 
-      elapsed = Date.get_elapsed row.times.add
+        elapsed = Date.get_elapsed row.times.add
 
-      add_list_row(list, row)
+        add_list_row(list, row)
 
-    $D.parties.bind 'rowRemove', (e, row) ->
-      if list
-        list.remove($('a[data-id=' + row.key + ']', q_elem).parents('li').first())
+      $D.parties.bind 'rowRemove', (e, row) ->
+        if list
+          list.remove($('a[data-id=' + row.key + ']', q_elem).parents('li').first())
     

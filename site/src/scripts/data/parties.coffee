@@ -56,10 +56,10 @@ $.when( $D.parties.init() ).then ->
 
   do clear
 
-  setTimeout(->
-    do clear
-    document.location.reload()
-  , (new Date).add(1).day().set({'hour': 4, 'minute': 30}).millisecondsFromNow())
+  #setTimeout(->
+  #  do clear
+  #  document.location.reload()
+  #, (new Date).add(1).day().set({'hour': 4, 'minute': 30}).millisecondsFromNow())
 
   $D.parties.demo = ->
     $D.parties.ds.all (rows) ->
