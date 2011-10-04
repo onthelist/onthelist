@@ -5,6 +5,7 @@
   , "dependencies": {
       "simpledb": ""
     , "cradle": ""
+    , "logly": ""
   }
   , "devDependencies": {
       "nodeunit": ">= 0.5.1"

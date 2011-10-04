@@ -1,8 +1,9 @@
 http = require 'http'
 
 module.exports.get_hostname = (cb) ->
-  if process.env.SS_PUBLIC_HOSTNAME
+  if process.env.SS_PUBLIC_HOSTNAME?
     cb null, process.env.SS_PUBLIC_HOSTNAME
+    return
   
   data = ''
 
@@ -26,6 +27,6 @@ module.exports.get_hostname = (cb) ->
 
   req.on 'error', (e) ->
     console.log "Hostname fetch socket error: #{e.message}"
-    cb e
+    cb e, 'localhost'
 
   do req.end

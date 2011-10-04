@@ -17,7 +17,7 @@ create_client = (cb) ->
     if err?
       console.log "Error loading hostname"
       console.log err
-      sys.exit(1)
+      process.exit(1)
 
     client_cache = new TwilioClient(
       'AC8589ab3c89de18b914412699b12c1181',
