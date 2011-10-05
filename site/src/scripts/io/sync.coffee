@@ -3,7 +3,7 @@ class Syncer
   constructor: ->
     @queue = {}
 
-  _push: (type, key, data) ->
+  _push: (type, key, data, cb=->) ->
     type = type.toLowerCase()
 
     props = {}
@@ -15,6 +15,12 @@ class Syncer
       data: JSON.stringify props
       type: 'POST'
       url: "/sync/#{type}/#{key}"
+      success: (d) ->
+        if not d?.ok
+          $.log "Bad push response", d
+          return
+
+        cb d
 
     $IO.make_req req
 
@@ -49,8 +55,16 @@ class Syncer
 
     $IO.make_req req
 
-  push: (type, data, key=data.key) ->
-    @queue[type + '::' + key] = data
+  push: (type, data, cb=->) ->
+    key = data.key
+
+    if data.clean_data?
+      data = do data.clean_data
+
+    @queue[type + '::' + key] = {
+      data: data
+      cb: cb
+    }
     do @process_queue
 
   del: (type, key) ->
@@ -65,16 +79,20 @@ class Syncer
   _process_queue: =>
     @to = null
 
-    for own lbl, data of @queue
-      if data is null
+    for own lbl, row of @queue
+      if row is null
         task = 'del'
+        data = null
+        cb = ->
       else
         task = 'push'
+        data = row.data
+        cb = row.cb
 
       [type, key] = lbl.split '::'
 
-      @["_#{task}"].call(this, type, key, data)
+      @["_#{task}"].call(this, type, key, data, cb)
 
-    @queue = []
+    @queue = {}
 
 $IO.sync = new Syncer

@@ -49,6 +49,8 @@ class Parties extends $D._DataLoader
 $D.parties = new Parties
 $.when( $D.parties.init() ).then ->
 
+  do $D.parties.sync
+
   clear = ->
     $D.parties.ds.each (row) ->
       if not row.times?.add or Date.get_elapsed(row.times.add) > 60 * 12

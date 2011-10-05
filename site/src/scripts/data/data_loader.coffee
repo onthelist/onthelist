@@ -21,7 +21,8 @@ class $D._DataLoader extends $U.Evented
         @ready.resolve this
 
         @ds.each (row) =>
-          @register_row @_wrap_row row
+          if not row._deleted
+            @register_row @_wrap_row row
 
     return @ready.promise()
   
@@ -33,33 +34,117 @@ class $D._DataLoader extends $U.Evented
 
     $IO.sync.del @model_name ? @model?.name, row.key
 
-    @ds.remove row, =>
+    row._deleted = true
+
+    @incr_rev row
+
+    @_save row, =>
       @trigger 'rowRemove', [row, prev_row ? row]
 
+  _save: (row, cb=->) ->
+    if row.clean_data?
+      row = do row.clean_data
+
+    @ds.save row, cb
+
   add: (vals={}) ->
-    @ds.save vals, (resp) =>
+    @incr_rev vals
+
+    @_save vals, (resp) =>
       @register_row @_wrap_row resp
 
-    $IO.sync.push @model_name ? @model?.name, vals
+      @push_row vals.key
 
     return vals.key
 
+  push_row: (key) ->
+    @ds.get key, (vals) =>
+      rev = vals._rev
+      $IO.sync.push @model_name ? @model?.name, vals, (resp) =>
+        if resp.ok
+          @ds.get key, (nvals) =>
+            if nvals._rev == rev
+              # It was not changed since we pushed
+              nvals._rev = resp.rev
+              @_save nvals
+
   update: (vals) ->
-    $IO.sync.push @model_name ? @model?.name, vals
+    @incr_rev vals
+    @_save vals, =>
+      @push_row vals.key
 
-    @ds.save vals
+  sync: ->
+    name = @model_name ? @model?.name
 
-  save: (vals) ->
+    $IO.sync.pull name, undefined, (data) =>
+      d = {}
+      for row in data.rows
+        d[row.key] = row
+
+      @ds.each (row) =>
+        if not d[row.key]?
+          # It's not on the server
+
+          if row?._deleted
+            # Really delete now that the delete is synced
+            @ds.remove row.key
+
+          else
+            $IO.sync.push name, row.key, row
+
+        else
+          # It's here and on the server
+          d[row.key]._visited = true
+          
+          if not row._changed
+            # It hasen't been changed here
+            if row._rev == d[row.key]._rev
+              # It hasen't been changed there
+              return
+
+            else
+              @save d[row.key], false
+          else
+            if row._deleted
+              # It was deleted here.
+              $IO.sync.del name, row.key
+
+            else
+              # Conflict
+              $.log 'conflict', row, d[row.key]
+
+      for own key, row of d
+        if row._visited
+          continue
+
+        # It's not on here yet.
+        @_save row, (resp) =>
+          @register_row @_wrap_row resp
+
+  incr_rev: (vals) ->
+    @_changed = true
+
+    if not vals._rev?
+      vals._rev = "1-#{@ds.uuid()}"
+
+  _trigger_replace: (vals) ->
+    @get vals.key, (data) =>
+      if data
+        @trigger 'rowRemove', vals
+
+      @trigger 'rowAdd', vals
+
+  save: (vals, mark_changed=true) ->
+    if mark_changed
+      @incr_rev vals
+
     if vals.save?
-      return do vals.save
+      return vals.save undefined, mark_changed
     else
-      @get vals.key, (data) =>
-        if data
-          @remove vals
+      @_save vals, =>
+        @_trigger_replace vals
 
-        @add vals
-
-      return vals.key
+    return vals.key
 
   get: (id, func) ->
     @ds.get id, (data) =>
@@ -69,7 +154,7 @@ class $D._DataLoader extends $U.Evented
     #  Find isn't actually implemented in Lawnchair, so we fake it
     out = []
     @ds.all (rows) =>
-      res (@_wrap_row(row) for row in rows when filter(row))
+      res (@_wrap_row(row) for row in rows when filter(row) and not row._deleted)
 
   register_row: (row) ->
     @trigger('rowAdd', row)
@@ -80,6 +165,9 @@ class $D._DataLoader extends $U.Evented
       # to allow the event to be bound after the data is initially loaded
       ids = []
       @ds.each (row) =>
+        if row._deleted
+          return
+
         if row.key in ids
           return
 
@@ -125,18 +213,25 @@ class $D._DataRow extends $U.Evented
 
       cb && cb(@)
 
-  save: (replace=true) ->
+  clean_data: ->
     data = {}
     for own name, val of @
-      if name.substring(0, 1) != '_' and typeof val != 'function'
+      if name in ['_rev', '_changed', '_deleted'] or (name.substring(0, 1) != '_' and typeof val != 'function')
         data[name] = val
 
-    if replace
-      @_coll.remove data, @_prev_data
-      @_coll.add data, @_prev_data
-    else
-      @_coll.update data, @_prev_data
+    return data
 
+  save: (replace=true, mark_changed=true) ->
+    if mark_changed
+      @_coll.incr_rev @
+
+    data = do @clean_data
+
+    @_coll.update data, @_prev_data
+
+    if replace
+      @_coll._trigger_replace data
+    
     @_prev_data = data
 
     return data.key

@@ -1,4 +1,5 @@
 express = require('express')
+logly = require('logly')
 store = require('../utils/lib/simpledb_store').client
 sdb = require('../utils/lib/simpledb_helpers')
 couch = require('../utils/lib/couch_store').client
@@ -45,7 +46,7 @@ _save = (req, res, id, type, name) ->
     throw new errors.Client "Data missing."
 
   sdb.get_org_from_device res, id, (org, device) ->
-    couch.database("sync_#{type}").save org.name + ':' + name, data, (err) ->
+    couch.database("sync_#{type}").save org.name + ':' + name, data, (err, resp) ->
       if err
         console.log err
         errors.respond res, new errors.Server "Error Saving."
@@ -53,6 +54,7 @@ _save = (req, res, id, type, name) ->
 
       res.send
         ok: true
+        rev: resp.rev
   [id, type, name] = init_req req
 
 _del = (req, res, id, type, name) ->
@@ -89,7 +91,7 @@ app.delete '/:type/:name?', (req, res) ->
 
   _del req, res, id, type, name
 
-app.get '/:type/:name?', (req, res) ->
+app.get '/:type/:name', (req, res) ->
   [id, type, name] = init_req req
 
   sdb.get_org_from_device res, id, (org, device) ->
@@ -110,6 +112,27 @@ app.get '/:type/:name?', (req, res) ->
 
         res.send ret
 
+app.get '/:type', (req, res) ->
+  [id, type, name] = init_req req
+
+  sdb.get_org_from_device res, id, (org, device) ->
+    logly.log "Fetching All type:#{type} org:#{org.name} dev:#{id}"
+    couch.database("sync_#{type}").all
+      'include_docs': true
+    ,
+      (err, data) ->
+        if err?
+          errors.respond res, new errors.Server "Error loading rows"
+          return
+
+        out = []
+        for r in data
+          delete r.doc._id
+          out.push r.doc
+
+        res.send
+          ok: true
+          rows: out
 
 app.listen(6996)
 console.log("Express server listening on port %d", app.address().port)
