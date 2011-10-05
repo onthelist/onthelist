@@ -1,3 +1,5 @@
+var logly = require('logly');
+
 function build_error(name, code){
   var err = function(msg){
     this.name = name + 'Error';
@@ -20,6 +22,8 @@ build_error('Server', 500);
 build_error('Unpaid', 402);
 
 module.exports.respond = function(res, err){
+  logly.warn(err.name + ": " + err.msg);
+
   res.send({'ok': false, 'error': err.msg}, err.code);
 };
 

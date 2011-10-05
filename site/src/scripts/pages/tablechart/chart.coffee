@@ -16,6 +16,9 @@ $ ->
   $tci.bind 'spriteUpdate', ->
     do $TC.chart.save
 
+  $D.charts.bind 'sync', ->
+    do $TC.chart.load
+
   $page.bind 'optionChange', (e, field, val) ->
     if field == 'edit'
       $TC.chart.set_editable(val == 'unlocked')

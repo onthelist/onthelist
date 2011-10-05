@@ -1,4 +1,6 @@
 $ ->
+  return
+
   $('#tablechart').live 'pagecreate', ->
     $.when( $D.charts.init() ).then ->
       $D.charts.ds.all (rows) ->

@@ -48,8 +48,7 @@ _save = (req, res, id, type, name) ->
   sdb.get_org_from_device res, id, (org, device) ->
     couch.database("sync_#{type}").save org.name + ':' + name, data, (err, resp) ->
       if err
-        console.log err
-        errors.respond res, new errors.Server "Error Saving."
+        errors.respond res, new errors.Server "Error Saving #{JSON.stringify(err)}"
         return
 
       res.send
@@ -65,7 +64,7 @@ _del = (req, res, id, type, name) ->
     db.get did,
       (err, data) ->
         if err?.reason == 'missing'
-          errors.respond res, new errors.NotFound
+          errors.respond res, new errors.NotFound "Document missing"
           return
 
         if err or not data?
@@ -118,11 +117,13 @@ app.get '/:type', (req, res) ->
   sdb.get_org_from_device res, id, (org, device) ->
     logly.log "Fetching All type:#{type} org:#{org.name} dev:#{id}"
     couch.database("sync_#{type}").all
-      'include_docs': true
+      include_docs: true
+      startkey: JSON.stringify "#{org.name}:"
+      endkey: JSON.stringify "#{org.name}:\ufff0"
     ,
       (err, data) ->
         if err?
-          errors.respond res, new errors.Server "Error loading rows"
+          errors.respond res, new errors.Server "Error loading rows #{JSON.stringify(err)}"
           return
 
         out = []

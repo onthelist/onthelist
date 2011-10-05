@@ -48,9 +48,8 @@ app.post '/register', (req, res) ->
           device: device
           ok: true
 
-# Post so the device id is not in the URL
-app.post '/', (req, res) ->
-  id = req.body.device_id
+app.get '/', (req, res) ->
+  id = req.query.device_id
   if not id?
     errors.respond res, new errors.Client "You must provide a device id"
     return

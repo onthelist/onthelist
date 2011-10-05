@@ -53,15 +53,15 @@ $.when( $D.parties.init() ).then ->
 
   clear = ->
     $D.parties.ds.each (row) ->
-      if not row.times?.add or Date.get_elapsed(row.times.add) > 60 * 12
-        $D.parties.ds.remove row
+      if row.times?.add? and Date.get_elapsed(row.times.add) > 60 * 12
+        $D.parties.remove row
 
-  #do clear
+  do clear
 
-  #setTimeout(->
-  #  do clear
-  #  document.location.reload()
-  #, (new Date).add(1).day().set({'hour': 4, 'minute': 30}).millisecondsFromNow())
+  setTimeout(->
+    do clear
+    document.location.reload()
+  , (new Date).add(1).day().set({'hour': 4, 'minute': 30}).millisecondsFromNow())
 
   $D.parties.demo = ->
     $D.parties.ds.all (rows) ->

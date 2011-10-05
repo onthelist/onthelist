@@ -9,6 +9,9 @@ $IO.register_device = (props={}, opts={}) ->
     $D.device.set d.device
     do $D.device.save
 
+    do $D.charts.sync
+    do $D.parties.sync
+
     return d
 
   $.extend opts,
@@ -38,7 +41,7 @@ $IO.fetch_device = (opts={}) ->
     return [d, status, err_text]
 
   $.extend opts,
-    type: 'POST'
+    type: 'GET'
     url: '/device/'
     data: data
 

@@ -86,11 +86,13 @@ class $D._DataLoader extends $U.Evented
           # It's not on the server
 
           if row?._deleted
-            # Really delete now that the delete is synced
+            # Really delete now that the delete is synced.
             @ds.remove row.key
 
           else
-            $IO.sync.push name, row.key, row
+
+            # Send it to the server.
+            $IO.sync.push name, row
 
         else
           # It's here and on the server
@@ -103,10 +105,11 @@ class $D._DataLoader extends $U.Evented
               return
 
             else
+              # It's just been changed on the server, update our copy.
               @save d[row.key], false
           else
             if row._deleted
-              # It was deleted here.
+              # It was deleted here, but not yet on the server.
               $IO.sync.del name, row.key
 
             else
@@ -121,11 +124,10 @@ class $D._DataLoader extends $U.Evented
         @_save row, (resp) =>
           @register_row @_wrap_row resp
 
+      @trigger 'sync'
+
   incr_rev: (vals) ->
     @_changed = true
-
-    if not vals._rev?
-      vals._rev = "1-#{@ds.uuid()}"
 
   _trigger_replace: (vals) ->
     @get vals.key, (data) =>

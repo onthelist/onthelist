@@ -16,6 +16,8 @@ $.extend window.$S,
   save: ->
     # The settings are specific to the device, so we use the device
     # id.
+    $S.key = $ID
+
     localStorage.settings = JSON.stringify $S
 
-    $IO.sync.push 'settings', $S, $ID
+    $IO.sync.push 'settings', $S
