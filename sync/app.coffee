@@ -83,21 +83,21 @@ _del = (req, res, id, type, name) ->
 app.post '/:type?/:name?', (req, res) ->
   [id, type, name] = init_req req
 
-  logly.log "Saving type:#{type} id:#{name} for dev:#{id}"
+  logly.log_req req, "SAVE type:#{type} id:#{name} for dev:#{id}"
 
   _save req, res, id, type, name
 
 app.delete '/:type/:name?', (req, res) ->
   [id, type, name] = init_req req
 
-  logly.log "Deleting type:#{type} id:#{name} for dev:#{id}"
+  logly.log_req req, "DEL type:#{type} id:#{name} for dev:#{id}"
 
   _del req, res, id, type, name
 
 app.get '/:type/:name', (req, res) ->
   [id, type, name] = init_req req
 
-  logly.log "Fetching type:#{type} id:#{name} for dev:#{id}"
+  logly.log_req req, "FETCH type:#{type} id:#{name} for dev:#{id}"
 
   sdb.get_org_from_device res, id, (org, device) ->
     couch.database("sync_#{type}").get org.name + ':' + name,
@@ -121,7 +121,7 @@ app.get '/:type', (req, res) ->
   [id, type, name] = init_req req
 
   sdb.get_org_from_device res, id, (org, device) ->
-    logly.log "Fetching all of type:#{type} org:#{org.name} dev:#{id}"
+    logly.log_req req, "FETCH_ALL type:#{type} org:#{org.name} dev:#{id}"
 
     couch.database("sync_#{type}").all
       include_docs: true

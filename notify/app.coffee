@@ -33,7 +33,6 @@ errors.catch_errors app
 # Routes
   
 sms = new messaging.SMS()
-logly.log "Init SMS"
 
 app.post '/send/sms', (req, res) ->
   id = req.body.device_id
@@ -59,7 +58,7 @@ app.post '/send/sms', (req, res) ->
         errors.respond(res, new errors.Client "'to' and 'body' params are required.")
       
       sms.send('2482425222', to, body, ->
-        logly.log "Sent SMS org:#{org.name} dev:#{id} to:#{to} tok:#{org.tokens}"
+        logly.log_req req, "SEND_SMS org:#{org.name} dev:#{id} to:#{to} tok:#{org.tokens}"
         logly.verbose "body:\"#{body}\""
 
         res.send

@@ -30,7 +30,7 @@ errors.catch_errors app
 app.post '/register', (req, res) ->
   id = req.body.device_id
 
-  logly.log "Registering dev:#{id} for username:#{req.body.auth.username}"
+  logly.log_req req, "REGISTER dev:#{id} username:#{req.body.auth.username}"
 
   auth.checkLogin req.body.auth.username, req.body.auth.password, (err, user) ->
     if err?
@@ -58,7 +58,7 @@ app.get '/', (req, res) ->
     errors.respond res, new errors.Client "You must provide a device id"
     return
 
-  logly.log "Fetching dev:#{id}"
+  logly.log_req req, "FETCH dev:#{id}"
 
   if typeof id == 'number'
     id = id.toString()
