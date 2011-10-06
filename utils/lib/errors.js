@@ -29,9 +29,11 @@ module.exports.respond = function(res, err){
 
 module.exports.catch_errors = function(app){
   app.error(function(err, req, res, next){
-    if(err.code)
-      errors.respond(res, err)
-    else
-      next(err)
+    if(err.code){
+      errors.respond(res, err);
+    } else {
+      logly.error("Uncaught app server error " + JSON.stringify(err));
+      next(err);
+    }
   });
 };

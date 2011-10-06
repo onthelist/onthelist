@@ -1,6 +1,6 @@
 express = require('express')
-logly = require('logly')
 
+logly = require('../utils/lib/logly')
 store = require('../utils/lib/simpledb_store').client
 sdb = require('../utils/lib/simpledb_helpers')
 

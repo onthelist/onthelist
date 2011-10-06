@@ -4,3 +4,6 @@
 [submodule "site/src/libs/iscroll"]
 	path = site/src/libs/iscroll
 	url = git@github.com:onthelist/iscroll.git
+[submodule "utils/lib/logly"]
+	path = utils/lib/logly
+	url = git@github.com:onthelist/logly.git

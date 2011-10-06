@@ -1,9 +1,9 @@
 express = require('express')
-logly = require('logly')
+
+logly = require('../utils/lib/logly')
 store = require('../utils/lib/simpledb_store').client
 sdb = require('../utils/lib/simpledb_helpers')
 couch = require('../utils/lib/couch_store').client
-
 errors = require('../utils/lib/errors')
 
 app = module.exports = express.createServer()
@@ -83,21 +83,21 @@ _del = (req, res, id, type, name) ->
 app.post '/:type?/:name?', (req, res) ->
   [id, type, name] = init_req req
 
-  logly.log "Saving #{type} #{name} for #{id}"
+  logly.log "Saving type:#{type} id:#{name} for dev:#{id}"
 
   _save req, res, id, type, name
 
 app.delete '/:type/:name?', (req, res) ->
   [id, type, name] = init_req req
 
-  logly.log "Deleting #{type} #{name} for #{id}"
+  logly.log "Deleting type:#{type} id:#{name} for dev:#{id}"
 
   _del req, res, id, type, name
 
 app.get '/:type/:name', (req, res) ->
   [id, type, name] = init_req req
 
-  logly.log "Fetching #{type} #{name} for #{id}"
+  logly.log "Fetching type:#{type} id:#{name} for dev:#{id}"
 
   sdb.get_org_from_device res, id, (org, device) ->
     couch.database("sync_#{type}").get org.name + ':' + name,
@@ -120,10 +120,9 @@ app.get '/:type/:name', (req, res) ->
 app.get '/:type', (req, res) ->
   [id, type, name] = init_req req
 
-  logly.log "Fetching all of type #{type} for #{id}"
-
   sdb.get_org_from_device res, id, (org, device) ->
-    logly.log "Fetching All type:#{type} org:#{org.name} dev:#{id}"
+    logly.log "Fetching all of type:#{type} org:#{org.name} dev:#{id}"
+
     couch.database("sync_#{type}").all
       include_docs: true
       startkey: JSON.stringify "#{org.name}:"
