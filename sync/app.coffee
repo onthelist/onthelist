@@ -1,6 +1,6 @@
 express = require('express')
 
-logly = require('../utils/lib/logly')
+logger = require('../utils/lib/logging').get_logger('sync')
 store = require('../utils/lib/simpledb_store').client
 sdb = require('../utils/lib/simpledb_helpers')
 couch = require('../utils/lib/couch_store').client
@@ -63,13 +63,12 @@ _del = (req, res, id, type, name) ->
 
     db.get did,
       (err, data) ->
-        if err?.reason == 'missing'
+        if err?.error == 'not_found'
           errors.respond res, new errors.NotFound "Document missing"
           return
 
         if err or not data?
-          console.log err
-          errors.respond res, new errors.Server "Error Loading #{err?.message}."
+          errors.respond res, new errors.Server "Error Loading #{err?.reason}."
           return
 
         db.remove did, data._rev, (err) ->
@@ -83,21 +82,21 @@ _del = (req, res, id, type, name) ->
 app.post '/:type?/:name?', (req, res) ->
   [id, type, name] = init_req req
 
-  logly.log_req req, "SAVE type:#{type} id:#{name} for dev:#{id}"
+  logger.log_req req, "SAVE", {type:type, id:name, dev:id}
 
   _save req, res, id, type, name
 
 app.delete '/:type/:name?', (req, res) ->
   [id, type, name] = init_req req
 
-  logly.log_req req, "DEL type:#{type} id:#{name} for dev:#{id}"
+  logger.log_req req, "DEL", {type:type, id:name, dev:id}
 
   _del req, res, id, type, name
 
 app.get '/:type/:name', (req, res) ->
   [id, type, name] = init_req req
 
-  logly.log_req req, "FETCH type:#{type} id:#{name} for dev:#{id}"
+  logger.log_req req, "FETCH", {type:type, id:name, dev:id}
 
   sdb.get_org_from_device res, id, (org, device) ->
     couch.database("sync_#{type}").get org.name + ':' + name,
@@ -107,7 +106,7 @@ app.get '/:type/:name', (req, res) ->
           return
 
         if err or not data?
-          errors.respond res, new errors.Server "Error Loading #{err?.message}."
+          errors.respond res, new errors.Server "Error Loading #{err?.reason}."
           return
 
         ret =
@@ -121,14 +120,17 @@ app.get '/:type', (req, res) ->
   [id, type, name] = init_req req
 
   sdb.get_org_from_device res, id, (org, device) ->
-    logly.log_req req, "FETCH_ALL type:#{type} org:#{org.name} dev:#{id}"
+    logger.log_req req, "FETCH_ALL", {type:type, org:org.name, dev:id}
 
+    pro = logger.startTimer()
     couch.database("sync_#{type}").all
       include_docs: true
       startkey: JSON.stringify "#{org.name}:"
       endkey: JSON.stringify "#{org.name}:\ufff0"
     ,
       (err, data) ->
+        pro.done 'FETCH_ALL_CDB', {len: data?.length}
+
         if err?
           errors.respond res, new errors.Server "Error loading rows #{JSON.stringify(err)}"
           return

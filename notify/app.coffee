@@ -1,6 +1,6 @@
 express = require('express')
 
-logly = require('../utils/lib/logly')
+logger = require('../utils/lib/logging').get_logger('notifier')
 store = require('../utils/lib/simpledb_store').client
 sdb = require('../utils/lib/simpledb_helpers')
 
@@ -37,12 +37,12 @@ sms = new messaging.SMS()
 app.post '/send/sms', (req, res) ->
   id = req.body.device_id
   if not id
-    logly.warn 'No device_id'
+    logger.warn 'No device_id'
     throw new errors.Client "'device_id' param is required."
 
   sdb.get_org_from_device res, id, (org, device) ->
     if org.tokens <= 0
-      logly.log "Out of tokens org:#{org.name}"
+      logger.info "Out of tokens org:#{org.name}"
       errors.respond(res, new errors.Unpaid "NO_TOKENS")
       return
 
@@ -54,12 +54,15 @@ app.post '/send/sms', (req, res) ->
       body = req.body.body
 
       if not to or not body
-        logly.warn 'No to / body'
+        logger.warn 'No to / body'
         errors.respond(res, new errors.Client "'to' and 'body' params are required.")
-      
+     
+      timer = do logger.startTimer
       sms.send('2482425222', to, body, ->
-        logly.log_req req, "SEND_SMS org:#{org.name} dev:#{id} to:#{to} tok:#{org.tokens}"
-        logly.verbose "body:\"#{body}\""
+        timer.done 'SMS_SEND'
+
+        logger.log_req req, "SEND_SMS org:#{org.name} dev:#{id} to:#{to} tok:#{org.tokens}"
+        logger.verbose "body:\"#{body}\""
 
         res.send
           ok: true

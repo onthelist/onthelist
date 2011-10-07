@@ -7,3 +7,6 @@
 [submodule "utils/lib/logly"]
 	path = utils/lib/logly
 	url = git@github.com:onthelist/logly.git
+[submodule "utils/lib/winston"]
+	path = utils/lib/winston
+	url = git@github.com:onthelist/winston.git

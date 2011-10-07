@@ -1,4 +1,4 @@
-var logly = require('logly');
+var logger = require('./logging').get_logger()
 
 function build_error(name, code){
   var err = function(msg){
@@ -22,7 +22,7 @@ build_error('Server', 500);
 build_error('Unpaid', 402);
 
 module.exports.respond = function(res, err){
-  logly.warn(err.name + ": " + err.msg);
+  logger.warn(err.name + ": " + err.msg);
 
   res.send({'ok': false, 'error': err.msg}, err.code);
 };
@@ -32,7 +32,7 @@ module.exports.catch_errors = function(app){
     if(err.code){
       errors.respond(res, err);
     } else {
-      logly.error("Uncaught app server error " + JSON.stringify(err));
+      logger.error("Uncaught app server error", JSON.stringify(err));
       next(err);
     }
   });

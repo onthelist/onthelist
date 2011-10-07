@@ -130,6 +130,8 @@ class $D._DataLoader extends $U.Evented
     @_changed = true
 
   _trigger_replace: (vals) ->
+    vals = @_wrap_row vals
+
     @get vals.key, (data) =>
       if data
         @trigger 'rowRemove', vals

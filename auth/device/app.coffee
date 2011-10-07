@@ -1,6 +1,6 @@
 express = require('express')
 
-logly = require('../../utils/lib/logly')
+logger = require('../../utils/lib/logging').get_logger('device_auth')
 errors = require('../../utils/lib/errors')
 auth = require('../lib/actions')
 store = require('../../utils/lib/simpledb_store').client
@@ -30,7 +30,7 @@ errors.catch_errors app
 app.post '/register', (req, res) ->
   id = req.body.device_id
 
-  logly.log_req req, "REGISTER dev:#{id} username:#{req.body.auth.username}"
+  logger.log_req req, "REGISTER dev:#{id} username:#{req.body.auth.username}"
 
   auth.checkLogin req.body.auth.username, req.body.auth.password, (err, user) ->
     if err?
@@ -58,12 +58,14 @@ app.get '/', (req, res) ->
     errors.respond res, new errors.Client "You must provide a device id"
     return
 
-  logly.log_req req, "FETCH dev:#{id}"
+  logger.log_req req, "FETCH dev:#{id}"
 
   if typeof id == 'number'
     id = id.toString()
 
+  timer = do logger.startTimer
   sdb.get_device res, id, (device) ->
+    timer.done 'GET_DEVICE_SDB'
     if device?
       res.send
         device: device

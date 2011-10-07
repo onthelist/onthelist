@@ -7,6 +7,7 @@ import readline
 import urllib2
 from cmd import Cmd
 import argparse
+from string import Template
 
 from connection import *
 
@@ -42,6 +43,9 @@ parser.add_argument('-t', '--type',
     default='t1.micro',
     help="The type of EC2 the instances to be created.",
     dest="type")
+parser.add_argument('-b', '--branch',
+    help="The git branch to be deployed from (don't forget to ./build.sh)",
+    dest="branch")
 
 attrs = parser.parse_args()
 
@@ -50,12 +54,16 @@ LB_NAME = attrs['lb']
 MIN_OK = attrs['min_ok']
 ZONES = attrs['zones']
 TYPE = attrs['type']
+BRANCH = attrs['branch']
 
 if INST_CNT is None:
   INST_CNT = 1 if attrs['dev'] else 4
 
 if ZONES is None:
   ZONES = ['b'] if attrs['dev'] else ['b', 'd']
+
+if BRANCH is None:
+  BRANCH = 'develop' if attrs['dev'] else 'master'
 
 def status_tick():
   sys.stdout.write('.')
@@ -66,6 +74,10 @@ with open('./prod_image') as f:
 
 with open('../initInstance.sh') as f:
   init_script = f.read()
+
+init_script = Template(init_script).substitute({
+  branch: BRANCH
+})
 
 print "Loading Image %s" % prod_image
 
