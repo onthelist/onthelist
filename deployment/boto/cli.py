@@ -5,13 +5,57 @@ import os.path
 import sys
 import readline
 import urllib2
+from cmd import Cmd
+import argparse
 
 from connection import *
 
-INST_CNT = 2
-LB_NAME = 'NoSSL-LB'
-MIN_OK = 4
-ZONES = ['b', 'd']
+parser = argparse.ArgumentParser(
+  description='''Start EC2 instances and launch a CLI to
+    add them to the load balancer.'''
+)
+
+parser.add_argument('-c', '--inst-cnt', 
+    type=int, 
+    help="The number of instances to start in each zone.", 
+    dest="cnt")
+parser.add_argument('-m', '--min-ok',
+    default=4,
+    type=int,
+    help="The minimum number of healthy instances on the LB.",
+    dest="min_ok")
+parser.add_argument('-z', '--zone',
+    action='append',
+    help="Add a zone which instances will be created in (may be used more than once).",
+    choices=['b', 'c', 'd'],
+    dest="zones")
+parser.add_argument('-d', '--dev',
+    action='store_true',
+    default=False,
+    help="Start a single development instance.",
+    dest="dev")
+parser.add_argument('-lb', '--load-balancer',
+    default='NoSSL-LB',
+    help="The EC2 load balancer which instances will be registered upon.",
+    dest="lb")
+parser.add_argument('-t', '--type',
+    default='t1.micro',
+    help="The type of EC2 the instances to be created.",
+    dest="type")
+
+attrs = parser.parse_args()
+
+INST_CNT = attrs['cnt']
+LB_NAME = attrs['lb']
+MIN_OK = attrs['min_ok']
+ZONES = attrs['zones']
+TYPE = attrs['type']
+
+if INST_CNT is None:
+  INST_CNT = 1 if attrs['dev'] else 4
+
+if ZONES is None:
+  ZONES = ['b'] if attrs['dev'] else ['b', 'd']
 
 def status_tick():
   sys.stdout.write('.')
@@ -34,7 +78,7 @@ for zone in ZONES:
   rsvn = image.run(
     min_count=INST_CNT,
     max_count=INST_CNT,
-    instance_type='t1.micro',
+    instance_type=TYPE,
     placement='us-east-1%s' % zone,
     security_groups=['General'],
     key_name='speedykey.pem',
@@ -207,44 +251,39 @@ def term():
     
   print "Instances Terminated"
 
-def action_loop():
-  print "What would you like to do? [help]"
+def help():
+  print "[term] Terminate Newly Created Instances"
+  print "[term_old] Terminate Old Instances"
+  print "[add] Add Newly Created Instances to LB"
+  print "[remove] Remove Old Instances from LB"
+  print "[status] Get LB Status"
+  print "[revert] Revert LB to Original Instances"
+  print "[quit] Quit"
+  print ""
+  print "General Pattern: [add] -> [remove] -> [term_old] -> [quit]"
 
-  inp = raw_input('> ').strip().lower()
- 
-  if not inp or inp == 'help':
-    print "[term] Terminate Newly Created Instances"
-    print "[term_old] Terminate Old Instances"
-    print "[add] Add Newly Created Instances to LB"
-    print "[remove] Remove Old Instances from LB"
-    print "[status] Get LB Status"
-    print "[revert] Revert LB to Original Instances"
-    print "[quit] Quit"
-    print ""
-    print "General Pattern: [add] -> [remove] -> [term_old] -> [quit]"
+def wrap(func):
+  def f(self, arg=None):
+    return func()
 
-  elif inp == 'quit':
+  return f
+
+class CLI(Cmd):
+  prompt = '\nWhat would you like to do? [help]\n> '
+
+  def do_quit(self, args=None):
     sys.exit(0)
-
-  elif inp == 'term':
-    term()
-
-  elif inp == 'term_old':
-    term_old()
   
-  elif inp == 'revert':
-    revert_lb()
+  do_help = wrap(help)
+  emptyline = wrap(help)
 
-  elif inp == 'add':
-    add_to_lb()
-
-  elif inp == 'remove':
-    remove_old_from_lb()
-
-  elif inp == 'status':
-    print_lb_status()
+  do_term = wrap(term)
+  do_term_old = wrap(term_old)
+  do_revert = wrap(revert_lb)
+  do_add = wrap(add_to_lb)
+  do_remove = wrap(remove_old_from_lb)
+  do_status = wrap(print_lb_status)
 
 if __name__ == "__main__":
-  while True:
-    print ""
-    action_loop()
+  cmd = CLI()
+  cmd.cmdloop()
