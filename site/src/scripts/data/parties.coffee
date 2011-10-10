@@ -30,7 +30,7 @@ class Parties extends $D._DataLoader
   name: 'parties'
   model: Party
 
-  add: (vals={}) ->
+  _save: (vals={}, cb) ->
     vals.times ?= {}
 
     vals.times.add ?= new Date
@@ -44,7 +44,7 @@ class Parties extends $D._DataLoader
 
     _convert_times vals.times
 
-    super vals
+    super vals, cb
 
 $D.parties = new Parties
 $.when( $D.parties.init() ).then ->

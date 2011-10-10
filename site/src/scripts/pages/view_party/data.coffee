@@ -58,14 +58,16 @@ $('#view-party').live 'pageshow', ->
           document.location = $(this).attr('href')
           return false
 
-    do_delete = ->
+    do_delete = (e) ->
+      do e.stopPropagation
+      do e.preventDefault
+
       $D.parties.remove data
 
       $(self).dialog 'close'
 
-      $(this).unbind 'vclick', do_delete
-      return false
+      false
 
-    $('a[href=#delete-party]', self).bind 'vclick', do_delete
+    $('[name=delete_party]', self).unbind('vclick').bind 'vclick', do_delete
 
 
