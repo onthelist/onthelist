@@ -30,3 +30,13 @@ module.exports.get_hostname = (cb) ->
     cb e, 'localhost'
 
   do req.end
+
+if not module.parent
+  module.exports.get_hostname (err, hostname) ->
+    if err
+      console.log err
+      process.exit(1)
+
+    console.log hostname
+    process.exit(0)
+

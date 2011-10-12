@@ -1,0 +1,7 @@
+upstream app {
+  server localhost max_fails=2 fail_timeout=360s;
+
+  <% node[:servers].each do |dns_name| %>
+    server <%= dns_name %> backup;
+  <% end %>
+}

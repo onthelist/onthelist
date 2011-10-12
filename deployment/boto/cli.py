@@ -7,6 +7,7 @@ import readline
 import urllib2
 from cmd import Cmd
 import argparse
+from uuid import uuid4
 from string import Template
 
 from connection import *
@@ -49,25 +50,32 @@ parser.add_argument('-b', '--branch',
 
 attrs = parser.parse_args()
 
-INST_CNT = attrs['cnt']
-LB_NAME = attrs['lb']
-MIN_OK = attrs['min_ok']
-ZONES = attrs['zones']
-TYPE = attrs['type']
-BRANCH = attrs['branch']
+INST_CNT = attrs.cnt
+LB_NAME = attrs.lb
+MIN_OK = attrs.min_ok
+ZONES = attrs.zones
+TYPE = attrs.type
+BRANCH = attrs.branch
 
 if INST_CNT is None:
-  INST_CNT = 1 if attrs['dev'] else 4
+  INST_CNT = 1 if attrs.dev else 4
 
 if ZONES is None:
-  ZONES = ['b'] if attrs['dev'] else ['b', 'd']
+  ZONES = ['b'] if attrs.dev else ['b', 'd']
 
 if BRANCH is None:
-  BRANCH = 'develop' if attrs['dev'] else 'master'
+  BRANCH = 'develop' if attrs.dev else 'master'
 
 def status_tick():
   sys.stdout.write('.')
   sys.stdout.flush()
+
+# Generate a unique id so the started instances will be able to find the
+# other instances in this group to forward upstream traffic to them if 
+# necessary.
+launch_id = uuid4()
+
+print "Launch ID %s" % launch_id
 
 with open('./prod_image') as f:
   prod_image = f.read().strip()
@@ -76,7 +84,8 @@ with open('../initInstance.sh') as f:
   init_script = f.read()
 
 init_script = Template(init_script).substitute({
-  branch: BRANCH
+  'branch': BRANCH,
+  'launch_id': launch_id
 })
 
 print "Loading Image %s" % prod_image
@@ -98,6 +107,11 @@ for zone in ZONES:
     monitoring_enabled=True)
 
   instances += rsvn.instances
+
+sleep(1)
+
+for instance in instances:
+  instance.add_tag('launch_id', launch_id)
 
 ready_cnt = 0
 while ready_cnt < len(instances):

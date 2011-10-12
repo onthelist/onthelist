@@ -23,7 +23,7 @@ def get_sel(local=True):
 class Tests(unittest.TestCase):
   def setUp(self):
     self.verificationErrors = []
-    self.selenium = get_sel()
+    self.selenium = get_sel(False)
     self.selenium.start()
   
   def tearDown(self):
@@ -86,7 +86,6 @@ class Tests(unittest.TestCase):
     self.failUnless(sel.is_text_present("Clear Table"))
     self.failUnless(sel.is_text_present("Seated"))
     
-  
   def _clear_table(self):
     sel = self.selenium
     sel.click("link=Table Chart")

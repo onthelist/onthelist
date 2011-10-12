@@ -20,6 +20,38 @@
 
 package "nginx"
 
+
+package "python-setuptools" do
+  action :install
+end
+
+package "boto" do
+  action :install
+  provider Chef::Provider::Package::EasyInstall
+end
+
+execute "get_instances" do
+  command "/usr/bin/python /home/www-server/onthelist/deployment/boto/get_launched_instances.py"
+  creates "/home/www-server/init/dns_names"
+end
+
+ruby_block "load_dns_names" do
+  block do
+    servers = []
+
+    File.open('/home/www-server/init/dns_names', 'r') do |infile|
+      while (line = infile.gets)
+        line = line.strip
+        if line
+          servers << line
+        end
+      end
+    end
+
+    node.set['servers'] = servers
+  end
+end
+
 directory node[:nginx][:log_dir] do
   mode 0755
   owner node[:nginx][:user]
@@ -48,6 +80,16 @@ template "#{node[:nginx][:dir]}/sites-available/default" do
   owner "root"
   group "root"
   mode 0644
+end
+
+template "#{node[:nginx][:dir]}/upstream.conf" do
+  source "upstream.conf.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  variables(
+    :servers => servers
+  )
 end
 
 service "nginx" do
