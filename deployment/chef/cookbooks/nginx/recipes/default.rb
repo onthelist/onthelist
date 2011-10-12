@@ -25,9 +25,9 @@ package "python-setuptools" do
   action :install
 end
 
-package "boto" do
-  action :install
-  provider Chef::Provider::Package::EasyInstall
+# easy_install_package is broken
+execute "install_boto" do
+  command "/usr/bin/easy_install boto"
 end
 
 execute "get_instances" do
