@@ -27,7 +27,7 @@ end
 
 # easy_install_package is broken
 execute "install_boto" do
-  command "/usr/bin/easy_install boto"
+  command "/usr/bin/easy_install \"boto>2.0\""
 end
 
 execute "get_instances" do
