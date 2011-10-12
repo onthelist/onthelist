@@ -2,13 +2,10 @@
 description "ss-sync service"
 author      "SpeedySeat"
 
-expect fork
+env NODE_PATH=/usr/local/lib/node_modules
+
 respawn
 start on runlevel [2345]
 stop on runlevel [016]
 
-script
-    export NODE_PATH=/usr/local/lib/node_modules
-
-    exec /usr/local/bin/coffee /home/www-server/onthelist/sync/app.coffee 2>&1 >> /var/log/ss-sync.log
-end script
+exec /usr/local/bin/coffee /home/www-server/onthelist/sync/app.coffee

@@ -36,19 +36,19 @@ server {
   }
 
   location /messaging/ {
-    proxy_pass http://localhost:5857/;
+    proxy_pass http://app:5857/;
   }
   
   location /device/ {
-    proxy_pass http://localhost:4313/;
+    proxy_pass http://app:4313/;
   }
 
   location /log/ {
-    proxy_pass http://localhost:40404/;
+    proxy_pass http://app:40404/;
   }
 
   location /sync/ {
-    proxy_pass http://localhost:6996/;
+    proxy_pass http://app:6996/;
   }
 }
 
