@@ -1,7 +1,9 @@
-upstream app {
-  server localhost max_fails=2 fail_timeout=360s;
+<% node[:nginx][:apps].each do |app, port| %>
+  upstream app_<%= app %> {
+    server localhost:<%= port %> max_fails=2 fail_timeout=360s;
 
-<% node[:servers].each do |dns_name| %>
-  server <%= dns_name %> backup max_fails=1 fail_timeout=360s;
+  <% node[:servers].each do |dns_name| %>
+    server <%= dns_name %>:<%= port %> backup max_fails=1 fail_timeout=360s;
+  <% end %>
+  }
 <% end %>
-}

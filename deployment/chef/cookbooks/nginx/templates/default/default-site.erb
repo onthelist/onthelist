@@ -35,21 +35,11 @@ server {
     alias /home/www-server/init/;
   }
 
-  location /messaging/ {
-    proxy_pass http://app:5857/;
+<% node[:nginx][:apps].each do |app, port| %>
+  location /<%= app %>/ {
+    proxy_pass http://app_<%= app %>;
   }
-  
-  location /device/ {
-    proxy_pass http://app:4313/;
-  }
-
-  location /log/ {
-    proxy_pass http://app:40404/;
-  }
-
-  location /sync/ {
-    proxy_pass http://app:6996/;
-  }
+<% end %>
 }
 
 

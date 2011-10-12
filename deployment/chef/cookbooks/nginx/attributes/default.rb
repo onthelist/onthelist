@@ -34,3 +34,11 @@ default[:nginx][:keepalive_timeout]  = 65
 default[:nginx][:worker_processes]   = cpu[:total]
 default[:nginx][:worker_connections] = 2048
 default[:nginx][:server_names_hash_bucket_size] = 64
+
+# Don't forget to open new ports in EC2 firewall for internal traffic.
+default[:nginx][:apps] = {
+  'messaging' => 5857,
+  'device' => 4313,
+  'log' => 40404,
+  'sync' => 6996
+}
