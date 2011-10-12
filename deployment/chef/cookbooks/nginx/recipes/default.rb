@@ -20,7 +20,6 @@
 
 package "nginx"
 
-
 package "python-setuptools" do
   action :install
 end

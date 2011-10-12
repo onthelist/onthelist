@@ -1,19 +1,10 @@
-default[:nginx][:version]      = "0.8.54"
+default[:nginx][:version]      = "1.0.8"
 
-case platform
-when "debian","ubuntu"
-  set[:nginx][:dir]     = "/etc/nginx"
-  set[:nginx][:log_dir] = "/var/log/nginx"
-  set[:nginx][:user]    = "www-server"
-  set[:nginx][:group]    = "www"
-  set[:nginx][:binary]  = "/usr/sbin/nginx"
-else
-  set[:nginx][:dir]     = "/etc/nginx"
-  set[:nginx][:log_dir] = "/var/log/nginx"
-  set[:nginx][:user]    = "www-server"
-  set[:nginx][:group]    = "www"
-  set[:nginx][:binary]  = "/usr/sbin/nginx"
-end
+default[:nginx][:dir]     = "/etc/nginx"
+default[:nginx][:log_dir] = "/var/log/nginx"
+default[:nginx][:user]    = "www-server"
+default[:nginx][:group]    = "www"
+default[:nginx][:binary]  = "/usr/sbin/nginx"
 
 default[:nginx][:gzip] = "on"
 default[:nginx][:gzip_http_version] = "1.0"
@@ -23,6 +14,7 @@ default[:nginx][:gzip_types] = [
   "text/plain",
   "text/css",
   "application/x-javascript",
+  "application/javascript",
   "text/xml",
   "application/xml",
   "application/xml+rss",

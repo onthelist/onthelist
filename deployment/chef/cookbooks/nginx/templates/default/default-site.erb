@@ -37,6 +37,11 @@ server {
 
 <% node[:nginx][:apps].each do |app, port| %>
   location /<%= app %>/ {
+    access_log /home/www-server/logs/access_<%= app %>.log app;
+
+    proxy_add_header X-App-Served-By $proxy_host;
+    proxy_add_header X-Served-By $hostname;
+
     proxy_pass http://app_<%= app %>;
   }
 <% end %>

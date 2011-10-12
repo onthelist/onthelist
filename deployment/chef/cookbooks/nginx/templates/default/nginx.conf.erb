@@ -16,6 +16,14 @@ http {
   include       <%= node[:nginx][:dir] %>/mime.types;
   default_type  application/octet-stream;
 
+  open_log_file_cache max=100 inactive=1m min_uses=2 valid=1m;
+
+  log_format app '$http_x_forwarded_for - $remote_user [$time_iso8601]  "$request" '
+                 '$status $body_bytes_sent '
+                 '$remote_addr $connection '
+                 '"$upstream_addr" "$upstream_status" '
+                 '"$upstream_response_time" $request_time';
+
   access_log	<%= node[:nginx][:log_dir] %>/access.log;
 
   sendfile on;
