@@ -87,9 +87,6 @@ template "#{node[:nginx][:dir]}/upstream.conf" do
   owner "root"
   group "root"
   mode 0644
-  variables(
-    :servers => servers
-  )
 end
 
 service "nginx" do
