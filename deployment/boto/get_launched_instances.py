@@ -12,8 +12,9 @@ rsvns = conn.get_all_instances(filters={
   'tag-value': launch_id
 })
 
-rsvn = rsvns[0]
-dns_names = [i.__dict__['dns_name'] for i in rsvn.instances]
+dns_names = []
+for rsvn in rsvns:
+  dns_names += [i.__dict__['dns_name'] for i in rsvn.instances]
 
 # We could use the hostname.coffee script to get the local machine and
 # eliminate it from the list, but as this is a failsafe anyway, we'll leave
