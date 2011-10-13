@@ -9,6 +9,7 @@ from cmd import Cmd
 import argparse
 from uuid import uuid4
 from string import Template
+from subprocess import Popen
 
 from connection import *
 
@@ -132,6 +133,15 @@ for instance in instances:
   print instance.id, instance.public_dns_name
 
 new_ids = [r.id for r in instances]
+
+def ssh_to_instance():
+  instance = instances[0]
+  dns = instance.public_dns_name
+
+  proc = Popen("ssh -i ~/keys/PEM/speedykey.pem ubuntu@%s" % dns,
+      shell=True, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr)
+
+  proc.wait()
 
 def get_lb_status():
   return get_elb_conn().describe_instance_health(LB_NAME)
@@ -284,6 +294,7 @@ def help():
   print "[remove] Remove Old Instances from LB"
   print "[status] Get LB Status"
   print "[revert] Revert LB to Original Instances"
+  print "[shell] Launch an SSH Connection to the First Instance"
   print "[quit] Quit"
   print ""
   print "General Pattern: [add] -> [remove] -> [term_old] -> [quit]"
@@ -309,6 +320,7 @@ class CLI(Cmd):
   do_add = wrap(add_to_lb)
   do_remove = wrap(remove_old_from_lb)
   do_status = wrap(print_lb_status)
+  do_shell = wrap(ssh_to_instance)
 
 if __name__ == "__main__":
   cmd = CLI()
