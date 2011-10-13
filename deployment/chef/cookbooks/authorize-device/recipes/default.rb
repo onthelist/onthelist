@@ -6,12 +6,12 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-script "authorize-deps-install" do
+script "authorize-install" do
   interpreter "bash"
   user "root"
   cwd "/home/www-server/onthelist/auth/device"
   code <<-EOH
-  npm install -d
+    npm install
   EOH
 end
 

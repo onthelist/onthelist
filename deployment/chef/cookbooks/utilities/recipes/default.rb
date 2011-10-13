@@ -15,12 +15,3 @@ script "winston-deps-install" do
     npm install
   EOH
 end
-
-script "notifier-deps-install" do
-  interpreter "bash"
-  user "root"
-  cwd "/home/www-server/onthelist/utils"
-  code <<-EOH
-    npm install
-  EOH
-end
