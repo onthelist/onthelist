@@ -12,7 +12,7 @@ script "winston-deps-install" do
   user "root"
   cwd "/home/www-server/onthelist/utils/lib/winston"
   code <<-EOH
-    npm install -d -g
+    npm install
   EOH
 end
 
@@ -21,6 +21,6 @@ script "notifier-deps-install" do
   user "root"
   cwd "/home/www-server/onthelist/utils"
   code <<-EOH
-    npm install -d -g
+    npm install
   EOH
 end
