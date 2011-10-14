@@ -17,7 +17,7 @@ server {
     proxy_cache_key "$request_uri";
     
     proxy_cache_valid 200 302 301 1h;
-    proxy_cache_valid any 5s;
+    proxy_cache_valid any 2s;
   
     allow all;
   }
@@ -41,7 +41,7 @@ server {
     add_header X-App-Served-By $proxy_host;
     add_header X-Served-By $hostname;
 
-    proxy_pass http://app_<%= app %>;
+    proxy_pass http://app_<%= app %>/;
   }
 <% end %>
 }

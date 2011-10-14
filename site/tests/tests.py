@@ -18,7 +18,7 @@ def get_sel(local=True):
                 "browser-version": "7",\
                 "name": "Full Test"\
                }""",
-            'http://speedyseat.us')
+           'http://ec2-174-129-177-240.compute-1.amazonaws.com/')
 
 class Tests(unittest.TestCase):
   def setUp(self):
