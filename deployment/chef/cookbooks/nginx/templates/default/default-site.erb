@@ -1,7 +1,7 @@
 server {
   listen *:80;
   server_name  <%= node[:hostname] %>;
-  access_log  <%= node[:nginx][:log_dir] %>/localhost.access.log;
+  access_log  <%= node[:nginx][:log_dir] %>/site.access.log app;
 
   root /home/www-server/onthelist/site/public;
   index index.html;
@@ -12,7 +12,7 @@ server {
   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
   
   location = / {
-    proxy_pass http://cf.speedyseat.us/<%=`/bin/bash -c "GIT_DIR=/home/www-server/onthelist/.git git rev-parse HEAD"`.strip%>.html;
+    proxy_pass http://s3.amazonaws.com/speedyseat-files/<%=`/bin/bash -c "GIT_DIR=/home/www-server/onthelist/.git git rev-parse HEAD"`.strip%>.html;
 
     proxy_cache index;
     proxy_cache_key "$request_uri";
