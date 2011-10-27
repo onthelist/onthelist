@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 from selenium import selenium
 import time
 import unittest
@@ -18,7 +20,7 @@ def get_sel(local=True):
                 "browser-version": "7",\
                 "name": "Full Test"\
                }""",
-           'http://ec2-174-129-177-240.compute-1.amazonaws.com/')
+           'http://ec2-184-73-54-177.compute-1.amazonaws.com/')
 
 class Tests(unittest.TestCase):
   def setUp(self):
@@ -31,16 +33,19 @@ class Tests(unittest.TestCase):
     self.selenium.stop()
 
   def test_all(self):
-    self.selenium.set_timeout("5000")
     self.selenium.open("/")
     self.selenium.wait_for_page_to_load("60000")
+    
+    self.selenium.set_timeout("5000")
 
-    time.sleep(5)
+    time.sleep(1)
     self._add_to_queue()
     self._regroup()
     self._add_table()
     self._check_in()
     self._clear_table()
+
+    self._add_to_queue()
     self._delete_from_queue()
 
   def _add_to_queue(self):
@@ -78,9 +83,9 @@ class Tests(unittest.TestCase):
     sel.click("xpath=//div[@id='view-party']//span[.='Check-In']")
     time.sleep(1)
 
-    sel.click("css=.sprite")
+    sel.fire_event("xpath=//div[@class='tablechart']//canvas", 'select')
     sel.click("xpath=//li[@class='ui-block-b']//span[.='Table Chart']")
-    sel.click("css=.sprite")
+    sel.fire_event("xpath=//div[@class='tablechart']//canvas", 'select')
 
     self.failUnless(sel.is_text_present("Tester"))
     self.failUnless(sel.is_text_present("Clear Table"))

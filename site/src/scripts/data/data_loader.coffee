@@ -32,7 +32,7 @@ class $D._DataLoader extends $U.Evented
         @remove data
       return
 
-    $IO.sync.del @model_name ? @model?.name, row.key
+    $IO.sync.del @_get_model_name(), row.key
 
     row._deleted = true
 
@@ -60,7 +60,7 @@ class $D._DataLoader extends $U.Evented
   push_row: (key) ->
     @ds.get key, (vals) =>
       rev = vals._rev
-      $IO.sync.push @model_name ? @model?.name, vals, (resp) =>
+      $IO.sync.push @_get_model_name(), vals, (resp) =>
         if resp.ok
           @ds.get key, (nvals) =>
             if nvals._rev == rev
@@ -73,8 +73,11 @@ class $D._DataLoader extends $U.Evented
     @_save vals, =>
       @push_row vals.key
 
+  _get_model_name: ->
+    return @model_name ? @model?.name ? @model?.prototype.name
+
   sync: ->
-    name = @model_name ? @model?.name
+    name = do @_get_model_name
 
     $IO.sync.pull name, undefined, (data) =>
       d = {}
