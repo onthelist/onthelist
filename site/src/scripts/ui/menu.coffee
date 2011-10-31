@@ -72,7 +72,7 @@ class Menu
     @$sel.selectmenu
       nativeMenu: false
 
-    @menu = @$sel.jqmData().selectmenu
+    @menu = @$sel.data().selectmenu
 
     @$elem.find('.ui-select').last().hide()
 

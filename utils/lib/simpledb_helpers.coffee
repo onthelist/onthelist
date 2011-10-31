@@ -12,7 +12,7 @@ module.exports =
   get_org: (res, name, cb) ->
     store.getItem 'orgs', name, (err, org, meta) ->
       if err
-        errors.respond res, new errors.Server "Organization Load Error #{err}"
+        errors.respond res, new errors.Server "Organization Load Error #{JSON.stringify(err)}"
         return
 
       cb org, meta
@@ -20,7 +20,7 @@ module.exports =
   get_device: (res, id, cb) ->
     store.getItem 'devices', id, (err, device, meta) ->
       if err
-        errors.respond res, new errors.Server "Device Load Error #{err}"
+        errors.respond res, new errors.Server "Device Load Error #{JSON.stringify(err)}"
         return
 
       cb device, meta

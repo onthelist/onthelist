@@ -1,8 +1,7 @@
 $('#view-party').live 'pageshow', ->
   self = this
 
-  # JQM doesn't support any sort of URL parameter passing
-  key = $$('#queue-list').selected_key
+  key = do $PAGE.get_arg
 
   $('[data-key]', self).text ''
 

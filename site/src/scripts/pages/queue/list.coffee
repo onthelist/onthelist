@@ -2,11 +2,7 @@ window.$QUEUE ?= {}
 $QUEUE.show_view_page = (key) ->
   $TRACK.track 'view-party-from-queue'
 
-  $$('#queue-list').selected_key = key
-  window.location = '#view-party'
-
-save_row_key = ->
-  $$('#queue-list').selected_key = this.getAttribute 'data-id'
+  document.location = "#view-party?#{key}"
 
 add_list_row = (list, row) ->
   el = $ '<li></li>'
@@ -17,9 +13,7 @@ add_list_row = (list, row) ->
     el.addClass status.join(' ')
 
   link = $ '<a></a>'
-  link.attr('href', '#view-party')
-  link.attr('data-id', row.key)
-  link.bind 'vclick', save_row_key
+  link.attr('href', "#view-party?#{row.key}")
 
   el.append link
 

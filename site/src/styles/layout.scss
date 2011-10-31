@@ -148,3 +148,13 @@ time {
     z-index: 1001 !important;
   }
 }
+
+#add-party {
+  .ui-header, .ui-content, .ui-footer { 
+    max-width: 700px; 
+
+    &.ui-header {
+      margin-top: 15px;
+    }
+  }
+}
