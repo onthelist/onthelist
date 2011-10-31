@@ -1,0 +1,7 @@
+- Queue
+- Table Chart
+- Seated Guests
+- Past Guests
+- Analytics
+- Settings
+  - Notifications
