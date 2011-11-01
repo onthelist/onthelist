@@ -5,7 +5,7 @@ class IsotopeList
   _height_changed: ->
     # Let fixed elements know the transition of the height is done
     # so they can reposition.
-    $(@elem).trigger('heightChange')
+    $(@elem).trigger('updatelayout')
 
   add_dynamics: ->
     @dynamics_added = true
@@ -149,6 +149,8 @@ class IsotopeList
       if iso?
         do iso._init
 
+      do @_height_changed
+
   sort: (key) ->
     @sortBy = key
     $(@elem).isotope({sortBy: key})
@@ -185,10 +187,8 @@ class ElapsedTimeList extends TimeList
     , 60000)
 
   insert: (elem) ->
-
     $('time', elem).time()
 
-    $.log @elem, elem
     $(@elem).append elem
 
     do this.refresh

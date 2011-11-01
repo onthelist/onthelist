@@ -71,9 +71,6 @@ $queue = $ '#queue'
 $queue.live 'pageinit', ->
   $q_elem = $ '#queue-list'
 
-  $q_elem.live 'heightChange', ->
-    $.fixedToolbars.show(true)
-
   $q_elem.ready ->
     # Get a new copy now that it is in the DOM
     $q_elem = $ '#queue-list'

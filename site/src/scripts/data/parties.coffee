@@ -66,7 +66,6 @@ $.when( $D.parties.init() ).then ->
   $D.parties.demo = ->
     $D.parties.all (rows) ->
       len = rows.length
-      $.log len
       while len++ < 12
         fnames = ['John', 'Jane', 'Zack', 'Marshall', 'Dick']
         lnames = ['Smith', 'Bloom', 'Wright', 'Miller', 'Lombardi']
