@@ -146,7 +146,8 @@ class IsotopeList
 
       # Necessary for webkit:
       iso = $(@elem).data('isotope')
-      do iso._init
+      if iso?
+        do iso._init
 
   sort: (key) ->
     @sortBy = key
@@ -187,6 +188,7 @@ class ElapsedTimeList extends TimeList
 
     $('time', elem).time()
 
+    $.log @elem, elem
     $(@elem).append elem
 
     do this.refresh

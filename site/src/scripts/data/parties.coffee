@@ -64,8 +64,9 @@ $.when( $D.parties.init() ).then ->
   , (new Date).add(1).day().set({'hour': 4, 'minute': 30}).millisecondsFromNow())
 
   $D.parties.demo = ->
-    $D.parties.ds.all (rows) ->
+    $D.parties.all (rows) ->
       len = rows.length
+      $.log len
       while len++ < 12
         fnames = ['John', 'Jane', 'Zack', 'Marshall', 'Dick']
         lnames = ['Smith', 'Bloom', 'Wright', 'Miller', 'Lombardi']

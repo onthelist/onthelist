@@ -66,32 +66,34 @@ add_list_row = (list, row) ->
 
   list.insert el, elapsed
 
-$ ->
-    q_elem = $('#queue-list')
+$queue = $ '#queue'
 
-    list = q_elem.queueList $S.queue
+$queue.live 'pageinit', ->
+  $q_elem = $ '#queue-list'
 
-    init_loaded = false
-    $('#queue').bind 'pageshow', ->
-      do list.add_dynamics
+  $q_elem.live 'heightChange', ->
+    $.fixedToolbars.show(true)
 
-      $$(q_elem).selected_key = undefined
+  $q_elem.ready ->
+    # Get a new copy now that it is in the DOM
+    $q_elem = $ '#queue-list'
 
-      # DEMO
-      $('.ui-input-search input').bind 'keyup', ->
-        if $(this).val() == 'DEMO'
-          do $D.parties.demo
-        else if $(this).val() == 'CLEAR'
-          do $D.parties.clear
-        else
-          return
+    list = $q_elem.queueList $S.queue
 
-        $(this).val ''
+    do list.add_dynamics
 
-    q_elem.bind 'heightChange', ->
-      $.fixedToolbars.show(true)
+    # DEMO
+    $('.ui-input-search input', $queue).live 'keyup', ->
+      if $(this).val() == 'DEMO'
+        do $D.parties.demo
+      else if $(this).val() == 'CLEAR'
+        do $D.parties.clear
+      else
+        return
 
-    $('#queue').bind 'optionChange', (e, name, val) ->
+      $(this).val ''
+
+    $queue.live 'optionChange', (e, name, val) ->
       if $S?.queue?
         $S.queue[name] = val
         do $S.save
@@ -103,11 +105,10 @@ $ ->
       switch name
         when 'sort' then list.sort val
         when 'group' then list.group val
-        when 'time_view' then q_elem.find('time').time 'toggle_format'
+        when 'time_view' then $q_elem.find('time').time 'toggle_format'
 
-    if not init_loaded
+    $.when( $D.parties.init() ).then ->
       $D.parties.live 'rowAdd', (e, row) ->
-        init_loaded = true
         if not row.status.has 'waiting'
           return
 
@@ -116,6 +117,6 @@ $ ->
         add_list_row(list, row)
 
       $D.parties.bind 'rowRemove', (e, row) ->
-        if list
-          list.remove($('a[data-id=' + row.key + ']', q_elem).parents('li').first())
-    
+        if list?
+          list.remove($('a[data-id=' + row.key + ']', $q_elem).parents('li').first())
+

@@ -159,9 +159,13 @@ class $D._DataLoader extends $U.Evented
 
   find: (filter, res) ->
     #  Find isn't actually implemented in Lawnchair, so we fake it
-    out = []
     @ds.all (rows) =>
       res (@_wrap_row(row) for row in rows when filter(row) and not row._deleted)
+
+  all: (res) ->
+    @find(->
+      true
+    , res)
 
   register_row: (row) ->
     @trigger('rowAdd', row)
