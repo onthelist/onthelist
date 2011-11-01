@@ -8,6 +8,7 @@ Analytics
   - Wait time by number of customers
   - Wait time by size of party
   - Wait time estimates vs actual
+  - Wait time trends
   - Table turnover time by date, dow, time of day
   
 - Predict
@@ -15,4 +16,4 @@ Analytics
   - Number of guests (and by time)
   - Number of guests waiting longer than x
   - Turnover time
-  
+ 

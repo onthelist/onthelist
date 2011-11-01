@@ -158,15 +158,6 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
   text-align:center;
 }
 
-.ui-controlgroup-horizontal .ui-checkbox .ui-btn, 
-  .ui-controlgroup-horizontal .ui-radio .ui-btn, 
-  .ui-controlgroup-horizontal .ui-checkbox:last-child, 
-  .ui-controlgroup-horizontal .ui-radio:last-child {
-
-  // Correct visible overflow when buttons are disabled.
-  margin-right: 4px;
-}
-
 // Mobile corrections
 @media all and (max-width: 450px) {
   .date-time {

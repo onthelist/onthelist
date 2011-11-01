@@ -9,7 +9,9 @@ $ ->
     $section = $('#table-section', $form)
 
     $del = $('[name=del-table]', $menu)
-    $del.button 'disable'
+
+    if $del.data().button?
+      $del.button 'disable'
 
     last_rotation = 0
 
@@ -70,7 +72,8 @@ $ ->
 
         $label.val ''
 
-        $del.button 'disable'
+        if $del.data().button?
+          $del.button 'disable'
 
         $menu.removeClass 'open'
         $menu.removeClass 'docked-right'
