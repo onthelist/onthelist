@@ -222,7 +222,8 @@ $.extend $.Isotope.prototype,
     @sectionList.colWidth = (@width - @sectionList.colSpacing * (@sectionList.numCols - 1)) / @sectionList.numCols
 
   _sectionListNumCols: (limit=true) ->
-    @width = @element.width()
+    @width = do @_sectionListContainerWidth
+
     num = Math.floor(@width / @min_col_width) or 1
 
     if limit and @sections and @sections.length
@@ -270,7 +271,9 @@ $.extend $.Isotope.prototype,
 
       $header = @sections[index].$el
 
-      height = $header.outerHeight()
+      height = 35
+      # Doesn't work when page changed while not visible:
+      # height = $header.outerHeight()
       if lst?
         for el in lst
           height += $(el).outerHeight()
@@ -285,6 +288,14 @@ $.extend $.Isotope.prototype,
 
       col++
 
+  _sectionListContainerWidth: ->
+    # When the page is not shown, this returns 0:
+    # @element.width()
+    #
+    # So we use a hackier method assuming the list is the full width of
+    # the page:
+    return $(document).width() + parseFloat(@element.css('margin-left')) + parseFloat(@element.css('margin-right'))
+
   _sectionListWidthPercentage: (px) ->
     if @options.transformsEnabled
       # Transforms don't support percentage widths (meaning we will have
@@ -292,7 +303,7 @@ $.extend $.Isotope.prototype,
       # same # of cols.
       return px
 
-    view_width = @element.width()
+    view_width = do @_sectionListContainerWidth
 
     return 100 * (px / view_width) + '%'
 
@@ -315,7 +326,7 @@ $.extend $.Isotope.prototype,
       if not lst?
         continue
 
-      y = coords.y + $header.outerHeight()
+      y = coords.y + 35 # $header.outerHeight()
       x = coords.x
       for el in lst
         $el = $ el

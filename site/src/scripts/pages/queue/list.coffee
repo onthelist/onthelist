@@ -105,6 +105,9 @@ $queue.live 'pageinit', ->
         when 'time_view' then $q_elem.find('time').time 'toggle_format'
 
     $.when( $D.parties.init() ).then ->
+      do list.disable_dynamics
+      # Pause the reLayout until all the rows are added.
+
       $D.parties.live 'rowAdd', (e, row) ->
         if not row.status.has 'waiting'
           return
@@ -112,6 +115,9 @@ $queue.live 'pageinit', ->
         elapsed = Date.get_elapsed row.times.add
 
         add_list_row(list, row)
+
+      do list.enable_dynamics
+      do list.refresh
 
       $D.parties.bind 'rowRemove', (e, row) ->
         if list?

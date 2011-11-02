@@ -1,6 +1,7 @@
 class IsotopeList
   constructor: (@elem, @opts={}) ->
     @dynamics_added = false
+    @dynamics_enabled = true
 
   _height_changed: ->
     # Let fixed elements know the transition of the height is done
@@ -141,7 +142,7 @@ class IsotopeList
     $elem.isotope('reLayout')
 
   refresh: ->
-    if @dynamics_added
+    if @dynamics_added and @dynamics_enabled
       $(@elem).isotope('reloadItems')
 
       # Necessary for webkit:
@@ -162,7 +163,15 @@ class IsotopeList
   remove: ($elems) ->
     if @dynamics_added
       $(@elem).isotope('remove', $elems)
-      $(@elem).isotope('reLayout')
+
+      if @dynamics_enabled
+        $(@elem).isotope('reLayout')
+
+  disable_dynamics: ->
+    @dynamics_enabled = false
+
+  enable_dynamics: ->
+    @dynamics_enabled = true
       
 class TimeList extends IsotopeList
   constructor: (@elem, @opts) ->
@@ -171,7 +180,7 @@ class TimeList extends IsotopeList
     $$(@elem).time_list = this
 
   refresh: ->
-    if @elem.jqmData 'listview'
+    if @elem.data 'listview'
       @elem.listview 'refresh'
 
     super
