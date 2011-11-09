@@ -3,6 +3,8 @@ $('#view-party').live 'pageshow', ->
 
   key = do $PAGE.get_arg
 
+  $('#add-party-link', self).attr 'href', "#add-party?#{key}"
+
   $('[data-key]', self).text ''
 
   $D.parties.get key, (data) ->

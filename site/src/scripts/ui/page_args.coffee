@@ -1,7 +1,11 @@
 window.$PAGE ?= {}
 window.$PAGE.get_arg = ->
   reg = /^[^#]*((\#[^\?]*)?(\?(.*))?)?$/
-  matches = reg.exec document.location.toString()
+
+  loc = document.location.toString()
+  loc = loc.replace $.mobile.dialogHashKey, ''
+
+  matches = reg.exec loc
 
   arg = matches[4]
   return arg

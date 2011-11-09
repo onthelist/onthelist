@@ -1,11 +1,11 @@
 $ ->
   $('#add-party').bind 'pageshow', ->
-    key = $$('#queue-list').selected_key
+    key = do $PAGE.get_arg
     
     $title = $('.ui-title', this)
     $button = $('#add-party-submit', this).parent().children('.ui-btn-inner').children('.ui-btn-text')
 
-    if not key? or true
+    if not key?
       $title.text "Add a Party"
       $button.text "Add"
       $$(this).data = {}

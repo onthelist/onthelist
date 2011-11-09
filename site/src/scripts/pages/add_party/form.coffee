@@ -48,8 +48,8 @@ $ ->
     if not vals.name or vals.name == ''
       return false
 
-    key = $$('#queue-list').selected_key
-    if key
+    key = do $PAGE.get_arg
+    if key?
       vals.key = key
     else
       vals.key = undefined
